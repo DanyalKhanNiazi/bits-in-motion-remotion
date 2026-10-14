@@ -12,8 +12,8 @@ Files: `F:/YouTube Channels/Bits in Motion/Claude Work/Episode 03 - AI Answers/a
 | true peak (ffmpeg, 4x) / numpy 8x | -1.3 / -1.29 dBTP | ≤ -1.0 |
 | loudness range (LRA) | 2.3 LU | 4-8 |
 | LRA of the narration alone (fixed gain) | 2.34 LU | locked |
-| narration alignment, mixed voice vs raw decode | lag 0 samples, r = 0.994317 | 0 |
-| narration alignment, final mix vs raw decode | lag 0 samples, r = 0.97777 | 0 |
+| narration alignment, mixed voice vs raw decode | lag 0 samples, r = 0.994316 | 0 |
+| narration alignment, final mix vs raw decode | lag 0 samples, r = 0.977625 | 0 |
 | narration processing | fixed gain +8.01 dB, true-peak limiter (max GR -5.25 dB, 2.31% of samples reduced by > 1 dB) | gain + limiter only |
 
 **LRA is below target, and this is a property of the locked narration.** The voice is spoken almost without pause: only 34 pauses of 0.4 s or more in 612 s, none longer than about 0.5 s. Its own short-term loudness spans only 2.34 LU. Music must stay at least 18 LU under the voice wherever it speaks, so it cannot move a 3-second loudness window. Simulation on the mixed stems: raising every effect by +4 dB moves the LRA only from 2.29 to 2.39 LU, and +6 dB moves it to 2.62 LU, with effects then louder than the words they land on. Reaching 4 LU would mean riding the narration's level, which the brief forbids, or burying words under effects. The mix keeps its dynamics *inside* the music and effects instead: drop-outs before reveals, a silent suck-out before the Bridge, hits in the pauses, and swells in every pause of 0.4 s or more.
@@ -22,28 +22,28 @@ Files: `F:/YouTube Channels/Bits in Motion/Claude Work/Episode 03 - AI Answers/a
 
 | window class (speech share) | windows | min gap | 5th pct | median |
 |---|---|---|---|---|
-| 400ms (≥95% speech) | 5396 | 19.04 LU | 20.2 LU | 24.27 LU |
-| 1s (≥90% speech) | 2489 | 19.29 LU | 20.94 LU | 23.88 LU |
-| 3s (≥50% speech) | 2437 | 19.05 LU | 20.16 LU | 22.98 LU |
-| integrated over all speech | | | | 24.16 LU |
+| 400ms (≥95% speech) | 5396 | 19.04 LU | 20.12 LU | 23.76 LU |
+| 1s (≥90% speech) | 2489 | 19.3 LU | 20.86 LU | 23.34 LU |
+| 3s (≥50% speech) | 2437 | 19.05 LU | 20.13 LU | 22.42 LU |
+| integrated over all speech | | | | 23.89 LU |
 
-Requirement: ≥ 18 LU wherever the voice speaks. Closed-loop trims: up to 16.9 dB on the loudest score moments. In the 34 pauses of 0.4 s or more, the music rises toward about 9.5 LU under the voice (an attack of 0.14 s after the voice stops, and back down 60 ms before it returns).
+Requirement: ≥ 18 LU wherever the voice speaks. Closed-loop trims: up to 12.5 dB on the loudest score moments. In the 34 pauses of 0.4 s or more, the music rises toward about 9.5 LU under the voice (an attack of 0.14 s after the voice stops, and back down 60 ms before it returns).
 
 **Spectral balance (Welch long-term spectra, speech-only stretches):**
 
 | band (Hz) | voice dB | music dB | voice − music | voice − (effects + ambience) |
 |---|---|---|---|---|
-| 31-63 | -67.3 | -57.8 | -9.5 | -21.0 |
-| 63-125 | -44.9 | -54.6 | 9.6 | 2.4 |
-| 125-250 | -33.1 | -59.1 | 25.9 | 20.7 |
-| 250-500 | -30.2 | -60.0 | 29.8 | 26.1 |
-| 500-1000 | -33.8 | -63.4 | 29.5 | 24.5 |
-| 1000-2000 | -38.8 | -74.3 | 35.5 | 20.2 |
-| 2000-4000 | -50.6 | -85.0 | 34.4 | 8.9 |
-| 4000-8000 | -48.0 | -91.1 | 43.1 | 13.9 |
-| 8000-16000 | -53.1 | -91.7 | 38.5 | 12.8 |
+| 31-63 | -67.3 | -57.5 | -9.8 | -21.0 |
+| 63-125 | -44.9 | -54.3 | 9.4 | 2.4 |
+| 125-250 | -33.1 | -58.7 | 25.6 | 20.7 |
+| 250-500 | -30.2 | -59.6 | 29.4 | 26.1 |
+| 500-1000 | -33.8 | -63.2 | 29.3 | 24.5 |
+| 1000-2000 | -38.8 | -73.9 | 35.1 | 20.2 |
+| 2000-4000 | -50.6 | -84.6 | 34.0 | 8.9 |
+| 4000-8000 | -48.0 | -90.7 | 42.6 | 13.9 |
+| 8000-16000 | -53.1 | -91.2 | 38.0 | 12.8 |
 
-In the speech band (1-4 kHz) the voice sits **35.4 dB** above the music. That band holds 7% of the voice's energy but only 0.5% of the music's. The carve is dynamic: −7 dB at 2.5 kHz, −3 dB at 1.2 kHz and −2 dB at 4.2 kHz while the voice speaks, and −2 dB in pauses. The arrangement itself also stays out of the band: pads are low-passed at 0.45-2 kHz, the percussion lives below 260 Hz or above 6 kHz, and the stems carry a static −2 to −6 dB dip near 2.5 kHz. See `report_balance.png`.
+In the speech band (1-4 kHz) the voice sits **35.0 dB** above the music. That band holds 7% of the voice's energy but only 0.5% of the music's. The carve is dynamic: −7 dB at 2.5 kHz, −3 dB at 1.2 kHz and −2 dB at 4.2 kHz while the voice speaks, and −2 dB in pauses. The arrangement itself also stays out of the band: pads are low-passed at 0.45-2 kHz, the percussion lives below 260 Hz or above 6 kHz, and the stems carry a static −2 to −6 dB dip near 2.5 kHz. See `report_balance.png`.
 
 ## 3. Effects: density, stacking, sync
 
@@ -81,15 +81,15 @@ In the speech band (1-4 kHz) the voice sits **35.4 dB** above the music. That ba
 
 | section | frames | music − voice (LU) | music short-term range in the section (P10-P95, LU) |
 |---|---|---|---|
-| S1 cold open + title | 0-1582 | -22.0 | -39.6 to -34.5 |
-| S2 tokens | 1582-2811 | -23.7 | -39.5 to -35.0 |
-| S3 scoring, loop, streaming | 2811-4897 | -24.4 | -41.4 to -35.7 |
-| S4 reading vs writing | 4897-6524 | -23.0 | -39.0 to -34.9 |
-| S5 weights + THE BRIDGE | 6524-9507 | -23.4 | -39.6 to -35.4 |
-| S6 experiment + bandwidth | 9507-11907 | -22.9 | -39.9 to -34.8 |
-| S7 three waits | 11907-15091 | -23.0 | -39.3 to -34.4 |
-| S8 tricks | 15091-17080 | -22.8 | -39.7 to -35.4 |
-| S9 close + finale | 17080-18367 | -23.3 | -39.8 to -36.0 |
+| S1 cold open + title | 0-1582 | -21.8 | -38.3 to -34.3 |
+| S2 tokens | 1582-2811 | -23.6 | -39.2 to -34.9 |
+| S3 scoring, loop, streaming | 2811-4897 | -24.0 | -41.1 to -35.7 |
+| S4 reading vs writing | 4897-6524 | -22.6 | -38.3 to -34.9 |
+| S5 weights + THE BRIDGE | 6524-9507 | -23.0 | -39.2 to -35.3 |
+| S6 experiment + bandwidth | 9507-11907 | -22.7 | -39.6 to -34.7 |
+| S7 three waits | 11907-15091 | -22.9 | -38.9 to -35.0 |
+| S8 tricks | 15091-17080 | -22.6 | -39.2 to -35.2 |
+| S9 close + finale | 17080-18367 | -22.8 | -39.5 to -36.0 |
 
 ## 4. Hero moments (spectrograms)
 
