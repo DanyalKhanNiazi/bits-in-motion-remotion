@@ -7,12 +7,13 @@
 //   --phone        also write 390 px-wide Lanczos copies (fNNNN_phone.png), the YouTube portrait player width
 //   --luma         print the mean Rec.709 luma (0–255) of each still
 //   --picture a:b  measure luma over rows a..b-1 only (e.g. 132:948 inside letterbox bars)
-//   --concurrency  parallel stills (default 4)
+//   --concurrency  parallel stills (default min(4, CPU cores))
 //
 // Writes <outDir>/fNNNN.png (true frame numbers) and <outDir>/sheet.png (contact sheet labelled with them).
 // Example: node tools/stills.mjs src/entries/style2.tsx NightSignal out/style2/look 0,671,1500 --phone --luma --picture 132:948
 import path from 'node:path';
 import fs from 'node:fs';
+import os from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {openBrowser, renderStill, selectComposition} from '@remotion/renderer';
 import {ROOT, bundleEntry, makeLogHandler, pad4, parseArgs, parseFrames} from './_common.mjs';
@@ -32,7 +33,8 @@ const main = async () => {
   const outDir = path.resolve(ROOT, outArg);
   fs.mkdirSync(outDir, {recursive: true});
   if (flags.picture !== undefined && !/^\d+:\d+$/.test(String(flags.picture))) throw new Error('--picture expects y0:y1');
-  const concurrency = Math.max(1, Number(flags.concurrency ?? 4));
+  const cores = os.availableParallelism?.() ?? os.cpus().length;
+  const concurrency = Math.max(1, Number(flags.concurrency ?? Math.min(4, cores)));
 
   const serveUrl = await bundleEntry(entry);
   const onBrowserLog = makeLogHandler();

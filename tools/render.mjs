@@ -3,13 +3,14 @@
 //
 //   node tools/render.mjs <entryFile> <compositionId> <out.mp4> [--frames a-b] [--scale s] [--concurrency n]
 //
-//   H.264, CRF 16, yuv420p, BT.709, PNG frames, NO audio track. Default concurrency 6.
+//   H.264, CRF 16, yuv420p, BT.709, PNG frames, NO audio track. Default concurrency min(6, CPU cores).
 //   --frames a-b   render only frames a..b (inclusive)
 //   --scale s      e.g. 0.5 for a 960x540 preview
 // Ends by printing ffprobe's width, height, fps and the exact (decoded) frame count.
 // Example: node tools/render.mjs src/entries/style3.tsx LivingSchematic out/style3/style3_muted.mp4
 import path from 'node:path';
 import fs from 'node:fs';
+import os from 'node:os';
 import {spawnSync} from 'node:child_process';
 import {renderMedia, selectComposition} from '@remotion/renderer';
 import {ROOT, bundleEntry, makeLogHandler, parseArgs} from './_common.mjs';
@@ -49,7 +50,8 @@ const main = async () => {
     frameRange = [Number(m[1]), Number(m[2])];
   }
   const scale = flags.scale !== undefined ? Number(flags.scale) : 1;
-  const concurrency = flags.concurrency !== undefined ? Number(flags.concurrency) : 6;
+  const cores = os.availableParallelism?.() ?? os.cpus().length;
+  const concurrency = flags.concurrency !== undefined ? Number(flags.concurrency) : Math.min(6, cores);
 
   const serveUrl = await bundleEntry(entry);
   const onBrowserLog = makeLogHandler();
