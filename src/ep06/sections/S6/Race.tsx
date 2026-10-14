@@ -31,7 +31,6 @@ import {
   toScreen,
   type ArchiveEvent,
   type CamKey,
-  type Key,
   type TrayMode,
 } from '../../kit';
 import {T} from './T';
@@ -198,15 +197,73 @@ const chipPair = (f: number, a: {text: string; at: number; exitAt: number}, b: {
   </>
 );
 
-/** the clock: pops on "erases them", swells on "How fast" */
+/** the clock: pops on "erases them" (top-right of the SSD panel); the re-hook "How fast, and how completely?": it swells
+ *  2.5× into the panel's dark upper right (clear of the tray), a ring of ticks sweeps around it, and on "completely" an
+ *  amber ring closes all the way round. No numerals. */
+const CLOCK = {x0: 1786, y0: 298, x1: 1716, y1: 372, size: 72, swell: 2.5};
 const Clock: React.FC<{f: number}> = ({f}) => {
-  const sw = springAt(f, T.fast, SPRING.pop);
-  const s = lerp(1, 1.7, sw);
-  const x = 1786;
-  const y = 298;
+  const sw = springAt(f, T.howFast + 2, SPRING.pop);
+  const size = CLOCK.size * lerp(1, CLOCK.swell, sw);
+  const x = lerp(CLOCK.x0, CLOCK.x1, Math.min(1, sw));
+  const y = lerp(CLOCK.y0, CLOCK.y1, Math.min(1, sw));
+  const out = prog(f, T.depends + 2, 8, EASE.inCubic);
+  // tick sweep: 12 marks around the face light in turn (one lap per 24 f) from "fast"
+  const tickOn = prog(f, T.fast, 8) * (1 - out);
+  const R = size * 0.66;
+  const head = (f - T.fast) / 2;
+  // "completely": an amber ring closes all the way round
+  const ringU = EASE.inOut(prog(f, T.completely, 20));
+  const ringR = size * 0.8;
+  const C = 2 * Math.PI * ringR;
+  const flash = f >= T.completely + 20 ? Math.exp(-(f - T.completely - 20) / 6) : 0;
   return (
-    <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${x}px ${y}px`, transform: `scale(${s}) translate(${-sw * 30}px, ${sw * 22}px)`}}>
-      <ClockGlyph frame={f} x={x} y={y} size={72} at={T.erases} exitAt={T.depends + 2} />
+    <>
+      {tickOn > 0.01 || ringU > 0 ? (
+        <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', opacity: 1 - out}}>
+          {tickOn > 0.01
+            ? Array.from({length: 12}, (_, i) => {
+                const a = ((i * 30 - 90) * Math.PI) / 180;
+                const d = (((head - i) % 12) + 12) % 12; // 0 = the lit head, trailing behind it
+                const lit = f >= T.fast ? Math.exp(-d / 2.2) : 0;
+                return (
+                  <circle key={i} cx={x + R * 1.12 * Math.cos(a)} cy={y + R * 1.12 * Math.sin(a)} r={size * (0.022 + 0.018 * lit)} fill={rgba(PAL.drive, (0.25 + 0.75 * lit) * tickOn)} />
+                );
+              })
+            : null}
+          {ringU > 0 ? (
+            <circle
+              cx={x}
+              cy={y}
+              r={ringR}
+              fill="none"
+              stroke={PAL.drive}
+              strokeWidth={5 + 4 * flash}
+              strokeLinecap="round"
+              strokeDasharray={`${C * ringU} ${C}`}
+              transform={`rotate(-90 ${x} ${y})`}
+              opacity={0.9}
+              style={{filter: flash > 0.02 ? `drop-shadow(0 0 ${14 * flash}px ${rgba(PAL.drive, 0.8)})` : undefined}}
+            />
+          ) : null}
+        </svg>
+      ) : null}
+      <ClockGlyph frame={f} x={x} y={y} size={size} at={T.erases} exitAt={T.depends + 2} />
+    </>
+  );
+};
+
+/** a dim floor reflection of both panels in the band under them, until the verdict takes that band */
+const Reflection: React.FC<{f: number}> = ({f}) => {
+  const a = 0.34 * prog(f, T.when + 6, 12) * (1 - prog(f, T.nothing - 10, 10));
+  if (a <= 0.005) return null;
+  const axis = SPLIT.content.y1 + 8; // the bezels' bottom edge
+  const top = axis + 4;
+  const mask = 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0) 92%)';
+  return (
+    <div style={{position: 'absolute', left: 0, top, width: 1920, height: 1080 - top, overflow: 'hidden', opacity: a, WebkitMaskImage: mask, maskImage: mask}}>
+      <div style={{position: 'absolute', left: 0, top: -top, width: 1920, height: 1080, transformOrigin: `0 ${axis}px`, transform: 'scaleY(-1)', filter: 'blur(2px)'}}>
+        <SplitCompare frame={f} at={T.when} enter="slide" left={{...leftPanel, header: false, icon: false}} right={{...rightPanel, header: false, icon: false}} env="none" />
+      </div>
     </div>
   );
 };
@@ -221,9 +278,10 @@ export const ShotB: React.FC<{frame: number; enterAt?: number}> = ({frame: f}) =
     shake={[{at: T.nothing, strength: 0.9}]}
     leftChip={chipPair(f, {text: 'Before any new writes', at: T.when + 16, exitAt: T.unlisted - 6}, {text: 'Unlisted', at: T.unlisted, tone: 'kept'})}
     rightChip={chipPair(f, {text: 'After TRIM and housekeeping', at: T.housekeeping, exitAt: T.gone - 6}, {text: 'Gone', at: T.gone, tone: 'lost'})}
-    verdict={<VerdictCard frame={f} at={T.nothing} text="Nothing left for a recovery tool" accentWord="Nothing" exitAt={T.depends - 14} x={0} y={0} />}
+    verdict={<VerdictCard frame={f} at={T.nothing} text="Nothing left for a recovery tool" accentWord="Nothing" accentTone="loss" exitAt={T.depends - 14} x={0} y={0} />}
     hud={
       <>
+        <Reflection f={f} />
         <RiserPings f={f} />
         <Clock f={f} />
         <Footnote frame={f} at={T.erases + 4} text="Illustrative timing" x={1560} y={1010} exitAt={T.depends} />
