@@ -178,3 +178,4 @@ Re-measured after these: KitDemo f420–719 (signature, SplitCompare, SSD DriveD
 10. `pour` into a scrambled box drops grey pieces (no cyan stream); the box shows glyphs.
 11. mft-record_b render: its magenta latch is regraded to silver with the LEDs.
 
+Re-measured after fix round 1: KitDemo f500–899 (SplitCompare split/splitBoxes + band, flash sweep, boundary) 0.46 s/frame/tab.

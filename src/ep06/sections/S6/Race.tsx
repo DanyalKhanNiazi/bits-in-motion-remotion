@@ -47,10 +47,6 @@ const SSD_EVENTS: ArchiveEvent[] = [
 ];
 const SCAN_AT = T.once + 13;
 const RIGHT_EVENTS: ArchiveEvent[] = [...SSD_EVENTS, {at: T.erases, op: 'sweep', target: 'photo', dur: 34}, {at: SCAN_AT, op: 'scan', dur: 45}];
-export const LIFT: Key[] = [
-  [T.prefers + 13, 0],
-  [T.when - 6, 1, EASE.inOut],
-];
 
 /* ---------------------------------------------------------------- the scanner (identical in both panels) */
 const SC = {x: 1700, y: 60, w: 700} as const;
@@ -66,7 +62,8 @@ const LEFT_EVENTS: ArchiveEvent[] = [
 /* ---------------------------------------------------------------- cameras */
 const BZ = archiveCam('boundary');
 const PB = archiveCam('photoBoxes');
-const B0 = {x: 1190, y: 300, zoom: 1.12};
+/** the race opens on the photo's 3 runs filling each panel (boxes ≈ 66 px), so the erase reads large */
+const SB = archiveCam('splitBoxes');
 const B1 = {x: 1417, y: 250, zoom: 1.1};
 const B2 = {x: 1850, y: 72, zoom: 2.3};
 export const CAM_A: CamKey[] = [
@@ -74,11 +71,11 @@ export const CAM_A: CamKey[] = [
   {f: T.disposable - 14, x: BZ.x + 12, y: BZ.y, zoom: BZ.zoom * 1.05, ease: 'linear'},
   {f: T.disposable + 16, x: PB.x, y: PB.y, zoom: PB.zoom, dur: 30},
   {f: T.prefers + 13, x: PB.x + 8, y: PB.y, zoom: PB.zoom * 1.02, ease: 'linear'},
-  {f: T.when, ...B0, dur: T.when - T.prefers - 13},
+  {f: T.when, x: SB.x, y: SB.y, zoom: SB.zoom, dur: T.when - T.prefers - 13},
 ];
 const RACE_CAM: CamKey[] = [
-  {f: T.when, ...B0},
-  {f: T.once - 8, ...B0, zoom: B0.zoom * 1.035, ease: 'linear'},
+  {f: T.when, x: SB.x, y: SB.y, zoom: SB.zoom},
+  {f: T.once - 8, x: SB.x + 6, y: SB.y, zoom: SB.zoom * 1.04, ease: 'linear'},
   {f: T.once + 22, ...B1, dur: 30},
   {f: T.once + 54, ...B1, zoom: B1.zoom * 1.03, ease: 'linear'},
   {f: T.once + 90, ...B2, dur: 36},
@@ -88,7 +85,7 @@ const RACE_CAM: CamKey[] = [
 const DRIFT = 1;
 
 /* ---------------------------------------------------------------- shot A: the drive reads the note */
-const archA = (f: number) => ({frame: f, state: 'SSD_DELETED' as const, events: SSD_EVENTS, lift: LIFT});
+const archA = (f: number) => ({frame: f, state: 'SSD_DELETED' as const, events: SSD_EVENTS});
 
 const Rings: React.FC<{pts: Array<{x: number; y: number; t: number; r: number}>}> = ({pts}) => (
   <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0}}>
@@ -149,7 +146,8 @@ const scanner = (fr: number, tray: TrayMode, trayAt: number) => (
     fillDur={T.unlisted - TRAY_AT}
   />
 );
-const rightTray = (f: number): [TrayMode, number] => (f < T.nothing ? ['unknown', TRAY_AT] : f < T.completely ? ['empty', T.nothing] : ['unknown', T.completely]);
+/** the right tray: a pulsing "?" until "nothing", then the empty dashed frame for good (the verdict stays true) */
+const rightTray = (f: number): [TrayMode, number] => (f < T.nothing ? ['unknown', TRAY_AT] : ['empty', T.nothing]);
 
 const leftPanel = {
   cam: RACE_CAM,
@@ -170,7 +168,7 @@ const rightPanel = {
     const [mode, at] = rightTray(fr);
     return (
       <>
-        <Archive frame={fr} state="SSD_DELETED" lift={LIFT} events={RIGHT_EVENTS} />
+        <Archive frame={fr} state="SSD_DELETED" events={RIGHT_EVENTS} />
         {scanner(fr, mode, at)}
       </>
     );
@@ -180,7 +178,7 @@ const rightPanel = {
 /** the right panel's tags pulse faster from "convenient moment" (the riser) until the sweep */
 const RiserPings: React.FC<{f: number}> = ({f}) => {
   if (f < T.convenient || f > T.erases + 6) return null;
-  const A = {frame: f, state: 'SSD_DELETED' as const, events: RIGHT_EVENTS, lift: LIFT};
+  const A = {frame: f, state: 'SSD_DELETED' as const, events: RIGHT_EVENTS};
   const an = archiveAnchors(A, f, stagePose(RACE_CAM, f, DRIFT));
   const u = (f - T.convenient) / (T.erases - T.convenient);
   const period = lerp(20, 8, clamp01(u));
