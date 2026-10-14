@@ -6,7 +6,9 @@
 import React from 'react';
 import {
   DESK,
-  ExplorerWindow,
+  KeyFixture,
+  PhotoViewer,
+  ScannerProp,
   KineticText,
   PAL,
   PassportCard,
@@ -15,7 +17,6 @@ import {
   Stage,
   WinDesktop,
   clamp01,
-  deskSlotScale,
   lerp,
   plateToStage,
   poseAt,
@@ -221,7 +222,6 @@ const ForkDrawing: React.FC<{f: number; visit: 1 | 2; o: P}> = ({f, visit, o}) =
 /* ---------------------------------------------------------------- the shot */
 export const ForkShot: React.FC<{f: number; visit: 1 | 2}> = ({f, visit}) => {
   const kb = kbOf(f, visit);
-  const k = deskSlotScale(f, kb);
   const forkOn = visit === 2 ? 1 : prog(f, T.ifDeleted - 14, 18, EASE.inOut);
   const pose = poseAt(f);
   const cardP = plateToStage(f, kb, CARD_PLATE.x, CARD_PLATE.y, pose);
@@ -239,11 +239,18 @@ export const ForkShot: React.FC<{f: number; visit: 1 | 2}> = ({f, visit}) => {
         blur: 7 * forkOn,
         dim: lerp(0.12, 0.5, forkOn),
         children: (
-          <ScreenSlot rect={REGIONS.deskScreen}>
-            <WinDesktop frame={f} w={DESK.slotW} h={DESK.slotH}>
-              <ExplorerWindow frame={f} x={190} y={40} w={652} h={420} actions={[{at: -100000, kind: 'delete'}]} rows={3} scale={k} />
-            </WinDesktop>
-          </ScreenSlot>
+          <>
+            {/* S8's last frame continues: the photo open on the monitor, the scanner's copy done; the key slotted on the desk */}
+            <ScreenSlot rect={REGIONS.deskScreen}>
+              <WinDesktop frame={f} w={DESK.slotW} h={DESK.slotH}>
+                <PhotoViewer frame={f} x={528} y={34} w={474} h={430} openAt={T.from - 400} />
+                {visit === 1 && f < T.back + 20 ? (
+                  <ScannerProp frame={f} x={262} y={268} w={440} tray="photo" trayAt={T.from - 200} fillDur={40} shadow={0.5} exit={{kind: 'sink', at: T.from + 10, dur: 16}} />
+                ) : null}
+              </WinDesktop>
+            </ScreenSlot>
+            <KeyFixture frame={f} x={1500} y={842} w={300} slotAt={T.from - 300} glow={0.5} shadow={0.6} float={1} />
+          </>
         ),
       }}
       hud={
