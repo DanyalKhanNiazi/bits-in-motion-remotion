@@ -52,7 +52,7 @@ const DKEYS: DK[] = [
   {f: T.real, s: 1.85, cx: 536, cy: 276},
   {f: K.zt5 + 16, s: 2.5, cx: 700, cy: 300, dur: 30, ease: EASE.inExpo},
   // the whip lands on the folder (the file still in its row)
-  {f: K.whip, s: 1.98, cx: 600, cy: 280},
+  {f: K.whip, s: 1.9, cx: 530, cy: 278},
   {f: T.shift + 10, s: 1.86, cx: 536, cy: 276, ease: EASE.inOut},
   {f: K.shiftDelAct + 12, s: 1.92, cx: 520, cy: 272},
   {f: T.p4 + 40, s: 1.06, cx: 516, cy: 372, dur: 46, ease: EASE.inOut},
