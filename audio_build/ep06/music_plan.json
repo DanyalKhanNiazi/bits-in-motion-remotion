@@ -1,0 +1,463 @@
+{
+ "schema": 1,
+ "generated_by": "make_plan() in build_mix.py with the cue files as they were (all empty): no cue-driven swells yet. Every real run regenerates this file from the live cues and adds a 'measured' block.",
+ "fps": 30,
+ "total_frames": 17023,
+ "duration_s": 567.432,
+ "beds": {
+  "main": {
+   "title": "Minimal Idm Ambient Works - Loop",
+   "artist": "Musinova",
+   "licence": "Pixabay Content License",
+   "key": "A minor",
+   "bpm": 93.0,
+   "source": "/home/user/Motion Brand/stage_a_files/sound/music_candidates/Style 3 - primary - Minimal Idm Ambient Works - Loop.mp3",
+   "loop_s": 92.9032,
+   "loop_start_s": 0.0224,
+   "processing": "36-bar loop tiled seamlessly, high-pass 100 Hz 24 dB/oct, high shelf -3 dB at 5 kHz, 1-4 kHz dip -3.5 dB; darker copy low-passed at 2.4 kHz for tension sections"
+  },
+  "lift": {
+   "title": "Engineering Graphics",
+   "artist": "bearstockmusic",
+   "licence": "Pixabay Content License",
+   "key": "D major -> C major (varispeed -2 st)",
+   "bpm": 98.0,
+   "source": "/home/user/Motion Brand/stage_a_files/sound/music_candidates/Style 1 - primary - Engineering Graphics.mp3",
+   "varispeed": 0.890909,
+   "processing": "resampled 55/49 (pitch -2 semitones, tempo 110 -> 98 BPM), high-pass 130 Hz 24 dB/oct, shelf and 1-4 kHz dip as the main bed"
+  }
+ },
+ "ducking": {
+  "mode": "sidechain: voice-activity duck + voice-loudness follower",
+  "gap_nominal_LU": 22.0,
+  "gap_floor_LU": 19.5,
+  "gap_floor_by_window": {
+   "phrase": 19.5,
+   "3s": 19.5,
+   "1s": 19.0,
+   "400ms": 18.8
+  },
+  "speech_fraction_enforced": {
+   "3s": 0.5,
+   "1s": 0.7,
+   "400ms": 0.8
+  },
+  "speech_fraction_reported": {
+   "3s": 0.5,
+   "1s": 0.9,
+   "400ms": 0.95
+  },
+  "pause_rise_dB": 4.0,
+  "follow_window_ms": 300,
+  "follow_range_dB": [
+   -10.0,
+   4.0
+  ],
+  "lookahead_ms": 60,
+  "attack_ms": 25,
+  "release_ms": 450,
+  "speech_threshold_dBFS_raw": -52.0,
+  "bridge_gaps_ms": 150,
+  "note": "while the voice speaks the music sits a constant gap under the voice's own 300 ms loudness (it follows the voice envelope within follow_range_dB), calibrated so the integrated speech gap is gap_nominal_LU; in pauses it breathes up by pause_rise_dB (ducks in 25 ms with 60 ms look-ahead, recovers over release_ms); a closed loop then trims the music wherever a speech phrase, or a 3 s / 1 s / 0.4 s window that is mostly speech, is closer to the voice than its floor"
+ },
+ "music_selection": {
+  "candidates_measured": [
+   {
+    "track": "Style 3 primary: Minimal Idm Ambient Works - Loop",
+    "artist": "Musinova",
+    "tempo_bpm": 93.0,
+    "key": "A minor",
+    "onset_strength_mean": 1.725,
+    "centroid_hz": 1288,
+    "rms_dB": -9.7,
+    "rms_std_dB": 1.8,
+    "licence_in_CREDITS_md": true,
+    "role": "channel bed"
+   },
+   {
+    "track": "Style 1 primary: Engineering Graphics",
+    "artist": "bearstockmusic",
+    "tempo_bpm": 110.0,
+    "key": "D major / B minor",
+    "onset_strength_mean": 1.999,
+    "centroid_hz": 1261,
+    "rms_dB": -11.0,
+    "rms_std_dB": 8.8,
+    "licence_in_CREDITS_md": true,
+    "role": "hook and hero moments (most energetic documented track)"
+   },
+   {
+    "track": "Style 3 backup: Explorations - Loopable Edit",
+    "artist": "Musinova",
+    "tempo_bpm": 92.3,
+    "key": "C major",
+    "onset_strength_mean": 1.758,
+    "centroid_hz": 1358,
+    "rms_dB": -10.4,
+    "rms_std_dB": 2.8,
+    "licence_in_CREDITS_md": false,
+    "role": "not used (licence only in the Stage A notes, not in CREDITS.md)"
+   },
+   {
+    "track": "Style 1 backup: Contact needle tempo 88",
+    "artist": "?",
+    "tempo_bpm": 89.1,
+    "key": "G major",
+    "onset_strength_mean": 1.419,
+    "centroid_hz": 3110,
+    "rms_dB": -23.8,
+    "rms_std_dB": 5.0,
+    "licence_in_CREDITS_md": false,
+    "role": "not used (quiet, licence not in CREDITS.md)"
+   },
+   {
+    "track": "Style 2 primary: Enter the realm - no Piano",
+    "artist": "SamuelFJohanns",
+    "tempo_bpm": null,
+    "key": "E minor",
+    "onset_strength_mean": 0.687,
+    "centroid_hz": 546,
+    "rms_dB": -21.0,
+    "rms_std_dB": 9.7,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (slow, sparse: not energetic)"
+   },
+   {
+    "track": "Style 2 backup: Rite Ambient - no Piano",
+    "artist": "?",
+    "tempo_bpm": null,
+    "key": "E minor",
+    "onset_strength_mean": 0.68,
+    "centroid_hz": 522,
+    "rms_dB": -22.8,
+    "rms_std_dB": 11.4,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   },
+   {
+    "track": "Style 4 primary: Stay the Course",
+    "artist": "Kevin MacLeod",
+    "tempo_bpm": 60.1,
+    "key": "C major",
+    "onset_strength_mean": 0.889,
+    "centroid_hz": 455,
+    "rms_dB": -21.0,
+    "rms_std_dB": 8.9,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (60 BPM, CC BY needs a credit line)"
+   },
+   {
+    "track": "Style 4 backup: Deep Cosmic Resonance (Purified)",
+    "artist": "?",
+    "tempo_bpm": 80.7,
+    "key": "G major",
+    "onset_strength_mean": 0.599,
+    "centroid_hz": 330,
+    "rms_dB": -14.0,
+    "rms_std_dB": 6.6,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   },
+   {
+    "track": "Style 5 primary: Soft Vibraphone Ambient Loop_012",
+    "artist": "VelvetKeys",
+    "tempo_bpm": 117.5,
+    "key": "C major",
+    "onset_strength_mean": 0.838,
+    "centroid_hz": 478,
+    "rms_dB": -12.9,
+    "rms_std_dB": 4.9,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (sparse, AI-labelled)"
+   },
+   {
+    "track": "Style 5 backup: In Memoriam",
+    "artist": "?",
+    "tempo_bpm": 69.8,
+    "key": "E minor",
+    "onset_strength_mean": 0.78,
+    "centroid_hz": 748,
+    "rms_dB": -14.1,
+    "rms_std_dB": 14.3,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   }
+  ],
+  "choice": "Engineering Graphics is the most energetic track whose licence is documented in audio_build/CREDITS.md (onset strength 2.0 against 1.7 for the bed, 110 BPM, bright marimba and bass, strong 16-bar structure: 8 bars intro, 8 bars build, drop at bar 17). Resampled -2 semitones (D -> C major, B minor -> A minor) it shares the bed's key and its tempo drops to 98 BPM, close to the bed's 93 BPM. It is never layered with the bed, only cross-faded at paragraph starts."
+ },
+ "main_entry": {
+  "t_s": 46.967,
+  "note": "the main bed's loop restarts from its first bar when S2 begins (frame 1409)"
+ },
+ "layers": [
+  {
+   "id": "hook",
+   "bed": "lift",
+   "note": "hook: natural order of the track (late marimba intro, 8-bar build under the cold open, then the drop on P02 'So, is it gone?')",
+   "t0_s": 0.0,
+   "t1_s": 48.567,
+   "src_start_s": 14.564,
+   "fade_in_s": 0.12,
+   "fade_out_s": 2.2
+  },
+  {
+   "id": "lift_P11",
+   "bed": "lift",
+   "note": "P11 the SSD board reveal: the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 234.418,
+   "t1_s": 260.567,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  },
+  {
+   "id": "lift_P13",
+   "bed": "lift",
+   "note": "P13 the recovery race (mid-film hero): the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 277.684,
+   "t1_s": 301.0,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  },
+  {
+   "id": "lift_P22",
+   "bed": "lift",
+   "note": "P22 callback: back to the crossed-out card: the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 540.351,
+   "t1_s": 555.832,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  }
+ ],
+ "sections": [
+  {
+   "id": "S1",
+   "note": "cold open",
+   "frames": [
+    0,
+    1409
+   ],
+   "t0_s": 0.0,
+   "t1_s": 46.967,
+   "paragraphs": [
+    1,
+    2
+   ],
+   "tone_dark": [
+    0.3,
+    0.3
+   ],
+   "gap_offset_dB": 1.2,
+   "beds": [
+    "lift:hook"
+   ]
+  },
+  {
+   "id": "S2",
+   "note": "the bin and the picture",
+   "frames": [
+    1409,
+    3167
+   ],
+   "t0_s": 46.967,
+   "t1_s": 105.567,
+   "paragraphs": [
+    3,
+    5
+   ],
+   "tone_dark": [
+    0.4,
+    0.4,
+    0.3
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main",
+    "lift:hook"
+   ]
+  },
+  {
+   "id": "S3",
+   "note": "the card and emptying the bin",
+   "frames": [
+    3167,
+    5104
+   ],
+   "t0_s": 105.567,
+   "t1_s": 170.133,
+   "paragraphs": [
+    6,
+    7
+   ],
+   "tone_dark": [
+    0.4,
+    0.4
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S4",
+   "note": "recovery works / fails",
+   "frames": [
+    5104,
+    6649
+   ],
+   "t0_s": 170.133,
+   "t1_s": 221.633,
+   "paragraphs": [
+    8,
+    9
+   ],
+   "tone_dark": [
+    0.35,
+    0.5
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S5",
+   "note": "turn to the SSD",
+   "frames": [
+    6649,
+    8404
+   ],
+   "t0_s": 221.633,
+   "t1_s": 280.133,
+   "paragraphs": [
+    10,
+    12
+   ],
+   "tone_dark": [
+    0.4,
+    0.2,
+    0.25
+   ],
+   "gap_offset_dB": 0.5,
+   "beds": [
+    "main",
+    "lift:lift_P11",
+    "lift:lift_P13"
+   ]
+  },
+  {
+   "id": "S6",
+   "note": "mid-film hero (recovery race)",
+   "frames": [
+    8404,
+    9935
+   ],
+   "t0_s": 280.133,
+   "t1_s": 331.167,
+   "paragraphs": [
+    13,
+    14
+   ],
+   "tone_dark": [
+    0.15,
+    0.5
+   ],
+   "gap_offset_dB": 1.0,
+   "beds": [
+    "main",
+    "lift:lift_P13"
+   ]
+  },
+  {
+   "id": "S7",
+   "note": "the twist",
+   "frames": [
+    9935,
+    11976
+   ],
+   "t0_s": 331.167,
+   "t1_s": 399.2,
+   "paragraphs": [
+    15,
+    17
+   ],
+   "tone_dark": [
+    0.35,
+    0.6,
+    0.6
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S8",
+   "note": "reversal, sanitize, encryption",
+   "frames": [
+    11976,
+    14747
+   ],
+   "t0_s": 399.2,
+   "t1_s": 491.567,
+   "paragraphs": [
+    18,
+    20
+   ],
+   "tone_dark": [
+    0.5,
+    0.35,
+    0.4
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S9",
+   "note": "callback ending",
+   "frames": [
+    14747,
+    17023
+   ],
+   "t0_s": 491.567,
+   "t1_s": 567.432,
+   "paragraphs": [
+    21,
+    22
+   ],
+   "tone_dark": [
+    0.25,
+    0.1
+   ],
+   "gap_offset_dB": 1.0,
+   "beds": [
+    "main",
+    "lift:lift_P22"
+   ]
+  }
+ ],
+ "swells": [
+  {
+   "t_s": 567.182,
+   "frame": null,
+   "source": "final_resolve",
+   "strength": 1.0,
+   "lead_s": 5.0,
+   "release_s": 0.3,
+   "lift_speech_dB": 2.2,
+   "lift_pause_dB": 9.0
+  }
+ ],
+ "final_resolve": {
+  "start_s": 553.232,
+  "peak_s": 567.232,
+  "end_s": 567.432,
+  "chord": "A minor (A2 E3 A3 C4 E4 A4)",
+  "note": "main bed cross-fades into a synthesized tonic pad that swells to land as the last word ends (the last word ends at about 567.12 s); 180 ms fade at the file end"
+ },
+ "tone_note": "tone_dark: 0 = full bed, 1 = low-passed copy, per paragraph, 1.5 s cross-fades"
+}
