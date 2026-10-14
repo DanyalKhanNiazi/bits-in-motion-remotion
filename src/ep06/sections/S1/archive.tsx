@@ -39,15 +39,16 @@ const DRIFT = 0.5;
 const LAND = T.hardDrive + 30; // DriveDive: the Archive grows out of the drive from here
 const SIG = T.crossed - 3; // the card has settled; the push starts
 const SIG_EXIT = T.findIt; // the signature texts are fully out (9 f) before the compress starts at "On an SSD"
-// the signature sits 20 world px higher than the kit pose and pushes only ~2 % (mostly a drift left), so the lifted
-// card's top stays ≥ 64 px below the frame top and the bottom run stays in frame through the compress
+// the signature sits 20 world px higher and 6.5 % wider than the kit pose and pushes only ~2 % (mostly a drift left), so
+// the lifted card's flag tab stays ≥ 64 px below the frame top and the bottom run ≥ 64 px above the bottom (measured)
 const SIG_POSE = archiveCam('signature');
+const SIG_ZOOM = SIG_POSE.zoom * 0.935;
 export const CAM_C: CamKey[] = [
   K(LAND, 'run', {zoom: 4.6}, {run: 1}),
   K(T.every + 40, 'photoBoxes', {dur: 46}),
   K(T.was, 'photoBoxes', {zoom: 2.0, x: 1146}),
-  K(SIG, 'signature', {y: SIG_POSE.y - 20, dur: SIG - T.was + 4}),
-  K(T.onSsd, 'signature', {x: SIG_POSE.x - 40, y: SIG_POSE.y - 26, zoom: SIG_POSE.zoom * 1.021}),
+  K(SIG, 'signature', {y: SIG_POSE.y - 20, zoom: SIG_ZOOM, dur: SIG - T.was + 4}),
+  K(T.onSsd, 'signature', {x: SIG_POSE.x - 40, y: SIG_POSE.y - 26, zoom: SIG_ZOOM * 1.021}),
 ];
 const CAM_L: CamKey[] = [...CAM_C, K(T.onSsd + 20, 'split')];
 const LIFT = [
