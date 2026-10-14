@@ -39,6 +39,8 @@ export const GEOM = {
   actor: {x: 806, y: 952},
   /** HDD: the platter glow behind the wall (background only) */
   platter: {x: 1284, y: 556, r: 760},
+  /** inside a SplitCompare panel the card stands here (whatever `lift`), sized so card + runs fit the `split` framing */
+  panelCard: {x: 495, y: 300, w: 400},
   /** the parallax reference: the camera centre at which the lifted card sits exactly at `lift` */
   liftRef: {x: 1270, y: 300},
 } as const;

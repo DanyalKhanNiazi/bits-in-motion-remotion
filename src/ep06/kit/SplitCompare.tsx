@@ -132,7 +132,7 @@ const Panel: React.FC<{side: SplitSide; frame: number; at: number; enter: SplitE
             transform: `translate(${w / 2}px, ${h / 2}px) rotate(${pose.rot}deg) scale(${z}) translate(${-pose.x}px, ${-pose.y}px)`,
           }}
         >
-          <CameraContext.Provider value={{zoom: z * outerZoom, rot: pose.rot, x: pose.x, y: pose.y, space: 'panel'}}>{p.render(f)}</CameraContext.Provider>
+          <CameraContext.Provider value={{zoom: z * outerZoom, rot: pose.rot, x: pose.x, y: pose.y, space: 'panel', panel: enter === 'compress' && side === 'left' ? pp.t : 1}}>{p.render(f)}</CameraContext.Provider>
         </div>
         {/* glass: a faint top reflection */}
         <div style={{position: 'absolute', inset: 0, background: `linear-gradient(170deg, ${rgba('#FFFFFF', 0.05)} 0%, rgba(255,255,255,0) 30%)`, pointerEvents: 'none'}} />

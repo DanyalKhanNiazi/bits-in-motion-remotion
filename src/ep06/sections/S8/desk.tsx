@@ -16,8 +16,12 @@ import {
   ScreenSlot,
   SettingsToggle,
   Stage,
+  Cursor,
+  PassportCard,
   WinDesktop,
   WinFrame,
+  plateToStage,
+  poseAt,
   clamp01,
   deskSlotScale,
   lerp,
@@ -80,8 +84,10 @@ export const deskKb = (f: number): KenBurns => {
   return {from: v, to: v, start: f, end: f + 1};
 };
 
-const SET_OPEN = T.manyNewer + 40;
-const SET_CLOSE = T.oneLimit + 2;
+const SET_OPEN = T.manyNewer + 26;
+/** the window closes behind the whip to the key (never on screen as an empty monitor) */
+const SET_CLOSE = CUT.keyJ + 14;
+const ROW_AT = SET_OPEN + 10;
 const EX_IN = CUT.reads - 6;
 const SCAN_IN = T.wontStop - 14;
 
@@ -95,15 +101,29 @@ const SettingsWin: React.FC<{f: number; scale: number}> = ({f, scale}) => {
   return (
     <div style={{position: 'absolute', left: (1032 - W) / 2, top: 92, width: W, height: H, opacity: clamp01(ein * 3) * (1 - eout), transform: `scale(${0.92 + 0.08 * Math.min(1.03, ein)}) translateY(${eout * 20}px)`, transformOrigin: '50% 40%'}}>
       <WinFrame w={W} h={H} title={<span>Settings</span>}>
-        <SettingsToggle frame={f} x={W / 2} y={118} w={W - 60} title="Device encryption" state="unknown" at={T.deviceEnc} magnifier={{at: T.checking - 2}} scale={scale} />
+        <SettingsToggle frame={f} x={W / 2} y={118} w={W - 60} title="Device encryption" state="unknown" at={ROW_AT} magnifier={{at: T.deviceEnc + 2}} scale={scale} />
+        <Cursor
+          frame={f}
+          at={ROW_AT + 4}
+          exitAt={T.deviceEnc + 4}
+          keys={[
+            {f: ROW_AT + 4, x: W - 40, y: H - 30},
+            {f: T.deviceEnc - 6, x: W - 150, y: 128},
+          ]}
+          size={30}
+        />
       </WinFrame>
     </div>
   );
 };
 
+/** the passport card on the desk (plate px), exactly where S9 has it */
+const PASS_PLATE = {x: 1190, y: 748, w: 220};
+const PASS_IN = T.to - 36;
 export const ShotI: React.FC<{f: number}> = ({f}) => {
   const kb = deskKb(f);
   const sc = deskSlotScale(f, kb);
+  const card = plateToStage(f, kb, PASS_PLATE.x, PASS_PLATE.y, poseAt(f));
   return (
     <Stage
       frame={f}
@@ -139,12 +159,17 @@ export const ShotI: React.FC<{f: number}> = ({f}) => {
           </>
         ),
       }}
+      // S9 opens with the passport card on the desk: it fades in during our pull-back (same placement as S9/Fork.tsx)
       hud={
         <>
           <KineticText frame={f} at={T.checking + 2} exitAt={T.oneLimit - 2} text="Check whether yours is on" x={960} y={120} size={72} mode="rise" />
           <KineticText frame={f} at={T.wontStop} exitAt={T.to - 12} text="Won't stop a recovery tool" x={960} y={100} size={76} mode="slam" />
         </>
       }
-    />
+    >
+      {f >= PASS_IN ? (
+        <PassportCard frame={f} variant="desk" x={card.x} y={card.y} w={PASS_PLATE.w * card.scale} rot={-12} tiltX={44} shadow={{opacity: 0.6, dy: -10}} opacity={prog(f, PASS_IN, 26, EASE.inOut)} />
+      ) : null}
+    </Stage>
   );
 };

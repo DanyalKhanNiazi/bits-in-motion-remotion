@@ -41,8 +41,8 @@ const EVENTS: ArchiveEvent[] = [
 const CAM_D: CamKey[] = [
   {f: CUT.dive, ...LAY, zoom: LAY.zoom * 1.12},
   {f: T.askDrive - 4, x: LAY.x - 10, y: LAY.y + 8, zoom: LAY.zoom * 1.03, ease: 'out'},
-  {f: T.makers - 4, x: 880, y: 820, zoom: 1.58, dur: 52, ease: 'inOut'},
-  {f: T.sanitizeFn - 6, x: 860, y: 838, zoom: 1.7},
+  {f: T.makers - 4, x: 1160, y: 800, zoom: 1.58, dur: 52, ease: 'inOut'},
+  {f: T.sanitizeFn - 6, x: 1180, y: 812, zoom: 1.64},
   {f: SAN_AT + 6, ...LAY, zoom: LAY.zoom * 0.98, dur: 84, ease: 'inOut'},
   {f: T.though - 6, x: LAY.x + 150, y: LAY.y + 14, zoom: LAY.zoom * 1.1, dur: 150},
   {f: CUT.key + 12, x: LAY.x + 70, y: LAY.y + 10, zoom: LAY.zoom * 1.02, dur: 80},
@@ -98,10 +98,10 @@ export const ShotD: React.FC<{f: number}> = ({f}) => {
           <AtlasOpener frame={f} at={T.so + 2} word="What actually erases" y={470} />
           <VerdictChip frame={f} at={T.makers + 2} exitAt={T.nist - 10} text="Drive makers ship tools" tone="neutral" x={960} y={118} size={50} />
           <Label frame={f} at={T.builtIn + 2} exitAt={T.crucial - 4} text="Built-in erase command" x={chip.x + 150} y={chip.y - 210} to={{x: chip.x + 10, y: chip.y - 30}} side="right" size={52} />
-          <KineticText frame={f} at={T.crucial + 3} exitAt={T.nist - 10} text="Example: Crucial Storage Executive → Sanitize Drive" x={960} y={206} size={50} mode="rise" stagger={2} />
+          <KineticText frame={f} at={T.crucial + 3} exitAt={T.nist - 10} text="Example: Crucial Storage Executive → Sanitize Drive" x={1010} y={232} size={48} mode="rise" stagger={2} backing="plate" />
           <Converge f={f} at={T.eraseCmd} x={chip.x} y={chip.y} />
           <Converge f={f} at={T.sanitizeFn + 4} x={chip.x} y={chip.y} dur={22} />
-          <QuoteStrip frame={f} at={T.nist + 2} exitAt={T.though - 4} source="NIST" reported="sanitize commands reach all storage areas more effectively than overwriting" />
+          <QuoteStrip frame={f} at={T.nist + 2} exitAt={T.though - 4} source="NIST" reported="sanitize commands can reach all storage areas more effectively than overwriting" />
           <VerdictChip frame={f} at={T.trusting - 3} exitAt={CUT.key + 2} text="You're trusting the manufacturer" tone="neutral" x={960} y={118} size={54} />
           <Check f={f} at={CHECK_AT} x={chip.x} y={chip.y - 40} />
           <Footnote frame={f} at={T.so + 50} exitAt={CUT.key + 4} text="Schematic, not to scale" x={1420} y={1006} />

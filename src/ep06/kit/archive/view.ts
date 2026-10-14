@@ -98,16 +98,26 @@ export const liftParallax = (u: number, cx?: number, cy?: number): {x: number; y
   cx === undefined || cy === undefined ? {x: 0, y: 0} : {x: -(cx - GEOM.liftRef.x) * 0.3 * smooth(u), y: -(cy - GEOM.liftRef.y) * 0.3 * smooth(u)};
 /** the card's 2 px ambient float (absolute frame) */
 export const cardFloat = (frame: number): number => 2 * Math.sin((frame / 75) * Math.PI);
-export const cardPose = (p: ArchiveViewProps, frame: number, pose?: {x: number; y: number}) => {
+/** the card's pose; `panel` (0..1) blends it to GEOM.panelCard (inside SplitCompare panels the Archive passes it) */
+export const cardPose = (p: ArchiveViewProps, frame: number, pose?: {x: number; y: number; panel?: number}) => {
   const u = clamp01(num(p.lift, frame, 0));
   const c = cardAt(u);
   const par = liftParallax(u, pose?.x, pose?.y);
-  return {...c, x: c.x + par.x, y: c.y + par.y + cardFloat(frame), u};
+  const pb = smooth(clamp01(pose?.panel ?? 0));
+  const P = GEOM.panelCard;
+  return {
+    x: lerp(c.x + par.x, P.x, pb),
+    y: lerp(c.y + par.y, P.y, pb) + cardFloat(frame),
+    w: lerp(c.w, P.w, pb),
+    rot: lerp(c.rot, 0, pb),
+    u: u * (1 - pb),
+    pb,
+  };
 };
 
 /* ---------------------------------------------------------------- camera framings */
-export type Framing = 'wide' | 'wall' | 'drawer' | 'card' | 'photoBoxes' | 'run' | 'header' | 'map' | 'boundary' | 'layers' | 'split' | 'signature' | 'pullout';
-export const FRAMINGS: readonly Framing[] = ['wide', 'wall', 'drawer', 'card', 'photoBoxes', 'run', 'header', 'map', 'boundary', 'layers', 'split', 'signature', 'pullout'];
+export type Framing = 'wide' | 'wall' | 'drawer' | 'card' | 'photoBoxes' | 'run' | 'header' | 'map' | 'boundary' | 'layers' | 'split' | 'splitBoxes' | 'signature' | 'pullout';
+export const FRAMINGS: readonly Framing[] = ['wide', 'wall', 'drawer', 'card', 'photoBoxes', 'run', 'header', 'map', 'boundary', 'layers', 'split', 'splitBoxes', 'signature', 'pullout'];
 const fr = (x0: number, y0: number, x1: number, y1: number, fill = 0.86): Pose => ({
   x: (x0 + x1) / 2,
   y: (y0 + y1) / 2,
@@ -126,7 +136,8 @@ const fr = (x0: number, y0: number, x1: number, y1: number, fill = 0.86): Pose =
  *   map         the map of taken boxes
  *   boundary    Windows' side | drive's side with the note slot
  *   layers      the SSD split layers (label sheet in front, spots + spare behind)
- *   split       the card + the photo's 3 runs, no drawer (inside a SplitCompare panel; keep lift 0)
+ *   split       inside a SplitCompare panel: the whole card (at GEOM.panelCard) + the photo's 3 runs, boxes ≥ 40 px
+ *   splitBoxes  inside a panel: no card, the 3 runs fill the panel (boxes ≈ 65 px) for sweep / erase / race beats
  *   signature   the lifted card huge in the foreground, threads down to the lit wall
  *   pullout     wider than wide: the wall runs off into haze on every side
  */
@@ -178,8 +189,10 @@ export const archiveCam = (framing: Framing, opts: {run?: number; lift?: number;
       return fr(Math.min(...xs) - 40, Math.min(...ys) - 60, Math.max(...xs) + 40, Math.max(...ys) + 60, 0.92);
     }
     case 'split':
-      // the card (at rest; panels hide the drawer and map) + the photo's 3 runs: every photo box ≥ 40 px in a panel
-      return {x: 880, y: 470, zoom: 1.25, rot: 0};
+      // panel window 872×540 at 0.5 → world 1395×864 at zoom 1.25: card (295..695 × 165..435) + runs, margins ≥ 32 px
+      return {x: 942, y: 532, zoom: 1.25, rot: 0};
+    case 'splitBoxes':
+      return {x: 1176, y: 520, zoom: 2.05, rot: 0};
     case 'signature':
       return {x: 1210, y: 236, zoom: 0.95, rot: 0};
     case 'pullout':
@@ -223,7 +236,7 @@ export type ArchiveAnchors = {
  * World points of the Archive's parts at a frame (pass the same props as <Archive>). Give `pose` (from poseAt) for
  * the lifted card's exact parallax and a true pxPerBox; then place hud items with toScreen(pose, a.x, a.y).
  */
-export const archiveAnchors = (p: ArchiveViewProps, frame: number, pose?: Pose & {scale?: number}): ArchiveAnchors => {
+export const archiveAnchors = (p: ArchiveViewProps, frame: number, pose?: Pose & {scale?: number; panel?: number}): ArchiveAnchors => {
   const R = resolveArchive(p, frame);
   const {back, front, v, face} = viewAt(R, p, frame);
   const c = cardPose(p, frame, pose);

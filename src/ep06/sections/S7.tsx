@@ -17,18 +17,18 @@ import {
   PHOTO,
   QuestionCard,
   RUNS,
-  SPLIT,
   SplitCompare,
   Stage,
   Whip,
   ZoomThrough,
   archiveAnchors,
   archiveCam,
+  clamp01,
   lerp,
   poseAt,
   prog,
   rgba,
-  splitToScreen,
+  rnd,
   toScreen,
   track,
   win,
@@ -94,31 +94,31 @@ const T = {
 
 /* ================================================================ shot boundaries */
 const ROLL = {at: T.twist - 12, dur: 24};
-const Z1 = {at: T.p16, dur: 16}; // into the hard-drive panel → the overwrite slot
+const W1 = {at: T.p16 - 6, dur: 12}; // whip right (toward the hard-drive side) → the overwrite slot
 const Z2 = {at: T.write - 8, dur: 16}; // into the slot's mouth → the wall
 const W3 = {at: T.p17 - 2, dur: 12}; // whip left → the SSD
 
 /* ================================================================ P15 A: the better shredder (SplitCompare) */
 const K = (f: number, p: Partial<Pose>, o: Partial<CamKey> = {}): CamKey => ({f, ...p, ...o});
 const SPLIT_CAM = archiveCam('split');
-const camL_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(ROLL.at + 24, {...SPLIT_CAM, zoom: 1.06, y: 262})];
-const camR_A: CamKey[] = [K(T.start - 30, {...SPLIT_CAM, x: SPLIT_CAM.x + 60}), K(T.better - 8, {x: 1530, y: 345, zoom: 1.3}, {dur: 50}), K(ROLL.at + 24, {x: 1550, y: 360, zoom: 1.36})];
+const camL_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(ROLL.at + 24, {...SPLIT_CAM, zoom: SPLIT_CAM.zoom * 1.06})];
+const camR_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(T.better - 8, {x: 1120, y: 470, zoom: 1.4}, {dur: 50}), K(ROLL.at + 24, {x: 1140, y: 480, zoom: 1.46})];
 const EV_SHRED: ArchiveEvent[] = [{at: T.better - 6, op: 'sweep', target: 'photo', dur: 40}];
 const shredTargets: Pt[] = (() => {
-  const an = archiveAnchors({frame: T.start, state: 'SSD_ERASED', lift: 1}, T.start);
+  const an = archiveAnchors({frame: T.start, state: 'SSD_ERASED'}, T.start);
   return PHOTO.map((id) => an.box(id)).sort((a, b) => a.x - b.x);
 })();
 const shotA = (f: number) => (
   <SplitCompare
     frame={f}
-    left={{cam: camL_A, light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={1} />}}
+    left={{cam: camL_A, light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" />}}
     right={{
       cam: camR_A,
       light: 'ssd',
       render: (fr) => (
         <>
-          <Archive frame={fr} state="SSD_ERASED" lift={1} events={EV_SHRED} />
-          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1650} bladeY={390} w={370} targets={shredTargets} />
+          <Archive frame={fr} state="SSD_ERASED" events={EV_SHRED} />
+          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1190} bladeY={500} w={360} targets={shredTargets} />
         </>
       ),
     }}
@@ -126,61 +126,75 @@ const shotA = (f: number) => (
   />
 );
 
-/* ================================================================ P15 B: try to erase on purpose; the SSD gets in your way */
+/* ================================================================ P15 B: try to erase on purpose; the SSD gets in your way (full frame) */
 const B0 = ROLL.at + Math.round(ROLL.dur / 2);
-const camL_B: CamKey[] = [K(B0 - 12, {...SPLIT_CAM, zoom: 1.04}), K(T.p16 + 20, {...SPLIT_CAM, zoom: 1.12, y: 290})];
-const camR_B: CamKey[] = [K(B0 - 12, {x: 1330, y: 330, zoom: 1.1}), K(T.erase + 30, {x: 1600, y: 420, zoom: 1.55}), K(T.p16 + 20, {x: 1625, y: 432, zoom: 1.62})];
+// a short rewind flick under the roll: the drive's sweep runs backwards, the photo's Bits relight (back to before housekeeping)
+const RW = {at: B0, dur: 24};
+const RX = B0 - 70;
+const EV_RW: ArchiveEvent[] = [
+  {at: RX, op: 'tag', target: 'photo', dur: 10},
+  {at: RX + 14, op: 'sweep', target: 'photo', dur: 34},
+];
+const camB: CamKey[] = [K(B0 - 12, {x: 1290, y: 470, zoom: 1.5}), K(T.erase + 26, {x: 1570, y: 450, zoom: 2.05}, {dur: 50}), K(T.p16 + 10, {x: 1600, y: 462, zoom: 2.2})];
 const BOX59: Pt = {x: 1464, y: 484};
 const BOX63: Pt = {x: 1752, y: 484};
-const HIT = T.ssd2 - 2; // the stream reaches 059's label
-const LAND63 = T.gets; // grey Bits land in 063
-const EV_B: ArchiveEvent[] = [{at: LAND63 - 6, op: 'overwrite', target: 63}];
-const S_TOP: Pt = {x: 1464, y: -260};
+const HIT = T.ssd2 - 2; // the stream reaches 059's label: accepted
+const LAND63 = T.gets; // ...but the drive puts the new data in 063 (neutral: nothing is lost)
+const S_TOP: Pt = {x: 1464, y: -120};
 const S_D: Pt = {x: 1464, y: 372};
 const S_A: Pt = {x: 1464, y: 446};
 const S_CURVE = quad(S_D, {x: 1560, y: 300}, {x: 1752, y: 446}, 18);
+const ring = (c: Pt, u: number, color: string) => (
+  <rect x={c.x - 38 - 14 * u} y={c.y - 38 - 14 * u} width={76 + 28 * u} height={76 + 28 * u} rx={10} fill="none" stroke={color} strokeWidth={5 * (1 - u) + 1} opacity={1 - u} />
+);
 const deflect = (f: number) => {
   const acc = f >= HIT && f < HIT + 16 ? (f - HIT) / 16 : -1;
   const amb = f >= HIT + 1 && f < HIT + 20 ? Math.exp(-(f - HIT - 1) / 6) : 0;
+  const land = f >= LAND63 && f < LAND63 + 18 ? (f - LAND63) / 18 : -1;
   return (
     <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
       <Stream frame={f} pts={[S_TOP, S_D]} t0={T.erase} dur={HIT - 6 - T.erase} ease={EASE.out} fadeAt={T.way - 4} width={5} />
       <Stream frame={f} pts={[S_D, S_A]} t0={HIT - 6} dur={6} ease={(t) => t} fadeAt={HIT + 2} width={5} />
       <Stream frame={f} pts={S_CURVE} t0={HIT + 2} dur={LAND63 - 2 - HIT} ease={EASE.inCubic} fadeAt={T.way - 4} width={5} />
-      {acc >= 0 ? (
-        <rect x={BOX59.x - 38 - 14 * acc} y={BOX59.y - 38 - 14 * acc} width={76 + 28 * acc} height={76 + 28 * acc} rx={10} fill="none" stroke="#FFFFFF" strokeWidth={5 * (1 - acc) + 1} opacity={1 - acc} />
-      ) : null}
+      {acc >= 0 ? ring(BOX59, acc, '#FFFFFF') : null}
       {amb > 0.01 ? (
         <g opacity={amb}>
           <ellipse cx={S_A.x + 10} cy={S_A.y - 30} rx={70} ry={34} fill={PAL.drive} opacity={0.35} />
           <path d={`M${S_A.x - 46} ${S_A.y - 8}Q${S_A.x} ${S_A.y - 58} ${S_A.x + 52} ${S_A.y - 22}`} fill="none" stroke={PAL.driveHot} strokeWidth={6} strokeLinecap="round" />
         </g>
       ) : null}
+      {land >= 0 ? (
+        <>
+          <rect x={BOX63.x - 32} y={BOX63.y - 32} width={64} height={64} rx={6} fill="#FFFFFF" opacity={0.45 * (1 - land)} />
+          {ring(BOX63, land, PAL.ink)}
+        </>
+      ) : null}
     </svg>
   );
 };
 const shotB = (f: number) => {
-  const dim = 0.42 * prog(f, B0, 14, EASE.out);
+  const rw = f < RW.at + RW.dur;
+  const u = prog(f, RW.at, RW.dur, EASE.inOut);
+  const af = rw ? Math.round(lerp(RX + 64, RX - 6, u)) : f;
+  const env = rw ? Math.sin(Math.PI * clamp01((f - RW.at) / RW.dur)) : 0;
+  const jit = rw ? (rnd(`s7-rw-${f}`) - 0.5) * 22 * env : 0;
+  const stage = (
+    <Stage frame={f} env={{kind: 'archive', light: 'ssd'}} cam={camB} shake={[{at: LAND63, strength: 0.45}]}>
+      <Archive frame={af} state="SSD_DELETED" events={rw ? EV_RW : undefined} boxes={f >= LAND63 ? {63: 'old'} : undefined} />
+      {deflect(f)}
+    </Stage>
+  );
+  if (!rw) return stage;
+  const band = ((f * 53) % 1300) - 120;
   return (
-    <SplitCompare
-      frame={f}
-      left={{cam: camL_B, light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={1} />}}
-      right={{
-        cam: camR_B,
-        light: 'ssd',
-        render: (fr) => (
-          <>
-            <Archive frame={fr} state="SSD_DELETED" lift={1} events={EV_B} />
-            {deflect(fr)}
-          </>
-        ),
-      }}
-      hud={
-        dim > 0 ? (
-          <div style={{position: 'absolute', left: SPLIT.left.x0, top: SPLIT.content.y0, width: SPLIT.left.x1 - SPLIT.left.x0, height: SPLIT.content.y1 - SPLIT.content.y0, borderRadius: 12, background: rgba('#03060C', dim)}} />
-        ) : null
-      }
-    />
+    <AbsoluteFill style={{overflow: 'hidden', background: PAL.void}}>
+      <AbsoluteFill style={{transform: `translateX(${jit.toFixed(1)}px)`, filter: `saturate(${(1 - 0.35 * env).toFixed(2)}) brightness(${(1 + 0.08 * env).toFixed(2)})`}}>{stage}</AbsoluteFill>
+      <AbsoluteFill style={{background: 'repeating-linear-gradient(180deg, rgba(0,0,0,0.24) 0px, rgba(0,0,0,0.24) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 5px)', opacity: 0.75 * env}} />
+      <div style={{position: 'absolute', left: 0, top: band, width: 1920, height: 80, background: `linear-gradient(180deg, rgba(255,255,255,0), ${rgba('#DDEBFF', 0.18 * env)}, rgba(255,255,255,0))`}} />
+      <svg width={92} height={56} viewBox="0 0 92 56" style={{position: 'absolute', left: 120, top: 110, opacity: env}}>
+        <path d="M44 4 L4 28 L44 52 Z M88 4 L48 28 L88 52 Z" fill={PAL.ink} />
+      </svg>
+    </AbsoluteFill>
   );
 };
 
@@ -259,7 +273,7 @@ const shotWall = (f: number) => {
       hud={
         <>
           <Label frame={f} at={T.replaced} exitAt={LENS_IN + 30} text="Replaced in place" x={b59.x - 110} y={Math.max(150, b59.y - 250)} to={{x: b59.x, y: b59.y - 24}} side="left" size={56} />
-          <QuoteStrip frame={f} at={T.says} exitAt={T.p17 + 16} source="NIST, the US standards agency" quote="Overwriting typically hinders the recovery of data" />
+          <QuoteStrip frame={f} at={T.says} exitAt={T.p17 + 16} source="NIST, the US standards agency" reported="Overwriting typically hinders recovery" />
         </>
       }
     >
@@ -392,9 +406,9 @@ const shotSsd = (f: number) => {
           <Label frame={f} at={T.keeps} exitAt={T.first + 18} text="Keeps moving data around" x={120} y={102} side="right" size={52} />
           <Label frame={f} at={T.noPart} exitAt={T.first + 18} text="so no part wears out first" x={120} y={174} side="right" size={44} />
           <Label frame={f} at={T.cantSee + 13} exitAt={T.all + 30} text="Spare space Windows can't see" x={Math.min(1040, spareS.x - 60)} y={150} to={spareS} side="left" size={52} />
-          <Label frame={f} at={T.land} exitAt={T.reach1 + 15} text="Can land somewhere fresh" x={Math.min(1290, fresh.x + 160)} y={150} to={fresh} side="right" size={52} />
+          <Label frame={f} at={T.land} exitAt={T.reach1 + 15} text="Can land somewhere fresh" x={1792} y={150} to={fresh} side="left" size={52} />
           <Footnote frame={f} at={SPLIT_AT + 44} exitAt={T.end - 26} text="Schematic, not to scale" y={1010} />
-          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" reported="writing over it can't reach every place old data was stored" />
+          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" reported="Writing over it can't reach every place old data was stored" />
         </>
       }
     >
@@ -436,10 +450,7 @@ export const S7: React.FC<{frame: number}> = ({frame}) => {
   const f = Math.max(SEC.from, Math.min(SEC.to - 1, frame));
   if (f < T.start + 6) return <Whip frame={Math.max(f, T.start)} at={T.start - 6} dur={12} dir="left" a={VOID} b={shotA} />;
   if (f < ROLL.at + ROLL.dur) return <Roll frame={f} at={ROLL.at} dur={ROLL.dur} a={shotA} b={shotB} />;
-  if (f < Z1.at + Z1.dur) {
-    const c = splitToScreen('left', f, {cam: camL_B}, 1180, 300);
-    return <ZoomThrough frame={f} at={Z1.at} dur={Z1.dur} cx={c.x} cy={c.y} a={shotB} b={shotSlot} />;
-  }
+  if (f < W1.at + W1.dur) return <Whip frame={f} at={W1.at} dur={W1.dur} dir="right" a={shotB} b={shotSlot} />;
   if (f < Z2.at + Z2.dur) {
     const m = slotMouthScreen(Z2.at);
     return <ZoomThrough frame={f} at={Z2.at} dur={Z2.dur} cx={m.x} cy={m.y} a={shotSlot} b={shotWall} />;

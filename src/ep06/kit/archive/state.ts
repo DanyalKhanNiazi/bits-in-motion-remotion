@@ -5,7 +5,7 @@
  * Gating: `pour`, `build` and `threads` events HIDE their result until their `at` (so HDD_SAVED + a pour at f shows
  * empty photo boxes before f). Every other op only acts once `at ≤ frame`.
  */
-import {GEOM, HEADER, KEEP_EMPTY, N_BOXES, PHOTO, RUNS, boxC, colOf, groupIds, isOther, rowOf} from './geom';
+import {COLS, GEOM, HEADER, KEEP_EMPTY, N_BOXES, PHOTO, PITCH, RUNS, boxC, colOf, groupIds, isOther, rowOf} from './geom';
 import type {ArchiveLight} from '../envs';
 
 export type Content = 'empty' | 'photo' | 'other' | 'old' | 'erased';
@@ -106,7 +106,8 @@ export type Lab = {
   build: number;
   fx: Fx[];
 };
-export type SweepFx = {ids: number[]; at: number; dur: number; skipped: boolean};
+/** one housekeeping pass: a full-height amber band travelling x0 → x1 over [at, at + dur]; `kept` = untargeted photo boxes it passes over */
+export type SweepFx = {at: number; dur: number; x0: number; x1: number; kept: number[]};
 export type Resolved = {
   mode: ArchiveMode;
   layers: ArchiveLayers;
@@ -174,7 +175,7 @@ export const DUR: Record<ArchiveOp, number> = {
   overwrite: 12,
   trim: 30,
   tag: 12,
-  sweep: 30,
+  sweep: 36,
   refuse: 20,
   splitLayers: 36,
   remap: 18,
@@ -343,11 +344,13 @@ const applyEvent = (R: Resolved, ev: ArchiveEvent, frame: number, mode: ArchiveM
       break;
     }
     case 'sweep': {
+      // ONE continuous amber band crosses the wall from the drive's side (left) over `dur`; each targeted erase group
+      // clears as the band reaches it (still-wanted white Bits hop to a fresh box just before); untargeted groups
+      // holding the photo survive the pass
       const tgt = resolveTarget(ev.target, labs, frame);
-      // the erase groups touched, in row / group order
       const groups: number[][] = [];
       const seen = new Set<string>();
-      for (const id of [...tgt].sort((a, b) => a - b)) {
+      for (const id of [...tgt].sort((x, y) => x - y)) {
         const g = groupIds(id);
         const key = g.join(',');
         if (!seen.has(key)) {
@@ -356,17 +359,20 @@ const applyEvent = (R: Resolved, ev: ArchiveEvent, frame: number, mode: ArchiveM
         }
       }
       const inSwept = new Set(groups.flat());
-      const per = groups.length > 1 ? Math.max(14, Math.round((dur - 14) / groups.length)) : dur;
-      groups.forEach((g, gi) => {
-        const t0 = at + gi * per;
+      const x0 = GEOM.wall.x - 90;
+      const x1 = GEOM.wall.x + COLS * PITCH + 90;
+      const tAtX = (x: number) => at + Math.round((dur * (x - x0)) / (x1 - x0));
+      const kept: number[] = [];
+      for (const g of groups) {
         const hasPhoto = g.some((id) => labs[id].c === 'photo');
         const photoTargeted = g.some((id) => labs[id].c === 'photo' && tgt.includes(id));
         if (hasPhoto && !photoTargeted) {
-          R.sweeps.push({ids: g, at: t0, dur: 14, skipped: true});
-          return;
+          kept.push(...g.filter((id) => labs[id].c === 'photo'));
+          continue;
         }
-        // still-wanted white Bits hop to a fresh spot first
-        let hopT = t0;
+        const tg = tAtX(boxC(g[0]).x);
+        let hopT = Math.max(at, tg - 16);
+        let lastHop = -NEVER;
         for (const id of g) {
           if (labs[id].c !== 'other') continue;
           const dest = nearestEmpty(labs, id, inSwept);
@@ -374,17 +380,20 @@ const applyEvent = (R: Resolved, ev: ArchiveEvent, frame: number, mode: ArchiveM
             setContent(labs[dest], 'other', hopT + 12, 'hop');
             labs[dest].fx.push({k: 'hopIn', at: hopT, dur: 12, from: id});
             labs[id].fx.push({k: 'hopOut', at: hopT, dur: 12});
-            hopT += 3;
+            lastHop = hopT + 13;
+            hopT += 2;
           }
         }
-        const tE = hopT > t0 ? hopT + 12 : t0;
-        R.sweeps.push({ids: g, at: tE, dur: 14, skipped: false});
-        g.forEach((id, k) => {
-          setContent(labs[id], 'erased', tE + 3 * k + 4, 'erase');
-          labs[id].tagOff = Math.min(labs[id].tagOff, tE + 3 * k + 4);
-        });
-      });
-      R.actorBusy.push({at, dur: Math.max(dur, groups.length * per + 20)});
+        for (const id of g) {
+          const te = Math.max(tAtX(boxC(id).x), lastHop);
+          setContent(labs[id], 'erased', te, 'erase');
+          labs[id].tagOff = Math.min(labs[id].tagOff, te);
+        }
+      }
+      // photo boxes in untargeted groups the band passes over: kept (they shimmer)
+      for (const id of PHOTO) if (!inSwept.has(id) && labs[id].c === 'photo' && !kept.includes(id)) kept.push(id);
+      R.sweeps.push({at, dur, x0, x1, kept});
+      R.actorBusy.push({at: at - 6, dur: dur + 24});
       break;
     }
     case 'refuse': {

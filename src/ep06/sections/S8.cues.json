@@ -1,6 +1,5 @@
 [
   {"frame": 11993, "kind": "sting", "strength": 0.6},
-  {"frame": 12024, "kind": "whoosh", "strength": 0.4},
   {"frame": 12074, "kind": "swell", "strength": 0.4},
   {"frame": 12136, "kind": "whoosh", "strength": 0.7},
   {"frame": 12317, "kind": "impact", "strength": 0.7},
@@ -9,7 +8,7 @@
   {"frame": 12870, "kind": "swell", "strength": 0.7},
   {"frame": 13096, "kind": "pop", "strength": 0.5},
   {"frame": 13150, "kind": "whoosh", "strength": 0.6},
-  {"frame": 13285, "kind": "impact", "strength": 0.8},
+  {"frame": 13285, "kind": "sting", "strength": 0.7},
   {"frame": 13456, "kind": "crate", "strength": 0.5},
   {"frame": 13510, "kind": "glitch", "strength": 0.4},
   {"frame": 13722, "kind": "whoosh", "strength": 0.6},

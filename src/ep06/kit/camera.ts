@@ -14,7 +14,8 @@ export type Pose = {x: number; y: number; zoom: number; rot: number};
  * TOTAL world→screen scale (camera zoom × any panel scale), `x`/`y` the world point at the frame centre, `space` says
  * whether the node sits in a world (moves with a camera), a SplitCompare panel, or screen space (hud / no Stage).
  */
-export type CameraInfo = {zoom: number; rot: number; x?: number; y?: number; space?: 'world' | 'panel' | 'screen'};
+/** `panel` (0..1, SplitCompare panels only): how far the panel has settled (compress), so content can move to its panel layout. */
+export type CameraInfo = {zoom: number; rot: number; x?: number; y?: number; space?: 'world' | 'panel' | 'screen'; panel?: number};
 export const CameraContext = React.createContext<CameraInfo>({zoom: 1, rot: 0, space: 'screen'});
 /**
  * The factor that turns a font size into on-screen px for a `screen` option: true = counter the Stage camera zoom,

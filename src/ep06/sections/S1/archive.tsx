@@ -38,6 +38,7 @@ const DRIFT = 0.5;
 /* ---------------------------------------------------------------- C: the wall, then the signature */
 const LAND = T.hardDrive + 30; // DriveDive: the Archive grows out of the drive from here
 const SIG = T.crossed - 3; // the card has settled; the push starts
+const SIG_EXIT = T.findIt; // the signature texts are fully out (9 f) before the compress starts at "On an SSD"
 export const CAM_C: CamKey[] = [
   K(LAND, 'run', {zoom: 4.6}, {run: 1}),
   K(T.every + 40, 'photoBoxes', {dur: 46}),
@@ -91,15 +92,15 @@ const Brackets: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-/** the signature texts: "Gone." as a dimming ghost (Windows' view) and "Only the note" (exit with the compress) */
-const SigTexts: React.FC<{f: number; exit?: number}> = ({f, exit}) => {
+/** the signature texts: "Gone." as a dimming ghost (Windows' view) and "Only the note" (out before the compress) */
+const SigTexts: React.FC<{f: number}> = ({f}) => {
   const ghost = 0.55 - 0.27 * prog(f, T.crossed, 70, EASE.out);
   return (
     <>
       <div style={{position: 'absolute', inset: 0, opacity: ghost}}>
-        <KineticText frame={f} at={T.windowsOnly + 2} exitAt={exit} text="Gone." x={1500} y={250} size={190} mode="rise" color={PAL.ink} backing="none" />
+        <KineticText frame={f} at={T.windowsOnly + 2} exitAt={SIG_EXIT} text="Gone." x={1500} y={250} size={190} mode="rise" color={PAL.ink} backing="none" />
       </div>
-      <KineticText frame={f} at={T.note} exitAt={exit} text="Only the note" x={1480} y={600} size={96} mode="slam" />
+      <KineticText frame={f} at={T.note} exitAt={SIG_EXIT} text="Only the note" x={1480} y={600} size={96} mode="slam" />
     </>
   );
 };
@@ -123,7 +124,9 @@ const CAM_R: CamKey[] = [
   K(T.to, 'split', {x: 1210, y: 262, zoom: 1.04}),
 ];
 const SWEEP = T.cleans;
-const ssdProps = (fr: number) => ({frame: fr, state: 'SSD_DELETED' as const, lift: 1, events: [{at: SWEEP, op: 'sweep', target: 'photo', dur: 40}] as ArchiveEvent[]});
+const SWEEP_DUR = 40;
+const SWEEP_END = SWEEP + SWEEP_DUR;
+const ssdProps = (fr: number) => ({frame: fr, state: 'SSD_DELETED' as const, lift: 1, events: [{at: SWEEP, op: 'sweep', target: 'photo', dur: SWEEP_DUR}] as ArchiveEvent[]});
 
 const panelOpts = (side: SplitSide) => ({cam: side === 'left' ? CAM_L : CAM_R, drift: DRIFT, at: SPLIT_AT, enter: 'compress' as const});
 const boxOnScreen = (side: SplitSide, f: number, id: number) => {
@@ -150,11 +153,13 @@ const Dim: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-/** the race tease: the same recovery scanner drops over each panel; beams start; the trays pulse "?" */
+/** the race tease: the same recovery scanner drops into each panel; beams start; the trays pulse "?".
+ *  Clipped to the content windows, so the drop enters at the panel's top edge and never crosses the header or chips. */
+const SCAN_CLIP = `inset(${SPLIT.content.y0 - 2}px 0 0 0)`;
 const Scanners: React.FC<{f: number}> = ({f}) => {
   if (f < T.probably - 4 || f > T.follow + 24) return null;
   return (
-    <>
+    <div style={{position: 'absolute', inset: 0, clipPath: SCAN_CLIP}}>
       {(['left', 'right'] as const).map((side, i) => {
         const at = T.probably + 2 + i * 6;
         const tgt = boxOnScreen(side, f, 59);
@@ -168,7 +173,7 @@ const Scanners: React.FC<{f: number}> = ({f}) => {
             w={430}
             float={2}
             shadow={0.5}
-            enter={{kind: 'drop', at, dist: 600}}
+            enter={{kind: 'drop', at, dist: 220}}
             exit={{kind: 'lift', at: T.lets + 2 + i * 3, dur: 14}}
             beam={{at: at + 12, until: T.lets + 4}}
             beamTo={{x: tgt.x, y: tgt.y, rx: 120}}
@@ -178,7 +183,7 @@ const Scanners: React.FC<{f: number}> = ({f}) => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 
@@ -209,9 +214,8 @@ const RouteBit: React.FC<{f: number}> = ({f}) => {
 
 const splitHud = (f: number) => (
   <>
-    <SigTexts f={f} exit={SPLIT_AT} />
     <Dim f={f} />
-    <KineticText frame={f} at={T.may} exitAt={T.theDrive + 4} text="May disappear soon after" x={(SPLIT.right.x0 + SPLIT.right.x1) / 2} y={846} size={64} mode="rise" />
+    <KineticText frame={f} at={T.may} exitAt={SWEEP_END + 2} text="May disappear soon after" x={(SPLIT.right.x0 + SPLIT.right.x1) / 2} y={846} size={64} mode="rise" />
     <ClockGlyph frame={f} x={1772} y={296} size={96} at={SWEEP - 4} exitAt={T.goneQ - 8} />
     <Footnote frame={f} at={SWEEP} exitAt={T.goneQ - 8} text="Illustrative timing" x={1000} y={1000} />
     <Scanners f={f} />

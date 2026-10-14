@@ -174,9 +174,9 @@ const shotSplit = (f: number) => (
     frame={f}
     at={512}
     enter="compress"
-    left={{cam: [K(510, 'signature', {zoom: 1.0, x: 1200}), K(528, 'split')], light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={[[512, 1], [530, 0]]} />}}
+    left={{cam: [K(510, 'signature', {zoom: 1.0, x: 1200}), K(528, 'split')], light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={1} />}}
     right={{
-      cam: archiveCam('split'),
+      cam: [K(526, 'split'), K(546, 'splitBoxes', {dur: 18})],
       light: 'ssd',
       render: (fr) => <Archive frame={fr} state="SSD_TRIMMED" events={[{at: 540, op: 'sweep', target: 'photo', dur: 30}]} />,
     }}

@@ -160,7 +160,7 @@ export const ShotF: React.FC<{f: number}> = ({f}) => {
       hud={
         <>
           <KineticText frame={f} at={T.ifOn + 2} exitAt={SPLIT_AT + 6} text="If it was on when saved" x={96} y={136} size={72} align="left" mode="rise" />
-          <Footnote frame={f} at={T.ifOn + 20} exitAt={CUT.pulled - 6} text="Only protects data saved while on" />
+          <Footnote frame={f} at={T.ifOn + 20} exitAt={CUT.pulled - 6} text="Only protects data saved while on" x={1290} y={1006} />
         </>
       }
     >

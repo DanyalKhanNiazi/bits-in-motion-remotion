@@ -288,11 +288,13 @@ const BoxContent: React.FC<{c: Content; x: number; y: number; ctx: Ctx; id: numb
   if (c === 'empty' || op <= 0.001) return null;
   if (c === 'erased') {
     const em = Math.exp(-Math.max(0, f - erasedAt) / 34);
+    const flare = f - erasedAt >= 0 && f - erasedAt < 12 ? 1 - (f - erasedAt) / 12 : 0;
     return (
       <g transform={`translate(${x} ${y})`} opacity={op}>
         <rect x={mode === 'ssd' ? 5 : 4} y={mode === 'ssd' ? 6 : 4} width={mode === 'ssd' ? 54 : 56} height={mode === 'ssd' ? 35 : 34} rx={3} fill="#05070A" opacity={0.95} />
         <path d={mode === 'ssd' ? 'M6 7.5H58' : 'M5 5.5H59'} stroke={PAL.drive} strokeOpacity={0.35 * em + 0.08} strokeWidth={1.2} />
         {em > 0.02 ? <ellipse cx={32} cy={30} rx={22} ry={9} fill={`url(#${p}-ember)`} opacity={0.9 * em + 0.08} /> : <ellipse cx={32} cy={31} rx={14} ry={5} fill={`url(#${p}-ember)`} opacity={0.1} />}
+        {flare > 0 ? <ellipse cx={32} cy={26} rx={44 + 20 * (1 - flare)} ry={34 + 14 * (1 - flare)} fill={`url(#${p}-ember)`} opacity={flare} /> : null}
       </g>
     );
   }
@@ -457,15 +459,17 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     const bop = (l.build > -NEVER / 2 ? prog(f, l.build + 6, 6) : 1) * flipOp;
     // pour: the photo's Bits fall into the box, one by one, and settle
     if (l.how === 'pour' && f < l.cAt + 14 && f >= l.cAt - 12) {
+      // a box that is (or will be) scrambled receives glyphs/grey, never cyan
+      const scrPour = l.scr < NEVER && l.scrOff > l.cAt;
       const pieces = PB_XY.map(([bx, by], q) => {
         const t0 = l.cAt - 10 + q * 2;
         const u = prog(f, t0, 9, EASE.inCubic);
         if (f < t0) return null;
         const set = f >= t0 + 9 ? Math.exp(-(f - t0 - 9) / 2.5) * Math.sin((f - t0 - 9) * 1.6) * 3 : 0;
         const yy = lerp(-120, 0, u) - set;
-        return <rect key={q} x={pos.x + bx} y={pos.y + by + yy} width={19} height={19} rx={3.5} fill={PAL.photo} />;
+        return <rect key={q} x={pos.x + bx} y={pos.y + by + yy} width={19} height={19} rx={3.5} fill={scrPour ? PAL.muted : PAL.photo} opacity={scrPour ? 0.7 : 1} />;
       });
-      const streamOp = win(f, l.cAt - 12, l.cAt + 2, 3, 5);
+      const streamOp = scrPour ? 0 : win(f, l.cAt - 12, l.cAt + 2, 3, 5);
       effects.push(
         <g key={`pour${id}`}>
           <rect x={pos.x + 26} y={pos.y - 140} width={12} height={150} rx={6} fill={`url(#${p}-cyanGlow)`} opacity={0.7 * streamOp} />
@@ -606,18 +610,40 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     );
   };
 
-  /* ---------------- sweeps (amber edge) */
+  /* ---------------- sweeps: one continuous, full-height amber band driven from the chip (lower-left) */
   const sweepNodes = R.sweeps.map((sw, i) => {
     const t = f - sw.at;
-    if (t < -2 || t > sw.dur + 4) return null;
-    const a = posOf(sw.ids[0], curSpot(R.labs[sw.ids[0]]));
+    if (t < -6 || t > sw.dur + 22) return null;
     const u = clamp01(t / sw.dur);
-    const span = 4 * PITCH;
-    const bx = a.x - 20 + u * (span + 20);
+    const bx = lerp(sw.x0, sw.x1, EASE.inOut(u * 0.15 + 0.85 * u));
+    const op = win(f, sw.at - 6, sw.at + sw.dur + 8, 6, 8);
+    const y0 = GEOM.wall.y - 40;
+    const h = GEOM.wall.h + 80;
+    const trail = 1 - clamp01((t - sw.dur) / 22);
+    const shimmer = sw.kept.map((id) => {
+      const q = posOf(id, curSpot(R.labs[id]));
+      const d = Math.abs(q.x + 32 - bx);
+      if (d > 110 || t > sw.dur + 2) return null;
+      const k = 1 - d / 110;
+      return (
+        <g key={`sh${id}`}>
+          <ellipse cx={q.x + 32} cy={q.y + 26} rx={80} ry={66} fill={`url(#${p}-cyanGlow)`} opacity={0.8 * k} />
+          <rect x={q.x + 3} y={q.y + 3} width={58} height={46} rx={3} fill={`url(#${p}-washW)`} opacity={0.75 * k} />
+        </g>
+      );
+    });
     return (
-      <g key={`sw${i}`} opacity={win(f, sw.at - 2, sw.at + sw.dur + 4, 2, 4) * (sw.skipped ? 0.45 : 1)}>
-        <rect x={bx - 70} y={a.y - 8} width={80} height={BOX + 16} fill={`url(#${p}-amberBand)`} />
-        {sw.skipped ? <rect x={a.x - 6} y={a.y - 6} width={span + 4} height={BOX + 12} rx={8} fill="none" stroke={PAL.drive} strokeOpacity={0.5} strokeDasharray="5 6" strokeWidth={2} /> : null}
+      <g key={`sw${i}`}>
+        <rect x={sw.x0} y={y0} width={Math.max(0, bx - 200 - sw.x0)} height={h} fill={PAL.drive} opacity={0.05 * trail * op} />
+        <g opacity={op}>
+          {ssd && !splitOn ? (
+            <path d={`M${GEOM.actor.x - 20} ${GEOM.actor.y - 30}L${bx - 60} ${y0 + h}L${bx + 6} ${y0 + h}L${GEOM.actor.x + 20} ${GEOM.actor.y - 30}Z`} fill={PAL.drive} opacity={0.16} />
+          ) : null}
+          <rect x={bx - 230} y={y0} width={240} height={h} fill={`url(#${p}-amberBand)`} />
+          <rect x={bx - 3} y={y0} width={6} height={h} rx={3} fill={PAL.driveHot} opacity={0.95} />
+          <rect x={bx - 14} y={y0} width={28} height={h} fill={PAL.drive} opacity={0.22} />
+        </g>
+        {shimmer}
       </g>
     );
   });
@@ -646,7 +672,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   });
 
   /* ---------------- threads: card → the photo's boxes (cyan directions) */
-  const cp = cardPose(props, f, {x: cam.x ?? 960, y: cam.y ?? 540});
+  const cp = cardPose(props, f, {x: cam.x ?? 960, y: cam.y ?? 540, panel: cam.space === 'panel' ? (cam.panel ?? 1) : 0});
   const plugs = cardPlugs(cp.x, cp.y, cp.w, cp.rot);
   const lift = cp.u;
   const labelM = splitOn ? front : back;
@@ -659,6 +685,11 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   const dashed = f >= R.card.strike;
   const snapU = prog(f, R.card.reuse, 12, EASE.out);
   const thrVis = sh('threads') * (thrStart >= NEVER / 2 ? 0 : 1) * (1 - snapU);
+  const showsPhoto = (id: number) => {
+    const l = R.labs[id];
+    return shown(l, f) === 'photo' && !(l.scr <= f && l.scrOff > f);
+  };
+  const anyPhoto = PHOTO.some(showsPhoto);
   const threadNodes: React.ReactNode[] = [];
   if (thrDraw > 0 && (thrVis > 0 || (snapU > 0 && snapU < 1))) {
     RUNS.forEach((run, ri) => {
@@ -685,31 +716,33 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const fans = tgts.map((t) => `M${F.x.toFixed(1)} ${F.y.toFixed(1)}Q${t.x.toFixed(1)} ${F.y.toFixed(1)} ${t.x.toFixed(1)} ${t.y.toFixed(1)}`);
       const drawMain = clamp01(thrDraw * 1.35 - ri * 0.12);
       const drawFan = clamp01((thrDraw - 0.6) / 0.4);
-      const glowOp = dashed ? 0.1 : 0.22;
+      const live = run.some(showsPhoto);
+      const tc = live ? PAL.photo : PAL.annotation;
+      const glowOp = !live ? 0 : dashed ? 0.1 : 0.22;
       const ambient = ((f + ri * 37) % 120) / 120;
       // snapping (reused): each thread breaks in the middle and both halves recoil, fading
       const snap = snapU > 0;
       const segs = [main, ...fans];
       threadNodes.push(
-        <g key={`th${ri}`} opacity={snap ? 1 - snapU : thrVis} fill="none" strokeLinecap="round">
+        <g key={`th${ri}`} opacity={(snap ? 1 - snapU : thrVis) * (live ? 1 : 0.45)} fill="none" strokeLinecap="round">
           {segs.map((d, k) => {
             const dr = k === 0 ? drawMain : drawFan;
             if (dr <= 0) return null;
             const dash = snap ? `${0.5 - 0.45 * snapU} ${0.9 * snapU + 0.001} 1` : `${dr} 1`;
             return (
               <g key={k}>
-                <path d={d} stroke={PAL.photo} strokeOpacity={glowOp} strokeWidth={8} pathLength={1} strokeDasharray={dash} />
+                {glowOp > 0 ? <path d={d} stroke={tc} strokeOpacity={glowOp} strokeWidth={8} pathLength={1} strokeDasharray={dash} /> : null}
                 {dashed && !snap ? (
-                  <path d={d} stroke={PAL.photo} strokeWidth={2.6} strokeDasharray="10 8" opacity={dr >= 1 ? 1 : 0} />
+                  <path d={d} stroke={tc} strokeWidth={2.6} strokeDasharray="10 8" opacity={dr >= 1 ? 1 : 0} />
                 ) : (
-                  <path d={d} stroke={PAL.photo} strokeWidth={2.6} pathLength={1} strokeDasharray={dash} />
+                  <path d={d} stroke={tc} strokeWidth={2.6} pathLength={1} strokeDasharray={dash} />
                 )}
               </g>
             );
           })}
-          {!dashed && !snap && drawMain >= 1 ? <path d={main} stroke={PAL.photoPale} strokeWidth={2.4} pathLength={1} strokeDasharray="0.05 1" strokeDashoffset={-ambient * 1.05} /> : null}
+          {live && !dashed && !snap && drawMain >= 1 ? <path d={main} stroke={PAL.photoPale} strokeWidth={2.4} pathLength={1} strokeDasharray="0.05 1" strokeDashoffset={-ambient * 1.05} /> : null}
           {drawFan >= 1 && !snap
-            ? tgts.map((t, k) => <circle key={k} cx={t.x} cy={t.y} r={4.5} fill={dashed ? 'none' : PAL.photo} stroke={PAL.photo} strokeWidth={1.8} />)
+            ? tgts.map((t, k) => <circle key={k} cx={t.x} cy={t.y} r={4.5} fill={dashed || !live ? 'none' : tc} stroke={tc} strokeWidth={1.8} />)
             : null}
         </g>,
       );
@@ -803,7 +836,8 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   }
 
   /* ---------------- ghost wall (part of a far bigger wall, fading into haze) */
-  const gx0 = GEOM.wall.x - PITCH * Math.round(1 + 6 * smooth(clamp01((cardPose(props, f).u - 0.15) / 0.55)));
+  // the far wall continues left once the drawer is gone (lifted card, or inside a SplitCompare panel)
+  const gx0 = GEOM.wall.x - PITCH * (cam.space === 'panel' ? 7 : Math.round(1 + 6 * smooth(clamp01((cardPose(props, f).u - 0.15) / 0.55))));
   const gx1 = GEOM.wall.x + COLS * PITCH + PITCH * 8;
   const gy0 = GEOM.wall.y - PITCH * 5;
   const gy1 = GEOM.wall.y + ROWS * PITCH + PITCH * 4;
@@ -869,7 +903,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     flag: R.card.flag,
     reuse: R.card.reuse,
     fields: props.cardFields,
-    plugs: thrStart <= -NEVER / 2 ? -NEVER : thrStart < NEVER / 2 ? thrStart + R.card.threadsDur * 0.5 : NEVER,
+    plugs: !anyPhoto ? NEVER : thrStart <= -NEVER / 2 ? -NEVER : thrStart < NEVER / 2 ? thrStart + R.card.threadsDur * 0.5 : NEVER,
   };
   const cardNode =
     cardOp > 0.01 ? (
@@ -1158,8 +1192,8 @@ const renderCard = (props: ArchiveProps, f: number, cp: {x: number; y: number; w
   return (
     <div style={{position: 'absolute', left: 0, top: 0, width: CARD.render.w, height: CARD.render.h, transformOrigin: '0 0', transform: `translate(${cp.x}px, ${cp.y}px) rotate(${cp.rot}deg) scale(${k}) translate(${-CARD.cx}px, ${-CARD.cy}px)`, opacity: op, pointerEvents: 'none'}}>
       <Img src={assetUrl('mft-record_b')} style={{position: 'absolute', left: 0, top: 0, width: CARD.render.w, height: CARD.render.h}} />
-      {CARD.leds.map((b, i) => (
-        <div key={i} style={{position: 'absolute', left: b[0], top: b[1], width: b[2] - b[0], height: b[3] - b[1], borderRadius: 6, background: '#DDE3EC'}} />
+      {[...CARD.leds, [1157, 585, 1187, 687] as const].map((b, i) => (
+        <div key={i} style={{position: 'absolute', left: b[0], top: b[1], width: b[2] - b[0], height: b[3] - b[1], borderRadius: 6, background: i < 3 ? '#DDE3EC' : 'linear-gradient(90deg, #9BA2AD, #E3E7EE 45%, #A9B0BA)'}} />
       ))}
     </div>
   );

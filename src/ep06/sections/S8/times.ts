@@ -87,7 +87,7 @@ export const CUT = {
   pulled: T.someone - 1, // whip F → G (12 f)
   objects: T.microsoft - 6, // whip G → H (12 f)
   desk: T.manyNewer - 8, // whip H → I (12 f)
-  keyJ: T.oneLimit + 17, // whip I → J: the key close-up (12 f)
+  keyJ: T.oneLimit + 10, // whip I → J straight from the Settings window: the key close-up (12 f)
   unscr: T.started - 2, // FlashCut J → K: the Archive unscrambles
   reads: T.windowsReads + 20, // FlashCut K → I: Windows reads normally on the monitor
 } as const;
