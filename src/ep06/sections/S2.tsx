@@ -24,11 +24,16 @@ export const S2: React.FC<{frame: number}> = ({frame}) => {
       </TapeFx>
     );
   }
-  // "or skip it": a short rewind back to the row, then Shift + Delete; the opener; the push into the screen
+  // "The real question": delete again → the bin on the stage, its menu, the cursor hovering
+  if (f < K.rw2) {
+    const c = binScreen(K.zt5);
+    return <ZoomThrough frame={f} at={K.zt5} dur={16} cx={c.x} cy={c.y} a={deskShot} b={binShot} />;
+  }
+  // "or skip it": a short rewind back to the row (the cut hides inside it), then Shift + Delete; the opener; the push in
   if (f < K.zt2) {
     return (
       <TapeFx frame={f} at={K.rw2} dur={K.rw2Dur}>
-        {deskShot(f)}
+        {f < K.rw2Cut ? binShot(f) : deskShot(f)}
       </TapeFx>
     );
   }

@@ -75,11 +75,13 @@ export const K = {
   del3Press: T.real + 2,
   del3Act: T.real + 3,
   landed3: T.real + 4 + FLY,
+  zt5: T.real + 4 + FLY - 4, // ZoomThrough into the bin again as the photo lands (the bin on the stage: its menu fits)
   emptyHover: T.empty - 8,
-  // "or skip it": rewind 2 (back to the row), then Shift + Delete
+  // "or skip it": rewind 2 (cut back to the screen inside it; the photo flies back to its row), then Shift + Delete
   rw2: T.skip,
   rw2Dur: 17,
-  restore2Act: T.skip + 1,
+  rw2Cut: T.skip + 6,
+  restore2Act: T.skip + 6,
   shiftDelAct: T.del2 + 1,
   // pull back, the opener, push into the screen
   opener: T.picture - 20,

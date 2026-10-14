@@ -35,27 +35,28 @@ import {K, T} from './t';
 
 /* ---------------------------------------------------------------- the desk camera: slot point at the frame centre + plate scale */
 type DK = {f: number; s: number; cx: number; cy: number; ease?: (t: number) => number; dur?: number};
+// S1's exit push reaches DESK.kbScreen at the cut and keeps going at +0.04 per second (screen centred: slot 516, 273.5)
+const RATE = 0.04 / 30;
+const LIN = T.from + 40;
 const DKEYS: DK[] = [
-  {f: T.from - 30, s: 1.66, cx: 516, cy: 274},
-  {f: T.from, s: 1.72, cx: 516, cy: 274},
-  {f: T.from + 60, s: 1.78, cx: 500, cy: 268, ease: EASE.out},
-  {f: T.del, s: 1.8, cx: 494, cy: 266},
-  {f: T.remove + 24, s: 2.2, cx: 600, cy: 290, dur: 52, ease: EASE.inOut},
-  {f: K.zt1 + 16, s: 2.42, cx: 640, cy: 296, ease: EASE.inExpo},
+  {f: LIN, s: 1.72 + RATE * 40, cx: 516, cy: 273.5},
+  {f: T.del, s: 1.8, cx: 508, cy: 272, ease: EASE.out},
+  {f: T.remove + 24, s: 2.2, cx: 650, cy: 290, dur: 52, ease: EASE.inOut},
+  {f: K.zt1 + 16, s: 2.42, cx: 690, cy: 296, ease: EASE.inExpo},
   // back from the stage, inside the rewind glitch
-  {f: K.rwCut, s: 2.02, cx: 590, cy: 284},
-  {f: K.restoreAct + 22, s: 1.88, cx: 540, cy: 276, ease: EASE.inOut},
-  {f: T.real, s: 1.86, cx: 534, cy: 276},
-  {f: K.emptyHover + 2, s: 2.0, cx: 612, cy: 300, dur: 30, ease: EASE.inOut},
-  {f: T.skip, s: 2.1, cx: 616, cy: 298},
-  {f: T.skip + 20, s: 1.86, cx: 530, cy: 276, ease: EASE.inOut},
-  {f: K.shiftDelAct + 12, s: 1.92, cx: 506, cy: 270},
+  {f: K.rwCut, s: 2.02, cx: 640, cy: 286},
+  {f: K.restoreAct + 22, s: 1.86, cx: 540, cy: 276, ease: EASE.inOut},
+  {f: T.real, s: 1.85, cx: 536, cy: 276},
+  {f: K.zt5 + 16, s: 2.5, cx: 700, cy: 300, dur: 30, ease: EASE.inExpo},
+  {f: K.rw2Cut, s: 2.02, cx: 640, cy: 286},
+  {f: K.restore2Act + 20, s: 1.86, cx: 536, cy: 276, ease: EASE.inOut},
+  {f: K.shiftDelAct + 12, s: 1.92, cx: 520, cy: 272},
   {f: T.p4 + 40, s: 1.06, cx: 516, cy: 372, dur: 46, ease: EASE.inOut},
   {f: K.opener + 54, s: 1.1, cx: 516, cy: 360},
   {f: K.zt2 + 16, s: 2.7, cx: 330, cy: 232, dur: 52, ease: EASE.inExpo},
 ];
 const deskAt = (f: number): {s: number; cx: number; cy: number} => {
-  if (f <= DKEYS[0].f) return DKEYS[0];
+  if (f <= LIN) return {s: 1.72 + RATE * (f - T.from), cx: 516, cy: 273.5};
   for (let i = 1; i < DKEYS.length; i++) {
     const b = DKEYS[i];
     if (f < b.f) {
@@ -67,6 +68,8 @@ const deskAt = (f: number): {s: number; cx: number; cy: number} => {
   }
   return DKEYS[DKEYS.length - 1];
 };
+/** drift fades in after the cut (S1 runs the desk with drift 0) */
+const driftAt = (f: number) => Math.max(0, Math.min(1, (f - T.from) / 45));
 const COVER = 1.1483;
 /** the Ken Burns that puts slot point (cx, cy) at the frame centre at plate scale s (a constant kb: full control here) */
 export const deskKb = (f: number): KenBurns => {
@@ -78,12 +81,13 @@ export const deskKb = (f: number): KenBurns => {
 /** slot px → screen px at a frame (desk Stage with default drift) */
 export const slotToScreen = (f: number, sx: number, sy: number): {x: number; y: number} => {
   const p = plateToStage(f, deskKb(f), DESK.screen[0][0] + sx, DESK.screen[0][1] + sy);
-  return toScreen(poseAt(f), p.x, p.y);
+  return toScreen(poseAt(f, undefined, driftAt(f)), p.x, p.y);
 };
 
 /* ---------------------------------------------------------------- the screen's contents (slot px, 1032 × 547) */
-export const BIN = {x: 712, y: 300, w: 200};
-const EX_BASE = {x: 30, y: 30, w: 520, h: 440, fontSize: 36};
+// S1's layout (the handoff at the cut): Explorer left, the bin right
+export const BIN = {x: 872, y: 300, w: 236};
+const EX_BASE = {x: 34, y: 30, w: 640, h: 452, fontSize: 36};
 const explorer = (f: number, scale: number): ExplorerProps => ({
   frame: f,
   ...EX_BASE,
@@ -103,7 +107,7 @@ const explorer = (f: number, scale: number): ExplorerProps => ({
 const binCfg = (f: number): Partial<RecycleBinProps> =>
   f < T.real - 6
     ? {holdsPhoto: K.landed, restoreAt: K.restoreAct}
-    : {holdsPhoto: K.landed3, restoreAt: K.restore2Act, emptyHoverAt: K.emptyHover, emptyUntil: K.restore2Act};
+    : {holdsPhoto: K.landed3, restoreAt: K.restore2Act};
 const binLit = (f: number): {lit: number; wave: number} => {
   const c = binCfg(f);
   const h = c.holdsPhoto ?? 1e9;
@@ -124,7 +128,7 @@ const ScreenContents: React.FC<{f: number; scale: number}> = ({f, scale}) => {
   const q = binQuad(BIN);
   return (
     <WinDesktop frame={f} w={1032} h={547}>
-      <RecycleBin frame={f} {...BIN} float={0} shadow={0.6} {...binCfg(f)} menuSize={42} screen={scale} />
+      <RecycleBin frame={f} {...BIN} float={0} shadow={0.6} {...binCfg(f)} screen={scale} />
       <CardBits frame={f} {...q} n={4} lit={bl.lit} waveAt={bl.wave} waveDur={10} inset={0.16} />
       <ExplorerWindow {...ex} />
       <svg width={1032} height={547} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
@@ -138,10 +142,10 @@ const ScreenContents: React.FC<{f: number; scale: number}> = ({f, scale}) => {
         exitAt={T.pressing + 4}
         size={34}
         keys={[
-          {f: T.from - 20, x: 470, y: 430},
-          {f: T.click - 5, x: 300, y: 226},
-          {f: T.click, x: 298, y: 222, click: true},
-          {f: T.pressing, x: 320, y: 300},
+          {f: T.from - 30, x: 336, y: 236},
+          {f: T.click - 6, x: 304, y: 221},
+          {f: T.click, x: 300, y: 218, click: true},
+          {f: T.pressing, x: 330, y: 300},
         ]}
       />
     </WinDesktop>
@@ -154,6 +158,7 @@ export const deskShot = (f: number): React.ReactElement => {
   return (
     <Stage
       frame={f}
+      drift={driftAt(f)}
       env={{kind: 'photo', plate: 'reader-desk', kb, children: <ScreenSlot rect={REGIONS.deskScreen}><ScreenContents f={f} scale={scale} /></ScreenSlot>}}
       hud={
         <>
@@ -188,23 +193,37 @@ const B_CAM: CamKey[] = [
   {f: T.intact + 10, x: winC.x + 40, y: winC.y + 60, zoom: 1.28, dur: 32},
   {f: K.rwCut + 6, x: winC.x + 30, y: winC.y + 40, zoom: 1.36},
 ];
+// the second stay: the photo drops in, the "Empty Recycle Bin" menu, the cursor hovering (held breath)
+const B2_CAM: CamKey[] = [
+  {f: K.zt5, x: winC.x + 20, y: winC.y + 40, zoom: 1.4},
+  {f: K.emptyHover + 4, x: 1090, y: 560, zoom: 1.06, dur: 22},
+  {f: K.rw2Cut + 6, x: 1060, y: 548, zoom: 1.14, ease: 'linear'},
+];
 export const binShot = (f: number): React.ReactElement => {
   const q = binQuad(BIN_STAGE);
-  const lit = 0.7 * (1 - prog(f, K.rw1 + 1, 6));
+  const second = f >= K.zt5;
+  const hold = second ? K.zt5 + 10 : 0;
+  const rest = second ? K.rw2 + 1 : K.rw1 + 1;
+  const off = 1 - prog(f, rest, 6);
+  const lit = second
+    ? prog(f, hold, 6) * off
+    : off * (0.7 + 0.3 * track(f, [[T.every - 1, 0], [T.every + 10, 1], [T.intact + 30, 0.4]]));
   return (
-    <Stage frame={f} env={{kind: 'stage', spot: 900, floor: 830, warm: 0.35}} cam={B_CAM}>
+    <Stage frame={f} env={{kind: 'stage', spot: 900, floor: 830, warm: 0.35}} cam={second ? B2_CAM : B_CAM}>
       <RecycleBin
         frame={f}
         {...BIN_STAGE}
-        holdsPhoto={0}
-        restoreAt={K.rw1 + 1}
+        holdsPhoto={hold}
+        restoreAt={rest}
+        emptyHoverAt={second ? K.emptyHover : undefined}
+        emptyUntil={second ? K.rw2 + 1 : undefined}
         screen
         float={0}
         rim={{color: PAL.structure, strength: 0.5}}
-        sweep={{at: [T.holding], dur: 26, strength: 0.6}}
+        sweep={{at: second ? [K.emptyHover + 14] : [T.holding], dur: 26, strength: 0.6}}
         shadow={{opacity: 0.65}}
       />
-      <CardBits frame={f} {...q} n={6} lit={lit + 0.3 * track(f, [[T.every - 1, 0], [T.every + 10, 1], [T.intact + 30, 0.4]])} waveAt={T.every} waveDur={16} pulseAt={T.intact} />
+      <CardBits frame={f} {...q} n={6} lit={lit} waveAt={second ? hold : T.every} waveDur={second ? 10 : 16} pulseAt={second ? undefined : T.intact} />
     </Stage>
   );
 };
