@@ -97,7 +97,7 @@ const W = {
 
 /* ================================================================ cut points */
 const CUT_B = W.ssd; // FlashCut A → B on "SSD"
-const REVEAL = {at: W.under + 7, stagger: 6, dur: 16}; // the hard-drive face lifts off row by row; the last row is gone on "differently"
+const REVEAL = {at: W.under + 7, stagger: 6, dur: 18}; // the hard-drive face lifts off row by row; the last row is gone on "differently"
 const LIGHT_SWITCH = W.but10 + 8; // inside the fast push to the wall
 const HERO_AT = W.anSsd - 24; // B pushes into the SSD board's hero beat
 const SWAP = W.flash; // ssd-board_a → _d under a flash
@@ -149,7 +149,7 @@ const shotB = (f: number) => {
   const tag = toScreen(poseAt(f, CAM_AB), TAG_ANCHOR.x, TAG_ANCHOR.y);
   return (
     <Stage frame={f} env={{kind: 'archive', light}} cam={CAM_AB} hud={<SsdTag frame={f} at={CUT_B + 3} exitAt={W.but10 + 2} x={tag.x} y={Math.max(104, tag.y)} />}>
-      <WallReveal frame={f} {...REVEAL} light={light} events={B_EVENTS} />
+      <WallReveal frame={f} {...REVEAL} light={light} hddLight="warm" events={B_EVENTS} />
     </Stage>
   );
 };
@@ -265,8 +265,8 @@ const CAM_D: CamKey[] = [
   {f: TO, ...BOUNDARY},
 ];
 /** the two chips sit level on each side of the boundary, below the drawer's handle (dark ground; world anchors) */
-const NTFS_AT = {x: 372, y: 582};
-const DRIVES_AT = {x: 1010, y: 582};
+const NTFS_AT = {x: 372, y: 576};
+const DRIVES_AT = {x: 1010, y: 576};
 const shotD = (f: number) => {
   const A = {frame: f, state: 'SSD_DELETED' as const, events: D_EVENTS};
   const pose = poseAt(f, CAM_D);
@@ -287,8 +287,8 @@ const shotD = (f: number) => {
         <>
           <Label frame={f} at={W.stillFull + 2} exitAt={W.wants + 22} text="Still full" size={56} x={full.x - 40} y={full.y - 170} to={full} side="left" />
           <Label frame={f} at={W.trim + 1} exitAt={W.delete + 26} text="TRIM" size={56} x={nt.x + 48} y={nt.y - 40} to={nt} side="right" accent={PAL.emphasis} />
-          <VerdictChip frame={f} at={W.byDefault + 2} text="On NTFS, by default" x={ntfs.x} y={ntfs.y} exitAt={TO - 12} />
-          <VerdictChip frame={f} at={W.forDrives + 1} text="For drives that support it" x={drives.x} y={drives.y} exitAt={TO - 10} />
+          <VerdictChip frame={f} at={W.byDefault + 2} text="On NTFS, by default" x={ntfs.x} y={ntfs.y} size={40} exitAt={TO - 12} />
+          <VerdictChip frame={f} at={W.forDrives + 1} text="For drives that support it" x={drives.x} y={drives.y} size={40} exitAt={TO - 10} />
         </>
       }
     >
