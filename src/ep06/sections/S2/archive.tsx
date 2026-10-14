@@ -130,6 +130,35 @@ export const driveDiveScreen = (f: number) => {
   return toScreen(poseAt(f, D_CAM), p.x, p.y);
 };
 
+/**
+ * The photo's wipe for the kit PhotoBits dissolve (same diagonal wave, same grid), as a CSS clip on the load-gated
+ * PassportCard. Workaround: the kit's own wipe draws the image as an SVG <image>, which is not delayRender-gated and
+ * rendered a half-decoded sliver on the first dissolve frame (3101 in r2). Returns undefined (no clip) before `at`.
+ */
+const dissolveClip = (f: number, at: number, dur: number, r: {x: number; y: number; w: number; h: number}, cols: number, rows: number): string | undefined => {
+  if (f <= at) return undefined;
+  const front = Math.min(1, Math.max(0, (f - at) / dur)) / 0.6;
+  const cw = r.w / cols;
+  const ch = r.h / rows;
+  const pad = 80; // rim, sleeve edge and contact shadow outside the photo's rect
+  const parts: string[] = [];
+  for (let rw = 0; rw < rows; rw++) {
+    let c0 = cols;
+    for (let c = 0; c < cols; c++)
+      if ((c / cols + rw / rows) / 2 / 0.6 + 0.05 > front) {
+        c0 = c;
+        break;
+      }
+    if (c0 >= cols) continue;
+    const x0 = c0 === 0 ? r.x - pad : r.x + c0 * cw;
+    const y0 = rw === 0 ? r.y - pad : r.y + rw * ch;
+    const y1 = rw === rows - 1 ? r.y + r.h + pad : r.y + (rw + 1) * ch + 0.5;
+    const x1 = r.x + r.w + pad;
+    parts.push(`M${x0.toFixed(1)} ${y0.toFixed(1)}H${x1.toFixed(1)}V${y1.toFixed(1)}H${x0.toFixed(1)}Z`);
+  }
+  return parts.length ? `path('${parts.join('')}')` : `path('M0 0Z')`;
+};
+
 /* ---------------------------------------------------------------- E: the real wall: rows thunk in, clusters, the photo is too big, its bytes spread */
 const E_EVENTS: ArchiveEvent[] = [
   {at: K.zt4 + 4, op: 'build', target: 'wall', dur: 52},
@@ -185,20 +214,22 @@ export const archE = (f: number): React.ReactElement => {
     >
       <Archive {...A} />
       <BoxFlash frame={f} at={T.oneBox} id={24} until={T.soIts + 2} />
-      {f < T.soIts - 1 ? (
-        <PassportCard
-          frame={f}
-          variant="screen"
-          x={PH_X}
-          y={y}
-          w={PH_W}
-          enter={{kind: 'drop', at: T.yourPhoto - 2}}
-          rim={{color: PAL.structure, strength: 0.45}}
-          sweep={{at: [T.yourPhoto + 10], dur: 16}}
-          shadow={{opacity: 0.5, dy: 14}}
-        />
+      {f < T.soIts + 14 ? (
+        <div style={{position: 'absolute', left: 0, top: 0, width: 0, height: 0, overflow: 'visible', clipPath: dissolveClip(f, T.soIts, 14, sinkFrom, 10, 13)}}>
+          <PassportCard
+            frame={f}
+            variant="screen"
+            x={PH_X}
+            y={y}
+            w={PH_W}
+            enter={{kind: 'drop', at: T.yourPhoto - 2}}
+            rim={{color: PAL.structure, strength: 0.45}}
+            sweep={{at: [T.yourPhoto + 10], dur: 16}}
+            shadow={{opacity: 0.5, dy: 14}}
+          />
+        </div>
       ) : null}
-      {f >= T.soIts - 1 && f < T.soIts + 14 ? <PhotoBits frame={f} at={T.soIts} dur={14} mode="dissolve" from={sinkFrom} image="fictional-passport_b" grid={[10, 13]} /> : null}
+      {f >= T.soIts - 1 && f < T.soIts + 14 ? <PhotoBits frame={f} at={T.soIts} dur={14} mode="dissolve" from={sinkFrom} grid={[10, 13]} /> : null}
       <PhotoBits frame={f} at={T.soIts + 14} dur={30} mode="sink" from={sinkFrom} to={an.photo} grid={[10, 13]} />
     </Stage>
   );
