@@ -178,7 +178,7 @@ const towardDrawer = (u: number) => ({x: wide.x + (drw.x - wide.x) * u, y: wide.
 const E_CAM: CamKey[] = [
   {f: K.zt4, x: WALL_C.x, y: WALL_C.y, zoom: 1.5},
   {f: T.clusters - 4, x: WALL_C.x, y: 572, zoom: 1.6},
-  {f: T.yourPhoto + 20, x: PH_X - 14, y: 262, zoom: 2.0, dur: 40},
+  {f: T.yourPhoto + 30, x: PH_X - 14, y: 262, zoom: 2.0, dur: 34},
   {f: T.soIts + 6, x: PH_X - 8, y: 258, zoom: 2.08},
   {f: T.clusters2 - 14, ...wide, dur: 36},
   {f: T.to - 18, x: 956, y: 538, zoom: 1.005},
@@ -206,9 +206,9 @@ export const archE = (f: number): React.ReactElement => {
       shake={[{at: T.oneBox + 4, strength: 0.25}]}
       hud={
         <>
-          <Footnote frame={f} at={K.zt4 + 14} exitAt={T.yourPhoto - 2} text="Simplified: grid, not platter layout" />
-          <Label frame={f} at={T.clusters} exitAt={T.yourPhoto - 2} text="clusters" x={lab.x} y={lab.y} to={tgt[0]} side="right" size={72} />
-          <Leaders frame={f} at={T.clusters + 4} exitAt={T.yourPhoto - 2} from={{x: lab.x, y: lab.y}} to={[tgt[1], tgt[2]]} />
+          <Footnote frame={f} at={K.zt4 + 14} exitAt={T.yourPhoto - 2} text="Simplified: not the real disk layout" />
+          <Label frame={f} at={T.clusters - 3} exitAt={T.yourPhoto - 6} text="clusters" x={lab.x} y={lab.y} to={tgt[0]} side="right" size={72} screen />
+          <Leaders frame={f} at={T.clusters + 1} exitAt={T.yourPhoto - 6} from={{x: lab.x, y: lab.y}} to={[tgt[1], tgt[2]]} />
         </>
       }
     >

@@ -32,15 +32,19 @@ const BIN = {x: 872, y: 300, w: 236};                       // slot px
 - `CommandWindow {x y w h text='cipher /w:C:\' typeAt rate=0.5 chars/f prompt='C:\>' highlight='/w' highlightAt fontSize=40 enterAt exitAt scale}`.
 
 ## Props (render-based, through `<Prop>`)
-- `RecycleBin {…Prop, holdsPhoto flushAt restoreAt emptyHoverAt emptyUntil menuText='Empty Recycle Bin' menuSize=44 screen}`:
-  `recycle-folder_a`; the passport photo is composited into the card window (an empty bin shows the blank card). The menu is a chip
-  (`screen` in a zoomed Stage; inside the desk slot pass `screen={deskSlotScale(f, kb)}`). `recycleBinPoint(p, 'window'|'mouth'|'menu')`.
+- `RecycleBin {…Prop, holdsPhoto flushAt restoreAt emptyHoverAt emptyUntil menuText='Empty Recycle Bin' menuSide: right|left menuSize=44 screen}`:
+  `recycle-folder_a`. The render's baked card is cut out (evenodd hole) and redrawn as its own layer with the passport in its
+  window, so an empty bin shows a reconstructed lid face and dark interior (no card). holdsPhoto = the card drops in; flushAt =
+  it drops out through the bin behind the front wall (14 f) and the bin is empty; restoreAt = it lifts out. The bin applies
+  enter/exit/float/tilt to the whole assembly itself (registration stays exact). Menu = chip (`screen`; in the desk slot pass
+  `screen={deskSlotScale(f, kb)}`); `menuSide="left"` opens it left of the bin. `recycleBinPoint(p, 'window'|'mouth'|'menu'|'menuLeft')`.
 - `ScannerProp {…Prop, beam{at,until} scan{at,dur=36,every,until} beamTo{x,y,rx,ry} tray: none|unknown|photo|empty|partial trayAt fillDur=40 missing[{at,y0,y1}] copyBits}`:
   white beam lens → plate (or `beamTo`, parent px), sweep line, tray card standing in the tray (a separate unit, LED blinks while
   copying), cyan copy Bits plate → tray. `scannerAnchors(p)` → `lens beamOrigin plate tray trayCard trayCardTop scale`.
   `<ScannerProp frame={f} x={900} y={520} w={960} beam={{at: a}} scan={{at: a + 4, every: 40}} tray="photo" trayAt={a + 20} />`
-- `TrimNote {variant: render|envelope, x y w, at exitAt (envelope) | enter exit (render), path{pts, at, dur, stopAt} slot{x,y,h} numbers numberSize=20}`:
-  `trim-notice_b` (cyan stripe → magenta) or a code sleeve with a magenta tab; decor box numbers 021–023 · 058–060 · 098–100 (≤ 24 px).
+- `TrimNote {variant: render|envelope, x y w, at exitAt (envelope) | enter exit (render), path{pts, at, dur, stopAt} slot{x,y,h} numbers numberSize=20 wOnScreen}`:
+  `trim-notice_b` (cyan stripe → magenta) or a vector PAPER envelope (flap, magenta index tab, magenta seal, decor box numbers
+  021–023 · 058–060 · 098–100, ≤ 24 px); any `w` stays sharp; `wOnScreen` makes `w` on-screen px in a zoomed-out world (≥ 240 reads at a glance).
   `stopAt` (0..1 of the path) halts it with a recoil (the multi-drive-array beat). `trimNotePos(p, f)` → `{x, y, vx, vy, stopped, hit}`.
 - `KeyFixture {…Prop, part: all|key|base, slotAt slotTo{x,y,rot} pullAt shatterAt glow}`: `encryption-key_a` (LEDs → amber); the key
   is cut out as its own layer once it moves: slots into the groove beside the tiles (tiles glow amber), pulls out, shatters into
@@ -49,10 +53,13 @@ const BIN = {x: 872, y: 300, w: 236};                       // slot px
   `passportAnchors(p)` → `card photo` quads + `photoCenter` (where PhotoBits starts). `<FictionalNote frame at />` = "Fictional example".
 
 ## Text pieces (counter-scale with `screen` in zoomed stages)
-- `VerdictCard {at text accentWord exitAt y=855 x=960 size=72 chip{text,tone} screen}`: keyword ≥ 64 px, ≤ 12 words; the accent word is magenta.
+- `VerdictCard {at text accentWord accentTone: emphasis|loss exitAt y=855 x=960 size=72 chip{text,tone} screen}`: keyword ≥ 64 px,
+  ≤ 12 words; the accent word is magenta (`emphasis`, default) or coral (`loss`, e.g. "Nothing left for a recovery tool").
 - `VerdictChip {at text tone: kept|lost|neutral x y align exitAt size=44 screen}`: kept = ink/white dot, lost = coral, neutral = grey edge.
-- `QuoteStrip {at exitAt source quote | reported x y=928 (bottom edge) align maxWidth size=46 screen}`: quote = curly quotes + "— source"
-  (32 px); reported = "Source: text", never quotation marks; body ≤ 12 words; it is a strip, never a full-frame card.
+- `QuoteStrip {at exitAt source quote | reported sourceMode: lead|line sourceSize=34 x y=928 (bottom edge) align maxWidth size=46 screen}`:
+  body ≤ 12 words (label role); the source/attribution line is the FOOTNOTE role (32–36 px on screen, default 34; not counted).
+  quote = curly quotes + "— source" line; reported `lead` = "Source: text"; reported `line` = text alone (no quotation marks) +
+  "— source" line. Never quotation marks on reported speech; a strip, never a full-frame card.
   `<QuoteStrip frame={f} at={a} source="NIST, the US standards agency" quote="Overwriting typically hinders the recovery of data" />`
 - `KeyCap {keys at pressAt hold=8 stagger=4 exitAt size=52 flash screen}`: `['Shift', 'Delete']` presses Shift first, holds, then Delete.
 
@@ -65,7 +72,7 @@ const BIN = {x: 872, y: 300, w: 236};                       // slot px
 ## Measured regions (`UI_REGIONS`, native px of the 1254² renders; quads TL, TR, BR, BL)
 | render | region |
 |---|---|
-| recycle-folder_a | card 302,308 · 600,234 · 705,598 · 398,580; window 330,323 · 587,260 · 660,513 · 403,576 (≈ 265 px square); front-wall clip |
+| recycle-folder_a | card 300,308 · 605,232 · 705,594 · 401,677 (lower-left hidden by the front wall); window 330,323 · 587,260 · 660,513 · 403,576 (≈ 265 px square); front-wall edge; behind the card: lid edge 405,195 → back-left corner 476,387, rim → 690,455, left wall rim 261,495 → corner |
 | recovery-scanner_a | lens ellipse 530,365 r 140×46; beam origin 528,436; plate 400,550 · 718,632 · 593,762 · 275,680; tray rim 955,645 · 1230,715 · 1000,1050 · 695,950; tray card 842,520 · 1072,602 · 1072,912 · 842,830; cyan knobs ×4 → white |
 | trim-notice_b | cyan stripe 90,455–119,624 → magenta; magenta tab 830,1068–988,1092; front card face 222,384–1030,512 |
 | encryption-key_a | key polygon (22 pts, bbox 765,372–1222,684); tip 784,648; bow 1120,470; slot 900,960 (−7°); tiles 470,698 · 1010,835 · 760,1020 · 318,810; cyan LEDs ×2 → amber |
@@ -78,3 +85,6 @@ const BIN = {x: 872, y: 300, w: 236};                       // slot px
 - Don't use cyan for UI or props; the scanner's copy Bits are cyan because they ARE the photo's bytes.
 - Don't scale a render past 1.3× native; don't swap `imageSrc` to a render with a different framing without new regions.
 - Local wrappers (not kit edits): text checks reuse `useTextCheck`/`kitWarn` from `text.tsx`; nothing in look/Prop/text was changed.
+
+## Change log
+- Fix 1: RecycleBin truly empty + card drops out, `menuSide`; QuoteStrip source = footnote 34 px, `sourceMode`; VerdictCard `accentTone`; TrimNote paper envelope, `wOnScreen`.
