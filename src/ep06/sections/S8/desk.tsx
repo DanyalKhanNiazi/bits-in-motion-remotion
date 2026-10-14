@@ -34,9 +34,9 @@ import {SLOT_J} from './encrypt';
 const EXIT0 = T.to - 40;
 const EXIT1 = T.to - 4;
 
-/** the limit beat cuts away to the key (shot J) between these frames */
-export const J_IN = T.oneLimit + 17;
-export const J_OUT = T.windowsReads - 6;
+/** the limit beat cuts away to the key (J) and the unscrambling Archive (K) between these frames */
+const J_IN = CUT.keyJ;
+const J_OUT = CUT.reads;
 const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
   s: [
     [CUT.desk, 1.14],
@@ -82,7 +82,7 @@ export const deskKb = (f: number): KenBurns => {
 
 const SET_OPEN = T.manyNewer + 40;
 const SET_CLOSE = T.oneLimit + 2;
-const EX_IN = T.windowsReads - 10;
+const EX_IN = CUT.reads - 6;
 const SCAN_IN = T.wontStop - 14;
 
 /** the Settings window (slot px) */
@@ -116,8 +116,8 @@ export const ShotI: React.FC<{f: number}> = ({f}) => {
             <ScreenSlot rect={REGIONS.deskScreen}>
               <WinDesktop frame={f} w={DESK.slotW} h={DESK.slotH}>
                 <SettingsWin f={f} scale={sc} />
-                <ExplorerWindow frame={f} x={30} y={34} w={480} h={430} rows={2} selectAt={T.windowsReads} enterAt={EX_IN} exitAt={SCAN_IN - 4} scale={sc} />
-                <PhotoViewer frame={f} x={528} y={34} w={474} h={430} openAt={T.windowsReads + 8} />
+                <ExplorerWindow frame={f} x={30} y={34} w={480} h={430} rows={2} selectAt={CUT.reads + 2} enterAt={EX_IN} exitAt={SCAN_IN - 4} scale={sc} />
+                <PhotoViewer frame={f} x={528} y={34} w={474} h={430} openAt={CUT.reads + 8} />
                 {f >= SCAN_IN ? (
                   <ScannerProp
                     frame={f}
@@ -142,7 +142,7 @@ export const ShotI: React.FC<{f: number}> = ({f}) => {
       hud={
         <>
           <KineticText frame={f} at={T.checking + 2} exitAt={T.oneLimit - 2} text="Check whether yours is on" x={960} y={120} size={72} mode="rise" />
-          <KineticText frame={f} at={T.wontStop} exitAt={T.to - 12} text="Won't stop a recovery tool" x={960} y={118} size={76} mode="slam" />
+          <KineticText frame={f} at={T.wontStop} exitAt={T.to - 12} text="Won't stop a recovery tool" x={960} y={100} size={76} mode="slam" />
         </>
       }
     />

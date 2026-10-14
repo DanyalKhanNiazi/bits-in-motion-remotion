@@ -19,5 +19,6 @@
   {"frame": 14201, "kind": "crate", "strength": 0.7},
   {"frame": 14336, "kind": "pop", "strength": 0.4},
   {"frame": 14551, "kind": "crate", "strength": 0.5},
+  {"frame": 14561, "kind": "glitch", "strength": 0.4},
   {"frame": 14712, "kind": "whoosh", "strength": 0.4}
 ]

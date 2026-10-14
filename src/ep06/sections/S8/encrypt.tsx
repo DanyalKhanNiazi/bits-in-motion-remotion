@@ -294,3 +294,18 @@ export const ShotJ: React.FC<{f: number}> = ({f}) => (
     />
   </Stage>
 );
+
+/* ---------------------------------------------------------------- K: once the PC has started, the glyphs read as Bits again */
+const CAM_K: CamKey[] = [
+  {f: CUT.unscr - 2, ...LAY, zoom: LAY.zoom * 1.1},
+  {f: CUT.reads + 4, x: LAY.x - 70, y: LAY.y + 10, zoom: LAY.zoom * 1.2},
+];
+const K_EVENTS: ArchiveEvent[] = [
+  {at: T.started + 6, op: 'unscramble'},
+  {at: T.windowsReads - 2, op: 'readPulse', dur: 24},
+];
+export const ShotK: React.FC<{f: number}> = ({f}) => (
+  <Stage frame={f} env={{kind: 'archive', light: 'ssd'}} cam={CAM_K}>
+    <Archive frame={f} state="SSD_ENCRYPTED" events={K_EVENTS} />
+  </Stage>
+);

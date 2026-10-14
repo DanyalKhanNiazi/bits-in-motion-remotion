@@ -102,7 +102,7 @@ const W3 = {at: T.p17 - 2, dur: 12}; // whip left → the SSD
 const K = (f: number, p: Partial<Pose>, o: Partial<CamKey> = {}): CamKey => ({f, ...p, ...o});
 const SPLIT_CAM = archiveCam('split');
 const camL_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(ROLL.at + 24, {...SPLIT_CAM, zoom: 1.06, y: 262})];
-const camR_A: CamKey[] = [K(T.start - 30, {...SPLIT_CAM, x: SPLIT_CAM.x + 60}), K(T.better - 8, {x: 1440, y: 330, zoom: 1.2}, {dur: 50}), K(ROLL.at + 24, {x: 1470, y: 345, zoom: 1.28})];
+const camR_A: CamKey[] = [K(T.start - 30, {...SPLIT_CAM, x: SPLIT_CAM.x + 60}), K(T.better - 8, {x: 1530, y: 345, zoom: 1.3}, {dur: 50}), K(ROLL.at + 24, {x: 1550, y: 360, zoom: 1.36})];
 const EV_SHRED: ArchiveEvent[] = [{at: T.better - 6, op: 'sweep', target: 'photo', dur: 40}];
 const shredTargets: Pt[] = (() => {
   const an = archiveAnchors({frame: T.start, state: 'SSD_ERASED', lift: 1}, T.start);
@@ -118,7 +118,7 @@ const shotA = (f: number) => (
       render: (fr) => (
         <>
           <Archive frame={fr} state="SSD_ERASED" lift={1} events={EV_SHRED} />
-          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1650} bladeY={400} w={400} targets={shredTargets} />
+          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1650} bladeY={390} w={370} targets={shredTargets} />
         </>
       ),
     }}
