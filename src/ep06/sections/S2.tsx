@@ -3,7 +3,7 @@
  * drive and its clusters. HDD_SAVED. Plan: docs/ep06/plans/S2_plan.md. Every timing comes from the word clock in S2/t.ts.
  */
 import React from 'react';
-import {ZoomThrough} from '../kit';
+import {Whip, ZoomThrough} from '../kit';
 import {T, K} from './S2/t';
 import {binScreen, binShot, deskShot} from './S2/desk';
 import {archC, archCWallScreen, archE, driveDiveScreen, driveShot} from './S2/archive';
@@ -25,18 +25,12 @@ export const S2: React.FC<{frame: number}> = ({frame}) => {
     );
   }
   // "The real question": delete again → the bin on the stage, its menu, the cursor hovering
-  if (f < K.rw2) {
+  if (f < K.whip) {
     const c = binScreen(K.zt5);
     return <ZoomThrough frame={f} at={K.zt5} dur={16} cx={c.x} cy={c.y} a={deskShot} b={binShot} />;
   }
-  // "or skip it": a short rewind back to the row (the cut hides inside it), then Shift + Delete; the opener; the push in
-  if (f < K.zt2) {
-    return (
-      <TapeFx frame={f} at={K.rw2} dur={K.rw2Dur}>
-        {f < K.rw2Cut ? binShot(f) : deskShot(f)}
-      </TapeFx>
-    );
-  }
+  // "or skip it": a whip back to the folder (no rewind: that look belongs to "restore"), then Shift + Delete; the opener
+  if (f < K.zt2) return <Whip frame={f} at={K.whip} dur={K.whipDur} dir="right" a={binShot} b={deskShot} />;
   if (f < K.zt3) return <ZoomThrough frame={f} at={K.zt2} dur={16} a={deskShot} b={archC} />;
   if (f < K.zt4) {
     const c = archCWallScreen(K.zt3);

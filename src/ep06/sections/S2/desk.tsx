@@ -41,15 +41,19 @@ const LIN = T.from + 40;
 const DKEYS: DK[] = [
   {f: LIN, s: 1.72 + RATE * 40, cx: 516, cy: 273.5},
   {f: T.del, s: 1.8, cx: 508, cy: 272, ease: EASE.out},
-  {f: T.remove + 24, s: 2.2, cx: 650, cy: 290, dur: 52, ease: EASE.inOut},
-  {f: K.zt1 + 16, s: 2.42, cx: 690, cy: 296, ease: EASE.inExpo},
+  // "doesn't remove anything": lean in on the row that is still there
+  {f: T.remove + 20, s: 1.9, cx: 470, cy: 262, dur: 50, ease: EASE.inOut},
+  // "moves the photo into the recycle bin": follow the slide to the bin
+  {f: K.landed, s: 2.06, cx: 690, cy: 296, dur: K.fly1 + 4, ease: EASE.inOut},
+  {f: K.zt1 + 16, s: 2.42, cx: 700, cy: 300, ease: EASE.inExpo},
   // back from the stage, inside the rewind glitch
   {f: K.rwCut, s: 2.02, cx: 640, cy: 286},
   {f: K.restoreAct + 22, s: 1.86, cx: 540, cy: 276, ease: EASE.inOut},
   {f: T.real, s: 1.85, cx: 536, cy: 276},
   {f: K.zt5 + 16, s: 2.5, cx: 700, cy: 300, dur: 30, ease: EASE.inExpo},
-  {f: K.rw2Cut, s: 2.02, cx: 640, cy: 286},
-  {f: K.restore2Act + 20, s: 1.86, cx: 536, cy: 276, ease: EASE.inOut},
+  // the whip lands on the folder (the file still in its row)
+  {f: K.whip, s: 1.98, cx: 600, cy: 280},
+  {f: T.shift + 10, s: 1.86, cx: 536, cy: 276, ease: EASE.inOut},
   {f: K.shiftDelAct + 12, s: 1.92, cx: 520, cy: 272},
   {f: T.p4 + 40, s: 1.06, cx: 516, cy: 372, dur: 46, ease: EASE.inOut},
   {f: K.opener + 54, s: 1.1, cx: 516, cy: 360},
@@ -88,26 +92,33 @@ export const slotToScreen = (f: number, sx: number, sy: number): {x: number; y: 
 // S1's layout (the handoff at the cut): Explorer left, the bin right
 export const BIN = {x: 872, y: 300, w: 236};
 const EX_BASE = {x: 34, y: 30, w: 640, h: 452, fontSize: 36};
+/** the file row's top edge in slot px (ExplorerWindow geometry at fontSize 36: title 50 + address 78 + 16) */
+const ROW_Y = EX_BASE.y + 50 + 78 + 16;
 const explorer = (f: number, scale: number): ExplorerProps => ({
   frame: f,
   ...EX_BASE,
   selectAt: T.from - 40,
-  flyDur: K.flyDur,
+  // the first delete is the slow slide ("moves … into the recycle bin"); later flights are quick
+  flyDur: f < K.restoreAct ? K.fly1 : K.flyDur,
   flyTo: binFlyTo(BIN, 62),
-  actions: [
-    {at: K.delAct, kind: 'delete'},
-    {at: K.restoreAct, kind: 'restore'},
-    {at: K.del3Act, kind: 'delete'},
-    {at: K.restore2Act, kind: 'restore'},
-    {at: K.shiftDelAct, kind: 'shiftDelete'},
-  ],
+  // after the whip ("or skip it") the screen is the other path: the file was restored and is still in its row
+  actions:
+    f < K.whip
+      ? [
+          {at: K.delAct, kind: 'delete'},
+          {at: K.restoreAct, kind: 'restore'},
+          {at: K.del3Act, kind: 'delete'},
+        ]
+      : [
+          {at: K.delAct, kind: 'delete'},
+          {at: K.restoreAct, kind: 'restore'},
+          {at: K.shiftDelAct, kind: 'shiftDelete'},
+        ],
   scale,
 });
-/** the bin's photo life: first stay (restored by the rewind), then the second stay (hover, rewound again) */
+/** the bin's photo life: first stay (restored by the rewind), the second stay (hover), then empty (the Shift + Delete path) */
 const binCfg = (f: number): Partial<RecycleBinProps> =>
-  f < T.real - 6
-    ? {holdsPhoto: K.landed, restoreAt: K.restoreAct}
-    : {holdsPhoto: K.landed3, restoreAt: K.restore2Act};
+  f < T.real - 6 ? {holdsPhoto: K.landed, restoreAt: K.restoreAct} : f < K.whip ? {holdsPhoto: K.landed3} : {};
 const binLit = (f: number): {lit: number; wave: number} => {
   const c = binCfg(f);
   const h = c.holdsPhoto ?? 1e9;
@@ -123,6 +134,8 @@ const binQuad = (p: {x: number; y: number; w: number}) => {
 const ScreenContents: React.FC<{f: number; scale: number}> = ({f, scale}) => {
   const ex = explorer(f, scale);
   const trail = [3, 6, 9, 12].map((d) => explorerFlight(ex, f - d));
+  // "doesn't remove anything": the row (still listed, still selected) pulses once on "remove"
+  const pulse = f >= T.remove - 2 && f < K.delAct ? Math.exp(-(f - (T.remove - 2)) / 9) * prog(f, T.remove - 2, 3) : 0;
   const now = explorerFlight(ex, f);
   const bl = binLit(f);
   const q = binQuad(BIN);
@@ -132,6 +145,9 @@ const ScreenContents: React.FC<{f: number; scale: number}> = ({f, scale}) => {
       <CardBits frame={f} {...q} n={4} lit={bl.lit} waveAt={bl.wave} waveDur={10} inset={0.16} />
       <ExplorerWindow {...ex} />
       <svg width={1032} height={547} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+        {pulse > 0.01 ? (
+          <rect x={EX_BASE.x + 6 - 6 * pulse} y={ROW_Y - 6 * pulse} width={EX_BASE.w - 12 + 12 * pulse} height={84 + 12 * pulse} rx={10} fill={`rgba(255,255,255,${(0.06 * pulse).toFixed(3)})`} stroke={`rgba(255,255,255,${(0.75 * pulse).toFixed(3)})`} strokeWidth={2.5} />
+        ) : null}
         {trail.map((p, i) =>
           p && now ? <BitHead key={i} gid={`s2tr${i}`} x={p.x} y={p.y + 8} size={9 - i * 1.3} color={PAL.photo} glow={0.5} opacity={0.95 - i * 0.18} /> : null,
         )}
@@ -162,7 +178,7 @@ export const deskShot = (f: number): React.ReactElement => {
       env={{kind: 'photo', plate: 'reader-desk', kb, children: <ScreenSlot rect={REGIONS.deskScreen}><ScreenContents f={f} scale={scale} /></ScreenSlot>}}
       hud={
         <>
-          <KineticText frame={f} at={T.own} exitAt={K.zt1 - 14} text="On your PC's own drive" x={112} y={866} align="left" size={64} mode="rise" backing="plate" />
+          <KineticText frame={f} at={T.own} exitAt={T.moves} text="On your PC's own drive" x={112} y={866} align="left" size={64} mode="rise" backing="plate" />
           <KeyCap frame={f} keys={['Delete']} x={1584} y={834} at={T.pressing} pressAt={T.del} exitAt={T.del + 40} />
           <KeyCap frame={f} keys={['Delete']} x={1584} y={834} at={K.del3Press - 9} pressAt={K.del3Press} exitAt={K.del3Press + 30} />
           <KeyCap frame={f} keys={['Shift', 'Delete']} x={1440} y={834} at={T.skip + 16} pressAt={T.shift} stagger={T.del2 - T.shift} hold={8} exitAt={T.del2 + 32} />
@@ -187,24 +203,23 @@ const winC = (() => {
 })();
 const B_CAM: CamKey[] = [
   {f: K.zt1, x: winC.x + 10, y: winC.y + 30, zoom: 1.55},
-  {f: T.recycleBin, x: winC.x + 20, y: winC.y + 40, zoom: 1.46},
-  {f: T.holding + 8, x: 950, y: 560, zoom: 1.02, dur: 36},
-  {f: T.every - 2, x: 940, y: 548, zoom: 1.05},
-  {f: T.intact + 10, x: winC.x + 40, y: winC.y + 60, zoom: 1.28, dur: 32},
+  {f: T.holding + 26, x: 950, y: 560, zoom: 1.03, dur: 30},
+  {f: T.every + 4, x: 942, y: 550, zoom: 1.05},
+  {f: T.intact + 10, x: winC.x + 40, y: winC.y + 60, zoom: 1.28, dur: 28},
   {f: K.rwCut + 6, x: winC.x + 30, y: winC.y + 40, zoom: 1.36},
 ];
 // the second stay: the photo drops in, the "Empty Recycle Bin" menu, the cursor hovering (held breath)
 const B2_CAM: CamKey[] = [
   {f: K.zt5, x: winC.x + 20, y: winC.y + 40, zoom: 1.4},
   {f: K.emptyHover + 4, x: 1090, y: 560, zoom: 1.06, dur: 22},
-  {f: K.rw2Cut + 6, x: 1060, y: 548, zoom: 1.14, ease: 'linear'},
+  {f: K.whip + 6, x: 1060, y: 548, zoom: 1.14, ease: 'linear'},
 ];
 export const binShot = (f: number): React.ReactElement => {
   const q = binQuad(BIN_STAGE);
   const second = f >= K.zt5;
   const hold = second ? K.zt5 + 10 : 0;
-  const rest = second ? K.rw2 + 1 : K.rw1 + 1;
-  const off = 1 - prog(f, rest, 6);
+  const rest = second ? undefined : K.rw1 + 1;
+  const off = rest === undefined ? 1 : 1 - prog(f, rest, 6);
   const lit = second
     ? prog(f, hold, 6) * off
     : off * (0.7 + 0.3 * track(f, [[T.every - 1, 0], [T.every + 10, 1], [T.intact + 30, 0.4]]));
@@ -216,7 +231,6 @@ export const binShot = (f: number): React.ReactElement => {
         holdsPhoto={hold}
         restoreAt={rest}
         emptyHoverAt={second ? K.emptyHover : undefined}
-        emptyUntil={second ? K.rw2 + 1 : undefined}
         screen
         float={0}
         rim={{color: PAL.structure, strength: 0.5}}

@@ -14,6 +14,7 @@ export const T = {
   remove: s(3, 'remove anything'),
   moves: s(3, 'moves'),
   recycleBin: s(3, 'recycle bin'),
+  binWord: s(3, 'bin'),
   holding: s(3, 'holding folder'),
   every: s(3, 'every byte'),
   intact: s(3, 'intact'),
@@ -62,11 +63,13 @@ export const T = {
 const FLY = 18;
 export const K = {
   flyDur: FLY,
-  // A: the first delete (the thumbnail lands in the bin 1 + FLY frames after the action)
-  delAct: T.del + 1,
-  landed: T.del + 2 + FLY,
-  zt1: T.moves - 10, // ZoomThrough: the bin on the monitor → the bin on the hardware stage
-  // B → rewind 1 → the screen (the photo flies back to its row on "restore")
+  // A: Delete is pressed and NOTHING leaves ("doesn't remove anything"); on "moves" the photo slides to the bin and
+  // lands on "bin" (a slow move, Bits attached)
+  delAct: T.moves + 1,
+  fly1: T.binWord - (T.moves + 1) - 1,
+  landed: T.binWord,
+  zt1: T.binWord + 5, // ZoomThrough: the bin on the monitor → the bin on the hardware stage ("a holding folder")
+  // B → rewind (the only rewind: "restore") → the screen (the photo flies back to its row)
   rw1: T.thats + 3,
   rwCut: T.thats + 9,
   rw1Dur: T.restore + 12 - (T.thats + 3),
@@ -77,11 +80,9 @@ export const K = {
   landed3: T.real + 4 + FLY,
   zt5: T.real + 4 + FLY - 4, // ZoomThrough into the bin again as the photo lands (the bin on the stage: its menu fits)
   emptyHover: T.empty - 8,
-  // "or skip it": rewind 2 (cut back to the screen inside it; the photo flies back to its row), then Shift + Delete
-  rw2: T.skip,
-  rw2Dur: 17,
-  rw2Cut: T.skip + 6,
-  restore2Act: T.skip + 6,
+  // "or skip it": a whip back to the folder (the other path: the file is still in its row, the bin empty), Shift + Delete
+  whip: T.skip,
+  whipDur: 12,
   shiftDelAct: T.del2 + 1,
   // pull back, the opener, push into the screen
   opener: T.picture - 20,

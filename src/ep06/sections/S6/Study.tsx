@@ -41,7 +41,11 @@ const F = {x0: 84, y0: 196, x1: 1852, y1: 884};
 /** the array beat lives to the right of the study (world x offset) */
 const OX = 2200;
 const CAGE = {x0: OX + 1080, y0: 330, x1: OX + 1680, y1: 790};
-const NOTE = {x: OX + 420, y: 560, w: 230};
+const NOTE = {x: OX + 560, y: 560, w: 230};
+/** the array set's framing: note on the left, the array filling the right (lands as the pan ends) */
+const AX = OX + 1000;
+const AY = 560;
+const AZ = 1.16;
 const NOTE_STOP_X = CAGE.x0 + 26 - NOTE.w / 2 - 6;
 const PATH_DUR = 70;
 const NOTE_PATH = {pts: [{x: NOTE.x, y: NOTE.y}, {x: OX + 1500, y: NOTE.y}], at: 0, dur: PATH_DUR, stopAt: 0};
@@ -53,7 +57,9 @@ const NOTE_PATH = {pts: [{x: NOTE.x, y: NOTE.y}, {x: OX + 1500, y: NOTE.y}], at:
 const HIT = T.never;
 
 /* ---------------------------------------------------------------- timing */
-const MULT = T.drive1; // one drive → 16
+/** the drive comes out of the zoom at hero size and multiplies at once; the 16 land as "drive" (9084) is spoken */
+const MULT = T.depends + 5;
+const HERO_S = 3.1;
 const RISE = 9268; // the title shrinks into the tag, the row rises (between "SSDs" and "With trim off")
 const SCAN1 = T.trimOff + 3; // the recovery scan crosses the TRIM off row
 const COPY = T.trimOn - 2; // the row copies down
@@ -64,8 +70,10 @@ const PULL = T.drivesChanged;
 const PRINT = T.soTreat;
 const STAMP = T.snapshot;
 const PAN = T.andTrim;
-const CAGE_IN = T.someSetups;
-const CAGE_RISE = T.andTrim + 34;
+/** the note launches from the frame's left edge on "trim" */
+const NOTE_IN = T.trim2;
+/** "Some setups": the array's front gate drops into place (the drives behind stay lit) */
+const GATE = T.someSetups;
 const WHIP = T.to - 6;
 
 export const STUDY_CAM: CamKey[] = [
@@ -75,10 +83,10 @@ export const STUDY_CAM: CamKey[] = [
   {f: PULL, x: 1320, y: 645, zoom: 1.62, ease: 'linear'},
   {f: PULL + 36, x: 960, y: 540, zoom: 1.0},
   {f: PAN, x: 960, y: 540, zoom: 0.98, ease: 'linear'},
-  {f: PAN + 28, x: 960 + OX, y: 540, zoom: 1.0},
-  {f: WHIP, x: 960 + OX + 24, y: 540, zoom: 1.03, ease: 'linear'},
-  {f: T.to, x: 960 + OX + 1500, y: 540, zoom: 1.03, ease: 'inExpo'},
-  {f: T.to + 40, x: 960 + OX + 1800, y: 540, zoom: 1.03, ease: 'out'},
+  {f: PAN + 28, x: AX, y: AY, zoom: AZ},
+  {f: WHIP, x: AX + 24, y: AY, zoom: AZ * 1.05, ease: 'linear'},
+  {f: T.to, x: AX + 1500, y: AY, zoom: AZ * 1.05, ease: 'inExpo'},
+  {f: T.to + 40, x: AX + 1800, y: AY, zoom: AZ * 1.05, ease: 'out'},
 ];
 
 /* ---------------------------------------------------------------- the 16-drive row */
@@ -87,12 +95,11 @@ const rowTiles = (f: number): TileSpec[] => {
   // multiply: before MULT one big drive at centre; then each flies to its slot (centre ones first)
   const order = Array.from({length: N}, (_, i) => i).sort((a, b) => Math.abs(a - 7.5) - Math.abs(b - 7.5));
   const rank = (i: number) => order.indexOf(i);
-  const grow = springAt(f, T.depends + 8, SPRING.pop);
   const r = EASE.inOut(prog(f, RISE, 20));
   for (let i = 0; i < N; i++) {
-    const sp = f < MULT ? 0 : springAt(f, MULT + rank(i) * 1.2, SPRING.snap);
+    const sp = f < MULT ? 0 : springAt(f, MULT + rank(i) * 1.1, SPRING.snap);
     if (f < MULT && i > 0) continue;
-    const bigS = lerp(2.0, 2.6, grow);
+    const bigS = HERO_S;
     const slotX = lerp(960 + (i - 7.5) * 104, cx(i), r);
     const slotS = lerp(1.22, 1, r);
     const x = lerp(960, slotX, sp);
@@ -155,22 +162,23 @@ const OTHER_N = [12, 9, 14, 10];
 const arrayTiles = (f: number): TileSpec[] => {
   const breathe = 0.82 + 0.18 * Math.sin((2 * Math.PI * f) / 90);
   return ARRAY_X.map((x, i) => {
-    const d = springAt(f, CAGE_IN + i * 3, SPRING.snap);
+    // "Some setups": a status ripple through the bays as the gate lands
+    const blink = f >= GATE + 4 + i * 3 ? Math.exp(-(f - GATE - 4 - i * 3) / 7) : 0;
     return {
       cx: x,
-      cy: 575 - (1 - d) * 120,
+      cy: 575,
       s: 1.18,
-      op: clamp01(d * 2),
       lit: OTHER_N[i],
       extra: PHOTO_CELLS[i].map((k) => ({k, color: PAL.photo, a: breathe})),
-      chip: 0.25,
+      chip: 0.25 + 0.6 * blink,
     };
   });
 };
 
 /* ---------------------------------------------------------------- scene */
 export const Study: React.FC<{frame: number}> = ({frame: f}) => {
-  const pose = poseAt(f, STUDY_CAM, 0.6, [{at: STAMP, strength: 0.5}, {at: HIT, strength: 0.6}]);
+  const SHAKE = [{at: STAMP, strength: 0.5}, {at: GATE + 6, strength: 0.25}, {at: HIT, strength: 0.6}];
+  const pose = poseAt(f, STUDY_CAM, 0.6, SHAKE);
   const z = pose.zoom;
   const inv = 1 / z;
   // snapshot print: tilt + paper border
@@ -190,7 +198,7 @@ export const Study: React.FC<{frame: number}> = ({frame: f}) => {
   const groupT = `translate(960px, 540px) rotate(${tilt}deg) scale(${shrink}) translate(-960px, -540px)`;
   const hud = <StudyHud f={f} pose={pose} />;
   return (
-    <Stage frame={f} env={{kind: 'stage', spot: 960, floor: 860, warm: 0.25, parallax: 0.18}} cam={STUDY_CAM} drift={0.6} shake={[{at: STAMP, strength: 0.5}, {at: HIT, strength: 0.6}]} hud={hud}>
+    <Stage frame={f} env={{kind: 'stage', spot: 960, floor: 860, warm: 0.25, parallax: 0.18}} cam={STUDY_CAM} drift={0.6} shake={SHAKE} hud={hud}>
       {/* the study (a photo print once it becomes a snapshot) */}
       <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transform: groupT, transformOrigin: '0 0'}}>
         {pr > 0.01 ? (
@@ -262,7 +270,7 @@ export const Study: React.FC<{frame: number}> = ({frame: f}) => {
         <Stamp f={f} inv={inv} />
       </div>
       {/* the array beat */}
-      {f >= PAN - 4 ? <ArrayScene f={f} /> : null}
+      {f >= PAN - 4 ? <ArrayScene f={f} pose={pose} /> : null}
     </Stage>
   );
 };
@@ -287,7 +295,7 @@ const BandLabel: React.FC<{f: number; inv: number}> = ({f, inv}) => {
   const text = 'At most about a quarter';
   checkText('label', size, true, {zoom: 1, rot: 0, space: 'screen'}, text);
   const e = prog(f, BAND, 12, EASE.outExpo);
-  const ex = prog(f, STAMP - 6, 8, EASE.inCubic);
+  const ex = prog(f, STAMP - 16, 8, EASE.inCubic);
   if (ex >= 1) return null;
   const w = textWidth(text, size, 700) + 96;
   return (
@@ -415,6 +423,18 @@ const Title: React.FC<{f: number; pose: {x: number; y: number; zoom: number; rot
   );
 };
 
+/** "Depends on who made" + "the chip", laid out as one centred line */
+const CAP = (() => {
+  const size = 60;
+  const a = 'Depends on who made';
+  const b = 'the chip';
+  const gap = 0.26 * size;
+  const w1 = textWidth(a, size, 700);
+  const W = w1 + gap + textWidth(b, size, 700);
+  const x1 = 960 - W / 2;
+  return {size, a, b, x1, x2: x1 + w1 + gap};
+})();
+
 const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; rot: number}}> = ({f, pose}) => {
   // the array label leader points at the cage's top-left corner
   const cageTL = toScreen(pose, CAGE.x0 + 60, CAGE.y0 + 4);
@@ -424,7 +444,8 @@ const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; 
   return (
     <>
       <Title f={f} pose={pose} />
-      <KineticText frame={f} at={T.depending} text="Depends on who made the chip" x={960} y={300} size={60} weight={700} mode="rise" exitAt={PULL + 8} />
+      <KineticText frame={f} at={T.depending} text={CAP.a} x={CAP.x1} y={300} align="left" size={CAP.size} weight={700} mode="rise" stagger={7} exitAt={PULL + 8} />
+      <KineticText frame={f} at={T.chip} text={CAP.b} x={CAP.x2} y={300} align="left" size={CAP.size} weight={700} mode="slam" accent={PAL.drive} exitAt={PULL + 8} />
       <Footnote frame={f} at={T.nearlyAll} exitAt={PAN + 4} text="Illustrative spread, not per-drive data" y={1010} />
       <Label frame={f} at={T.certain} text="Certain multi-drive arrays" x={cageTL.x - 40} y={cageTL.y - 96} to={cageTL} side="right" size={52} exitAt={T.to + 4} />
       {whipA > 0.01 ? (
@@ -452,14 +473,19 @@ const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; 
 };
 
 /* ---------------------------------------------------------------- the array scene (world, right of the study) */
-const ArrayScene: React.FC<{f: number}> = ({f}) => {
-  const up = springAt(f, CAGE_RISE, SPRING.heavy);
-  const cageOp = clamp01(up * 1.6);
-  const dy = (1 - up) * 160;
-  // the note glides in from the left, hovers, then (kit path) slams into the gate and recoils
-  const glide = EASE.out(prog(f, T.andTrim + 6, 30));
-  const noteDX = (1 - glide) * -520;
-  const guide = prog(f, T.andTrim + 40, 24, EASE.out) * (1 - prog(f, HIT - 6, 6));
+const ArrayScene: React.FC<{f: number; pose: {x: number; y: number; zoom: number; rot: number}}> = ({f, pose}) => {
+  // the array set is already standing when the pan lands
+  const cageOp = 1;
+  const dy = 0;
+  // the gate drops into place on "Some setups"
+  const g = springAt(f, GATE, SPRING.heavy);
+  const gateY = -(1 - g) * 640;
+  const gateOp = clamp01(g * 3);
+  // the note slides in from the frame's left edge on "trim" (screen-relative, so it reads even while the pan lands)
+  const glide = EASE.out(prog(f, NOTE_IN, 30));
+  const startX = pose.x + (-260 - 960) / pose.zoom;
+  const noteDX = (1 - glide) * (startX - NOTE.x);
+  const guide = prog(f, NOTE_IN + 30, 24, EASE.out) * (1 - prog(f, HIT - 6, 6));
   const hit = f >= HIT ? f - HIT : -1;
   const ring = hit >= 0 && hit < 18 ? hit / 18 : -1;
   const gateFlash = hit >= 0 ? Math.exp(-hit / 6) : 0;
@@ -499,16 +525,16 @@ const ArrayScene: React.FC<{f: number}> = ({f}) => {
         </svg>
       ) : null}
       {/* the gate: the array's front panel that never passes the note on */}
-      {cageOp > 0.01 ? (
+      {gateOp > 0.01 ? (
         <div
           style={{
             position: 'absolute',
             left: CAGE.x0 - 4,
-            top: CAGE.y0 + dy - 10,
+            top: CAGE.y0 + dy - 10 + gateY,
             width: 58,
             height: H + 20,
             borderRadius: 14,
-            opacity: cageOp,
+            opacity: gateOp,
             background: `linear-gradient(90deg, #5E6E86, #36445A 40%, #1D2636)`,
             border: `2px solid ${rgba(gateFlash > 0.05 ? PAL.loss : PAL.structure, 0.6 + 0.4 * gateFlash)}`,
             boxShadow: `0 0 ${50 * gateFlash}px ${rgba(PAL.loss, 0.7 * gateFlash)}, inset 0 2px 0 rgba(255,255,255,0.3)`,
@@ -525,10 +551,10 @@ const ArrayScene: React.FC<{f: number}> = ({f}) => {
         </svg>
       ) : null}
       <div style={{position: 'absolute', left: noteDX, top: 0, width: 0, height: 0}}>
-        <TrimNote frame={f} variant="envelope" x={NOTE.x} y={NOTE.y} w={NOTE.w} at={T.andTrim + 4} path={NOTE_PATH} float={4} numberSize={18} />
+        <TrimNote frame={f} variant="envelope" x={NOTE.x} y={NOTE.y} w={NOTE.w} at={NOTE_IN} path={NOTE_PATH} float={4} numberSize={18} />
       </div>
     </>
   );
 };
 
-export const STUDY_SPANS = {MULT, RISE, SCAN1, COPY, SWEEP, BAND, PUSH0, PULL, PRINT, STAMP, PAN, CAGE_IN, HIT, WHIP, CELLS, TILE};
+export const STUDY_SPANS = {MULT, RISE, SCAN1, COPY, SWEEP, BAND, PUSH0, PULL, PRINT, STAMP, PAN, NOTE_IN, GATE, HIT, WHIP, CELLS, TILE};
