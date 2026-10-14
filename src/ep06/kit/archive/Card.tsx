@@ -76,9 +76,23 @@ const R = (b: readonly number[], rx: number, fill: string, extra?: React.SVGProp
   <rect x={b[0]} y={b[1]} width={b[2] - b[0]} height={b[3] - b[1]} rx={rx} fill={fill} {...extra} />
 );
 
-/** a hand-drawn scratch across the name field, drawn over 10 f (pathLength-normalised) */
-const SCRATCH = 'M 136 470 C 230 440, 330 466, 430 446 S 600 452, 668 432';
-const SCRATCH2 = 'M 150 452 C 260 468, 380 436, 470 458 S 610 440, 660 456';
+/** the strike: one bold, clean coral scratch fully across the name field (quadratic, so its head is analytic) */
+const SC = {a: [124, 474], c: [400, 448], b: [684, 432]} as const;
+const SCRATCH = `M ${SC.a[0]} ${SC.a[1]} Q ${SC.c[0]} ${SC.c[1]} ${SC.b[0]} ${SC.b[1]}`;
+const SCRATCH2 = 'M 150 486 Q 410 466 662 452';
+const scratchAt = (t: number): [number, number] => {
+  const u = 1 - t;
+  return [u * u * SC.a[0] + 2 * u * t * SC.c[0] + t * t * SC.b[0], u * u * SC.a[1] + 2 * u * t * SC.c[1] + t * t * SC.b[1]];
+};
+const SPARKS = [
+  [-150, 0.9],
+  [-115, 0.7],
+  [-80, 1],
+  [-40, 0.6],
+  [20, 0.8],
+  [60, 0.55],
+  [110, 0.75],
+] as const;
 const SCRIBBLE = 'M 290 420 L 330 492 L 360 414 L 392 494 L 424 416 L 454 494 L 488 414 L 518 492 L 550 418 L 582 490 L 612 420 L 640 486';
 
 /**
@@ -222,12 +236,38 @@ export const CardFace: React.FC<{
               );
             })
           )}
-          {/* struck: an 8 px (on screen) coral scratch across the name, drawn over 10 f, a second pass after */}
+          {/* struck: a bold coral scratch fully across the name (24 native px ≈ 14 px on screen at signature, 25 at card),
+              scratching on over 10 f with sparks at its head; the name stays half-legible beneath */}
           {strike > 0 ? (
             <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path d={SCRATCH} stroke={PAL.lossDeep} strokeWidth={8 / k + 6} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike} opacity={0.45} transform="translate(4 6)" />
-              <path d={SCRATCH} stroke={PAL.loss} strokeWidth={8 / k} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike} />
-              <path d={SCRATCH2} stroke={PAL.loss} strokeWidth={5 / k} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike2} opacity={0.85} />
+              <path d={SCRATCH} stroke={PAL.lossDeep} strokeWidth={30} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike} opacity={0.35} transform="translate(3 7)" />
+              <path d={SCRATCH} stroke={PAL.loss} strokeWidth={24} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike} opacity={0.9} />
+              <path d={SCRATCH} stroke="#FFB4A8" strokeWidth={5} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike} opacity={0.55} transform="translate(0 -6)" />
+              <path d={SCRATCH2} stroke={PAL.loss} strokeWidth={8} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - strike2} opacity={0.7} />
+              {(() => {
+                const st = t.strike ?? NEVER;
+                const age = f - st;
+                if (age < 0 || age > 14) return null;
+                const [hx, hy] = scratchAt(clamp01(age / 10));
+                const fade = 1 - age / 14;
+                return SPARKS.map(([ang, len], i) => {
+                  const a = ((ang + age * 7) * Math.PI) / 180;
+                  const r0 = 14 + age * 5;
+                  const L = 26 + 34 * len;
+                  return (
+                    <line
+                      key={i}
+                      x1={hx + Math.cos(a) * r0}
+                      y1={hy + Math.sin(a) * r0}
+                      x2={hx + Math.cos(a) * (r0 + L)}
+                      y2={hy + Math.sin(a) * (r0 + L)}
+                      stroke={i % 2 ? '#FFFFFF' : PAL.loss}
+                      strokeWidth={6}
+                      opacity={fade}
+                    />
+                  );
+                });
+              })()}
             </g>
           ) : null}
           {/* reused: a grey scribble over the name, nothing readable */}

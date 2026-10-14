@@ -42,7 +42,27 @@ export type ArchiveViewProps = {
   lift?: Num;
   /** orbit override in degrees (e.g. P18's coin flip: 0 → 180; past 90° the other face shows, unmirrored) */
   orbit?: Num;
+  /** optional 2.5D: tilt the wall in true perspective (deg; numbers or tracks), about the wall's centre. Default flat. */
+  tilt?: Tilt;
 };
+export type Tilt = {x?: Num; y?: Num; perspective?: number};
+export type TiltNow = {ax: number; ay: number; P: number};
+export const tiltAt = (t: Tilt | undefined, frame: number): TiltNow => ({ax: num(t?.x, frame, 0), ay: num(t?.y, frame, 0), P: t?.perspective ?? 1800});
+/** a wall point (world px) seen through the tilt (CSS perspective(P) rotateX(ax) rotateY(ay) about the wall centre) */
+export const tiltPoint = (t: TiltNow, x: number, y: number): {x: number; y: number} => {
+  if (!t.ax && !t.ay) return {x, y};
+  const ay = (t.ay * Math.PI) / 180;
+  const ax = (t.ax * Math.PI) / 180;
+  const dx = x - PIVOT.x;
+  const dy = y - PIVOT.y;
+  const x1 = dx * Math.cos(ay);
+  const z1 = -dx * Math.sin(ay);
+  const y2 = dy * Math.cos(ax) - z1 * Math.sin(ax);
+  const z2 = dy * Math.sin(ax) + z1 * Math.cos(ax);
+  const w = 1 - z2 / t.P;
+  return {x: PIVOT.x + x1 / w, y: PIVOT.y + y2 / w};
+};
+export const tiltCss = (t: TiltNow): string | undefined => (!t.ax && !t.ay ? undefined : `perspective(${t.P}px) rotateX(${t.ax}deg) rotateY(${t.ay}deg)`);
 
 /** split progress, orbit, elevation and layer depths at a frame */
 export const viewAt = (R: Resolved, p: ArchiveViewProps, frame: number): {v: LayerView; back: number[]; front: number[]; face: 1 | 2} => {
@@ -106,7 +126,7 @@ const fr = (x0: number, y0: number, x1: number, y1: number, fill = 0.86): Pose =
  *   map         the map of taken boxes
  *   boundary    Windows' side | drive's side with the note slot
  *   layers      the SSD split layers (label sheet in front, spots + spare behind)
- *   split       lifted card + wall, no drawer (inside a SplitCompare panel)
+ *   split       the card + the photo's 3 runs, no drawer (inside a SplitCompare panel; keep lift 0)
  *   signature   the lifted card huge in the foreground, threads down to the lit wall
  *   pullout     wider than wide: the wall runs off into haze on every side
  */
@@ -158,7 +178,8 @@ export const archiveCam = (framing: Framing, opts: {run?: number; lift?: number;
       return fr(Math.min(...xs) - 40, Math.min(...ys) - 60, Math.max(...xs) + 40, Math.max(...ys) + 60, 0.92);
     }
     case 'split':
-      return {x: 1180, y: 250, zoom: 1.0, rot: 0};
+      // the card (at rest; panels hide the drawer and map) + the photo's 3 runs: every photo box ≥ 40 px in a panel
+      return {x: 880, y: 470, zoom: 1.25, rot: 0};
     case 'signature':
       return {x: 1210, y: 236, zoom: 0.95, rot: 0};
     case 'pullout':
@@ -211,12 +232,12 @@ export const archiveAnchors = (p: ArchiveViewProps, frame: number, pose?: Pose &
   const labelM = v.s > 0 ? front : back;
   const box = (id: number): Pt => {
     const q = boxC(id);
-    return applyM(labelM, q.x, q.y);
+    return tiltPoint(T, applyM(labelM, q.x, q.y).x, applyM(labelM, q.x, q.y).y);
   };
   const spotPos = (sidx: number, id: number): Pt => {
     const a = boxC(id);
     const b = spotXY(sidx);
-    return applyM(back, lerp(a.x, b.x + BOX / 2, s2), lerp(a.y, b.y + BOX / 2, s2));
+    return tp(applyM(back, lerp(a.x, b.x + BOX / 2, s2), lerp(a.y, b.y + BOX / 2, s2)));
   };
   const spot = (id: number): Pt => {
     const l = R.labs[id];
@@ -226,6 +247,8 @@ export const archiveAnchors = (p: ArchiveViewProps, frame: number, pose?: Pose &
   };
   const mc = (id: number): Pt => ({x: GEOM.map.x + colOf(id) * GEOM.map.pitch + GEOM.map.cell / 2, y: GEOM.map.y + rowOf(id) * GEOM.map.pitch + GEOM.map.cell / 2});
   const zoom = (pose?.zoom ?? 1) * (pose?.scale ?? 1);
+  const T = tiltAt(p.tilt, frame);
+  const tp = (q: Pt): Pt => tiltPoint(T, q.x, q.y);
   const L = CARD.fields;
   return {
     card: {x: c.x, y: c.y},
@@ -245,15 +268,15 @@ export const archiveAnchors = (p: ArchiveViewProps, frame: number, pose?: Pose &
     stale: PHOTO.map((id) => spotPos(SSD_MAP[id], id)),
     header: (() => {
       const q = boxXY(21);
-      return applyM(labelM, q.x + BOX / 2, q.y + 6);
+      return tp(applyM(labelM, q.x + BOX / 2, q.y + 6));
     })(),
     map: {x: (GEOM.map.plate.x0 + GEOM.map.plate.x1) / 2, y: (GEOM.map.plate.y0 + GEOM.map.plate.y1) / 2},
     mapCell: mc,
     slot: {x: GEOM.boundary.x, y: GEOM.boundary.slotY},
     actor: {x: GEOM.actor.x, y: GEOM.actor.y},
-    spare: applyM(back, GEOM.spare.x + PITCH - 4, GEOM.wall.y + GEOM.wall.h / 2),
-    platter: {x: GEOM.platter.x, y: GEOM.platter.y},
-    pxPerBox: BOX * zoom * Math.abs(Math.cos((v.theta * Math.PI) / 180)),
+    spare: tp(applyM(back, GEOM.spare.x + PITCH - 4, GEOM.wall.y + GEOM.wall.h / 2)),
+    platter: tp({x: GEOM.platter.x, y: GEOM.platter.y}),
+    pxPerBox: BOX * zoom * Math.abs(Math.cos((v.theta * Math.PI) / 180)) * Math.cos((T.ay * Math.PI) / 180),
     lift: c.u,
     face,
   };

@@ -43,7 +43,7 @@ import {
   wallRenderRect,
 } from './geom';
 import {NEVER, resolveArchive, type Content, type Lab, type Resolved} from './state';
-import {applyM, cardPose, isIdentity, mCss, viewAt, type ArchiveViewProps} from './view';
+import {applyM, cardPose, isIdentity, mCss, tiltAt, tiltCss, tiltPoint, viewAt, PIVOT, type ArchiveViewProps} from './view';
 
 export type ArchiveProps = ArchiveViewProps & {
   /** the wall flips from the other mode into `mode`, column by column (P10 "the storage wall works very differently") */
@@ -65,16 +65,32 @@ const BIT_XY: Array<[number, number]> = [
   [20, 25],
   [34, 25],
 ];
-const BITS_D = BIT_XY.map(([x, y]) => rr(x, y, 10, 10, 2)).join('');
-const CORES_D = BIT_XY.map(([x, y]) => rr(x + 3, y + 3, 4, 4, 1)).join('');
+/** figure–ground: the photo's Bits are big (≈ 70 % of the box) and emissive; other files' Bits small, neutral, dim */
+const PB_XY: Array<[number, number]> = [
+  [11, 3],
+  [34, 3],
+  [11, 26],
+  [34, 26],
+];
+const PHOTO_BITS_D = PB_XY.map(([x, y]) => rr(x, y, 19, 19, 3.5)).join('');
+const PHOTO_CORES_D = PB_XY.map(([x, y]) => rr(x + 5.5, y + 5.5, 8, 8, 2)).join('');
+const SB_XY: Array<[number, number]> = [
+  [22, 12],
+  [34, 12],
+  [22, 24],
+  [34, 24],
+];
+const SMALL_BITS_D = SB_XY.map(([x, y]) => rr(x, y, 8, 8, 1.6)).join('');
+const OTHER_C = '#8E949E';
+const OLD_C = '#5A606A';
 const r1 = (v: number) => Math.round(v * 10) / 10;
 /** the 4 Bits (and cores) of a box at (x, y), as absolute path data, so many boxes share ONE path */
-const bitsAt = (x: number, y: number) => BIT_XY.map(([bx, by]) => rr(r1(x + bx), r1(y + by), 10, 10, 2)).join('');
-const coresAt = (x: number, y: number) => BIT_XY.map(([bx, by]) => rr(r1(x + bx + 3), r1(y + by + 3), 4, 4, 1)).join('');
+const bitsAt = (x: number, y: number) => SB_XY.map(([bx, by]) => rr(r1(x + bx), r1(y + by), 8, 8, 1.6)).join('');
+const coresAt = (_x: number, _y: number) => '';
 const PLATE_D = 'M2 40H21Q22 40 22.6 41L25.4 45.6Q26 46.6 27 46.6H37Q38 46.6 38.6 45.6L41.4 41Q42 40 43 40H62V62.6H2Z';
 const PLATE_TOP = 'M2.6 40.7H21.2L24.6 46.3Q25.6 47.3 27 47.3H37Q38.4 47.3 39.4 46.3L42.8 40.7H61.4';
 const GLYPHS = '#%&@$?*+=<>/{}[]~^ABDEFGHKMNPRSTVXYZ0123456789';
-const BIT_CENTER = {x: 32, y: 23};
+const BIT_CENTER = {x: 32, y: 24};
 
 type Ctx = {f: number; p: string; R: Resolved; zoom: number};
 
@@ -83,22 +99,27 @@ const Defs: React.FC<{p: string; light: (typeof ARCHIVE_LIGHT)[keyof typeof ARCH
   <defs>
     <CardDefs p={p} />
     <linearGradient id={`${p}-rail`} x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stopColor={PAL.steel} />
-      <stop offset="0.05" stopColor={PAL.steelLo} />
-      <stop offset="0.07" stopColor={PAL.steel} />
-      <stop offset="0.92" stopColor={PAL.steel} />
-      <stop offset="0.94" stopColor={PAL.steelHi} />
-      <stop offset="1" stopColor={PAL.steel} />
+      <stop offset="0" stopColor="#323F4E" />
+      <stop offset="0.05" stopColor="#1A2330" />
+      <stop offset="0.07" stopColor="#323F4E" />
+      <stop offset="0.92" stopColor="#323F4E" />
+      <stop offset="0.94" stopColor="#566A82" />
+      <stop offset="1" stopColor="#323F4E" />
     </linearGradient>
     <linearGradient id={`${p}-bin`} x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stopColor={PAL.binDeep} />
-      <stop offset="0.55" stopColor={PAL.binBack} />
-      <stop offset="1" stopColor="#273345" />
+      <stop offset="0" stopColor="#0A0F16" />
+      <stop offset="0.55" stopColor="#151D28" />
+      <stop offset="1" stopColor="#1D2735" />
     </linearGradient>
     <linearGradient id={`${p}-plate`} x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stopColor={PAL.plateHi} />
-      <stop offset="0.4" stopColor={PAL.plate} />
-      <stop offset="1" stopColor={PAL.plateLo} />
+      <stop offset="0" stopColor="#BDB9B3" />
+      <stop offset="0.4" stopColor="#8F8B86" />
+      <stop offset="1" stopColor="#625F5B" />
+    </linearGradient>
+    <linearGradient id={`${p}-photoIn`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#05303D" />
+      <stop offset="0.6" stopColor="#0A6478" />
+      <stop offset="1" stopColor="#0E8DA6" />
     </linearGradient>
     <linearGradient id={`${p}-cell`} x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stopColor={PAL.graphiteHi} />
@@ -205,14 +226,14 @@ const Defs: React.FC<{p: string; light: (typeof ARCHIVE_LIGHT)[keyof typeof ARCH
       <rect x={-4} y={-4} width={72} height={72} fill={`url(#${p}-rail)`} />
       <rect x={0} y={0} width={64} height={64} rx={2} fill={PAL.steelLo} />
       <rect x={3} y={3} width={58} height={58} fill={`url(#${p}-bin)`} />
-      <path d="M3 3L10 10V50L3 58Z" fill={PAL.binSide} />
-      <path d="M61 3L54 10V50L61 58Z" fill="#34445B" />
+      <path d="M3 3L10 10V50L3 58Z" fill="#1E2836" />
+      <path d="M61 3L54 10V50L61 58Z" fill="#283548" />
       <path d="M3 3H61L54 10H10Z" fill="#090D14" />
       <rect x={3} y={36} width={58} height={4} fill="#000" opacity={0.4} />
       <path d={PLATE_D} fill={`url(#${p}-plate)`} />
-      <path d={PLATE_TOP} stroke="#FFFFFF" strokeOpacity={0.8} strokeWidth={1.1} fill="none" />
+      <path d={PLATE_TOP} stroke="#FFFFFF" strokeOpacity={0.55} strokeWidth={1.1} fill="none" />
       <path d="M2 62.4H62" stroke="#3E3A36" strokeWidth={1.2} />
-      <path d="M0.5 0.6H63.5" stroke={PAL.steelHi} strokeWidth={1} opacity={0.7} />
+      <path d="M0.5 0.6H63.5" stroke="#566A82" strokeWidth={1} opacity={0.7} />
     </g>
     {/* the ssd cell (graphite page in an erase-group tray), with its silver-grey label tab */}
     <g id={`${p}-page`}>
@@ -247,7 +268,7 @@ const Defs: React.FC<{p: string; light: (typeof ARCHIVE_LIGHT)[keyof typeof ARCH
           [4, 2],
           [2, 2],
         ].map(([c, r], i) => (
-          <path key={`b${i}`} d={BITS_D} transform={`translate(${c * PITCH + 4} ${r * PITCH + 4})`} fill={PAL.otherBit} opacity={0.8} />
+          <path key={`b${i}`} d={SMALL_BITS_D} transform={`translate(${c * PITCH + 4} ${r * PITCH + 4})`} fill={OTHER_C} />
         ))}
       </pattern>
     ))}
@@ -280,17 +301,18 @@ const BoxContent: React.FC<{c: Content; x: number; y: number; ctx: Ctx; id: numb
     const b = breath(f, (id % 7) * 0.4);
     return (
       <g transform={`translate(${x} ${y})`} opacity={op}>
-        <ellipse cx={32} cy={24} rx={58} ry={46} fill={`url(#${p}-cyanGlow)`} opacity={0.32 + 0.18 * b} />
-        <rect x={3} y={3} width={58} height={40} rx={3} fill={`url(#${p}-wash)`} opacity={0.6 + 0.35 * b} />
-        <path d={BITS_D} fill={PAL.photo} opacity={0.86 + 0.14 * b} />
-        <path d={CORES_D} fill="#E9FDFF" opacity={0.75 + 0.25 * b} />
+        <ellipse cx={32} cy={28} rx={74} ry={62} fill={`url(#${p}-cyanGlow)`} opacity={0.5 + 0.2 * b} />
+        <rect x={3} y={3} width={58} height={38} rx={2} fill={`url(#${p}-photoIn)`} />
+        <rect x={2} y={40} width={60} height={23} rx={2} fill={PAL.photo} opacity={0.16 + 0.06 * b} />
+        <rect x={3} y={3} width={58} height={46} rx={3} fill={`url(#${p}-wash)`} opacity={0.75 + 0.25 * b} />
+        <path d={PHOTO_BITS_D} fill={PAL.photo} opacity={0.9 + 0.1 * b} />
+        <path d={PHOTO_CORES_D} fill="#EFFFFF" opacity={0.8 + 0.2 * b} />
       </g>
     );
   }
   return (
     <g transform={`translate(${x} ${y})`} opacity={op}>
-      <path d={BITS_D} fill={c === 'other' ? PAL.otherBit : PAL.oldBit} />
-      <path d={CORES_D} fill={c === 'other' ? '#FFFFFF' : '#A7AFBB'} opacity={c === 'other' ? 0.85 : 0.6} />
+      <path d={SMALL_BITS_D} fill={c === 'other' ? OTHER_C : OLD_C} />
     </g>
   );
 };
@@ -344,7 +366,10 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   const zoom = cam.zoom;
   const pxPerBox = BOX * zoom * cosT;
   const ctx: Ctx = {f, p, R, zoom};
-  const sh = (k: keyof NonNullable<ArchiveProps['show']>) => clamp01(num(props.show?.[k], f, 1));
+  // inside a SplitCompare panel the drawer and map are hidden unless `show` asks for them
+  const sh = (k: keyof NonNullable<ArchiveProps['show']>) => clamp01(num(props.show?.[k], f, cam.space === 'panel' && (k === 'drawer' || k === 'map') ? 0 : 1));
+  const T = tiltAt(props.tilt, f);
+  const tP = (q: {x: number; y: number}) => tiltPoint(T, q.x, q.y);
   const ssd = R.mode === 'ssd';
   const s = v.s;
   const s2 = smooth(clamp01((s - 0.25) / 0.75));
@@ -432,13 +457,13 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     const bop = (l.build > -NEVER / 2 ? prog(f, l.build + 6, 6) : 1) * flipOp;
     // pour: the photo's Bits fall into the box, one by one, and settle
     if (l.how === 'pour' && f < l.cAt + 14 && f >= l.cAt - 12) {
-      const pieces = BIT_XY.map(([bx, by], q) => {
+      const pieces = PB_XY.map(([bx, by], q) => {
         const t0 = l.cAt - 10 + q * 2;
         const u = prog(f, t0, 9, EASE.inCubic);
         if (f < t0) return null;
         const set = f >= t0 + 9 ? Math.exp(-(f - t0 - 9) / 2.5) * Math.sin((f - t0 - 9) * 1.6) * 3 : 0;
         const yy = lerp(-120, 0, u) - set;
-        return <rect key={q} x={pos.x + bx} y={pos.y + by + yy} width={10} height={10} rx={2} fill={PAL.photo} />;
+        return <rect key={q} x={pos.x + bx} y={pos.y + by + yy} width={19} height={19} rx={3.5} fill={PAL.photo} />;
       });
       const streamOp = win(f, l.cAt - 12, l.cAt + 2, 3, 5);
       effects.push(
@@ -463,8 +488,8 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const scanLit = R.scans.reduce((m, sc) => Math.max(m, win(f, sc.at + Math.round(sc.dur * 0.32), sc.at + sc.dur + 40, 4, 10)), 0);
       overlays.push(
         <g key="header" opacity={bop}>
-          <rect x={pos.x + 12} y={pos.y + 2.5} width={40} height={5} rx={2.5} fill={PAL.photo} />
-          <rect x={pos.x + 16} y={pos.y + 3.6} width={32} height={2} rx={1} fill="#EFFFFF" />
+          <rect x={pos.x + 10} y={pos.y - 4} width={44} height={6} rx={3} fill={PAL.photo} />
+          <rect x={pos.x + 15} y={pos.y - 2.6} width={34} height={2.4} rx={1.2} fill="#EFFFFF" />
           {scanLit > 0 ? <ellipse cx={pos.x + 32} cy={pos.y + 5} rx={46} ry={16} fill={`url(#${p}-cyanGlow)`} opacity={scanLit} /> : null}
         </g>,
       );
@@ -487,7 +512,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const t = f - l.cAt;
       if (t < 6) {
         const u = EASE.inCubic(t / 6);
-        effects.push(<path key={`ow${id}`} d={BITS_D} transform={`translate(${pos.x} ${pos.y - 110 * (1 - u)})`} fill={PAL.oldBit} />);
+        effects.push(<path key={`ow${id}`} d={SMALL_BITS_D} transform={`translate(${pos.x} ${pos.y - 110 * (1 - u)})`} fill={OLD_C} />);
       } else {
         const u = (t - 6) / 10;
         effects.push(<rect key={`owr${id}`} x={pos.x - 6 - 12 * u} y={pos.y - 6 - 12 * u} width={76 + 24 * u} height={76 + 24 * u} rx={8 + 6 * u} fill="none" stroke={PAL.loss} strokeWidth={6 * (1 - u) + 1} opacity={1 - u} />);
@@ -527,7 +552,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
         const op = t < hit ? 1 : 1 - (t - hit) / (e.dur - hit);
         effects.push(
           <g key={`rf${id}-${e.at}`}>
-            <rect x={pos.x + 25} y={pos.y + yIn} width={14} height={14} rx={3} fill={PAL.otherBit} opacity={op} />
+            <rect x={pos.x + 26} y={pos.y + yIn} width={12} height={12} rx={2.5} fill={OTHER_C} opacity={op} />
             {t >= hit ? <rect x={pos.x - 4 - 2 * (t - hit)} y={pos.y - 4 - 2 * (t - hit)} width={72 + 4 * (t - hit)} height={72 + 4 * (t - hit)} rx={8} fill="none" stroke={PAL.loss} strokeWidth={5} opacity={op} /> : null}
           </g>,
         );
@@ -536,16 +561,16 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
         const u = EASE.inOut(clamp01(t / e.dur));
         const hx = lerp(a.x, pos.x, u);
         const hy = lerp(a.y, pos.y, u) - Math.sin(Math.PI * u) * 70;
-        if (t < e.dur) effects.push(<path key={`hop${id}`} d={BITS_D} transform={`translate(${hx} ${hy})`} fill={PAL.otherBit} />);
+        if (t < e.dur) effects.push(<path key={`hop${id}`} d={SMALL_BITS_D} transform={`translate(${hx} ${hy})`} fill={OTHER_C} />);
       }
     }
   }
   // merged other/old Bits
   const mergedNode = (
     <g>
-      {merged.other.b ? <path d={merged.other.b} fill={PAL.otherBit} /> : null}
+      {merged.other.b ? <path d={merged.other.b} fill={OTHER_C} /> : null}
       {merged.other.c ? <path d={merged.other.c} fill="#FFFFFF" fillOpacity={0.85} /> : null}
-      {merged.old.b ? <path d={merged.old.b} fill={PAL.oldBit} /> : null}
+      {merged.old.b ? <path d={merged.old.b} fill={OLD_C} /> : null}
       {merged.old.c ? <path d={merged.old.c} fill="#A7AFBB" fillOpacity={0.6} /> : null}
     </g>
   );
@@ -575,7 +600,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       if (str) rows.push(<text key={r} x={xs.join(' ')} y={ys.join(' ')}>{str}</text>);
     }
     return (
-      <g fontFamily={MONO} fontWeight={600} fontSize={numFs} fill={PAL.plateInk} fillOpacity={0.78} textAnchor="middle">
+      <g fontFamily={MONO} fontWeight={600} fontSize={numFs} fill={PAL.plateInk} fillOpacity={0.45} textAnchor="middle">
         {rows}
       </g>
     );
@@ -627,7 +652,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   const labelM = splitOn ? front : back;
   const labPt = (id: number) => {
     const q = boxXY(id);
-    return applyM(labelM, q.x + BIT_CENTER.x, q.y + BIT_CENTER.y);
+    return tP(applyM(labelM, q.x + BIT_CENTER.x, q.y + BIT_CENTER.y));
   };
   const thrStart = R.card.threads;
   const thrDraw = thrStart <= -NEVER / 2 ? 1 : prog(f, thrStart, R.card.threadsDur, EASE.out);
@@ -725,8 +750,8 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const sw = l.remapAt < NEVER ? EASE.inOut(prog(f, l.remapAt, 14)) : 0;
       const pa = posOf(id, oldS);
       const pb = posOf(id, newS);
-      const b0 = applyM(back, pa.x + BIT_CENTER.x, pa.y + BIT_CENTER.y);
-      const b1 = applyM(back, pb.x + BIT_CENTER.x, pb.y + BIT_CENTER.y);
+      const b0 = tP(applyM(back, pa.x + BIT_CENTER.x, pa.y + BIT_CENTER.y));
+      const b1 = tP(applyM(back, pb.x + BIT_CENTER.x, pb.y + BIT_CENTER.y));
       const b = {x: lerp(b0.x, b1.x, sw), y: lerp(b0.y, b1.y, sw)};
       const op = clamp01((s - 0.4) / 0.4);
       const mid = {x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 30};
@@ -745,7 +770,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* ---------------- split view: Windows' view, a lit cone from the card to the label sheet (spare stays outside) */
   let cone: React.ReactNode = null;
   if (splitOn && sh('drawer') > 0.01) {
-    const q = [applyM(front, GEOM.wall.x - 6, GEOM.wall.y - 6), applyM(front, GEOM.wall.x + GEOM.wall.w + 6, GEOM.wall.y - 6), applyM(front, GEOM.wall.x + GEOM.wall.w + 6, coreY0B()), applyM(front, GEOM.wall.x - 6, coreY0B())];
+    const q = [applyM(front, GEOM.wall.x - 6, GEOM.wall.y - 6), applyM(front, GEOM.wall.x + GEOM.wall.w + 6, GEOM.wall.y - 6), applyM(front, GEOM.wall.x + GEOM.wall.w + 6, coreY0B()), applyM(front, GEOM.wall.x - 6, coreY0B())].map(tP);
     const o = plugs[1];
     cone = (
       <g opacity={clamp01((s - 0.5) / 0.4) * sh('drawer')}>
@@ -763,7 +788,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const u = (f - t0) / 18;
       if (u < 0 || u > 1) return;
       const q = posOf(id, curSpot(R.labs[id]));
-      const a = applyM(back, q.x, q.y);
+      const a = tP(applyM(back, q.x, q.y));
       const e = EASE.inOut(u);
       const x = lerp(a.x, cpy.to.x - 32, e);
       const y = lerp(a.y, cpy.to.y - 23, e) - Math.sin(Math.PI * e) * 120;
@@ -771,7 +796,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       copyNodes.push(
         <g key={`cp${id}-${cpy.at}`} opacity={1 - Math.max(0, u - 0.85) / 0.15}>
           <line x1={a.x + 32} y1={a.y + 23} x2={x + 32} y2={y + 23} stroke={c === 'photo' ? PAL.photo : PAL.otherBit} strokeOpacity={0.18} strokeWidth={6} />
-          <path d={BITS_D} transform={`translate(${x} ${y})`} fill={c === 'photo' ? PAL.photo : c === 'erased' || c === 'empty' ? PAL.oldBit : PAL.otherBit} opacity={0.95} />
+          <path d={c === 'photo' ? PHOTO_BITS_D : SMALL_BITS_D} transform={`translate(${x} ${y})`} fill={c === 'photo' ? PAL.photo : c === 'erased' || c === 'empty' ? OLD_C : OTHER_C} opacity={0.95} />
         </g>,
       );
     });
@@ -853,7 +878,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
         {renderCard(props, f, p, cp)}
       </g>
     ) : null;
-  const cardInDrawer = lift < 0.15;
+  const cardInDrawer = lift < 0.15 && sh('drawer') > 0.5; // a hidden drawer (panels) leaves the card standing on its own
   const rows: Array<{y: number; x0: number; x1: number; tab: number; th: number; i: number}> = [];
   for (let i = 0; i < 9; i++) rows.push({y: 302 + i * 19, x0: 140 - i * 4, x1: 604 + i * 4, tab: 170 + ((i * 113) % 300), th: 5 + i * 0.5, i});
   const rowNode = (r: (typeof rows)[number]) => {
@@ -1053,6 +1078,13 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     );
   }
 
+  /* ---------------- the lifted card's soft contact shadow, cast onto the wall below it */
+  const shU = smooth(clamp01((cp.u - 0.35) / 0.65)) * sh('card');
+  const liftShadow =
+    shU > 0.01 ? (
+      <ellipse cx={cp.x + 70} cy={cp.y + cardH(cp.w) * 0.5 + 70} rx={cp.w * 0.62} ry={cardH(cp.w) * 0.34} fill={`url(#${p}-ashadow)`} opacity={0.75 * shU} />
+    ) : null;
+
   /* ---------------- the registered wall render (cluster-wall_b) for render→code swaps */
   const wallRenderOp = clamp01(num(props.renders?.wall, f, 0));
   const wr = wallRenderRect();
@@ -1060,6 +1092,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
 
   return (
     <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, pointerEvents: 'none'}}>
+      <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${PIVOT.x}px ${PIVOT.y}px`, transform: tiltCss(T)}}>
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         <Defs p={p} light={L} fog={fog} />
         <g transform={backT}>
@@ -1077,6 +1110,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
           {effects}
           {scanNodes}
           {wallRender}
+          {liftShadow}
         </g>
         {splitOn ? (
           <g transform={frontT} opacity={clamp01(s * 4)}>
@@ -1088,6 +1122,9 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
             {overlays}
           </g>
         ) : null}
+      </svg>
+      </div>
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         {cone}
         {mapThreads}
         {boundary}

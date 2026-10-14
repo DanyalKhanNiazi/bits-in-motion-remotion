@@ -16,7 +16,7 @@ const an = archiveAnchors(A, f, pose);            // world points; pass pose for
 const p = toScreen(pose, an.drawer.x, an.drawer.y); // → hud
 <Stage frame={f} env={{kind: 'archive', light: 'warm'}} cam={cam} hud={<Label … to={p} />}><Archive {...A} /></Stage>
 ```
-**Props.** `state` (preset) · `events` · `mode 'hdd'|'ssd'` · `layers 'single'|'split'` · `light` · `lift` (0..1 or track:
+**Props.** `state` (preset) · `events` · `tilt {x, y, perspective}` (optional 2.5D, deg, tracks ok; default flat) · `mode 'hdd'|'ssd'` · `layers 'single'|'split'` · `light` · `lift` (0..1 or track:
 the photo's card rises out of the drawer to its spot above the wall's top-left; the drawer and map slide away) ·
 `orbit` (deg, P18 coin flip; past 90° face 2 shows unmirrored, `an.face`) · `flip {at, dur}` (the wall flips from the
 other mode into `mode`, P10) · `cardFields {name, size, dates, directions}` (frames each field lights) · `renders {wall,
@@ -56,7 +56,7 @@ SSD_SANITIZED · SSD_ENCRYPTED (stale layout as glyphs; add `{op: 'unscramble'}`
 + raised card · `card` card ≈ 70 % (`{lift: 1}` = lifted card) · `photoBoxes` the 9 photo boxes · `run` one run close
 (`{run: 0..2}`) · `header` box 021 + notch (`{box}`) · `map` · `boundary` Windows' side | drive's side + slot · `layers` the
 split sheets (needs `layers='split'`/splitLayers) · `split` lifted card + wall, no drawer (SplitCompare panels; use
-`lift={1}`; pose {1180, 250, 1.0}) · `signature` lifted card huge, threads down to the lit wall (`lift={1}`) · `pullout` wider than wide.
+keep `lift` 0: panels hide drawer + map, the card stands alone; photo boxes ≥ 40 px) · `signature` lifted card huge, threads down to the lit wall (`lift={1}`) · `pullout` wider than wide.
 
 **Anchors (`archiveAnchors(props, frame, pose?)`)**: `card`, `field.{name,size,dates,directions}`, `flag`, `plugs[3]`,
 `drawer`, `box(id)` (split: the label), `spot(id)` (where its data physically is), `photo[9]`, `runs[3]`, `stale[9]`,
@@ -76,8 +76,8 @@ w 720; boundary x 680, slot y 400; actor (806, 952); spare cols 17–18 at x 186
 ## 2. SplitCompare + SPLIT (`SplitCompare.tsx`)
 ```tsx
 <SplitCompare frame={f} at={472} enter="compress"   // 'compress' (full frame → left panel, SSD slides in) | 'slide' | 'none'
-  left={{cam: archiveCam('split'), light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={1} />}}
-  right={{cam: archiveCam('split'), light: 'ssd', render: (fr) => <Archive frame={fr} state="SSD_TRIMMED" lift={1} events={…} />}}
+  left={{cam: archiveCam('split'), light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" />}}
+  right={{cam: archiveCam('split'), light: 'ssd', render: (fr) => <Archive frame={fr} state="SSD_TRIMMED" events={…} />}}
   leftChip={<VerdictChip frame={f} at={a} text="Unlisted" tone="kept" x={0} y={0} />} rightChip={…}
   verdict={<VerdictCard frame={f} at={b} text="…" x={0} y={0} />} hud={<Footnote …/>} />
 ```
@@ -147,3 +147,16 @@ overlays. Do the same in section code (one `<path>` for many marks; HTML divs fo
 - In single SSD view the wall shows labels at their grid places (the shuffle only shows when split).
 - The drive actor and map are code; `renders` covers cluster-wall_b and mft-record_b only (see ASSET_REQUEST.md).
 - `light` does not crossfade: change it on a cut or inside a camera move.
+
+## 10. Changes after the gate (look only; API frozen)
+1. Figure–ground: photo boxes are emissive (cyan-lit interior, plate tint, halo from a shared gradient) with Bits ≈ 70 %
+   of the box; other files' Bits are small neutral grey (`#8E949E`, old `#5A606A`); box numbers at 45 % ink; rails,
+   bins and plates darkened. Stale spots in split layers get the same treatment. The header notch sits on 021's top edge.
+2. `split` framing → card + the 3 runs (pose 880, 470, zoom 1.25): every photo box ≥ 40 px in a panel. Inside a
+   SplitCompare panel the drawer and map default to hidden (`show` overrides) and the card stands alone at rest.
+3. Strike: one bold coral scratch fully across the name (24 card px ≈ 14 px on screen at `signature`, 25 at `card`),
+   10 f with sparks at its head; the name stays half-legible. Struck threads keep their dashes.
+4. 2.5D: optional `tilt {x, y, perspective}` (CSS perspective on the wall layers; anchors and threads follow) and a
+   soft contact shadow from the lifted card onto the wall. Default stays flat.
+Re-measured after these: KitDemo f420–719 (signature, SplitCompare, SSD DriveDive, flash + tilt) 0.42 s/frame/tab.
+

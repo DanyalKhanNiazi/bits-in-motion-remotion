@@ -174,11 +174,11 @@ const shotSplit = (f: number) => (
     frame={f}
     at={512}
     enter="compress"
-    left={{cam: [K(510, 'signature', {zoom: 1.0, x: 1200}), K(526, 'split')], light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={1} />}}
+    left={{cam: [K(510, 'signature', {zoom: 1.0, x: 1200}), K(528, 'split')], light: 'cool', render: (fr) => <Archive frame={fr} state="HDD_DELETED" lift={[[512, 1], [530, 0]]} />}}
     right={{
       cam: archiveCam('split'),
       light: 'ssd',
-      render: (fr) => <Archive frame={fr} state="SSD_TRIMMED" lift={1} events={[{at: 540, op: 'sweep', target: 'photo', dur: 30}]} />,
+      render: (fr) => <Archive frame={fr} state="SSD_TRIMMED" events={[{at: 540, op: 'sweep', target: 'photo', dur: 30}]} />,
     }}
     leftChip={<VerdictChip frame={f} at={562} text="Unlisted" tone="kept" x={0} y={0} />}
     rightChip={<VerdictChip frame={f} at={572} text="Gone" tone="lost" x={0} y={0} />}
@@ -207,6 +207,7 @@ const shotFlash = (f: number) => (
     <Archive
       frame={f}
       state="SSD_SAVED"
+      tilt={{y: [[670, -16], [780, -10]], x: 4}}
       boxes={OLD}
       show={{drawer: 0, map: 0, card: 0, threads: 0, ghost: 0}}
       events={[
@@ -268,7 +269,7 @@ const J_CAM: CamKey[] = [K(1110, 'wall'), K(1150, 'wall', {zoom: 1.6}), K(1196, 
 const shotFlip = (f: number) => (
   <Stage frame={f} env={{kind: 'archive', light: f < 1132 ? 'cool' : 'ssd'}} cam={J_CAM}
     hud={<KineticText frame={f} at={1166} text="Delete ≠ Erase" x={960} y={540} size={170} mode="slam" />}>
-    <Archive frame={f} state="SSD_DELETED" flip={{at: 1114, dur: 34}} />
+    <Archive frame={f} state="SSD_DELETED" flip={{at: 1114, dur: 34}} tilt={{y: [[1150, 0], [1196, -14]], x: [[1150, 0], [1196, 6]]}} />
   </Stage>
 );
 
