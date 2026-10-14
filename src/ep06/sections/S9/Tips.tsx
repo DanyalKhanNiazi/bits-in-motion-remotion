@@ -33,6 +33,7 @@ import {
   poseAt,
   prog,
   propPoint,
+  propRect,
   recycleBinPoint,
   rgba,
   scannerAnchors,
@@ -306,6 +307,7 @@ export const MicrosoftStrip: React.FC<{f: number}> = ({f}) =>
 
 /* ================================================================ tip 6: a whole SSD, before it leaves your hands */
 const SSD = {x: 900, y: 600, w: 1000};
+const SSD_H = propRect('ssd-board_a', SSD).h;
 /**
  * The hand-off (under the sanitize pulse): a shipping box rises in at the lower right; once sealed, the board arcs into
  * it shrinking, the flaps fold shut, a tape strip runs along the seam and the box slides out of frame right before the
@@ -334,7 +336,9 @@ export const Tip6: React.FC<{f: number}> = ({f}) => {
   const g = prog(f, H6.go, H6.goDur, EASE.inOut);
   const sink = prog(f, H6.go + H6.goDur - 2, H6.drop, EASE.inCubic);
   const bx = lerp(SSD.x, mouth.x, g) + boxDx(f) * (g > 0 ? 1 : 0);
-  const by = lerp(SSD.y, mouth.y - 40, g) - Math.sin(Math.PI * g) * 140 + 92 * sink + boxDy(f);
+  const bs = lerp(1, 0.3, g);
+  // Prop scales about the bottom of its visible content: lift the centre back by half the height lost
+  const by = lerp(SSD.y, mouth.y - 40, g) - Math.sin(Math.PI * g) * 140 + 110 * sink + boxDy(f) - (SSD_H / 2) * (1 - bs);
   const close = prog(f, H6.close, H6.closeDur);
   const tape = prog(f, H6.tape, 6, EASE.out);
   const showBox = f >= H6.boxIn - 1;
@@ -369,7 +373,7 @@ export const Tip6: React.FC<{f: number}> = ({f}) => {
         rim={{color: sealed > 0 ? PAL.drive : PAL.structure, strength: 0.4 + 0.5 * sealed}}
         sweep={{at: [CUT.wh6 + 18, p0 + 4], dur: 22, color: f > p0 - 4 ? PAL.drive : undefined}}
         enter={{kind: 'rise', at: CUT.wh6, dur: 18}}
-        nudge={{dx: bx - SSD.x, dy: by - SSD.y, s: lerp(1, 0.3, g)}}
+        nudge={{dx: bx - SSD.x, dy: by - SSD.y, s: bs}}
       />
       {showBox ? (
         <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
