@@ -1,12 +1,13 @@
-// S3 shot D: "Windows reads the card, then goes to those boxes": the copied Bits arrive on the reader's monitor and
+// S3 shot D: "Windows reads the card, then goes to those boxes": the copied Bits arrive on the reader's desk monitor and
 // reassemble into the photo in a plain dark viewer window (kit WinDesktop + WinFrame; PhotoBits dissolve, run backwards).
+// Framed wide enough that the bezel, stand and desk read (environment break), easing back while it assembles.
 import React from 'react';
 import {MONO, PhotoBits, REGIONS, ScreenSlot, Stage, WIN, WinDesktop, WinFrame, assetBox, type KenBurns} from '../../kit';
 import {T} from './t';
 
-export const ASSEMBLE = {at: T.boxes6 + 4, dur: 22};
+export const ASSEMBLE = {at: T.boxes6 + 2, dur: 22};
 const WINDOW = {x: 281, y: 14, w: 470, h: 490};
-const S = 1.1; // title-bar factor: "passport.jpg" is 25 slot px → ≥ 45 px on screen at the widest (slot scale ≥ 1.79)
+const S = 1.3; // title-bar factor: "passport.jpg" is 23 × 1.3 ≈ 30 slot px → ≥ 42 px on screen at the widest (slot scale ≥ 1.42)
 const TH = 50 * S;
 const PHOTO_RECT = (() => {
   const b = assetBox('fictional-passport_b');
@@ -16,7 +17,8 @@ const PHOTO_RECT = (() => {
   return {x: WINDOW.x + WINDOW.w / 2 - w / 2, y: WINDOW.y + TH + (bodyH - h) / 2, w, h};
 })();
 
-export const DESK_KB: KenBurns = {from: {s: 1.9, x: 0, y: 214}, to: {s: 1.56, x: 0, y: 176}, start: T.boxes6 - 6, end: T.limit + 22};
+// screen centred (ky = 99 × 1.148 × s): monitor + bezel + a strip of shelves and lamp, pulling back to show the desk
+export const DESK_KB: KenBurns = {from: {s: 1.46, x: 0, y: 166}, to: {s: 1.24, x: 0, y: 141}, start: T.boxes6 - 6, end: T.picture + 18};
 
 export const DeskShot: React.FC<{f: number}> = ({f}) => {
   const {at, dur} = ASSEMBLE;

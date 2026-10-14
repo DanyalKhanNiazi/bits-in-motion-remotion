@@ -38,7 +38,7 @@ or ids; `build` also `'wall'|'drawer'|'map'|'card'`.
 | copyOut (30) `to` | copies of the Bits arc out to `to` (the scanner tray) |
 | overwrite (12) | grey block slams in, coral ring (6 f), grey Bits. `'free'` = wave over every free box (HDD_WIPED). SSD: lands in a fresh spot (= remap) |
 | tag (12) | amber dashed disposable tag drops onto the corner and swings |
-| sweep (30) | per erase group: still-wanted white Bits hop to a fresh box first, then a 14 f amber edge sweep → dark clean box + fading ember. Groups holding untargeted photo Bits are visibly skipped |
+| sweep (36) | ONE full-height amber band travels the wall left → right from the chip; each targeted erase group clears as the band reaches it (ember flare → dark clean box); still-wanted white Bits hop to a fresh box just before; untargeted photo groups survive with a cyan shimmer |
 | refuse (20) | a white Bit flies at the box and bounces off with a coral ring |
 | trim (30) `to` | the TRIM note (white, magenta tab, tiny box numbers) travels through the boundary slot |
 | boundary (16) | the partition between Windows' side and the drive's side, with the slot |
@@ -55,8 +55,11 @@ SSD_SANITIZED · SSD_ENCRYPTED (stale layout as glyphs; add `{op: 'unscramble'}`
 **Framings (`archiveCam(name, {run, lift, box})`)**: `wide` drawer+map+wall, zoom 1 · `wall` 16×9 fills · `drawer` drawer
 + raised card · `card` card ≈ 70 % (`{lift: 1}` = lifted card) · `photoBoxes` the 9 photo boxes · `run` one run close
 (`{run: 0..2}`) · `header` box 021 + notch (`{box}`) · `map` · `boundary` Windows' side | drive's side + slot · `layers` the
-split sheets (needs `layers='split'`/splitLayers) · `split` lifted card + wall, no drawer (SplitCompare panels; use
-keep `lift` 0: panels hide drawer + map, the card stands alone; photo boxes ≥ 40 px) · `signature` lifted card huge, threads down to the lit wall (`lift={1}`) · `pullout` wider than wide.
+split sheets (needs `layers='split'`/splitLayers) · `split` (SplitCompare panels) the whole card at `GEOM.panelCard` +
+the 3 runs, boxes ≥ 40 px · `splitBoxes` (panels) no card, the 3 runs fill the panel, boxes ≈ 65 px (sweep, erase, race,
+deflected write) · `signature` lifted card huge, threads down to the lit wall (`lift={1}`) · `pullout` wider than wide.
+In a panel the card always moves to `GEOM.panelCard` (any `lift`; during `enter="compress"` it glides there) and the
+drawer/map are hidden; panel anchors: `archiveAnchors(A, f, {...stagePose(cam, f, 0.5), panel: 1})` + `splitToScreen`.
 
 **Anchors (`archiveAnchors(props, frame, pose?)`)**: `card`, `field.{name,size,dates,directions}`, `flag`, `plugs[3]`,
 `drawer`, `box(id)` (split: the label), `spot(id)` (where its data physically is), `photo[9]`, `runs[3]`, `stale[9]`,
@@ -164,4 +167,14 @@ Re-measured after these: KitDemo f420–719 (signature, SplitCompare, SSD DriveD
    the same frames. No SVG `<image>` remains in the core kit. Checked: dissolve start f20–26 and KitReg render whole.
 6. SwapVariant's flash re-keyed to white/structure. Kit-wide grep: cyan now appears only in the photo's Bits (Bit,
    BitHead, PhotoBits, Archive photo boxes, stale spots, copies), its threads and plug lights, and the AtlasOpener's Bit.
+7. Fix round 1 (v1 review): `split` re-posed (942, 532, ×1.25): the whole card (`GEOM.panelCard` 495, 300, w 400) sits
+   ≥ 32 px inside the panel, photo boxes ≥ 40 px; the far wall fills the panel's left. NEW framing `splitBoxes`
+   (1176, 520, ×2.05): no card, the 3 runs fill the panel (boxes ≈ 65 px). `CameraContext.panel` (0..1) lets the card
+   glide to its panel spot during a compress.
+8. `sweep`: one continuous full-height amber band (with a faint beam from the chip in single SSD view), groups clear as it
+   passes with an ember flare; untargeted photo groups shimmer cyan and stay lit. Default dur 36.
+9. Threads whose run no longer shows the photo (overwritten, erased, scrambled) turn ink-grey, without glow; with no photo
+   left, the card's plug lights go out. HDD_WIPED, SSD_ERASED and SSD_ENCRYPTED now show no cyan threads.
+10. `pour` into a scrambled box drops grey pieces (no cyan stream); the box shows glyphs.
+11. mft-record_b render: its magenta latch is regraded to silver with the LEDs.
 

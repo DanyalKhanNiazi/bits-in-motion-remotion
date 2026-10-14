@@ -49,7 +49,7 @@ import {
   boxC,
 } from '../../kit';
 import {CUT, T} from './t';
-import {PalmGlyph, RewindArc, Safe, TickStub, TipLine, Wash, WriteBlock, WriteDefs, washX} from './marks';
+import {PalmGlyph, RewindArc, Safe, SHIP_BOX, ShipBox, ShipBoxDefs, TickStub, TipLine, Wash, WriteBlock, WriteDefs, washX} from './marks';
 
 const LX = 110; // tip lines: left edge
 const HEAD_Y = 116; // header chip row
@@ -305,7 +305,16 @@ export const MicrosoftStrip: React.FC<{f: number}> = ({f}) =>
   f >= T.microsoft - 1 && f < T.isnt + 8 ? <QuoteStrip frame={f} at={T.microsoft} exitAt={T.isnt - 4} source="Microsoft recommends" reported="Reset this PC · Clean data on" /> : null;
 
 /* ================================================================ tip 6: a whole SSD, before it leaves your hands */
-const SSD = {x: 960, y: 640, w: 1060};
+const SSD = {x: 900, y: 600, w: 1000};
+/**
+ * The hand-off (under the sanitize pulse): a shipping box rises in at the lower right; once sealed, the board arcs into
+ * it shrinking, the flaps fold shut, a tape strip runs along the seam and the box slides out of frame right before the
+ * whip to item 7. The board never leaves the box once it is in.
+ */
+const H6 = {boxIn: T.use + 16, go: T.tool - 9, goDur: 12, drop: 6, close: T.tool + 4, closeDur: 6, tape: T.tool + 9, out: T.tool + 11, outDur: 12};
+/** the box leaves on a quadratic ease-in: fully out of frame before the whip to item 7 */
+const boxDx = (f: number) => 1400 * prog(f, H6.out, H6.outDur) ** 2;
+const boxDy = (f: number) => 320 * (1 - prog(f, H6.boxIn, 16, EASE.outExpo));
 export const Tip6: React.FC<{f: number}> = ({f}) => {
   const cam: CamKey[] = [
     {f: CUT.wh6, x: 940, y: 560, zoom: 1.08},
@@ -313,13 +322,22 @@ export const Tip6: React.FC<{f: number}> = ({f}) => {
   ];
   const ctl = propPoint('ssd-board_a', SSD, 380, 800);
   const p0 = T.sanitize - 2;
-  const sealed = prog(f, p0 + 14, 14);
+  const sealed = prog(f, p0 + 6, 10);
   const rings = [0, 7, 14].map((d, i) => {
     const u = prog(f, p0 + d, 26, EASE.out);
     if (u <= 0 || u >= 1) return null;
     const r = 60 + 900 * u;
     return <ellipse key={i} cx={ctl.x} cy={ctl.y} rx={r} ry={r * 0.42} fill="none" stroke={PAL.drive} strokeWidth={10 * (1 - u) + 2} opacity={0.85 * (1 - u)} transform={`rotate(-24 ${ctl.x} ${ctl.y})`} />;
   });
+  // the board into the box: arc + shrink to the mouth, then a short drop inside (the box's front face covers it)
+  const mouth = {x: (SHIP_BOX.x0 + SHIP_BOX.x1) / 2, y: SHIP_BOX.y0 - SHIP_BOX.depth / 2};
+  const g = prog(f, H6.go, H6.goDur, EASE.inOut);
+  const sink = prog(f, H6.go + H6.goDur - 2, H6.drop, EASE.inCubic);
+  const bx = lerp(SSD.x, mouth.x, g) + boxDx(f) * (g > 0 ? 1 : 0);
+  const by = lerp(SSD.y, mouth.y - 40, g) - Math.sin(Math.PI * g) * 140 + 92 * sink + boxDy(f);
+  const close = prog(f, H6.close, H6.closeDur);
+  const tape = prog(f, H6.tape, 6, EASE.out);
+  const showBox = f >= H6.boxIn - 1;
   return (
     <Stage
       frame={f}
@@ -333,18 +351,34 @@ export const Tip6: React.FC<{f: number}> = ({f}) => {
       }
     >
       <div style={{position: 'absolute', left: ctl.x - 600, top: ctl.y - 300, width: 1200, height: 600, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba(PAL.drive, 0.3 * prog(f, p0, 10) * (1 - prog(f, p0 + 30, 20)))}, rgba(0,0,0,0))`}} />
+      {showBox ? (
+        <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+          <ShipBoxDefs />
+          <g transform={`translate(${boxDx(f)} ${boxDy(f)})`}>
+            <ShipBox part="back" close={close} tape={tape} />
+          </g>
+        </svg>
+      ) : null}
       <Prop
         frame={f}
         src="ssd-board_a"
         {...SSD}
         tiltX={6}
-        float={3}
-        shadow={0.6}
+        float={3 * (1 - g)}
+        shadow={g > 0 ? false : 0.6}
         rim={{color: sealed > 0 ? PAL.drive : PAL.structure, strength: 0.4 + 0.5 * sealed}}
         sweep={{at: [CUT.wh6 + 18, p0 + 4], dur: 22, color: f > p0 - 4 ? PAL.drive : undefined}}
         enter={{kind: 'rise', at: CUT.wh6, dur: 18}}
-        exit={{kind: 'slide', at: T.tool + 2, dur: 18, to: 'right', dist: 1500}}
+        nudge={{dx: bx - SSD.x, dy: by - SSD.y, s: lerp(1, 0.3, g)}}
       />
+      {showBox ? (
+        <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+          <ShipBoxDefs />
+          <g transform={`translate(${boxDx(f)} ${boxDy(f)})`}>
+            <ShipBox part="front" close={close} tape={tape} />
+          </g>
+        </svg>
+      ) : null}
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         {rings}
       </svg>

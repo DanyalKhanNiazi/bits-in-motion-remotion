@@ -8,6 +8,7 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {
   Archive,
+  CARD as CARD_PX,
   EASE,
   FlashCut,
   Footnote,
@@ -33,7 +34,7 @@ import {
 } from '../kit';
 import {CanyonShot, canyonPhotoScreen} from './S3/Canyon';
 import {DeskShot} from './S3/Desk';
-import {GhostWrite, RewriteCrawl, Stamp, TickBadge} from './S3/marks';
+import {FieldPop, GhostWrite, RewriteStream, Stamp, TickBadge, cardToWorld, fieldLabelPt} from './S3/marks';
 import {FROM, T, TO} from './S3/t';
 
 const WIDE = archiveCam('wide');
@@ -73,6 +74,13 @@ const C_CAM: CamKey[] = [
   {f: T.reads, x: 830, y: 420, zoom: 1.14},
   {f: T.boxes6 + 10, x: 850, y: 400, zoom: 1.22},
 ];
+/** each field lights on its word and goes when the next one lights: a bold-ink label pop on the card + a hud chip */
+const FIELD_SEQ = [
+  {field: 'name', at: T.nameW, exitAt: T.size},
+  {field: 'size', at: T.size, exitAt: T.dates},
+  {field: 'dates', at: T.dates, exitAt: T.directions},
+  {field: 'directions', at: T.directions, exitAt: T.clusters},
+] as const;
 const LIFT = {at: T.goes, dur: 20};
 const CLOUD = {x: 735, y: 60, w: 230, h: 300};
 const shotC = (f: number, render: number) => {
@@ -81,18 +89,44 @@ const shotC = (f: number, render: number) => {
   const an = archiveAnchors(A, f, pose);
   // copies of the photo's Bits lift out of its 9 boxes into a photo-shaped cloud (PhotoBits sink, run backwards)
   const lf = f < LIFT.at ? LIFT.at + LIFT.dur : LIFT.at + LIFT.dur - (f - LIFT.at);
+  const sc = (nx: number, ny: number) => {
+    const w = cardToWorld(an.card, nx, ny);
+    return toScreen(pose, w.x, w.y);
+  };
+  const chips = FIELD_SEQ.map(({field, at, exitAt}) => {
+    const lp = fieldLabelPt(field);
+    const right = field === 'directions';
+    // left column: chip just off the card's left edge at the label's height; "directions": off the right edge
+    const edge = sc(right ? CARD_PX.x1 : CARD_PX.x0, lp.y);
+    const to = right ? sc(CARD_PX.fields.directions.housing[2], CARD_PX.fields.directions.housing[1] + 30) : sc(CARD_PX.x0 + 22, lp.y);
+    return <Label key={field} frame={f} at={at} exitAt={exitAt} text={field} x={edge.x + (right ? 44 : -44)} y={edge.y} to={to} side={right ? 'right' : 'left'} size={48} role="chip" />;
+  });
   return (
-    <Stage frame={f} env={{kind: 'archive', light: 'warm'}} cam={C_CAM} hud={<Footnote frame={f} at={T.directions + 6} exitAt={T.reads - 2} text="Simplified: real cards list ranges" />}>
+    <Stage
+      frame={f}
+      env={{kind: 'archive', light: 'warm'}}
+      cam={C_CAM}
+      hud={
+        <>
+          {chips}
+          <Footnote frame={f} at={T.directions + 6} exitAt={T.reads - 2} text="Simplified: real cards list ranges" />
+        </>
+      }
+    >
       <Archive {...A} />
+      {FIELD_SEQ.map(({field, at, exitAt}) => (
+        <FieldPop key={field} frame={f} at={at} exitAt={exitAt} field={field} card={an.card} />
+      ))}
       {f >= LIFT.at - 1 ? <PhotoBits frame={lf} at={LIFT.at} dur={LIFT.dur} mode="sink" from={CLOUD} to={an.photo} grid={[12, 16]} /> : null}
     </Stage>
   );
 };
-const shotCard = (f: number) => <FlashCut frame={f} at={T.nameW} a={(x) => shotC(x, 1)} b={(x) => shotC(x, 0)} />;
+// the registered render shows only under the push's own flash (f Z_BC+6..+7), then the vector card
+const shotCard = (f: number) => <FlashCut frame={f} at={Z_BC + 8} strength={0.6} a={(x) => shotC(x, 1)} b={(x) => shotC(x, 0)} />;
 const Z_CD = T.boxes6 - 6;
 
 /* ================================================================ E: the limit: a tiny file fits on its card */
-const W_DE = T.limit + 4;
+const W_DE = T.picture + 4; // the whip lands on the drawer 12 f later, before "limit"
 const TINY = {x: 286, y: 300, w: 300};
 const E_CAM: CamKey[] = [
   {f: W_DE, x: 470, y: 340, zoom: 1.7},
@@ -158,6 +192,7 @@ const G_EVENTS: ArchiveEvent[] = [
   {at: T.flagged + 10, op: 'flag'},
 ];
 const MAPP = {x: 400, y: 700, zoom: 2.1};
+const QS = {x: 858, y: 535, zoom: 1.18};
 const SIG_END = {x: 1225, y: 588, zoom: 0.9};
 const G_CAM: CamKey[] = [
   {f: Z_FG, ...DRAWER, zoom: DRAWER.zoom * 0.94},
@@ -168,14 +203,13 @@ const G_CAM: CamKey[] = [
   // the escalated signature: close on the struck card, then the long held-breath pull-back
   {f: T.thats + 8, x: 376, y: 324, zoom: 3.3, dur: 30, ease: 'inOut'},
   {f: T.nothing, x: 376, y: 322, zoom: 3.36},
-  {f: T.wereEnd - 10, ...SIG_END, dur: 116, ease: 'inOut'},
+  {f: T.wereEnd - 10, ...SIG_END, dur: T.wereEnd - 10 - T.nothing, ease: 'inOut'},
   {f: T.theCard + 8, x: SIG_END.x - 6, y: SIG_END.y + 2, zoom: SIG_END.zoom * 1.03},
   {f: T.drawer, x: 380, y: 330, zoom: 2.25, dur: 36},
   {f: T.unusedEnd, x: 376, y: 324, zoom: 2.4},
-  {f: T.couple, x: 372, y: 520, zoom: 1.35, dur: 28},
-  {f: T.quickEnd, x: 372, y: 515, zoom: 1.4},
-  {f: T.everyBox, ...PB, zoom: PB.zoom * 0.96, dur: 32},
-  {f: T.longerEnd + 8, ...PB, zoom: PB.zoom * 0.99},
+  // one wide frame for quick vs slow: card + map (the two records) and the photo's 9 boxes + the rewrite bar
+  {f: T.couple, ...QS, dur: 30, ease: 'inOut'},
+  {f: T.longerEnd + 8, x: QS.x + 8, y: QS.y - 3, zoom: QS.zoom * 1.03},
   {f: T.onHard + 14, ...PB, x: PB.x + 20, zoom: PB.zoom * 0.9, dur: 26},
   {f: TO - 20, ...PB, x: PB.x + 10, zoom: PB.zoom * 0.93},
   {f: TO, ...PB, ease: 'inCubic'},
@@ -202,16 +236,16 @@ const shotG = (f: number) => {
         <>
           <Stamp frame={f} at={T.free} exitAt={T.reuseEnd + 15} text="Free" x={stamp.x} y={stamp.y} />
           <Label frame={f} at={T.map} exitAt={T.availableEnd + 16} text="Map of which boxes are taken" x={Math.max(120, mapTop.x - 520)} y={180} to={mapTop} side="right" size={52} />
-          <KineticText frame={f} at={T.nothing} exitAt={T.wereEnd + 6} text="Nothing opens the boxes." x={960} y={872} size={112} mode="slam" />
+          <KineticText frame={f} at={T.nothing} exitAt={T.wereEnd + 6} text="Nothing opens the boxes." x={960} y={872} size={112} mode="slam" backing="plate" />
           <Label frame={f} at={T.unused} exitAt={T.couple - 8} text="Unused" x={flag.x + 200} y={flag.y + 6} to={flag} side="right" size={56} accent={PAL.loss} />
-          <TickBadge frame={f} at={T.couple} exitAt={T.quickEnd + 16} x={cardTick.x} y={cardTick.y} />
-          <TickBadge frame={f} at={T.records} exitAt={T.quickEnd + 16} x={mapTick.x} y={mapTick.y} />
+          <TickBadge frame={f} at={T.couple} exitAt={T.longerEnd + 6} x={cardTick.x} y={cardTick.y} />
+          <TickBadge frame={f} at={T.records} exitAt={T.longerEnd + 6} x={mapTick.x} y={mapTick.y} />
           <VerdictChip frame={f} at={T.onHard} exitAt={TO - 20} text="On a hard drive" tone="neutral" x={1500} y={128} />
         </>
       }
     >
       <Archive {...A} />
-      <RewriteCrawl frame={f} at={T.rewriting + 14} stallAt={T.longer + 4} fadeAt={T.longerEnd + 6} />
+      <RewriteStream frame={f} at={T.rewriting} period={20} stallAt={T.longer} fadeAt={T.longerEnd + 6} bar={{x: 776, y: 806, w: 800}} />
       <GhostWrite frame={f} at={T.space - 4} dipAt={T.written} box={GHOST_BOX} />
     </Stage>
   );

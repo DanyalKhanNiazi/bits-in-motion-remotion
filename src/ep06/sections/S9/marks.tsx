@@ -206,11 +206,94 @@ export const Safe: React.FC<{frame: number; x: number; y: number; w: number; clo
   );
 };
 
+/* ---------------------------------------------------------------- the hand-off box (item 6): an open shipping box, world px */
+/**
+ * x0..x1 is the front face's top edge (the mouth's front lip) at y0, the front face runs down to y1; the mouth recedes
+ * `depth` px up and `inset` px in. `close` (0 open → 1 shut) folds the two side flaps over the mouth (pseudo-3D: the
+ * free edge swings from leaning outward to flat), then a pale tape strip runs along the seam. Draw part 'back' under
+ * the contents and 'front' over them.
+ */
+export const SHIP_BOX = {x0: 1400, x1: 1800, y0: 772, y1: 1010, depth: 64, inset: 26};
+export const ShipBox: React.FC<{part: 'back' | 'front'; close: number; tape: number}> = ({part, close, tape}) => {
+  const {x0, x1, y0, y1, depth, inset} = SHIP_BOX;
+  const yb = y0 - depth;
+  const mid = (x0 + x1) / 2;
+  if (part === 'back')
+    return (
+      <g>
+        <ellipse cx={mid} cy={y1 + 4} rx={(x1 - x0) * 0.62} ry={20} fill="#000" opacity={0.5} />
+        {/* the mouth: back wall + dark interior */}
+        <path d={`M${x0 + inset} ${yb}H${x1 - inset}L${x1} ${y0}H${x0}Z`} fill="#0A0F18" />
+        <path d={`M${x0 + inset} ${yb}H${x1 - inset}`} stroke="#9FB0CC" strokeOpacity={0.35} strokeWidth={2} />
+      </g>
+    );
+  // a flap hinged on one side edge of the mouth; θ: 150° (open, leaning out) → 0° (flat, reaching the seam)
+  const th = (lerp(150, 0, EASE.inOut(clamp01(close))) * Math.PI) / 180;
+  const flap = (side: -1 | 1) => {
+    const L = (x1 - x0) / 2;
+    const hx0 = side < 0 ? x0 : x1; // front hinge point
+    const hx1 = side < 0 ? x0 + inset : x1 - inset; // back hinge point
+    // the mouth is a trapezoid (narrower at the back): each closed flap is its half, so the back edge is shorter
+    const ox0 = -side * L * Math.cos(th);
+    const ox1 = -side * (L - inset) * Math.cos(th);
+    const oy = -150 * Math.sin(th);
+    const pts = [
+      [hx0, y0],
+      [hx1, yb],
+      [hx1 + ox1, yb + oy],
+      [hx0 + ox0, y0 + oy],
+    ];
+    const shade = 0.55 + 0.45 * Math.cos(th);
+    return (
+      <path
+        key={side}
+        d={`M${pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join('L')}Z`}
+        fill={side < 0 ? '#2B3649' : '#253045'}
+        fillOpacity={1}
+        stroke="#9FB0CC"
+        strokeOpacity={0.35 * shade}
+        strokeWidth={2}
+      />
+    );
+  };
+  return (
+    <g>
+      <path d={`M${x0} ${y0}H${x1}L${x1 - 14} ${y1}H${x0 + 14}Z`} fill="url(#s9-box)" />
+      <path d={`M${x0} ${y0 + 1}H${x1}`} stroke="#B7C6DF" strokeOpacity={0.55} strokeWidth={3} />
+      <path d={`M${x1 - 1} ${y0}L${x1 - 15} ${y1}`} stroke="#9FB0CC" strokeOpacity={0.3} strokeWidth={2} />
+      {/* a handling mark (an up-arrow pair, no text) */}
+      <g transform={`translate(${mid} ${(y0 + y1) / 2 + 10})`} stroke="#6F7F9C" strokeOpacity={0.7} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M-26 22V-18M-40 -4L-26 -18L-12 -4M26 22V-18M12 -4L26 -18L40 -4" />
+      </g>
+      {flap(-1)}
+      {flap(1)}
+      {/* tape along the seam: over the top face, then down the front */}
+      {tape > 0 ? <path d={`M${mid} ${yb + 2}L${mid} ${lerp(yb + 2, y0 + 46, clamp01(tape))}`} stroke={rgba(PAL.annotation, 0.85)} strokeWidth={22} /> : null}
+    </g>
+  );
+};
+export const ShipBoxDefs: React.FC = () => (
+  <defs>
+    <linearGradient id="s9-box" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#36445B" />
+      <stop offset="1" stopColor="#1A2230" />
+    </linearGradient>
+  </defs>
+);
+
 /* ---------------------------------------------------------------- a new save that arrives as glyphs (world px); never cyan */
 const GL = '#%&@$?*+=<>/{}[]~^ABDEFGHKMNPRSTVXYZ';
-export const GlyphSave: React.FC<{frame: number; at: number; targets: ReadonlyArray<{x: number; y: number}>; dur?: number; height?: number}> = ({frame: f, at, targets, dur = 22, height = 260}) => {
+export const GlyphSave: React.FC<{frame: number; at: number; targets: ReadonlyArray<{x: number; y: number}>; dur?: number; height?: number; size?: number; ring?: number}> = ({
+  frame: f,
+  at,
+  targets,
+  dur = 22,
+  height = 260,
+  size = 26,
+  ring = 0,
+}) => {
   const t = f - at;
-  if (t < 0 || t > dur + 14) return null;
+  if (t < 0 || t > dur + 14 + 14 * ring) return null;
   const items: React.ReactNode[] = [];
   const seedF = Math.floor(f / 3);
   targets.forEach((p, i) => {
@@ -223,22 +306,24 @@ export const GlyphSave: React.FC<{frame: number; at: number; targets: ReadonlyAr
       const yy = p.y - height * (1 - u * u);
       const ch = GL[Math.floor(random(`s9g-${i}-${j}-${seedF}`) * GL.length)];
       items.push(
-        <text key={`${i}-${j}`} x={p.x + (j % 2 ? 9 : -9)} y={yy} opacity={0.9 * (1 - u * 0.3)}>
+        <text key={`${i}-${j}`} x={p.x + ((j % 2 ? 9 : -9) * size) / 26} y={yy} opacity={0.9 * (1 - u * 0.3)}>
           {ch}
         </text>,
       );
     }
   });
-  // landing ticks: a pale ring on each box as its glyphs arrive
+  // landing ticks: a pale ring on each box as its glyphs arrive (ring > 0: wider, longer and brighter)
+  const span = 7 + 7 * ring;
   const rings = targets.map((p, i) => {
     const run = Math.floor(i / 3);
     const land = at + run * 4 + (i % 3) * 2 + dur * 0.55 + 8;
-    const w = clamp01(1 - Math.abs(f - land) / 7);
-    return w > 0 ? <rect key={`r${i}`} x={p.x - 34 - 10 * (1 - w)} y={p.y - 34 - 10 * (1 - w)} width={68 + 20 * (1 - w)} height={68 + 20 * (1 - w)} rx={8} fill="none" stroke={PAL.ink} strokeWidth={2.5} opacity={w * 0.8} /> : null;
+    const w = clamp01(1 - Math.abs(f - land) / span);
+    const g = 10 * (1 - w);
+    return w > 0 ? <rect key={`r${i}`} x={p.x - 34 - g} y={p.y - 34 - g} width={68 + 2 * g} height={68 + 2 * g} rx={8} fill="none" stroke={PAL.ink} strokeWidth={2.5 + 2 * ring} opacity={w * (0.8 + 0.15 * ring)} /> : null;
   });
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
-      <g fontFamily={MONO} fontWeight={500} fontSize={26} fill={PAL.muted} textAnchor="middle">
+      <g fontFamily={MONO} fontWeight={500} fontSize={size} fill={PAL.muted} textAnchor="middle">
         {items}
       </g>
       {rings}

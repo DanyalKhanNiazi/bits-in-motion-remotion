@@ -1,6 +1,6 @@
 // S3 section-local marks (no wall, card, Bit or Windows UI of their own: those come from the kit).
 import React from 'react';
-import {CheckGlyph, EASE, PAL, PHOTO, SANS, SPRING, boxXY, clamp01, lerp, prog, rgba, springAt, useTextCheck} from '../../kit';
+import {CARD, CheckGlyph, EASE, GEOM, PAL, PHOTO, SANS, SPRING, boxXY, cardK, clamp01, lerp, prog, rgba, springAt, useTextCheck} from '../../kit';
 
 /** A rubber-stamp word (screen px, hud) that slams onto the card: coral border, slight tilt, squash and settle. */
 export const Stamp: React.FC<{frame: number; at: number; exitAt?: number; text: string; x: number; y: number; size?: number; rot?: number}> = ({
@@ -109,44 +109,148 @@ const bc = (id: number) => {
   return {x: p.x + 32, y: p.y + 32};
 };
 
+/** Where the photo's 4 Bits sit inside a box (box px; mirrors the Archive's figure-ground layout, 19 px Bits). */
+const PB_XY: Array<[number, number]> = [
+  [11, 3],
+  [34, 3],
+  [11, 26],
+  [34, 26],
+];
+
 /**
- * "Rewriting every box … would take far longer": a dashed rewrite head (world px, drawn over the Archive) that crawls
- * along the photo's 9 boxes in order, barely gets past the first box, stalls and fades. Nothing is actually rewritten.
+ * "Rewriting every box … would take far longer" (world px, drawn over the Archive in the same wide frame as the two
+ * instant ticks): grey Bits fall one at a time into the photo's 9 boxes (each lands with a small coral write ring), a
+ * numberless progress bar under the wall barely moves, and on `stallAt` everything stops: the falling Bit freezes and
+ * blinks, the stream dies, the bar greys. It fades at `fadeAt` and the photo's Bits are untouched (it never happens).
  */
-export const RewriteCrawl: React.FC<{frame: number; at: number; stallAt: number; fadeAt: number}> = ({frame: f, at, stallAt, fadeAt}) => {
-  if (f < at - 2 || f > fadeAt + 24) return null;
-  const pts = PHOTO.map(bc);
-  const appear = prog(f, at - 2, 10, EASE.out);
-  const fade = 1 - prog(f, fadeAt, 22, EASE.inOut);
-  // crawl: slow, stepping (a tiny hitch every box), then stalls at stallAt
-  const run = Math.min(f, stallAt) - at;
-  const u = Math.max(0, run) / 52; // ≈ 1.6 boxes by the stall
-  const pos = u + 0.05 * Math.sin(u * Math.PI * 2);
-  const seg = Math.min(pts.length - 2, Math.floor(pos));
-  const k = pos - seg;
-  const hx = lerp(pts[seg].x, pts[seg + 1].x, k);
-  const hy = lerp(pts[seg].y, pts[seg + 1].y, k);
+export const RewriteStream: React.FC<{frame: number; at: number; period: number; stallAt: number; fadeAt: number; bar: {x: number; y: number; w: number}}> = ({
+  frame: f,
+  at,
+  period,
+  stallAt,
+  fadeAt,
+  bar,
+}) => {
+  if (f < at - 8 || f > fadeAt + 22) return null;
+  const FL = 14; // flight frames per Bit
+  const op = prog(f, at - 8, 8, EASE.out) * (1 - prog(f, fadeAt, 20, EASE.inOut));
+  const tf = Math.min(f, stallAt); // the work's own clock stops on the stall
   const stalled = f >= stallAt;
-  const flick = stalled ? 0.55 + 0.45 * Math.cos((f - stallAt) * 1.3) : 1;
-  const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x} ${p.y}`).join('');
-  const done = pts.slice(0, seg + 1).map((p) => p);
+  const slots = PHOTO.flatMap((id) => PB_XY.map(([bx, by]) => ({x: boxXY(id).x + bx, y: boxXY(id).y + by, id})));
+  const landed: typeof slots = [];
+  let flying: {x: number; y: number; u: number; id: number} | null = null;
+  for (let k = 0; k < slots.length; k++) {
+    const t0 = at + k * period;
+    if (tf < t0) break;
+    const u = (tf - t0) / FL;
+    if (u >= 1) landed.push(slots[k]);
+    else flying = {...slots[k], u: EASE.inCubic(u), id: slots[k].id};
+  }
+  const done = landed.length + (flying ? flying.u : 0);
+  const fill = done / slots.length;
+  const head = flying ?? landed[landed.length - 1] ?? slots[0];
+  const hb = boxXY(head.id);
+  const flick = stalled ? 0.35 + 0.65 * (0.5 + 0.5 * Math.cos((f - stallAt) * 1.4)) : 1;
+  const grey = prog(f, stallAt, 8, EASE.out);
+  const rr = (x: number, y: number) => `M${x + 3.5} ${y}h12q3.5 0 3.5 3.5v12q0 3.5-3.5 3.5h-12q-3.5 0-3.5-3.5v-12q0-3.5 3.5-3.5z`;
+  const lastLand = landed.length ? at + (landed.length - 1) * period + FL : -1e9;
+  const ring = f - lastLand < 7 && landed.length ? (f - lastLand) / 7 : -1;
+  const rl = landed[landed.length - 1];
+  // the whole job: faint outlines on all 9 boxes (one path)
+  const job = PHOTO.map((id) => {
+    const b = boxXY(id);
+    return `M${b.x - 5} ${b.y - 5}h74v74h-74z`;
+  }).join('');
+  const bx0 = bar.x;
+  const bw = bar.w;
   return (
-    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={appear * fade}>
-      {/* the whole job: a faint dashed route through all nine boxes */}
-      <path d={d} fill="none" stroke={PAL.ink} strokeOpacity={0.32} strokeWidth={3} strokeDasharray="10 9" strokeDashoffset={-f * 0.6} strokeLinecap="round" strokeLinejoin="round" />
-      {pts.map((p, i) => (
-        <rect key={i} x={p.x - 38} y={p.y - 38} width={76} height={76} rx={9} fill="none" stroke={PAL.ink} strokeOpacity={i <= seg ? 0.0 : 0.22} strokeWidth={2} />
-      ))}
-      {/* what it has covered so far: a pale veil */}
-      {done.map((p, i) => (
-        <rect key={`v${i}`} x={p.x - 34} y={p.y - 34} width={i < seg ? 68 : 68 * clamp01(k * 1.2)} height={68} rx={6} fill={PAL.ink} fillOpacity={0.16} />
-      ))}
-      {/* the head */}
-      <g opacity={flick}>
-        <rect x={hx - 40} y={hy - 40} width={80} height={80} rx={10} fill={PAL.ink} fillOpacity={0.1} stroke={PAL.ink} strokeWidth={4} strokeDasharray="12 7" strokeDashoffset={f * 1.2} />
-        <rect x={hx - 3} y={hy - 46} width={6} height={92} rx={3} fill={PAL.ink} fillOpacity={0.75} />
-      </g>
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+      <defs>
+        <linearGradient id="s3-rw-stream" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={PAL.oldBit} stopOpacity={0} />
+          <stop offset="1" stopColor={PAL.otherBit} stopOpacity={0.75} />
+        </linearGradient>
+      </defs>
+      <path d={job} fill="none" stroke={PAL.ink} strokeOpacity={0.24} strokeWidth={2} strokeDasharray="8 7" />
+      {/* the stream into the box being rewritten, and the head's dashed ring */}
+      <rect x={hb.x + 26} y={hb.y - 150} width={12} height={150} rx={6} fill="url(#s3-rw-stream)" opacity={1 - grey} />
+      <rect x={hb.x - 6} y={hb.y - 6} width={76} height={76} rx={10} fill="none" stroke={PAL.ink} strokeWidth={3.5} strokeDasharray="12 7" strokeDashoffset={-tf * 1.2} opacity={flick} />
+      {/* rewritten Bits (grey) cover the photo's cyan ones, one at a time */}
+      {landed.length ? <path d={landed.map((s) => rr(s.x, s.y)).join('')} fill={PAL.oldBit} /> : null}
+      {flying ? <path d={rr(flying.x, flying.y - 130 * (1 - flying.u))} fill={PAL.otherBit} opacity={flick} /> : null}
+      {ring >= 0 && rl ? <rect x={rl.x - 3 - 8 * ring} y={rl.y - 3 - 8 * ring} width={25 + 16 * ring} height={25 + 16 * ring} rx={6} fill="none" stroke={PAL.loss} strokeWidth={3} opacity={1 - ring} /> : null}
+      {/* numberless progress bar: the whole rewrite, barely begun */}
+      <rect x={bx0 - 18} y={bar.y - 22} width={bw + 36} height={44} rx={22} fill="#070B15" fillOpacity={0.88} stroke={PAL.annotation} strokeOpacity={0.35} strokeWidth={2} />
+      <rect x={bx0} y={bar.y - 7} width={bw} height={14} rx={7} fill={PAL.structure} fillOpacity={0.35} />
+      <rect x={bx0} y={bar.y - 7} width={Math.max(14, bw * fill)} height={14} rx={7} fill={grey > 0 ? PAL.oldBit : PAL.ink} fillOpacity={1 - 0.35 * grey} />
+      <circle cx={bx0 + Math.max(7, bw * fill)} cy={bar.y} r={13} fill={PAL.ink} opacity={0.35 * (1 - grey)} />
     </svg>
+  );
+};
+
+type FieldKey = 'name' | 'size' | 'dates' | 'directions';
+/** the printed field labels on the card (card px = mft-record_b px; mirrors Card.tsx): end-anchored left column, "directions" start-anchored */
+const FIELD_LABEL: Record<FieldKey, {x: number; y: number; end: boolean}> = {
+  name: {x: 268, y: 466, end: true},
+  size: {x: 240, y: 620, end: true},
+  dates: {x: 226, y: 812, end: true},
+  directions: {x: 700, y: 372, end: false},
+};
+const fieldBars = (k: FieldKey): ReadonlyArray<readonly number[]> => (k === 'directions' ? [CARD.fields.directions.housing] : CARD.fields[k].bars);
+/** Card px → world px for the photo's card at rest in the drawer (centre `card` from archiveAnchors). */
+export const cardToWorld = (card: {x: number; y: number}, nx: number, ny: number) => {
+  const k = cardK(GEOM.card.w);
+  return {x: card.x + k * (nx - CARD.cx), y: card.y + k * (ny - CARD.cy)};
+};
+/** Where a field's printed label sits (card px), for hud chips. */
+export const fieldLabelPt = (k: FieldKey) => ({x: FIELD_LABEL[k].x, y: FIELD_LABEL[k].y - 13});
+
+/**
+ * A field "lights as spoken" (world px, over the Archive): its printed label pops to bold ink on a white pill and its
+ * bar fills with a pale structure tint; both go when the next field lights.
+ */
+export const FieldPop: React.FC<{frame: number; at: number; exitAt: number; field: FieldKey; card: {x: number; y: number}}> = ({frame: f, at, exitAt, field, card}) => {
+  if (f < at - 1) return null;
+  const ex = prog(f, exitAt, 8, EASE.inCubic);
+  if (ex >= 1) return null;
+  const k = cardK(GEOM.card.w);
+  const sp = springAt(f, at, SPRING.pop);
+  const op = clamp01(sp * 2) * (1 - ex);
+  const fill = prog(f, at, 10, EASE.out);
+  const L = FIELD_LABEL[field];
+  const p = cardToWorld(card, L.x, L.y - 13);
+  const tint = field === 'directions' ? 0.14 : 0.3;
+  return (
+    <>
+      <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+        {fieldBars(field).map((b, i) => {
+          const a = cardToWorld(card, b[0], b[1]);
+          return <rect key={i} x={a.x} y={a.y} width={(b[2] - b[0]) * k * fill} height={(b[3] - b[1]) * k} rx={14 * k} fill={PAL.structure} fillOpacity={tint} />;
+        })}
+      </svg>
+      <div style={{position: 'absolute', left: p.x, top: p.y, width: 0, height: 0, transform: `scale(${k * (1 + 0.14 * sp) * (1 - 0.1 * ex)})`, transformOrigin: '0 0', opacity: op}}>
+        <div
+          style={{
+            position: 'absolute',
+            [L.end ? 'right' : 'left']: -16,
+            top: 0,
+            transform: 'translateY(-50%)',
+            padding: '1px 16px 5px',
+            borderRadius: 999,
+            background: '#FFFFFF',
+            boxShadow: `0 0 0 3px ${PAL.tileInk}, 0 6px 18px rgba(0,0,0,0.28)`,
+            fontFamily: SANS,
+            fontWeight: 800,
+            fontSize: 42,
+            lineHeight: 1.2,
+            color: PAL.tileInk,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {field}
+        </div>
+      </div>
+    </>
   );
 };
 

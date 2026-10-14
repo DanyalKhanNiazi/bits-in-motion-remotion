@@ -31,7 +31,6 @@ import {
   type Content,
   type Pose,
 } from '../../kit';
-import {Easing} from 'remotion';
 import {CUT, T} from './t';
 import {GlyphSave, Lockup, glyphLand} from './marks';
 
@@ -41,10 +40,16 @@ const DISSOLVE = T.erase + 4;
 const SINK = DISSOLVE + 18;
 const LAND = SINK + 18;
 const SIG_END = {x: 1200, y: 236, zoom: 1.0};
+/**
+ * The card stays down in the drawer while "Delete ≠ Erase" is up (it exits at T.del2 − 2 over 9 f); it lifts once the
+ * title is all but gone and lands on "index card", with the camera rising to the signature framing alongside it.
+ */
+const LIFT0 = T.del2 + 6;
+const LIFT1 = T.indexCard + 1;
 const P22_CAM: CamKey[] = [
   {f: CUT.p22, x: 900, y: 500, zoom: 1.05},
   {f: T.erase + 8, x: 930, y: 490, zoom: 1.0},
-  {f: T.crosses - 4, ...archiveCam('signature'), dur: 32},
+  {f: LIFT1 + 3, ...archiveCam('signature'), dur: LIFT1 + 3 - LIFT0},
   {f: CUT.split, ...SIG_END},
 ];
 const P22_EVENTS: ArchiveEvent[] = [
@@ -62,7 +67,7 @@ const passRect = (() => {
 })();
 
 export const DeleteShot: React.FC<{f: number}> = ({f}) => {
-  const A = {frame: f, state: 'HDD_SAVED' as const, light: 'cool' as const, events: P22_EVENTS, lift: [[T.erase - 4, 0], [T.crosses - 6, 1]] as const};
+  const A = {frame: f, state: 'HDD_SAVED' as const, light: 'cool' as const, events: P22_EVENTS, lift: [[LIFT0, 0], [LIFT1, 1]] as const};
   const an = archiveAnchors(A, f);
   return (
     <Stage
@@ -162,21 +167,53 @@ export const SplitShot: React.FC<{f: number}> = ({f}) => {
 
 /* ================================================================ P22d: one continuous pull-out to the wide, and the lockup */
 const PB = archiveCam('photoBoxes');
-const FIN = {a: T.useCmd, mid: T.boxes2, end: T.to + 30};
+const FIN = {a: T.useCmd, end: T.to + 30};
 const FIN_END: Pose = {x: 985, y: 585, zoom: 0.86, rot: 0};
-const gFin = Easing.bezier(0.42, 0, 0.22, 1);
+const SAN = T.cmd + 1;
+const SAVE = T.or + 2;
+/**
+ * The pull-out never stops, but it breathes: a fast first leg (the sanitize pulse reaching every box) to about halfway
+ * (zoom ≈ 1.27, the 9 photo boxes still large), a slow drift while the glyph save lands in them (the film's last idea
+ * gets its own beat), then the rest of the way out under the lockup, decaying into a drift. Speed profile:
+ * a raised-cosine bump (leg A) + a fast-rise / slow-decay bump (leg B) + a small constant drift, integrated per frame
+ * so the camera's velocity stays continuous.
+ */
+const HOLD0 = SAVE - 4;
+const HOLD1 = SAVE + 30;
+const S_HOLD = 0.5;
+const finS: Float64Array = (() => {
+  const n = FIN.end - FIN.a;
+  const drift = 0.04 / (HOLD1 - HOLD0);
+  const dA = HOLD0 - FIN.a + 4;
+  const vA = (t: number) => (t >= 0 && t <= dA ? 0.5 - 0.5 * Math.cos((2 * Math.PI * t) / dA) : 0);
+  const vB = (t: number) => (t > 0 ? (1 - Math.exp(-t / 6)) * Math.exp(-t / 26) : 0);
+  // areas: leg A brings s to S_HOLD by HOLD0 (with the drift), leg B takes it the rest of the way by FIN.end
+  let aA = 0;
+  let aB = 0;
+  for (let i = 0; i < n; i++) {
+    aA += vA(i + 0.5);
+    aB += vB(i + 0.5 - (HOLD1 - FIN.a));
+  }
+  const wA = (S_HOLD - drift * (HOLD0 - FIN.a)) / aA;
+  const wB = (1 - drift * n - wA * aA) / aB;
+  const out = new Float64Array(n + 1);
+  for (let i = 0; i < n; i++) out[i + 1] = out[i] + drift + wA * vA(i + 0.5) + wB * vB(i + 0.5 - (HOLD1 - FIN.a));
+  return out;
+})();
+const finSAt = (f: number) => {
+  const x = clamp01((f - FIN.a) / (FIN.end - FIN.a)) * (FIN.end - FIN.a);
+  const i = Math.min(finS.length - 2, Math.floor(x));
+  return lerp(finS[i], finS[i + 1], x - i);
+};
 const finCam = (f: number): Pose => {
   if (f <= FIN.a) {
     const u = prog(f, CUT.zt10, FIN.a - CUT.zt10);
     return {x: PB.x, y: PB.y, zoom: PB.zoom * lerp(1.06, 1.0, u), rot: 0};
   }
-  const t = clamp01((f - FIN.a) / (FIN.end - FIN.a));
-  const g = gFin(t);
+  const g = finSAt(f);
   const lz = lerp(Math.log(PB.zoom), Math.log(FIN_END.zoom), g);
   return {x: lerp(PB.x, FIN_END.x, g), y: lerp(PB.y, FIN_END.y, g), zoom: Math.exp(lz), rot: 0};
 };
-const SAN = T.cmd + 1;
-const SAVE = T.or + 2;
 const XF0 = SAVE + 8;
 const XF1 = SAVE + 22;
 export const FinalShot: React.FC<{f: number}> = ({f}) => {
@@ -207,7 +244,7 @@ export const FinalShot: React.FC<{f: number}> = ({f}) => {
           <Archive frame={f} state="SSD_DELETED" boxes={boxesB} events={[{at: -100000, op: 'scramble', target: 'photo'}]} />
         </div>
       ) : null}
-      <GlyphSave frame={f} at={SAVE} targets={targets} />
+      <GlyphSave frame={f} at={SAVE} targets={targets} size={40} ring={1} />
     </Stage>
   );
 };
