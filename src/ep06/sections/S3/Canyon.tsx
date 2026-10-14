@@ -39,7 +39,7 @@ export const canyonPhoto = (f: number) => {
 };
 
 export const CANYON_CAM: CamKey[] = [
-  {f: T.withAt - 14, x: 960, y: 760, zoom: 1.7},
+  {f: T.withAt - 14, x: 960, y: 700, zoom: 1.36},
   {f: T.driveEnd, x: 960, y: 500, zoom: 0.94, ease: 'inOut'},
   {f: T.yourEntry + 6, x: 960, y: 490, zoom: 0.97},
   {f: T.yourEntry + 34, x: 960, y: 532, zoom: 2.3, ease: 'inCubic'},
