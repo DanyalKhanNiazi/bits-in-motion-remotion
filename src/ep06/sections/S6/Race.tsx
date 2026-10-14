@@ -18,6 +18,7 @@ import {
   VerdictCard,
   VerdictChip,
   archiveAnchors,
+  boxC,
   archiveCam,
   clamp01,
   lerp,
@@ -47,7 +48,47 @@ const SSD_EVENTS: ArchiveEvent[] = [
   {at: T.disposable, op: 'tag', target: 'photo', dur: 18},
 ];
 const SCAN_AT = T.once + 13;
-const RIGHT_EVENTS: ArchiveEvent[] = [...SSD_EVENTS, {at: T.erases, op: 'sweep', target: 'photo', dur: 34}, {at: SCAN_AT, op: 'scan', dur: 45}];
+/** the SSD's housekeeping erase: an amber band crosses the photo's runs linearly (enters the splitBoxes view on
+ *  "erases" 8721, leaves it ≈ 8747); each run clears as the band reaches its middle box. The kit's own band is
+ *  eased (fast in the middle), so the runs are cleared by instant kit sweeps (dur 1, band never in view) timed to ours. */
+const ERASE = {at: T.erases - 2, x0: 700, x1: 1800, dur: 34};
+const eraseX = (f: number) => lerp(ERASE.x0, ERASE.x1, (f - ERASE.at) / ERASE.dur);
+const eraseAt = (x: number) => Math.round(ERASE.at + ((x - ERASE.x0) / (ERASE.x1 - ERASE.x0)) * ERASE.dur);
+const RUN_CLEAR: ArchiveEvent[] = (['run3', 'run1', 'run2'] as const).map((r, i) => ({
+  at: eraseAt(boxC([99, 22, 59][i]).x),
+  op: 'sweep' as const,
+  target: r,
+  dur: 1,
+}));
+const RIGHT_EVENTS: ArchiveEvent[] = [...SSD_EVENTS, ...RUN_CLEAR, {at: SCAN_AT, op: 'scan', dur: 45}];
+
+/** the band itself (world px, drawn over the right panel's Archive): the kit's look, linear in x */
+const EraseBand: React.FC<{f: number}> = ({f}) => {
+  const t = f - ERASE.at;
+  if (t < -4 || t > ERASE.dur + 4) return null;
+  const bx = eraseX(f);
+  const op = clamp01((t + 4) / 6) * (1 - clamp01((t - ERASE.dur + 6) / 8));
+  const y0 = 196;
+  const h = 728;
+  return (
+    <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+      <defs>
+        <linearGradient id="s6-eraseBand" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor={PAL.drive} stopOpacity={0} />
+          <stop offset="0.7" stopColor={PAL.drive} stopOpacity={0.35} />
+          <stop offset="0.92" stopColor={PAL.driveHot} stopOpacity={0.95} />
+          <stop offset="1" stopColor={PAL.driveHot} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <g opacity={op}>
+        <rect x={ERASE.x0 - 80} y={y0} width={Math.max(0, bx - 200 - ERASE.x0 + 80)} height={h} fill={PAL.drive} opacity={0.06} />
+        <rect x={bx - 230} y={y0} width={240} height={h} fill="url(#s6-eraseBand)" />
+        <rect x={bx - 3} y={y0} width={6} height={h} rx={3} fill={PAL.driveHot} opacity={0.95} />
+        <rect x={bx - 14} y={y0} width={28} height={h} fill={PAL.drive} opacity={0.22} />
+      </g>
+    </svg>
+  );
+};
 
 /* ---------------------------------------------------------------- the scanner (identical in both panels) */
 const SC = {x: 1700, y: 60, w: 700} as const;
@@ -101,6 +142,32 @@ const Rings: React.FC<{pts: Array<{x: number; y: number; t: number; r: number}>}
   </svg>
 );
 
+/** "What will the drive do?" set over the dark wall right of the boundary and below the index card (never on the
+ *  paper); the card's own scrim is re-centred on it */
+const Q = {at: T.think, exitAt: T.disposable - 9, dx: 220, y: 640, scrim: 0.45};
+const Question: React.FC<{f: number}> = ({f}) => {
+  if (f < Q.at - 2) return null;
+  const ex = prog(f, Q.exitAt, 10, EASE.inCubic);
+  if (ex >= 1) return null;
+  const sIn = prog(f, Q.at - 2, 12, EASE.out);
+  const cx = 960 + Q.dx;
+  return (
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 1 - ex,
+          background: `radial-gradient(ellipse 70% 62% at ${(cx / 1920) * 100}% ${(Q.y / 1080) * 100}%, ${rgba('#050913', Q.scrim * 0.78 * sIn)}, ${rgba('#02040A', Q.scrim * sIn)})`,
+        }}
+      />
+      <div style={{position: 'absolute', left: Q.dx, top: 0, width: 1920, height: 1080}}>
+        <QuestionCard frame={f} at={Q.at} exitAt={Q.exitAt} text="What will the drive do?" y={Q.y} scrim={0} />
+      </div>
+    </>
+  );
+};
+
 export const ShotA: React.FC<{frame: number; grade?: {vignette?: number}}> = ({frame: f, grade}) => {
   const A = archA(f);
   const pose = poseAt(f, CAM_A, DRIFT);
@@ -120,7 +187,7 @@ export const ShotA: React.FC<{frame: number; grade?: {vignette?: number}}> = ({f
       hud={
         <>
           <Rings pts={pings} />
-          <QuestionCard frame={f} at={T.think} exitAt={T.disposable - 9} text="What will the drive do?" y={520} scrim={0.45} />
+          <Question f={f} />
         </>
       }
     >
@@ -171,6 +238,7 @@ const rightPanel = {
     return (
       <>
         <Archive frame={fr} state="SSD_DELETED" events={RIGHT_EVENTS} />
+        <EraseBand f={fr} />
         {scanner(fr, mode, at)}
       </>
     );
@@ -179,7 +247,7 @@ const rightPanel = {
 
 /** the right panel's tags pulse faster from "convenient moment" (the riser) until the sweep */
 const RiserPings: React.FC<{f: number}> = ({f}) => {
-  if (f < T.convenient || f > T.erases + 6) return null;
+  if (f < T.convenient || f > ERASE.at + 2) return null;
   const A = {frame: f, state: 'SSD_DELETED' as const, events: RIGHT_EVENTS};
   const an = archiveAnchors(A, f, stagePose(RACE_CAM, f, DRIFT));
   const u = (f - T.convenient) / (T.erases - T.convenient);
@@ -188,7 +256,7 @@ const RiserPings: React.FC<{f: number}> = ({f}) => {
   const pts = PHOTO.map((id) => {
     const b = an.box(id);
     const p = splitToScreen('right', f, {cam: RACE_CAM, drift: DRIFT}, b.x, b.y);
-    return {x: p.x, y: p.y, t: f > T.erases ? 1.1 : ph, r: 64 * p.scale};
+    return {x: p.x, y: p.y, t: f > ERASE.at ? 1.1 : ph, r: 64 * p.scale};
   });
   return <Rings pts={pts} />;
 };
@@ -257,11 +325,11 @@ const Clock: React.FC<{f: number}> = ({f}) => {
 
 /** a dim floor reflection of both panels in the band under them, until the verdict takes that band */
 const Reflection: React.FC<{f: number}> = ({f}) => {
-  const a = 0.34 * prog(f, T.when + 6, 12) * (1 - prog(f, T.nothing - 10, 10));
+  const a = 0.58 * prog(f, T.when + 6, 12) * (1 - prog(f, T.nothing - 10, 10));
   if (a <= 0.005) return null;
   const axis = SPLIT.content.y1 + 8; // the bezels' bottom edge
   const top = axis + 4;
-  const mask = 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0) 92%)';
+  const mask = 'linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.12) 85%, rgba(0,0,0,0) 100%)';
   return (
     <div style={{position: 'absolute', left: 0, top, width: 1920, height: 1080 - top, overflow: 'hidden', opacity: a, WebkitMaskImage: mask, maskImage: mask}}>
       <div style={{position: 'absolute', left: 0, top: -top, width: 1920, height: 1080, transformOrigin: `0 ${axis}px`, transform: 'scaleY(-1)', filter: 'blur(2px)'}}>

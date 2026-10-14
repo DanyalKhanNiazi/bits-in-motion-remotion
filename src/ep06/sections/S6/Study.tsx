@@ -60,6 +60,7 @@ const HIT = T.never;
 /** the drive comes out of the zoom at hero size and multiplies at once; the 16 land as "drive" (9084) is spoken */
 const MULT = T.depends + 5;
 const HERO_S = 3.1;
+const FRAME_IN = T.drive1 - 6;
 const RISE = 9268; // the title shrinks into the tag, the row rises (between "SSDs" and "With trim off")
 const SCAN1 = T.trimOff + 3; // the recovery scan crosses the TRIM off row
 const COPY = T.trimOn - 2; // the row copies down
@@ -185,7 +186,8 @@ export const Study: React.FC<{frame: number}> = ({frame: f}) => {
   const pr = EASE.inOut(prog(f, PRINT, 26));
   const tilt = -2.2 * pr;
   const shrink = 1 - 0.05 * pr;
-  const frameOn = prog(f, T.study - 2, 16, EASE.out);
+  // the study frame builds as the 16 land ("drive", 9084), so the stage is composed before "study" names it
+  const frameOn = prog(f, FRAME_IN, 18, EASE.out);
   const all = [...rowTiles(f), ...onTiles(f)];
   // TRIM on band at ¼ height
   const bandA = prog(f, BAND - 4, 12, EASE.out) * (f < COPY ? 0 : 1);
