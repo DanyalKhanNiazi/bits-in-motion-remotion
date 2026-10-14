@@ -42,10 +42,11 @@ Frames from `at()`. Must-read text in the hud only, ≤ 12 words at once. Env ch
   "stolen" 14166: a hand swoops in and lifts it out of frame; "decommissioned" 14189: it drops into an e-waste crate (thunk 14200).
 - **I 14242–14777 desk** (reader-desk, Ken Burns track). Settings window on the monitor 14290; SettingsToggle
   "Device encryption" (unknown) 14336, magnifier 14422; caption **"Check whether yours is on"** 14422 → 14492.
-  "One limit" 14495: pull back to the desk; the KeyFixture beside the keyboard; key slots in 14531 (tiles amber,
-  "started" 14555). "Windows reads the drive normally" 14586: Explorer + PhotoViewer open passport.jpg on the monitor.
-  "recovery tool" 14684: the recovery scanner (in the screen) copies the photo into its tray; Label **"Won't stop a
-  recovery tool"** 14658 → 14735. Exit 14727→14777: pull back to the desk wide (S9 opens on the desk wide).
+  "One limit" 14495: the window closes; whip down 14512 to **J** (stage): the key slots in 14533 (tiles amber,
+  "started" 14555); FlashCut 14553 to **K** (Archive SSD_ENCRYPTED): kit `unscramble` 14561, then Windows' `readPulse`
+  14576 ("Windows reads"); FlashCut 14598 back to the monitor: Explorer + PhotoViewer open passport.jpg.
+  "recovery tool" 14684: the recovery scanner (in the screen) copies the photo into its tray; **"Won't stop a recovery
+  tool"** 14658 → 14735. Exit 14707→14777: pull back, blended onto S9's opening desk Ken Burns (exact join).
 ## Re-hooks and sound
 - Re-hooks: "the strange reversal" 11993 (coin), "an even better move"/"Encryption" 13175–13285. Hero beats: coin flip
   12136, verdict 12320, sanitize reaching spare 13040–13078, glyphs landing 13524–13562, key shatter 13900.
