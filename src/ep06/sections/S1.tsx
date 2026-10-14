@@ -2,14 +2,14 @@
  * Ep06 S1, P01–P02 [0, 1409): the hook (a flash-forward). Plan: docs/ep06/plans/S1_plan.md.
  *   A desk: delete → bin → empty → "Gone."  ·  B DriveDive through the cyan afterimage  ·  C the wall → SIGNATURE
  *   D SplitCompare (compress): May disappear soon after, the drive's sweep, "Gone?", the race tease, one Bit's route
- *   E pull back to the Windows PC  ·  F–H micro-previews  ·  I push into the monitor (handoff to S2)
+ *   E pull back to the Windows PC  ·  F–H micro-previews (zoom-through in, whips between, whip out)  ·  I push into the monitor (handoff to S2)
  */
 import React from 'react';
-import {DriveDive, FlashCut} from '../kit';
+import {DriveDive, Whip, ZoomThrough} from '../kit';
 import {T} from './S1/times';
 import {DeskHook, DeskPc, EXIT_AT, PullBack, afterimagePoint} from './S1/desk';
 import {SplitShot, WallShot} from './S1/archive';
-import {CUT_F, CUT_G, CUT_H, PreviewSanitize, PreviewScan, PreviewWrite} from './S1/previews';
+import {CUT_F, CUT_G, CUT_H, PreviewSanitize, PreviewScan, PreviewWrite, WHIP_DUR, ZOOM_DUR} from './S1/previews';
 
 const DIVE = T.hardDrive;
 const PULL = T.windowsPc - 4;
@@ -24,9 +24,13 @@ export const S1: React.FC<{frame: number}> = ({frame}) => {
   if (f < T.onSsd) return <WallShot f={f} />;
   if (f < PULL) return <SplitShot f={f} />;
   if (f < PULL_END) return <PullBack f={f} split={split} />;
-  if (f < CUT_F - 2) return <DeskPc f={f} />;
-  if (f < CUT_G - 2) return <FlashCut frame={f} at={CUT_F} a={(fr) => <DeskPc f={fr} />} b={(fr) => <PreviewScan f={fr} />} />;
-  if (f < CUT_H - 2) return <FlashCut frame={f} at={CUT_G} a={(fr) => <PreviewScan f={fr} />} b={(fr) => <PreviewWrite f={fr} />} />;
-  if (f < EXIT_AT - 2) return <FlashCut frame={f} at={CUT_H} a={(fr) => <PreviewWrite f={fr} />} b={(fr) => <PreviewSanitize f={fr} exit={EXIT_AT} />} />;
-  return <FlashCut frame={f} at={EXIT_AT} a={(fr) => <PreviewSanitize f={fr} exit={EXIT_AT} />} b={(fr) => <DeskPc f={fr} />} />;
+  if (f < CUT_F) return <DeskPc f={f} />;
+  if (f < CUT_F + ZOOM_DUR) return <ZoomThrough frame={f} at={CUT_F} dur={ZOOM_DUR} cy={500} a={(fr) => <DeskPc f={fr} />} b={(fr) => <PreviewScan f={fr} />} />;
+  if (f < CUT_G) return <PreviewScan f={f} />;
+  if (f < CUT_G + WHIP_DUR) return <Whip frame={f} at={CUT_G} dur={WHIP_DUR} dir="left" a={(fr) => <PreviewScan f={fr} />} b={(fr) => <PreviewWrite f={fr} />} />;
+  if (f < CUT_H) return <PreviewWrite f={f} />;
+  if (f < CUT_H + WHIP_DUR) return <Whip frame={f} at={CUT_H} dur={WHIP_DUR} dir="left" a={(fr) => <PreviewWrite f={fr} />} b={(fr) => <PreviewSanitize f={fr} exit={EXIT_AT} />} />;
+  if (f < EXIT_AT) return <PreviewSanitize f={f} exit={EXIT_AT} />;
+  if (f < EXIT_AT + WHIP_DUR) return <Whip frame={f} at={EXIT_AT} dur={WHIP_DUR} dir="right" a={(fr) => <PreviewSanitize f={fr} exit={EXIT_AT} />} b={(fr) => <DeskPc f={fr} />} />;
+  return <DeskPc f={f} />;
 };

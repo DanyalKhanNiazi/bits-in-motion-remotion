@@ -30,8 +30,8 @@ import {
   type Pose,
 } from '../../kit';
 import {CUT, T} from './t';
-import {BeamCore, GhostLand, Ground, HeaderRing, LostRing} from './fx';
-import {LIVE} from './live';
+import {BeamCore, GhostThreat, Ground, HeaderRing, LostRing} from './fx';
+import {LIVE, RACE_STEP, raceCopy} from './live';
 import {Tally, TALLY_EXIT} from './Tally';
 
 /* ---------------------------------------------------------------- camera */
@@ -39,18 +39,22 @@ const CARDZ = {x: 380, y: 330, zoom: 2.3};
 // P08: the wall sits high so the foreground scanner's tray (lower right) is fully in frame under run 2
 const PW = {x: 1010, y: 616, zoom: 0.9};
 const PW2 = {x: 992, y: 620, zoom: 0.95};
+/** "copy the bytes back out": follow the copies right, into the scanner's tray (dollied in) */
+const PWC = {x: 1550, y: 600, zoom: 0.92};
 const DR = archiveCam('drawer');
 const PS = {x: 1240, y: 560, zoom: 1.15};
 const HD = archiveCam('header');
 // P09: the photo's boxes in the left 55 %, the scanner (and its tray) in the right 45 %
 const PR = {x: 1495, y: 520, zoom: 1.21};
 const PR2 = {x: 1480, y: 516, zoom: 1.25};
-const PR3 = {x: 1490, y: 524, zoom: 1.22};
+const PR3 = {x: 1560, y: 524, zoom: 1.1};
 const WL = archiveCam('wall');
 export const ARCH_CAM: CamKey[] = [
   {f: CUT.zt, ...CARDZ},
   {f: T.aTool - 2, ...PW, ease: 'cam'},
-  {f: T.ifACard + 2, ...PW2, ease: 'inOut'},
+  {f: T.copy - 5, ...PW2, ease: 'inOut'},
+  {f: T.copy + 22, ...PWC, ease: 'inOut'},
+  {f: T.ifACard + 8, x: PWC.x + 12, y: PWC.y - 2, zoom: PWC.zoom * 1.02},
   {f: T.reused - 6, ...DR, dur: 30, ease: 'cam'},
   {f: T.someTools - 6, x: DR.x + 10, y: DR.y + 4, zoom: DR.zoom * 1.05},
   {f: T.scan - 2, ...PS, dur: 20, ease: 'whip'},
@@ -75,9 +79,13 @@ const fromScreen = (p: Pose, sx: number, sy: number) => {
 
 /* ---------------------------------------------------------------- the scanner in the foreground (screen px) */
 // placements keep the whole tray inside x ≤ 1856, y ≤ 940 (tray rim native 695–1230 × 645–1050)
-const SC_A = {x: 1543, y: 730, w: 631};
-const SC_B = {x: 1483, y: 690, w: 753};
-const SC_R = SC_B;
+const SC_A = {x: 1535, y: 730, w: 631};
+/** the dolly onto the tray on "copy the bytes back out", and the race: tray card ≈ 184 × 250 px */
+const SC_BIG = {x: 1368, y: 690, w: 971};
+const SC_B = {x: 1473, y: 690, w: 753};
+const SC_R = SC_BIG;
+const dollyA = (f: number) => EASE.inOut(prog(f, T.copy - 5, 26));
+const mixP = <P extends Record<string, number>>(a: P, b: P, u: number): P => Object.fromEntries(Object.keys(a).map((k) => [k, lerp(a[k], b[k], u)])) as P;
 const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const zp = clamp01((Math.log(pose.zoom) - Math.log(1.15)) / (Math.log(HD.zoom) - Math.log(1.15)));
   const px = clamp01(1 - zp) * -(pose.x - ref.x) * pose.zoom * 0.1;
@@ -88,14 +96,13 @@ const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number
 /* ---------------------------------------------------------------- the race schedule (copies in order, tray partial) */
 const LOST = [1, 4, 7];
 export const RACE = (() => {
-  const t0 = T.so + 14;
-  const step = 14;
-  const copy = Array.from({length: 9}, (_, i) => t0 + i * step);
-  const trayAt = t0;
-  const fillDur = 8 * step + 15;
+  const copy = Array.from({length: 9}, (_, i) => raceCopy(i));
+  const trayAt = copy[0];
+  const fillDur = 8 * RACE_STEP + 15;
   const missing = LOST.map((i) => ({at: copy[i] + 18, y0: i / 9 + 0.012, y1: (i + 1) / 9 - 0.012}));
   return {trayAt, fillDur, copy, missing};
 })();
+
 /* ---------------------------------------------------------------- tray targets (world) for copyOut */
 const trayWorld = (f: number, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const pose = archPose(f);
@@ -104,19 +111,23 @@ const trayWorld = (f: number, base: {x: number; y: number; w: number}, ref: {x: 
   return fromScreen(pose, a.trayCardTop.x, a.trayCardTop.y + 30);
 };
 const REF_A = {x: PW.x, y: PW.y};
+const REF_C = {x: PWC.x, y: PWC.y};
 const REF_B = {x: PR.x, y: PR.y};
+const REF_R = {x: PR3.x, y: PR3.y};
+const placeA = (f: number) => mixP(SC_A, SC_BIG, dollyA(f));
+const refA = (f: number) => mixP(REF_A, REF_C, dollyA(f));
 const SCAN_DUR = 96;
 const HIT = {download: T.download - 5, update: T.update - 5, temp: T.temp - 5};
 
 export const EVENTS: ArchiveEvent[] = [
   {at: T.follow, op: 'readPulse', dur: 34},
-  {at: T.copy, op: 'copyOut', target: 'photo', dur: 30, to: trayWorld(T.copy + 22, SC_A, REF_A)},
+  ...PHOTO.map((id, i): ArchiveEvent => ({at: T.copy + i * 3, op: 'copyOut', target: id, dur: 18, to: trayWorld(T.copy + i * 3 + 16, placeA(T.copy + i * 3 + 16), refA(T.copy + i * 3 + 16))})),
   {at: T.reused, op: 'reuse'},
   {at: T.scan, op: 'scan', dur: SCAN_DUR},
   {at: HIT.download, op: 'overwrite', target: 59},
   {at: HIT.update, op: 'overwrite', target: 99},
   {at: HIT.temp, op: 'overwrite', target: 22},
-  ...PHOTO.map((id, i): ArchiveEvent => ({at: RACE.copy[i], op: 'copyOut', target: id, dur: 18, to: trayWorld(RACE.copy[i] + 14, SC_R, REF_B)})),
+  ...PHOTO.map((id, i): ArchiveEvent => ({at: RACE.copy[i], op: 'copyOut', target: id, dur: 18, to: trayWorld(RACE.copy[i] + 14, SC_R, REF_R)})),
 ];
 
 /* ---------------------------------------------------------------- shot */
@@ -129,8 +140,8 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
   const hud: React.ReactNode[] = [];
 
   /* ---- P08: scanner A reads the unused card, follows its directions, copies out */
-  if (!race && f < T.ifACard + 26) {
-    const s = scannerAt(f, pose, SC_A, REF_A);
+  if (!race && f < T.ifACard + 32) {
+    const s = scannerAt(f, pose, placeA(f), refA(f));
     const card = S(an.card);
     let tgt = {x: card.x, y: card.y, rx: 150 * pose.zoom, ry: 96 * pose.zoom};
     if (f >= T.follow) {
@@ -147,19 +158,19 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
       const k = EASE.inOut(prog(f, T.copy - 6, 12));
       tgt = {x: lerp(tgt.x, c.x, k), y: lerp(tgt.y, c.y, k), rx: lerp(tgt.rx, 330 * pose.zoom, k), ry: lerp(tgt.ry, 240 * pose.zoom, k)};
     }
-    hud.push(<Ground key="gA" s={s} f={f} on={prog(f, T.aTool - 4, 14) * (1 - prog(f, T.ifACard + 4, 14))} />);
-    hud.push(<BeamCore key="bcA" s={s} tgt={tgt} op={win(f, T.read - 4, T.ifACard + 2, 6, 6)} f={f} />);
+    hud.push(<Ground key="gA" s={s} f={f} on={prog(f, T.aTool - 4, 14) * (1 - prog(f, T.ifACard + 10, 14))} />);
+    hud.push(<BeamCore key="bcA" s={s} tgt={tgt} op={win(f, T.read - 4, T.ifACard + 8, 6, 6)} f={f} />);
     hud.push(
       <ScannerProp
         key="scA"
         frame={f}
         {...s}
         enter={{kind: 'slide', at: T.aTool - 4, from: 'right', dist: 760}}
-        exit={{kind: 'slide', at: T.ifACard + 4, to: 'right', dur: 18}}
+        exit={{kind: 'slide', at: T.ifACard + 10, to: 'right', dur: 18}}
         shadow={false}
         rim={{color: '#DCE6F7', strength: 0.6}}
         sweep={{at: [T.aTool + 14], dur: 30}}
-        beam={{at: T.read - 4, until: T.ifACard + 2}}
+        beam={{at: T.read - 4, until: T.ifACard + 8}}
         beamTo={tgt}
         scan={{at: T.read, dur: 22, every: 32, until: T.ifACard}}
         tray="photo"
@@ -203,7 +214,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
 
   /* ---- the race: scanner B copies the boxes in order */
   if (race) {
-    const s = scannerAt(f, pose, SC_R, REF_B);
+    const s = scannerAt(f, pose, SC_R, REF_R);
     let i = 0;
     for (let k = 0; k < 9; k++) if (f >= RACE.copy[k] - 4) i = k;
     const b = S(boxC(PHOTO[i]));
@@ -244,7 +255,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
         <div style={{position: 'absolute', left: an.flag.x - 90, top: an.flag.y - 60, width: 180, height: 120, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba(PAL.loss, 0.55 * flagGlow)}, rgba(0,0,0,0))`}} />
       ) : null}
       <HeaderRing f={f} at={T.header} x={an.header.x} y={an.header.y - 9} />
-      {race ? LIVE.map((w, i) => <GhostLand key={`gw${i}`} f={f} at={w.at} box={w.id} exitAt={T.to - 20} />) : null}
+      {race ? LIVE.map((w, i) => <GhostThreat key={`gw${i}`} f={f} {...w} exitAt={T.to - 20} />) : null}
       {race
         ? LOST.map((i) => {
             const p = boxXY(PHOTO[i]);
@@ -256,7 +267,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
 
   /* ---- hud text */
   if (!race) {
-    hud.push(<QuoteStrip key="q" frame={f} at={T.fileData} exitAt={T.recoveredEnd + 15} source="Microsoft · Windows File Recovery page" quote="…the file data can still exist and be recovered." />);
+    hud.push(<QuoteStrip key="q" frame={f} at={T.fileData} exitAt={T.aTool + 15} source="Microsoft · Windows File Recovery page" quote="…the file data can still exist and be recovered." />);
     // "Reused" stamp rides on the card
     const c = S(an.card);
     if (f >= T.reused - 2 && f < T.scan + 10)
@@ -267,7 +278,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
       );
     hud.push(<KineticText key="some" frame={f} at={T.someTools} text="Some tools scan the boxes" x={960} y={104} size={80} mode="rise" stagger={4} exitAt={T.p9 + 8} />);
     const hn = S({x: an.header.x, y: an.header.y - 9});
-    hud.push(<Label key="hdr" frame={f} at={T.header} text="Distinctive header" x={hn.x - 150} y={hn.y - 120} to={{x: hn.x, y: hn.y}} side="left" size={52} exitAt={T.p9 + 8} />);
+    hud.push(<Label key="hdr" frame={f} at={T.distinctive} text="Distinctive header" x={hn.x - 150} y={hn.y - 120} to={{x: hn.x, y: hn.y}} side="left" size={52} exitAt={T.p9 + 8} />);
     hud.push(<KineticText key="free" frame={f} at={T.free1} text="Free means free" x={960} y={118} size={110} mode="pop" stagger={T.means - T.free1} exitAt={T.freeEnd + 18} />);
     // the three writes
     const tag = (key: string, at: number, id: number, text: string, dx: number, dy: number) => {
@@ -287,7 +298,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
   if (f >= T.download - 12) hud.push(<Tally key="tally" f={f} />);
 
   const shakes = [
-    ...LIVE.map((w) => ({at: w.at, strength: 0.3})),
+    ...LIVE.map((w) => ({at: w.land, strength: 0.3})),
     {at: T.download + 1, strength: 0.5},
     {at: T.update + 1, strength: 0.5},
     {at: T.temp + 1, strength: 0.6},

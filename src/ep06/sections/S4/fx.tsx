@@ -190,3 +190,44 @@ export const GhostLand: React.FC<{f: number; at: number; box: number; exitAt: nu
     </svg>
   );
 };
+
+/**
+ * A live ghost threat (world px): the dashed grey write hovers over a still-lit photo box (`target`, coral target ring
+ * pulsing) while the scanner races to it; once the beam has copied the box it swerves and slams into the free box
+ * next door (`miss`) at `land`: white flash, coral ring. It then sits there as a ghost until `exitAt`.
+ */
+export const GhostThreat: React.FC<{f: number; appear: number; land: number; target: number; miss: number; exitAt: number}> = ({f, appear, land, target, miss, exitAt}) => {
+  if (f < appear) return null;
+  const a = boxXY(target);
+  const b = boxXY(miss);
+  const ac = {x: a.x + BOX / 2, y: a.y + BOX / 2};
+  const bc = {x: b.x + BOX / 2, y: b.y + BOX / 2};
+  const sw = land - 8;
+  const t = f - land;
+  const hoverY = ac.y - 120 + 5 * Math.sin((f - appear) / 6);
+  const u = prog(f, sw, 8, EASE.inCubic);
+  const x = lerp(ac.x, bc.x, EASE.out(clamp01(u * 1.6)));
+  const y = f < sw ? hoverY - 40 * (1 - prog(f, appear, 8, EASE.out)) : lerp(hoverY, bc.y, u);
+  const op = prog(f, appear, 6) * (1 - prog(f, exitAt, 14));
+  const danger = f < land ? 0.55 + 0.45 * Math.sin((f - appear) * 0.9) : 0;
+  const sq = t >= 0 && t < 8 ? 1 - 0.12 * Math.exp(-t / 2) : 1;
+  const ring = t >= 0 && t < 12 ? t / 12 : -1;
+  return (
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+      {danger > 0 ? (
+        <>
+          <line x1={x} y1={y + 34} x2={ac.x} y2={ac.y - 36} stroke={PAL.loss} strokeOpacity={0.55 * danger} strokeWidth={3} strokeDasharray="6 6" strokeDashoffset={-f} />
+          <rect x={a.x - 6} y={a.y - 6} width={BOX + 12} height={BOX + 12} rx={9} fill="none" stroke={PAL.loss} strokeOpacity={danger} strokeWidth={3} strokeDasharray="9 6" />
+        </>
+      ) : null}
+      <g transform={`translate(${x} ${y + 30}) scale(${1 / sq} ${sq}) translate(${-x} ${-(y + 30)})`}>
+        <circle cx={x} cy={y} r={56} fill={rgba('#FFFFFF', 0.1)} />
+        <rect x={x - 30} y={y - 30} width={60} height={60} rx={9} fill={PAL.oldBit} fillOpacity={0.5} stroke={PAL.otherBit} strokeWidth={3} strokeDasharray="10 6" strokeDashoffset={f * 0.9} />
+      </g>
+      {ring >= 0 ? (
+        <rect x={b.x - 6 - 16 * ring} y={b.y - 6 - 16 * ring} width={BOX + 12 + 32 * ring} height={BOX + 12 + 32 * ring} rx={9 + 6 * ring} fill="none" stroke={PAL.loss} strokeWidth={7 * (1 - ring) + 1} opacity={1 - ring} />
+      ) : null}
+      {t >= 0 && t < 6 ? <rect x={b.x} y={b.y} width={BOX} height={BOX} rx={8} fill={rgba('#FFFFFF', 0.5 * (1 - t / 6))} /> : null}
+    </svg>
+  );
+};

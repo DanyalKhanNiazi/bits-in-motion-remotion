@@ -7,12 +7,12 @@ import {LIVE} from './live';
 export const TALLY = {x: 1612, y: 150, size: 70} as const;
 export const TALLY_AT = T.download - 10;
 export const TALLY_EXIT = T.to - 22;
-const HITS = [T.download + 1, T.update + 1, T.temp + 1, T.create + 4, T.overwrite + 2, ...LIVE.map((w) => w.at)];
+const HITS = [T.download + 1, T.update + 1, T.temp + 1, T.create + 4, T.overwrite + 2, ...LIVE.map((w) => w.land)];
 
 export const Tally: React.FC<{f: number}> = ({f}) => {
   if (f < TALLY_AT - 1) return null;
   // "every write": the full group pulses once
-  const pulse = LIVE.reduce((m, w) => Math.max(m, f >= w.at && f < w.at + 20 ? Math.sin(((f - w.at) / 20) * Math.PI) : 0), 0);
+  const pulse = LIVE.reduce((m, w) => Math.max(m, f >= w.land && f < w.land + 20 ? Math.sin(((f - w.land) / 20) * Math.PI) : 0), 0);
   return (
     <>
       <div

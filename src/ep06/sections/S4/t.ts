@@ -31,6 +31,7 @@ export const T = {
   scan: s(8, 'scan the boxes'),
   themselves: s(8, 'themselves'),
   looking: s(8, 'looking for'),
+  distinctive: s(8, 'distinctive'),
   header: s(8, 'header'),
   documentEnd: e(8, 'or document'),
   // P09

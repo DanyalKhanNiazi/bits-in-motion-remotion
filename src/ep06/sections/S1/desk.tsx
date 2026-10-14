@@ -143,7 +143,8 @@ export const DeskHook: React.FC<{f: number}> = ({f}) => {
 const PULL = T.windowsPc - 4;
 export const KB_E1: KenBurns = {from: DESK.kbScreen, to: {s: 1.2, x: 0, y: 46}, start: PULL, end: PULL + 28};
 const KB_E2: KenBurns = {from: {s: 1.2, x: 0, y: 46}, to: {s: 1.32, x: 30, y: 74}, start: PULL + 28, end: T.work + 6};
-export const EXIT_AT = T.aFile + 7;
+/** the whip back from the third preview: its tag stays up ~50 f, then the exit push into the monitor */
+export const EXIT_AT = T.aFile + 20;
 /** the exit push (I): a static Ken Burns per frame so the curve can ease into S2's slow push (kbScreen 1.72 @ the cut,
  *  then +0.04 per second); the screen's top edge rides the frame's top edge on the way in (ky = 113.7 × s) */
 const KB_RATE = 0.04 / 30;
