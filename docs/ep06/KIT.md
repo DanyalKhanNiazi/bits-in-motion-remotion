@@ -179,3 +179,6 @@ Re-measured after these: KitDemo f420–719 (signature, SplitCompare, SSD DriveD
 11. mft-record_b render: its magenta latch is regraded to silver with the LEDs.
 
 Re-measured after fix round 1: KitDemo f500–899 (SplitCompare split/splitBoxes + band, flash sweep, boundary) 0.46 s/frame/tab.
+12. Fix round 2: scramble glyphs are letters/symbols only (no digits; KIT_UI's ScrambleField already had none). Untargeted
+    photo boxes keep full cyan while the sweep band passes: they are redrawn above the band on a dark pad with a cyan
+    ring (the band visibly parts around them), so "skipped" reads at half scale.
