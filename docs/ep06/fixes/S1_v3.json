@@ -1,0 +1,25 @@
+{
+ "id": "S1",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9,
+  "craft": 8.5,
+  "timing": 9,
+  "brand": 9,
+  "engagement": 9,
+  "production": 8.5
+ },
+ "score_100": 87.5,
+ "issues": [
+  {
+   "frames": "1234-1245",
+   "severity": "low",
+   "owner": "S1",
+   "what": "The preview tags wobble when they pop in. Tag 1 ('Why recovery tools work') measures, in half-px text width: 596 at f1234 (motion-blurred), 411 at f1235, 317 at f1236, 479 at f1241, and settles at 444 at f1245. That is an undershoot to about 71% followed by an overshoot to about 108%. Tag 3 does the same: 367 at f1329, 526 at f1332, settled at 496 at f1336. On a 1-second preview the label reads as shrinking and regrowing, not as one slam that settles. The landing is on the word (±1 f), so this is a feel problem only.",
+   "fix": "Use a one-sided slam: start at 112–120% with blur, land at 100% within 4 f, allow at most one overshoot of 4% or less, and never go below 97%. Use the same curve for all three tags."
+  }
+ ],
+ "prev_fixed": "v2 #1 (near-white flashes, type-on tags, third tag gone early): FIXED. The preview transitions now peak at mean luma 59, 72 and 76 (f1224, f1273, f1318), with 0.0% of pixels above 200; v2 had more than 60% of the tag region above 200. Each tag lands whole on its word: f1234 for 'work'@1235, f1278-1280 for 'fail'@1279, f1326-1328 for 'erases'@1327. The third tag holds from f1328 to f1376 and leaves with the exit push (f1376-1381). v2 #2 (signature card's top edge at y 2-11 half-px): FIXED. From f400 to f470 the card's paper top is at 56-57 half-px (112-114 px at 1080p), and the coral tab, present from f440, has its top at 38-40 half-px (76-80 px). Both are inside the 64 px margin.",
+ "version": "v3",
+ "method": "I worked from decoded half-scale frames only: out/ep06/v3/ep06_film.mp4, 960×540, 17,023 frames verified by ffprobe, decoded index = absolute frame. There was no playback and no audio.\n\n**Reading.** I read PLAYBOOK §4-§8, DIRECTION §1-§12, TRANSCRIPT P01-P08, the editorial ledger rows C00-C07 and C25 (by grep), and the previous reviews docs/ep06/fixes/S1_v2.json, S2_v2.json, S3_v2.json and range_S1-S3_v2.md.\n\n**Extraction and automated checks.** I extracted frames 0-5139 to out/ep06/review/v3/S1-S3/clip_0_5139.mp4 (crf 10; 5,140 frames verified). tools/static_check.py --offset 0 found 0 frozen stretches and 0 empty frames (motion median 9.29, p10 2.42, min 0.58). A custom profile (scratchpad prof.py) recorded per-frame diff, 15-frame motion, mean luma, luma std and the fraction of pixels above 200. It found no stretch of 20 f or more with 15-frame motion under 2.0, and no frame with mean luma under 12. The cut and whip list is in the boundaries field. The preview flashes peak at mean luma 59-76 with 0% of pixels above 200.\n\n**Measurements.**\n- Label onsets, by bright-pixel counts per frame: 'On your PC's own drive', 'Gone?', 'Not yet.', 'Only the note', 'NTFS', 'clusters', 'Fits…', the directions chip, and the preview tag widths at f1230-1248, 1276-1292 and 1324-1340.\n- The signature card's paper top and coral-tab top at f380-470.\n- Cyan pixels per 24 px cell from f4840 to f4990, every 10 f.\n- Static-region motion in the opening desk shot (f20-210).\n- Text heights on 2× crops with pixel rulers.\n- The cyan RGB of the opener route at f2045.\n- Card width and clipping at f4600 and f4650.\n\n**Images.** I used 13 images, all in out/ep06/review/v3/S1-S3/:\n\n| Image | Contents |\n|---|---|\n| s1_overview | 59 frames, step 24 |\n| s1_dense_a | 60 frames at word frames 0-484 |\n| s1_dense_b | 63 frames, 518-1408 |\n| s2_overview | 59 frames, step 30 |\n| s2_dense | 88 frames |\n| s3_overview | 59 frames, step 33 |\n| s3_dense | 72 frames |\n| crops_text_a, crops_text_b, crops_text_c | 2× crops of every must-read label and footnote |\n| boundaries | 39 frames across 1400-1418, 3158-3184 and 5086-5145 |\n| mix_a | full f4920 and f2620; crops of 'Unused', 'boxes and cards', the keycaps at f1922 and f1932, and 'Free' at f4254 |\n| gaps | 32 frames of the quieter stretches: 1000-1210, 2040-2110, 3690-3770, 4570-4670, 4840-4860 |\n\n**Other checks.** The S1-S3 render logs contain 0 '[kit]' warnings. A grep found no Math.random or Date in src/ep06. The cue JSONs, read as data only:\n\n| Section | Cues | Per minute | Impacts |\n|---|---|---|---|\n| S1 | 10 | 12.8 | f187, f397 |\n| S2 | 13 | 13.3 | f2755, f2881 |\n| S3 | 15 | 13.9 | f4526 |\n\nI rendered no full-res stills, because every doubtful label measured above the floors on the half-scale frames.\n\n**Scoring.** score_100 = Σ(criterion × weight)/10 with weights 25/15/20/15/5/15/5. The range score is the frame-weighted mean of the three sections (1409, 1758 and 1937 frames): 86.6."
+}

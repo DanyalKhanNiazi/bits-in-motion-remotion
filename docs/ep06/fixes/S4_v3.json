@@ -1,0 +1,39 @@
+{
+ "id": "S4",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9.5,
+  "craft": 8.5,
+  "timing": 9,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 86.5,
+ "prev_fixed": "1 (the race reads as a recap): PARTLY fixed. A ghost write now hovers over the bottom run at 6608. At 6614 the beam lifts a cyan Bit out of 100 and the coral ring lands on 101, and the tally gains a notch. The near-miss exists, but it is small and brief (issue 1). 2 (quote strip exits too soon): FIXED. The strip enters at 5412 ('but the file data'@5404-5421) and clears at 5518-5520, about 21 f after its sentence ends (~5497). 3 ('Distinctive header' late): FIXED. The label starts at 5839 ('distinctive'@5839) and is complete by 5852. 4 (tray small and at the edge): MOSTLY fixed. The rebuilt passport measures 91×140 px at half scale, about 182×280 at 1080p (f5678). Prop content ends at x≈928 at half scale (≈1856 at 1080p), which is exactly the 64 px margin. The scanner base still runs off the bottom edge (issue 2).",
+ "issues": [
+  {
+   "frames": "6596-6630",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The near-miss reads as a blip. The ghost write hovers over 100 at 6608, the beam lifts a cyan Bit from 100 at 6614, and the coral ring hits 101 (an empty, dashed neighbour) at 6614-6620. The whole beat lasts about 12 f. In this wide framing each box is about 80 px at 1080p (40 px at half scale). The other race writes again hit boxes that are empty or already lost: 097 at 6590 and 099 at 6600-6608. No still-lit photo box is visibly threatened for longer than a few frames.",
+   "fix": "For 6596-6632, push to the 'run' framing on 097-101 so the boxes are at least 120 px at 1080p. Hold the ghost write over 100 for 8 f before the beam arrives. Land the coral ring on 101 on 'chance' (6610), and pulse a new grey band into the tray passport on the same frame."
+  },
+  {
+   "frames": "5520-5690, 6004-6280, 6514-6634",
+   "severity": "low",
+   "owner": "S4",
+   "what": "In every wall-plus-scanner shot, the scanner's base and tray run off the bottom of the frame. At half scale, rows 528-539 (1056-1079 at 1080p) still contain prop pixels: 9-16 % of x 600-960 is above luma 70 at f5678, 6575 and 6620. The hero prop is cut by the frame and its contact shadow is lost.",
+   "fix": "Raise the scanner by about 40 px at 1080p, or scale it to 0.95, so that its base and contact shadow end above y≈1016. Keep its right edge where it is now (≤1856)."
+  },
+  {
+   "frames": "6310-6446",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The 'Microsoft warns' strip plays over a single centred overwrite-slot render for 4.5 s. Motion, measured as the luma difference over 15 f, stays at 1.4-4.7, except for one coral ring on the insert at 6394-6424. Nothing arrives on 'can create files' (6377-6388), so the mechanism the strip describes is only half-shown.",
+   "fix": "On 'create files' (6377) and 'overwrite' (6409), drop 2-3 small grey file inserts into the slot. Each one shoves the old insert and gets the coral ring, so new files visibly take the space while the strip reads."
+  }
+ ],
+ "version": "v3",
+ "method": "I worked from decoded frames only, with no playback and no audio.\n\n**What I read:** PLAYBOOK §4-§9, DIRECTION in full, TRANSCRIPT P08-P15, ledger rows C08-C14 (by grep), docs/ep06/fixes/S4/S5/S6_v2.json and range_S4-S6_v2.md. The v3 render logs for S4-S7 contain 0 '[kit]' warnings.\n\n**Clip and static check:** I extracted 5074-9965 from out/ep06/v3/ep06_film.mp4 by decoded index into out/ep06/review/v3/S4-S6/clip_5074_9965.mp4 (4,892 frames, count verified). tools/static_check.py --offset 5074 reports 0 frozen stretches at both the 0.35 and 1.0 thresholds, and 0 empty frames.\n\n**Images: 12 in total.**\n- From tools/sheet.py (absolute frames):\n  - overview sheets for S4, S5 and S6 every 30 f (53/60/52 frames, width 320);\n  - three 640 px detail sheets of 12 text and beat frames each, one per section;\n  - an S4 beats sheet (quote onset, copy-out/tray, race every 6 f);\n  - an S5 beats sheet (flip every 6 f, housekeeping sweep every 6 f, chips);\n  - an S6 sync sheet (QuestionCard exit and tags 8536-8560, split open 8644-8668, S5 erase-before-write 7350-7470, push 9512-9524);\n  - a boundary sheet (5100-5110, 6640-6654, 8396-8410 and 9926-9948, every 2 f).\n- Two native-resolution crop composites of my own:\n  - race bottom run 6590-6646, tray edges at 5678/6620, the NTFS chip at 8380, and the flip at 7036/7050/7064;\n  - disposable tags at 8556/8620/8670, the 9094 stage and the 9580 top edge.\n\n**Measurements without images:**\n- Cap heights from connected components of bright pixels on half-scale frames, about 35 text elements.\n- Onset and exit series from per-frame bright-pixel counts in label boxes, using a frame-indexed grey memmap, for about 30 labels.\n- RGB amber/cyan/coral fractions for:\n  - the SSD-panel erase (8700-8770);\n  - the tags (8530-8558);\n  - the refusal (7296-7456);\n  - the array refusal (9876-9920).\n- Luma mean and std, and motion over 6-15 f gaps, for candidate holds (5180-5400, 6300-6450, 6650-6810, 7340-7560, 9070-9130) and the match-cut flash (6802-6830).\n- Prop extents at the right and bottom edges (5600, 5678, 6575, 6620).\n- Passport size in the tray.\n- Top and side edge occupancy during the 9530-9660 push.\n\n**Not done or not verifiable:** I rendered no full-res stills, because every must-read element measured at or above the half-scale floors. Determinism can't be verified from frames. The Archive's box ids, states and framings match across S3→S4→S5→S6→S7.\n\n**Range score:** section scores weighted by length (1545/1755/1531 f)."
+}

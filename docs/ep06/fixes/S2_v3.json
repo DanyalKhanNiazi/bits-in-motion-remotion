@@ -1,0 +1,39 @@
+{
+ "id": "S2",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9,
+  "craft": 8.5,
+  "timing": 9,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 85.8,
+ "issues": [
+  {
+   "frames": "2062-2118",
+   "severity": "low",
+   "owner": "S2",
+   "what": "After the 'The picture' opener clears (about f2060), the desk-wide shot of the dim monitor holds for about 44 f (f2062-2105) with nothing new: the Explorer list is empty and luma std is 16-19, against 40-50 for the rest of the section. The voice meanwhile says 'how Windows keeps track of files' (2045-2091). The hard cut to the single spot-lit box comes at f2106, 12 f before 'Imagine'@2118, so the 'start tight on one box' beat misses its word.",
+   "fix": "Begin a push or dive into the monitor at about f2062 so the move carries the shot. Land the single numbered box on 'Imagine' (f2115-2121), or hold the opener to about f2100 and whip into the box on the word."
+  },
+  {
+   "frames": "1904-1916",
+   "severity": "low",
+   "owner": "S2",
+   "what": "The timeline jumps. At f1904 the photo sits in the Recycle Bin (close-up with the 'Empty Recycle Bin' hover). After a plain horizontal whip (f1908-1912), passport.jpg is back in the Explorer list at f1916 for the Shift + Delete demo, with the bin empty. Nothing tells the viewer that 'or skip it' is an alternative branch rather than the next step, so the photo seems to be in two places.",
+   "fix": "Stage the alternative as the stacked top/bottom contrast that DIRECTION §2.4 prescribes for two-way contrasts. Top: the ghosted Delete→bin row, already seen. Bottom: Shift + Delete, with the row dissolving and the bin staying empty. Alternatively, whip to a visibly fresh copy of the Explorer window. Do not reuse the rewind, which is reserved for Restore."
+  },
+  {
+   "frames": "2034-2060",
+   "severity": "low",
+   "owner": "kit",
+   "what": "The AtlasOpener's route polyline is drawn in cyan. At f2045 the 2 px line from about (164,268) to (299,260) half-px measures about RGB(50,175,198), while its station nodes are PAL.structure grey-blue, about RGB(128,174,195). The line persists for about 26 f as a static route, not a moving comet. The same cyan route appears under the S4 'Recovery' opener (f5125-5145). DIRECTION §2.5 allows cyan only for the opener's travelling Bit.",
+   "fix": "In the kit AtlasOpener, re-key the route stroke to PAL.structure. Keep only the moving Bit and a short comet tail (≤ 12 f) in photo-Bit cyan."
+  }
+ ],
+ "prev_fixed": "v2 #1 (second delete implied by a hard cut at f1849): FIXED. The Delete keycap appears at f1826, the icon leaves the row at f1832 and lands in the bin at f1838-1844. A soft bloom follows (f1849: mean luma 63, 1.5% of pixels above 200) into the bin close-up at f1856. v2 #2 ('On your PC's own drive' typed on over about 28 f): FIXED. The caption's bright-pixel count goes 0 at f1471, 252 at f1472 ('On'@1472), 2465 at f1474 and 3559 at f1476. It slams in whole within 4 f.",
+ "version": "v3",
+ "method": "I worked from decoded half-scale frames only: out/ep06/v3/ep06_film.mp4, 960×540, 17,023 frames verified by ffprobe, decoded index = absolute frame. There was no playback and no audio.\n\n**Reading.** I read PLAYBOOK §4-§8, DIRECTION §1-§12, TRANSCRIPT P01-P08, the editorial ledger rows C00-C07 and C25 (by grep), and the previous reviews docs/ep06/fixes/S1_v2.json, S2_v2.json, S3_v2.json and range_S1-S3_v2.md.\n\n**Extraction and automated checks.** I extracted frames 0-5139 to out/ep06/review/v3/S1-S3/clip_0_5139.mp4 (crf 10; 5,140 frames verified). tools/static_check.py --offset 0 found 0 frozen stretches and 0 empty frames (motion median 9.29, p10 2.42, min 0.58). A custom profile (scratchpad prof.py) recorded per-frame diff, 15-frame motion, mean luma, luma std and the fraction of pixels above 200. It found no stretch of 20 f or more with 15-frame motion under 2.0, and no frame with mean luma under 12. The cut and whip list is in the boundaries field. The preview flashes peak at mean luma 59-76 with 0% of pixels above 200.\n\n**Measurements.**\n- Label onsets, by bright-pixel counts per frame: 'On your PC's own drive', 'Gone?', 'Not yet.', 'Only the note', 'NTFS', 'clusters', 'Fits…', the directions chip, and the preview tag widths at f1230-1248, 1276-1292 and 1324-1340.\n- The signature card's paper top and coral-tab top at f380-470.\n- Cyan pixels per 24 px cell from f4840 to f4990, every 10 f.\n- Static-region motion in the opening desk shot (f20-210).\n- Text heights on 2× crops with pixel rulers.\n- The cyan RGB of the opener route at f2045.\n- Card width and clipping at f4600 and f4650.\n\n**Images.** I used 13 images, all in out/ep06/review/v3/S1-S3/:\n\n| Image | Contents |\n|---|---|\n| s1_overview | 59 frames, step 24 |\n| s1_dense_a | 60 frames at word frames 0-484 |\n| s1_dense_b | 63 frames, 518-1408 |\n| s2_overview | 59 frames, step 30 |\n| s2_dense | 88 frames |\n| s3_overview | 59 frames, step 33 |\n| s3_dense | 72 frames |\n| crops_text_a, crops_text_b, crops_text_c | 2× crops of every must-read label and footnote |\n| boundaries | 39 frames across 1400-1418, 3158-3184 and 5086-5145 |\n| mix_a | full f4920 and f2620; crops of 'Unused', 'boxes and cards', the keycaps at f1922 and f1932, and 'Free' at f4254 |\n| gaps | 32 frames of the quieter stretches: 1000-1210, 2040-2110, 3690-3770, 4570-4670, 4840-4860 |\n\n**Other checks.** The S1-S3 render logs contain 0 '[kit]' warnings. A grep found no Math.random or Date in src/ep06. The cue JSONs, read as data only:\n\n| Section | Cues | Per minute | Impacts |\n|---|---|---|---|\n| S1 | 10 | 12.8 | f187, f397 |\n| S2 | 13 | 13.3 | f2755, f2881 |\n| S3 | 15 | 13.9 | f4526 |\n\nI rendered no full-res stills, because every doubtful label measured above the floors on the half-scale frames.\n\n**Scoring.** score_100 = Σ(criterion × weight)/10 with weights 25/15/20/15/5/15/5. The range score is the frame-weighted mean of the three sections (1409, 1758 and 1937 frames): 86.6."
+}

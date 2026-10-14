@@ -1,0 +1,32 @@
+{
+ "id": "S9",
+ "criteria": {
+  "clarity": 9,
+  "accuracy": 9.5,
+  "craft": 8.5,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 9,
+  "production": 9
+ },
+ "score_100": 88.75,
+ "issues": [
+  {
+   "frames": "15723-15737",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The 12-word cap is exceeded for about 15 f. The header 'Selling or giving away a PC' (6 words) doesn't reach 50 % exit until 15737, but the Microsoft strip 'Microsoft recommends: Reset this PC · Clean data on' (8 words) reaches 50 % at 15723, which makes 14 must-read words at once. Frame 15737 shows both complete.",
+   "fix": "Exit the header at about 15716, which is still ≥ 15 f after 'PC,'@15695 ends, so the strip types in alone on 'Microsoft'@15718."
+  },
+  {
+   "frames": "14782-14838, 14949-14979, 15339-15354",
+   "severity": "low",
+   "owner": "S9",
+   "what": "Some labels land late or don't hold long enough. 'Back to the passport photo' reaches 50 % at 14793 (+11 on 'back'@14782) and exits at 14838, about 8 f after 'photo.'@14810 ends. 'First: Recycle Bin and backups' exits at 14979, about 9 f after 'first.'@14949 ends, because of the whip at 14980. 'Be prepared for it to be gone' exits at 15354, about 2 f after 'gone.'@15339 ends, because of the cut to the fork at 15355.",
+   "fix": "Start the title type-on at about 14779. Delay the whip to tip 2 to about 14986 and the cut to the fork to about 15361. 'Want it gone' can still land on 'want'@15370."
+  }
+ ],
+ "prev_fixed": "All 3 v2 issues are fixed. (1) The 'Delete ≠ Erase' baseline is at y≈113 half and the drawer card's top at y≈145 half at f16320, a gap of about 64 px at 1080p; the title is up from 16293 to 16347. (2) At 'or make sure the boxes were unreadable from the start', GlyphTiles now land as outlined tiles with 8–10 px glyphs (16946–16994), readable during the pull-out. (3) The scope headers now have 23 px capitals at half scale ('Hard drive: gone for good' at 15580, 'Before it leaves your hands' at 16080; 'SSD with TRIM' 24 px at 15341), at least as large as the tip lines.",
+ "version": "v3",
+ "method": "I decoded frames only from out/ep06/v3/ep06_film.mp4 (960×540; ffprobe -count_frames = 17,023). I didn't play the video or listen to anything. I extracted [9935,17022] by decoded frame index into out/ep06/review/v3/S7-S9/range.mp4 (7,088 frames, count verified). tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames (motion median 7.75, p10 2.05).\nCustom passes decoded the range once to raw grey at half scale and to RGB at quarter scale. They measured: per-frame m1/m15/std on a 240×135 grid (no m15<1.5 run ≥ 30 f; near-empty candidates 13157 (1 f, mid-whip), 13729–13733 (5 f) and 14241–14242 (2 f), all ≤ 6 f); 50 % on/off frames of 51 labels by bright-pixel curves in their boxes, against TRANSCRIPT.md; capital or ascender heights of about 45 text lines by connected components; a scan of the bottom 140 px every 10 f (bright props only, no must-read text); the horizontal extents of slams (12144–12163, 16283–16295); cyan, coral and paper-white pixel counts; and motion at the end.\nI viewed 13 images: 3 overview sheets from tools/sheet.py (S7 every 30 f, S8 every 40 f, S9 every 33 f; width 320, 6 columns); 5 dense sheets (d7a: 9927–10212; d8a: 11966–12476; d8b: 12920–14610; d9a: 14737–16400; d9b: 16850–17022 at width 480); and 5 composites of native half-scale crops with pixel rulers (c7, c7b, c8, c8b, c9). I rendered no full-resolution stills, because every must-read line measured at ≥ 14 px capitals at half scale (the smallest are about 15–16 px: 'so no part wears out first' and 'Drive makers ship tools' at 12760).\nI read PLAYBOOK §4–§8, DIRECTION in full, TRANSCRIPT P15–P22, ledger C15–C26, and the v2 reviews S7_v2, S8_v2 and S9_v2. I checked the v3 logs (S7, S8 and S9 have 0 [kit] warnings and pass ffprobe). I confirmed the renders aren't stale: S7.tsx was changed at 21:32 and rendered at 22:21; Archive.tsx was changed at 21:32, before S8 (21:57) and S9 (22:07); no S8 or S9 source is newer than its render. I read the git diff of fix round 2 and grepped S7.tsx for the missing cone and Archive.tsx for the remap ring.\nThe range score is the frame-weighted mean: (86.75×2041 + 83.5×2771 + 88.75×2276) / 7088 = 86.1. Working files are in /home/user/bits-in-motion-remotion/out/ep06/review/v3/S7-S9/."
+}

@@ -1,0 +1,60 @@
+{
+ "id": "S8",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 9.5,
+  "craft": 8,
+  "timing": 8,
+  "brand": 8,
+  "engagement": 8.5,
+  "production": 9
+ },
+ "score_100": 83.5,
+ "issues": [
+  {
+   "frames": "13493-13720 (seen at 13586, 13600, 13690)",
+   "severity": "med",
+   "owner": "S8",
+   "what": "The P20 payoff, 'every block, including leftovers and old copies the SSD shuffled away, is scrambled', is barely visible. The glyph packets leave the key (13514–13560), but once they land, the wall's scrambled state is 2-character glyphs about 4–5 px tall at half scale (boxes about 27 px wide at zoom ≈0.86), dim grey on graphite. The photo's 9 boxes look the same as the rest of the wall. At 'scrambled'@13693 the layered view (13656–13720) reads as an ordinary dim wall, so the spare-space copies being glyphs, which is the contrast with S7's stale cyan, can't be seen.",
+   "fix": "Draw the photo's 9 boxes and their 9 shuffled spare spots with S9's GlyphTiles (bright outlined tiles, glyphs 8–10 px at half scale). Push in on the spare columns between 'old copies'@13616 and 'scrambled'@13693 so the tiles read at ≥ 12 px. Optionally add a 6-f ScrambleField pulse across them on 'scrambled'."
+  },
+  {
+   "frames": "13632-13650 (seen at 13640)",
+   "severity": "low",
+   "owner": "S8",
+   "what": "During the encryption save, the kit's remap draws a coral ring flash on the 9 remapped spots. At f13640 there are about 240 coral pixels (RGB ≈ 152,70,94) at x 544–715, y 249–393 half, and they last about 18 f. Coral means loss, but this is the drive shuffling already-encrypted copies, which is the drive's own action and safe.",
+   "fix": "For this shot, remap without the coral flash, or use an amber (drive) ring. If Archive has no switch for this, ask the kit for a remap ring tone option."
+  },
+  {
+   "frames": "12051-12157, 13475-13496",
+   "severity": "low",
+   "owner": "S8",
+   "what": "Several P18 and P20 labels land after their words. 'The SSD tends to…' reaches 50 % at 12058 (+7 on 'tends'@12051). 'destroy files you'd like back' reaches 12076 (+5 on 'destroy'@12071). 'resist when you destroy them' slams at 12152 and settles at 12157, 16–21 f after 'resists'@12136, because it waits for the coin flip to finish. 'If it was on when saved' rises over 13482–13496 and reaches 50 % at about 13492 (+17 on 'If'@13475).",
+   "fix": "Start the coin flip at about 12124 so face 2 slams at 12136–12139. Pre-roll the 'rise' and 'slam' entrances by 4–8 f so each one reaches 50 % on its word."
+  },
+  {
+   "frames": "12189-12219, 12421-12439, 12652-12689",
+   "severity": "low",
+   "owner": "S8",
+   "what": "Some labels don't hold 15 f after their sentence. The verdict 'The drive, not Windows, decides' exits at 12439, about when 'live.'@12421 ends, because the ZoomThrough at 12437 cuts it. 'Built-in erase command' is up only from 12652 to 12689 (37 f) and exits about 5 f after 'command.'@12664 ends. 'The SSD tends to…' and 'resist…' exit at 12215–12219, about 10 f after 'yourself.'@12188 ends.",
+   "fix": "Move CUT.dive to about 12452 and let 'So'@12445 ride the dive. Keep 'Built-in erase command' up until the Example chip lands (about 12700), for example by sliding it under 'Drive makers ship tools'. Exit the coin lines at about 12226."
+  },
+  {
+   "frames": "14241-14278",
+   "severity": "low",
+   "owner": "S8",
+   "what": "Between the e-waste crate whip and the Settings window, the desk plate shows a dark, empty monitor for 38 f, while the voice says 'Many newer Windows PCs turn on a version of it'. A curve of UI pixels in the screen region reads 0.000 from 14244 to 14276 and 0.063 at 14280. The camera is moving (m15≈17), so this isn't a frozen stretch, but it reads as a dip to an empty screen.",
+   "fix": "Land the Settings window with the whip (about 14244), or show a generic dark desktop in that 38 f window and open Settings from it."
+  },
+  {
+   "frames": "14150-14185 (seen at 14160)",
+   "severity": "low",
+   "owner": "S8",
+   "what": "This v2 issue is partly fixed. The 'stolen' hand now has a gradient-shaded arm and a cuff, but the hand is still a simple vector with stubby mitten fingers: no rim light, specular or contact shadow. It is the least finished prop beside the rim-lit bench, laptop and crate.",
+   "fix": "Add a PAL.ink rim on the arm's edge and a soft contact shadow on the laptop lid. Another option is to show only the arm's shadow and the laptop lifting out of frame."
+  }
+ ],
+ "prev_fixed": "Of the 4 v2 issues, 3 are fixed and 1 is partly fixed. (1) FIXED: kit Archive GLYPHS no longer contains digits. The noise field (13816–14016) and the S9 glyph tiles (16946–16994, e.g. 'T= F$', '?Z M% Z<', 'MS ?P @E') show none. (2) PARTLY: the stolen hand is shaded but still a flat vector mitten. (3) FIXED: 'The strange reversal' is up from 11999 to 12045, about 15 f past its sentence, and rides the 12046 whip. (4) FIXED: the NIST key strip reaches 50 % at 13875 ('NIST'@13873); the shatter is at 13898–13900.",
+ "version": "v3",
+ "method": "I decoded frames only from out/ep06/v3/ep06_film.mp4 (960×540; ffprobe -count_frames = 17,023). I didn't play the video or listen to anything. I extracted [9935,17022] by decoded frame index into out/ep06/review/v3/S7-S9/range.mp4 (7,088 frames, count verified). tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames (motion median 7.75, p10 2.05).\nCustom passes decoded the range once to raw grey at half scale and to RGB at quarter scale. They measured: per-frame m1/m15/std on a 240×135 grid (no m15<1.5 run ≥ 30 f; near-empty candidates 13157 (1 f, mid-whip), 13729–13733 (5 f) and 14241–14242 (2 f), all ≤ 6 f); 50 % on/off frames of 51 labels by bright-pixel curves in their boxes, against TRANSCRIPT.md; capital or ascender heights of about 45 text lines by connected components; a scan of the bottom 140 px every 10 f (bright props only, no must-read text); the horizontal extents of slams (12144–12163, 16283–16295); cyan, coral and paper-white pixel counts; and motion at the end.\nI viewed 13 images: 3 overview sheets from tools/sheet.py (S7 every 30 f, S8 every 40 f, S9 every 33 f; width 320, 6 columns); 5 dense sheets (d7a: 9927–10212; d8a: 11966–12476; d8b: 12920–14610; d9a: 14737–16400; d9b: 16850–17022 at width 480); and 5 composites of native half-scale crops with pixel rulers (c7, c7b, c8, c8b, c9). I rendered no full-resolution stills, because every must-read line measured at ≥ 14 px capitals at half scale (the smallest are about 15–16 px: 'so no part wears out first' and 'Drive makers ship tools' at 12760).\nI read PLAYBOOK §4–§8, DIRECTION in full, TRANSCRIPT P15–P22, ledger C15–C26, and the v2 reviews S7_v2, S8_v2 and S9_v2. I checked the v3 logs (S7, S8 and S9 have 0 [kit] warnings and pass ffprobe). I confirmed the renders aren't stale: S7.tsx was changed at 21:32 and rendered at 22:21; Archive.tsx was changed at 21:32, before S8 (21:57) and S9 (22:07); no S8 or S9 source is newer than its render. I read the git diff of fix round 2 and grepped S7.tsx for the missing cone and Archive.tsx for the remap ring.\nThe range score is the frame-weighted mean: (86.75×2041 + 83.5×2771 + 88.75×2276) / 7088 = 86.1. Working files are in /home/user/bits-in-motion-remotion/out/ep06/review/v3/S7-S9/."
+}

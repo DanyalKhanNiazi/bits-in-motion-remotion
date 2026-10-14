@@ -1,0 +1,39 @@
+{
+ "id": "S6",
+ "criteria": {
+  "clarity": 9,
+  "accuracy": 9.5,
+  "craft": 8.5,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 9,
+  "production": 8.5
+ },
+ "score_100": 88.5,
+ "prev_fixed": "1 (QuestionCard over the white card): FIXED. The text now spans y 578-656 at 1080p (289-328 at half scale), below the card's lower edge at about 510 (f8470). 2 (the erase is a blink; the bottom band is flat): FIXED. The amber sweep starts at 8722 ('erases'@8721) and crosses the SSD panel over 8722-8746, covering 6-7 % of the panel, while the panel's cyan falls from 4.95 % to 0 by 8744. The clock glyph is up, and a floor reflection now fills the band under both panels (f8740, 8850). 3 (sparse stage at 9084-9115): PARTLY fixed. Corner brackets are in from 9084, but the stage stays dim and nearly still until 'study' (issue 2).",
+ "issues": [
+  {
+   "frames": "8536-8556",
+   "severity": "med",
+   "owner": "S6",
+   "what": "The amber disposable tags land late. A whip from the QuestionCard to the wall covers 8536-8544, right on 'disposable'@8540. The first amber pixels appear at 8548, and the tags read at 8552-8554 (98-228 amber px at half scale): that is +12 to +14 f, against a ±3 f rule, on the beat that defines SSD_TRIMMED.",
+   "fix": "Start the whip about 12 f earlier (8524-8536), so the wall framing is settled by 8538. Drop the nine tags on 8540 with a pop, staggering them by 1 f per run."
+  },
+  {
+   "frames": "9084-9118",
+   "severity": "low",
+   "owner": "S6",
+   "what": "After the zoom-through, the stage is one row of dark, unlit drives plus corner brackets. Only 0.3-0.4 % of pixels are above luma 120, and the frame-to-frame motion over 6 f is 1.4-1.9, for about 34 f until 'study' builds at 9119. This is the stage under 'that depends on the drive'.",
+   "fix": "Light the drives' status LEDs or a faint grid of dots as they multiply at 9084. Alternatively, start the slow push into the row there and bring in the dim title plate with the brackets, so the frame is composed before the study line types in."
+  },
+  {
+   "frames": "9516-9630",
+   "severity": "low",
+   "owner": "S6",
+   "what": "The push for 'depending on who made the chip' crops the TRIM-off drive row at the top edge: rows 0-8 at 1080p are 48 % bright at 9530 and 12 % at 9580. It also pushes the 'TRIM off' and 'TRIM on' row labels out of frame, so the 12 drives still visible lose their row key during the caption.",
+   "fix": "Limit the push so the top row stays at least 64 px below the frame edge, or keep the 'TRIM off' and 'TRIM on' keys in the hud at the left margin while pushed in."
+  }
+ ],
+ "version": "v3",
+ "method": "I worked from decoded frames only, with no playback and no audio.\n\n**What I read:** PLAYBOOK §4-§9, DIRECTION in full, TRANSCRIPT P08-P15, ledger rows C08-C14 (by grep), docs/ep06/fixes/S4/S5/S6_v2.json and range_S4-S6_v2.md. The v3 render logs for S4-S7 contain 0 '[kit]' warnings.\n\n**Clip and static check:** I extracted 5074-9965 from out/ep06/v3/ep06_film.mp4 by decoded index into out/ep06/review/v3/S4-S6/clip_5074_9965.mp4 (4,892 frames, count verified). tools/static_check.py --offset 5074 reports 0 frozen stretches at both the 0.35 and 1.0 thresholds, and 0 empty frames.\n\n**Images: 12 in total.**\n- From tools/sheet.py (absolute frames):\n  - overview sheets for S4, S5 and S6 every 30 f (53/60/52 frames, width 320);\n  - three 640 px detail sheets of 12 text and beat frames each, one per section;\n  - an S4 beats sheet (quote onset, copy-out/tray, race every 6 f);\n  - an S5 beats sheet (flip every 6 f, housekeeping sweep every 6 f, chips);\n  - an S6 sync sheet (QuestionCard exit and tags 8536-8560, split open 8644-8668, S5 erase-before-write 7350-7470, push 9512-9524);\n  - a boundary sheet (5100-5110, 6640-6654, 8396-8410 and 9926-9948, every 2 f).\n- Two native-resolution crop composites of my own:\n  - race bottom run 6590-6646, tray edges at 5678/6620, the NTFS chip at 8380, and the flip at 7036/7050/7064;\n  - disposable tags at 8556/8620/8670, the 9094 stage and the 9580 top edge.\n\n**Measurements without images:**\n- Cap heights from connected components of bright pixels on half-scale frames, about 35 text elements.\n- Onset and exit series from per-frame bright-pixel counts in label boxes, using a frame-indexed grey memmap, for about 30 labels.\n- RGB amber/cyan/coral fractions for:\n  - the SSD-panel erase (8700-8770);\n  - the tags (8530-8558);\n  - the refusal (7296-7456);\n  - the array refusal (9876-9920).\n- Luma mean and std, and motion over 6-15 f gaps, for candidate holds (5180-5400, 6300-6450, 6650-6810, 7340-7560, 9070-9130) and the match-cut flash (6802-6830).\n- Prop extents at the right and bottom edges (5600, 5678, 6575, 6620).\n- Passport size in the tray.\n- Top and side edge occupancy during the 9530-9660 push.\n\n**Not done or not verifiable:** I rendered no full-res stills, because every must-read element measured at or above the half-scale floors. Determinism can't be verified from frames. The Archive's box ids, states and framings match across S3→S4→S5→S6→S7.\n\n**Range score:** section scores weighted by length (1545/1755/1531 f)."
+}

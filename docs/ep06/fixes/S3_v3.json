@@ -1,0 +1,39 @@
+{
+ "id": "S3",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9,
+  "craft": 8.5,
+  "timing": 9,
+  "brand": 9,
+  "engagement": 8.5,
+  "production": 8.5
+ },
+ "score_100": 86.8,
+ "issues": [
+  {
+   "frames": "4586-4670",
+   "severity": "low",
+   "owner": "S3",
+   "what": "The escalated signature on 'Nothing opens the boxes' stops short. By f4610-4670 the pull-back ends with the card still about 180 half-px wide (about 19% of the frame) and clipped by the left frame edge (paper begins at x=0-2). The drawer and map fill the left third of the frame. The lit wall covers only about 35-90% of the width, not 'edge to edge', and the card is not 'tiny' (DIRECTION §8 S3). It reads as a reframe, not a reveal.",
+   "fix": "Continue the pull or crane up for another 20-30% of scale over f4590-4650, so the card shrinks to 6% of frame width or less and sits fully inside the 64 px margin. Let the wall's haze reach both frame edges, and keep the keyword plate where it is."
+  },
+  {
+   "frames": "4236-4520",
+   "severity": "low",
+   "owner": "S3",
+   "what": "The coral 'Free' stamp (about 30 half-px caps, rotated) lands over the card's directions column. At f4254 it covers the lower half of socket 2 and the left half of socket 3, including socket 3's thread anchor. It stays there through the map beat and the return to the card (f4520). Those sockets are the directions the voice says still exist, and they lead the dashed threads to the boxes.",
+   "fix": "Stamp 'Free' over the left half of the card (the name/size/dates field area under the strike), or scale it to about 80% and place it below the sockets, so all three sockets and anchors stay clear."
+  },
+  {
+   "frames": "4013-5002",
+   "severity": "low",
+   "owner": "S3",
+   "what": "Frame-difference spikes and blurred sheet frames show whips at f3801-3806, 4013-4026, 4316-4339, 4680-4704, 4786-4806 and 4988-5002. S3.cues.json (read as data) has whooshes only at 3350, 3478, 3758 and 5028. The last one lands 26 f after the f4988-5002 whip, so six motivated moves have no move sound. The cue budget is already about 13.9 per minute.",
+   "fix": "Move the 5028 whoosh to 4990, and add whooshes at about 4014 and 4318. To stay at 14 per minute or fewer, drop the pop at 3860 and the riser at 4482 (the riser at 4000 already covers the 'Now empty the recycle bin' re-hook)."
+  }
+ ],
+ "prev_fixed": "v2 #1 (rewrite beat greyed box 021): FIXED. The hypothetical rewrite is now a separate strip of 9 box icons with a slow crawl bar and a coral hourglass below the wall (f4846-4985), and it never touches the Archive. Total cyan pixels stay at 8.3k-9.3k from f4840 to f4980, with no drop. The grid cells over 021-023 hold 100-500 cyan pixels each throughout, and 021-023 are cyan in every sampled frame from f4880 to f5103. v2 #2 (each field name doubled as pill plus chip): FIXED as proposed. There is one hud chip per field, with a leader to the card's own bolded field name: name at f3502, size at f3527, dates at f3553 and directions at f3581 (chip width jumps from 213 to 371 half-px at f3581, against 'directions'@3580). Each chip exits when the next field is spoken, and only one chip is visible at f3530, f3556 and f3590.",
+ "version": "v3",
+ "method": "I worked from decoded half-scale frames only: out/ep06/v3/ep06_film.mp4, 960×540, 17,023 frames verified by ffprobe, decoded index = absolute frame. There was no playback and no audio.\n\n**Reading.** I read PLAYBOOK §4-§8, DIRECTION §1-§12, TRANSCRIPT P01-P08, the editorial ledger rows C00-C07 and C25 (by grep), and the previous reviews docs/ep06/fixes/S1_v2.json, S2_v2.json, S3_v2.json and range_S1-S3_v2.md.\n\n**Extraction and automated checks.** I extracted frames 0-5139 to out/ep06/review/v3/S1-S3/clip_0_5139.mp4 (crf 10; 5,140 frames verified). tools/static_check.py --offset 0 found 0 frozen stretches and 0 empty frames (motion median 9.29, p10 2.42, min 0.58). A custom profile (scratchpad prof.py) recorded per-frame diff, 15-frame motion, mean luma, luma std and the fraction of pixels above 200. It found no stretch of 20 f or more with 15-frame motion under 2.0, and no frame with mean luma under 12. The cut and whip list is in the boundaries field. The preview flashes peak at mean luma 59-76 with 0% of pixels above 200.\n\n**Measurements.**\n- Label onsets, by bright-pixel counts per frame: 'On your PC's own drive', 'Gone?', 'Not yet.', 'Only the note', 'NTFS', 'clusters', 'Fits…', the directions chip, and the preview tag widths at f1230-1248, 1276-1292 and 1324-1340.\n- The signature card's paper top and coral-tab top at f380-470.\n- Cyan pixels per 24 px cell from f4840 to f4990, every 10 f.\n- Static-region motion in the opening desk shot (f20-210).\n- Text heights on 2× crops with pixel rulers.\n- The cyan RGB of the opener route at f2045.\n- Card width and clipping at f4600 and f4650.\n\n**Images.** I used 13 images, all in out/ep06/review/v3/S1-S3/:\n\n| Image | Contents |\n|---|---|\n| s1_overview | 59 frames, step 24 |\n| s1_dense_a | 60 frames at word frames 0-484 |\n| s1_dense_b | 63 frames, 518-1408 |\n| s2_overview | 59 frames, step 30 |\n| s2_dense | 88 frames |\n| s3_overview | 59 frames, step 33 |\n| s3_dense | 72 frames |\n| crops_text_a, crops_text_b, crops_text_c | 2× crops of every must-read label and footnote |\n| boundaries | 39 frames across 1400-1418, 3158-3184 and 5086-5145 |\n| mix_a | full f4920 and f2620; crops of 'Unused', 'boxes and cards', the keycaps at f1922 and f1932, and 'Free' at f4254 |\n| gaps | 32 frames of the quieter stretches: 1000-1210, 2040-2110, 3690-3770, 4570-4670, 4840-4860 |\n\n**Other checks.** The S1-S3 render logs contain 0 '[kit]' warnings. A grep found no Math.random or Date in src/ep06. The cue JSONs, read as data only:\n\n| Section | Cues | Per minute | Impacts |\n|---|---|---|---|\n| S1 | 10 | 12.8 | f187, f397 |\n| S2 | 13 | 13.3 | f2755, f2881 |\n| S3 | 15 | 13.9 | f4526 |\n\nI rendered no full-res stills, because every doubtful label measured above the floors on the half-scale frames.\n\n**Scoring.** score_100 = Σ(criterion × weight)/10 with weights 25/15/20/15/5/15/5. The range score is the frame-weighted mean of the three sections (1409, 1758 and 1937 frames): 86.6."
+}
