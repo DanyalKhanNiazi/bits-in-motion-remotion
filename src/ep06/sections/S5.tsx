@@ -29,7 +29,6 @@ import {
   cardPlugs,
   groupIds,
   prog,
-  rgba,
   poseAt,
   toScreen,
   trimNotePos,
@@ -47,6 +46,7 @@ import {SsdTag} from './S5/SsdTag';
 import {SsdHero} from './S5/SsdHero';
 import {Refusal} from './S5/Refusal';
 import {DriveScan} from './S5/DriveScan';
+import {DELIVERY_W, TrimDelivery} from './S5/TrimDelivery';
 
 const {from: FROM, to: TO} = SECTION('S5');
 
@@ -230,10 +230,12 @@ const D_EVENTS: ArchiveEvent[] = [
   {at: W.clusters - 2, op: 'readPulse', dur: 34},
   {at: TRIM_AT, op: 'trim', dur: TRIM_DUR},
 ];
-/** the hero note (the kit's paper envelope) rises above the card, then flies into the card's middle plug and shrinks to the Archive's own note */
+/**
+ * the hero note (the kit's paper envelope, on-screen width HERO_W) rises above the card, then flies into the card's
+ * middle plug and shrinks to the delivery envelope (TrimDelivery, same look) that rides the Archive's trim note
+ */
 const PLUG = cardPlugs(GEOM.card.x, GEOM.card.y, GEOM.card.w)[1];
-const HERO_W = 230;
-const HERO_SMALL = 76 / HERO_W;
+const HERO_W = 460;
 const HERO_PATH: TrimPath = {
   pts: [
     {x: 420, y: 142},
@@ -268,9 +270,9 @@ const shotD = (f: number) => {
   const an = archiveAnchors(A, f, pose);
   const full = toScreen(pose, an.box(59).x, an.box(59).y - 30);
   const hp = trimNotePos(HERO, f);
-  const hs = 1 - (1 - HERO_SMALL) * prog(f, HERO_PATH.at, HERO_PATH.dur, EASE.inOut);
-  const nt = toScreen(pose, hp.x + (HERO_W / 2) * hs, hp.y - 10);
-  const swap = f >= HERO_PATH.at + HERO_PATH.dur ? Math.exp(-(f - HERO_PATH.at - HERO_PATH.dur) / 2.5) : 0;
+  const hw = HERO_W + (DELIVERY_W - HERO_W) * prog(f, HERO_PATH.at, HERO_PATH.dur, EASE.inOut);
+  const hc = toScreen(pose, hp.x, hp.y - 4);
+  const nt = {x: hc.x + hw / 2, y: hc.y};
   const ntfs = toScreen(pose, NTFS_AT.x, NTFS_AT.y);
   const drives = toScreen(pose, DRIVES_AT.x, DRIVES_AT.y);
   return (
@@ -289,14 +291,8 @@ const shotD = (f: number) => {
     >
       <Archive {...A} />
       <DriveScan frame={f} rings={[W.read - 4, W.read + 10]} dim={[W.read, W.sends - 22]} pane={[W.doesnt + 10, W.sends - 22]} />
-      {f < TRIM_AT ? (
-        <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${hp.x}px ${hp.y}px`, transform: `scale(${hs})`}}>
-          <TrimNote frame={f} variant="envelope" {...HERO} w={HERO_W} numberSize={10} at={W.shortNote - 6} float={3} />
-        </div>
-      ) : null}
-      {swap > 0.02 ? (
-        <div style={{position: 'absolute', left: PLUG.x - 20 - 90, top: PLUG.y - 90, width: 180, height: 180, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba('#FFFFFF', 0.85 * swap)}, ${rgba(PAL.emphasis, 0.3 * swap)} 45%, rgba(0,0,0,0))`}} />
-      ) : null}
+      {f < TRIM_AT ? <TrimNote frame={f} variant="envelope" x={HERO.x} y={HERO.y - 4} path={{...HERO_PATH, pts: HERO_PATH.pts.map((q) => ({x: q.x, y: q.y - 4}))}} w={hw} wOnScreen numberSize={10} at={W.shortNote - 6} float={3} /> : null}
+      <TrimDelivery frame={f} at={TRIM_AT} dur={TRIM_DUR} />
     </Stage>
   );
 };
