@@ -34,6 +34,8 @@ import {
   type TrayMode,
 } from '../../kit';
 import {T} from './T';
+// S5's delivery envelope (read-only import): the same paper envelope rides the Archive's trim note across the cut
+import {TrimDelivery} from '../S5/TrimDelivery';
 
 /* ---------------------------------------------------------------- the SSD archive (shot A = the right panel) */
 // the TRIM note is just through the slot at the cut (t ≈ 0.62 of its path) and lands by the photo's first run on "note"
@@ -123,6 +125,7 @@ export const ShotA: React.FC<{frame: number; grade?: {vignette?: number}}> = ({f
       }
     >
       <Archive {...A} />
+      <TrimDelivery frame={f} at={TRIM_AT} dur={TRIM_DUR} />
     </Stage>
   );
 };
