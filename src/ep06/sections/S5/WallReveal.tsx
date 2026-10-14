@@ -29,7 +29,7 @@ export const WallReveal: React.FC<WallRevealProps> = ({frame: f, at, stagger, du
   for (let r = 0; r < ROWS; r++) if (f >= start(r)) started++;
   const end = revealEnd({at, stagger, dur});
   // the cut between the revealed (SSD) and the still-covered (hard-drive look) part of the world
-  const yCut = started >= ROWS ? 1e5 : GEOM.wall.y + started * P - 4;
+  const yCut = started === 0 ? -1e5 : started >= ROWS ? 1e5 : GEOM.wall.y + started * P - 4;
   // SSD under the face: no flip, so trays and graphite cells show; its chip fades in once the face is off
   const ssd = (
     <Archive frame={f} state="SSD_SAVED" light={light} events={events} show={{platter: 0, actor: [[end - 8, 0], [end + 10, 1]]}} />

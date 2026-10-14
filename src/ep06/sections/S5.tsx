@@ -1,7 +1,8 @@
 /**
  * S5, P10–P12 [6649, 8404): the turn to the SSD. Plan: docs/ep06/plans/S5_plan.md.
  *   A  the hard-drive verdict on the wall (HDD_RACE_LOST)
- *   B  match cut on "SSD": the same drawer and cards under an "SSD" tag, the same delete; the wall flips into flash
+ *   B  match cut on "SSD": the same drawer and cards under an "SSD" tag, the same delete; the wall's hard-drive face
+ *      comes off row by row and uncovers the graphite flash underneath
  *   C0 the SSD board's hero beat on the hardware stage + "The SSD"; explode on "flash", dive on "memory"
  *   C  inside the flash (env 'flash' floor, flash traces on the wall): refused writes, a group erase, a stalled save,
  *      housekeeping that skips the photo
@@ -42,6 +43,7 @@ import {at} from '../timing';
 import {SECTION} from '../sections';
 import {Hourglass} from './S5/Hourglass';
 import {FlashTraces} from './S5/FlashTraces';
+import {WallReveal} from './S5/WallReveal';
 import {SsdTag} from './S5/SsdTag';
 import {SsdHero} from './S5/SsdHero';
 import {Refusal} from './S5/Refusal';
@@ -95,8 +97,7 @@ const W = {
 
 /* ================================================================ cut points */
 const CUT_B = W.ssd; // FlashCut A → B on "SSD"
-const FLIP = W.under + 10; // the wall flips into flash, column by column, once the push has landed on it
-const FLIP_DUR = 58;
+const REVEAL = {at: W.under + 7, stagger: 6, dur: 16}; // the hard-drive face lifts off row by row; the last row is gone on "differently"
 const LIGHT_SWITCH = W.but10 + 8; // inside the fast push to the wall
 const HERO_AT = W.anSsd - 24; // B pushes into the SSD board's hero beat
 const SWAP = W.flash; // ssd-board_a → _d under a flash
@@ -113,9 +114,10 @@ const CAM_AB: CamKey[] = [
   {f: CUT_B + 12, x: 990, y: 540, zoom: 1.0, dur: 36, ease: 'inOut'},
   {f: W.sameWin + 2, x: 800, y: 486, zoom: 1.16, dur: 52},
   {f: W.but10 - 2, x: 780, y: 490, zoom: 1.2},
-  // "But underneath": a fast push until the wall fills the frame, then a held, slow creep while it flips
-  {f: W.under + 12, x: 1288, y: 560, zoom: 1.74, dur: 17, ease: 'inOut'},
-  {f: HERO_AT + 12, x: 1288, y: 556, zoom: 1.8},
+  // "But underneath": a fast push until the wall fills the frame, then the camera tilts down with the rows coming off
+  {f: W.under + 12, x: 1288, y: 548, zoom: 1.8, dur: 17, ease: 'inOut'},
+  {f: REVEAL.at + 8 * REVEAL.stagger + REVEAL.dur, x: 1296, y: 574, zoom: 1.9},
+  {f: HERO_AT + 12, x: 1300, y: 568, zoom: 1.96},
 ];
 
 const shotA = (f: number) => (
@@ -147,8 +149,7 @@ const shotB = (f: number) => {
   const tag = toScreen(poseAt(f, CAM_AB), TAG_ANCHOR.x, TAG_ANCHOR.y);
   return (
     <Stage frame={f} env={{kind: 'archive', light}} cam={CAM_AB} hud={<SsdTag frame={f} at={CUT_B + 3} exitAt={W.but10 + 2} x={tag.x} y={Math.max(104, tag.y)} />}>
-      <Archive frame={f} state="SSD_SAVED" light={light} events={B_EVENTS} flip={{at: FLIP, dur: FLIP_DUR}} />
-      {f >= FLIP ? <FlashTraces frame={f} flip={{at: FLIP, dur: FLIP_DUR}} /> : null}
+      <WallReveal frame={f} {...REVEAL} light={light} events={B_EVENTS} />
     </Stage>
   );
 };
@@ -261,9 +262,9 @@ const CAM_D: CamKey[] = [
   {f: TRIM_AT + 76, x: BOUNDARY.x - 8, y: BOUNDARY.y + 6, zoom: BOUNDARY.zoom * 0.985, dur: 50},
   {f: TO, ...BOUNDARY},
 ];
-/** the two chips sit on each side of the boundary, below the card (world anchors: they never cover the card) */
-const NTFS_AT = {x: 372, y: 528};
-const DRIVES_AT = {x: 1010, y: 528};
+/** the two chips sit level on each side of the boundary, below the drawer's handle (dark ground; world anchors) */
+const NTFS_AT = {x: 372, y: 582};
+const DRIVES_AT = {x: 1010, y: 582};
 const shotD = (f: number) => {
   const A = {frame: f, state: 'SSD_DELETED' as const, events: D_EVENTS};
   const pose = poseAt(f, CAM_D);

@@ -30,7 +30,7 @@ for (let g = 0; g <= 4; g++) {
 /** the kit's per-column flip progress (Archive.tsx flipU), mirrored so the overlay follows the wall exactly */
 export const flipColU = (f: number, at: number, dur: number, col: number): number => prog(f, at + (col * Math.max(0, dur - 10)) / (COLS - 1), 10, EASE.inOut);
 
-export const FlashTraces: React.FC<{frame: number; opacity?: number; flip?: {at: number; dur: number}}> = ({frame: f, opacity = 1, flip}) => {
+export const FlashTraces: React.FC<{frame: number; opacity?: number; flip?: {at: number; dur: number}; maxY?: number}> = ({frame: f, opacity = 1, flip, maxY}) => {
   const cid = `${safeId(React.useId())}-reveal`;
   if (opacity <= 0.001) return null;
   // revealed width (flip): up to the right edge of the last column that has turned past half way
@@ -49,10 +49,10 @@ export const FlashTraces: React.FC<{frame: number; opacity?: number; flip?: {at:
     <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={opacity}>
       <defs>
         <clipPath id={cid}>
-          <rect x={X0 - 20} y={Y0 - 20} width={Math.max(0, revealX - X0 + 20)} height={H + 40} />
+          <rect x={X0 - 20} y={Y0 - 20} width={Math.max(0, revealX - X0 + 20)} height={Math.max(0, Math.min(H + 40, (maxY ?? 1e5) - Y0 + 20))} />
         </clipPath>
       </defs>
-      <g clipPath={flip ? `url(#${cid})` : undefined}>
+      <g clipPath={flip || maxY !== undefined ? `url(#${cid})` : undefined}>
         {/* faint static traces so the seams read between pulses */}
         <path d={SEAMS.filter((s) => !s.amber).map((s) => s.d).join('')} stroke={WHITE} strokeOpacity={0.1} strokeWidth={1.6} fill="none" />
         <path d={SEAMS.filter((s) => s.amber).map((s) => s.d).join('')} stroke={PAL.drive} strokeOpacity={0.16} strokeWidth={1.8} fill="none" />
