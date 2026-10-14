@@ -1,0 +1,67 @@
+{
+ "id": "S6",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 9,
+  "craft": 7.5,
+  "timing": 8.5,
+  "brand": 8,
+  "engagement": 8.5,
+  "production": 8.5
+ },
+ "score_100": 82.25,
+ "prev_fixed": "No previous review exists.",
+ "issues": [
+  {
+   "frames": "9746-9808",
+   "severity": "high",
+   "owner": "S6",
+   "what": "The stage dips to near-empty. After the snapshot print slides off (9740-9746), about 60 f hold a dark stage with only a TRIM note about 90 px wide (f9754-9770: frame mean luma 23, every band flat except the note's). An empty black enclosure fades in at about 9772, and its drives appear only at about 9808. This plays under 'And trim doesn't always get through' and breaks the 'no near-empty frame >6 f' rule.",
+   "fix": "Have the 4-drive array with its lit Bits already in place as the pan lands (by 9746), the note launching from the left on 'And trim' (9743). Or overlap the print's exit with the array sliding in, so no frame shows only the note."
+  },
+  {
+   "frames": "8660-8902",
+   "severity": "med",
+   "owner": "S6",
+   "what": "In the SplitCompare, the bottom 300 px at 1080p (y 780-1080) is flat navy (luma 10, std <=2 at f8704) for about 240 f until the verdict. Each panel's Archive is tiny (boxes about 20 px at 1080p), so the SSD's housekeeping erase on 'erases them' (8721-8760) is a change of a few pixels (f8756).",
+   "fix": "Push the right panel camera to `photoBoxes` for 8715-8760 so the amber sweep erasing the 9 boxes is large, then mirror both panel cameras back. Let panel content use the empty band until the verdict lands at 8903."
+  },
+  {
+   "frames": "8903-9050",
+   "severity": "low",
+   "owner": "S6",
+   "what": "The verdict's accent word 'Nothing' is magenta, but DIRECTION §2.5 assigns 'Nothing left' to coral (loss).",
+   "fix": "Make the VerdictCard accent coral for 'Nothing'."
+  },
+  {
+   "frames": "9521-9553",
+   "severity": "low",
+   "owner": "S6",
+   "what": "'Depends on who made the chip' lands whole at 9521, but 'chip' is spoken at 9553, 32 f early. DIRECTION §1.2 holds the word 'chip' back until 'the chip that runs the drive'.",
+   "fix": "Land 'Depends on who made' on 'depending' (9520) and slam 'the chip' on 9553, timed with the amber chip ripple."
+  },
+  {
+   "frames": "9682-9690",
+   "severity": "low",
+   "owner": "S6",
+   "what": "About 8 f carry 14 must-read words: 'TRIM off', 'TRIM on', 'At most about a quarter' and the incoming 'A snapshot, not a rule'.",
+   "fix": "Exit the band label by 9678, before the stamp lands at 9685."
+  },
+  {
+   "frames": "8985-9060",
+   "severity": "low",
+   "owner": "S6",
+   "what": "The 'How fast, and how completely?' re-hook is only the clock glyph (about 60 px) swelling inside the right panel. The right tray's '?' comes back at about 9040 after the empty dashed frame, which blurs the verdict just stated.",
+   "fix": "Keep the empty dashed frame in the right tray. Swell the clock to centre-panel size (about 2.5x) on 'How fast' (8991) and add a subtle tick sweep. Bring the '?' back only after the verdict exits."
+  },
+  {
+   "frames": "9066-9086",
+   "severity": "low",
+   "owner": "S6",
+   "what": "Coming out of the ZoomThrough, one drive about 70 px wide stands alone on an empty stage (about 4% of the frame) for about 20 f before multiplying.",
+   "fix": "Bring the drive out of the zoom at hero size and shrink it as it multiplies into 16 on 'drive' (9084)."
+  }
+ ],
+ "version": "v1",
+ "method": "Decoded frames only; no playback and no audio. Read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14, and the S4/S5/S6 plans. Render logs S4-S7 contain 0 '[kit]' warnings. I extracted 5074-9965 (4,892 frames, count verified) and ran tools/static_check.py --offset 5074: 0 frozen stretches at the default 0.35 threshold and also at 1.0, and 0 empty frames. I used 13 images in all, from tools/sheet.py on out/ep06/v1/ep06_film.mp4 with absolute frames: three overview sheets every 30 f (S4 52, S5 59, S6 52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each (S4, S5, S6); a boundary sheet (5096-5110, 6641-6655, 8396-8410 and 9922-9951 every 2 f); sync sheets for S4 (56 frames) and S6 (60 frames) at the word frames; a mixed sheet (SSD dive 7141-7185, refusal 7295-7328, sweep and scanner launch 8716-8800, sparse stage 9728-9800); S5 beats (6885-7100, 7612-7764, 8104-8300); trays, split opening and multiply (5640-5680, 6590-6640, 8556-8660, 9064-9112); quote zoom, group erase and verdict hold (5390-5502, 7376-7600, 8960-9060); and one side-by-side of f8756 and f7712. I also measured without images: cap heights from connected components of bright pixels on half-scale crops (about 20 text elements), per-30-row luma mean and std on 20 frames (black top band, near-empty stage, empty bottom band of the split), and coral and white pixel onset tracking (strike starts at 6896 on 'Windows', tab around 6964-6984). No full-res stills were rendered; every element checked against the floors passed except the QuoteStrip attribution, so none were needed. I can't verify determinism from frames; the Archive's ids and states are consistent across all three sections. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

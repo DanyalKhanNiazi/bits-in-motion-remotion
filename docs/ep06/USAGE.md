@@ -1,8 +1,6 @@
 # Episode 06 token usage (cloud session)
-
 Hard cap from the run brief: **14M tokens**. Agent figures are the totals each agent or workflow reported (mostly cached input).
 Main-session figures are read from the session's own token counter at each checkpoint.
-
 | Phase | Work | Tokens | Running total |
 |---|---|---:|---:|
 | 0 | Asset mapping + verification workflow (2 agents) | 362,748 | 0.36M |
@@ -23,5 +21,7 @@ Main-session figures are read from the session's own token counter at each check
 | 3 | Builder S9 (callback ending) | 443,712 | 5.85M |
 | 3 | Kit agent A: PhotoBits/SwapVariant fixes | 15,303 | 5.86M |
 | 0–3 | Main session through Phase 3 (orchestration, reviews of sheets, tool fixes) | 132,000 | 5.99M |
+| 5 | Review v1: 3 range reviewers (workflow) | 614,973 | 6.61M |
+| 4–5 | Main session: Phase 4 renders, join, checks, triage | 30,000 | 6.64M |
 
 Builder figures are the peak token counts their notifications reported; agents whose context was compacted reported smaller numbers afterwards, so the true cumulative use is somewhat higher.

@@ -1,0 +1,74 @@
+{
+ "id": "S5",
+ "criteria": {
+  "clarity": 6.5,
+  "accuracy": 9,
+  "craft": 6.5,
+  "timing": 8.5,
+  "brand": 8,
+  "engagement": 7,
+  "production": 8
+ },
+ "score_100": 74,
+ "prev_fixed": "No previous review exists.",
+ "issues": [
+  {
+   "frames": "7177-7266",
+   "severity": "med",
+   "owner": "S5",
+   "what": "The 'inside the flash' shot leaves a flat black band across the top 120 px at 1080p (rows 0-60 at half scale: luma 8, std 1 at f7178, 7230, 7262) because the wall stops short of the top edge. env 'flash' (graphite cells with white and amber traces) is never actually built: this is the ordinary SSD Archive wall.",
+   "fix": "Reframe so the Archive fills the frame (zoom about 1.15 or camera y -60 at 1080p), and add the env 'flash' backdrop with white and amber traces behind the wall so the P11 environment break reads."
+  },
+  {
+   "frames": "7141-7177",
+   "severity": "med",
+   "owner": "S5",
+   "what": "The SSD hero is barely there. ssd-board_a is on screen for only about 28 f. Its first frames sit on a washed-out grey stage (frame luma 58 at 7153 and 100 at 7159 during the swap flash, against about 25 on the dark stage). No _d explode is visible: frames 7161-7173 show the same _a board, and the cut to the wall comes at 7177.",
+   "fix": "Bring the hero in by about 7120 on the dark stage with rim light and a light sweep. Flash-swap to ssd-board_d on 'flash' (7157) and dive on 'memory' (7169), so the board reads for >=45 f (DIRECTION §8 S5)."
+  },
+  {
+   "frames": "6823-7092",
+   "severity": "med",
+   "owner": "S5",
+   "what": "The match cut to the SSD has no SSD cue. From 6823 to 7003 the drawer and wall look identical to the hard-drive Archive, with no icon or chip, so the replayed delete (strike at 6896, tab at about 6972) reads as a repeat of P07. The flip at 7004-7092 reads only as a light band crossing a slightly darker wall (f7028-7092), not as graphite flash revealed underneath.",
+   "fix": "On 'SSD' (6823), add the SSD icon chip (kit SplitCompare icon) on the drawer. Make the flip a visible per-column rotation that shows graphite cells with amber traces on the back face (7004-7077), so 'works very differently' is an image."
+  },
+  {
+   "frames": "7650-7764",
+   "severity": "med",
+   "owner": "S5",
+   "what": "The housekeeping sweep reads as scattered amber bars about 20-40 px wide (f7699, f7712). Groups go dark, but there is no continuous sweep, and the skip over the photo's cyan groups can't be seen: at f7712 the 021-023 and 058-060 runs look the same as before.",
+   "fix": "Run one continuous amber band per group row, left to right (about 20 f per group), with the cleared groups going dark in its wake. When it reaches a photo group, flash a dashed amber outline and visibly hop over it."
+  },
+  {
+   "frames": "8118-8404",
+   "severity": "low",
+   "owner": "S5",
+   "what": "The TRIM note doesn't read as a note. The trim-notice_b hero above the card (8118-8286) reads as a small grey device. The Archive note delivered to the slot is only about 60 px wide at 1080p (f8389), so the handoff subject, 'the note through the slot', is barely visible.",
+   "fix": "When 'trim' is named, show the note's paper face at >=300 px. For 8374-8404, push into `boundary` so the note going through the slot is >=120 px wide and is the subject of the frame."
+  },
+  {
+   "frames": "7840-8060",
+   "severity": "low",
+   "owner": "S5",
+   "what": "'The SSD doesn't read the index cards' is drawn only as a thin vertical line between drawer and wall (f7849-8059). Nothing shows the drive failing to see the cards.",
+   "fix": "Turn the boundary into a lit pane: dim the drawer side behind it, and have the amber actor's scan beam stop at the line before 'Still full' lands."
+  },
+  {
+   "frames": "8334-8402",
+   "severity": "low",
+   "owner": "S5",
+   "what": "The 'On NTFS, by default' chip sits on the card's top edge and name field (about x 250-680, y 90-140 at 1080p, f8389), a collision with the hero prop.",
+   "fix": "Raise the chip about 40 px above the card, or anchor it left of the drawer."
+  },
+  {
+   "frames": "7296-7330",
+   "severity": "low",
+   "owner": "S5",
+   "what": "The refused write on 042 at 'write over' (7301) and 'data' (7323) shows only as a 6-8 f coral outline on a box about 90 px wide in a medium shot. The bouncing Bit can't be read.",
+   "fix": "Push in so box 042 is >=200 px wide, and animate the incoming Bit hitting, bouncing and falling away under the coral flash."
+  }
+ ],
+ "version": "v1",
+ "method": "Decoded frames only; no playback and no audio. Read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14, and the S4/S5/S6 plans. Render logs S4-S7 contain 0 '[kit]' warnings. I extracted 5074-9965 (4,892 frames, count verified) and ran tools/static_check.py --offset 5074: 0 frozen stretches at the default 0.35 threshold and also at 1.0, and 0 empty frames. I used 13 images in all, from tools/sheet.py on out/ep06/v1/ep06_film.mp4 with absolute frames: three overview sheets every 30 f (S4 52, S5 59, S6 52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each (S4, S5, S6); a boundary sheet (5096-5110, 6641-6655, 8396-8410 and 9922-9951 every 2 f); sync sheets for S4 (56 frames) and S6 (60 frames) at the word frames; a mixed sheet (SSD dive 7141-7185, refusal 7295-7328, sweep and scanner launch 8716-8800, sparse stage 9728-9800); S5 beats (6885-7100, 7612-7764, 8104-8300); trays, split opening and multiply (5640-5680, 6590-6640, 8556-8660, 9064-9112); quote zoom, group erase and verdict hold (5390-5502, 7376-7600, 8960-9060); and one side-by-side of f8756 and f7712. I also measured without images: cap heights from connected components of bright pixels on half-scale crops (about 20 text elements), per-30-row luma mean and std on 20 frames (black top band, near-empty stage, empty bottom band of the split), and coral and white pixel onset tracking (strike starts at 6896 on 'Windows', tab around 6964-6984). No full-res stills were rendered; every element checked against the floors passed except the QuoteStrip attribution, so none were needed. I can't verify determinism from frames; the Archive's ids and states are consistent across all three sections. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

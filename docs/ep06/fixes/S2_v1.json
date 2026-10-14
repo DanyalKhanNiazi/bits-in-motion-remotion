@@ -1,0 +1,45 @@
+{
+ "id": "S2",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 8.5,
+  "craft": 8,
+  "timing": 8.5,
+  "brand": 9,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 82.3,
+ "issues": [
+  {
+   "frames": "1540-1600",
+   "severity": "med",
+   "owner": "S2",
+   "what": "The photo leaves the folder exactly while the voice says 'pressing delete usually doesn't remove anything' (1563-1600). The row dims at f1540, the icon flies at f1544, and by f1590 the list is empty and the photo is in the bin. That is about 30 f before 'Windows moves the photo into the recycle bin' (1617-1675), so the picture contradicts the sentence it plays under.",
+   "fix": "Keep the row listed and highlighted through the Delete press (f1536) and 'doesn't remove anything'. Start the slide on 'moves' (f1622) and land it in the bin on 'bin' (f1675), with the Bits attached."
+  },
+  {
+   "frames": "1903-1916",
+   "severity": "low",
+   "owner": "S2",
+   "what": "The literal rewind look (chromatic smear, ◀◀ glyph, plus a 'rewind' cue at f1903) is reused at 'or skip it' (f1908-1916) to bring the photo back for Shift + Delete. Viewers will read it as a second restore. Direction reserves the rewind for 'restore' (used correctly at f1786-1800).",
+   "fix": "Use a whip or match cut from the bin back to the folder for 'or skip it', and keep the rewind look exclusive to 'restore'."
+  },
+  {
+   "frames": "2986-3030",
+   "severity": "low",
+   "owner": "S2",
+   "what": "The 'clusters' label lands on its word (f2990) but sits inside the depth-of-field blur: soft grey type on the busy grid with low contrast (crop of f2990). Its size is fine (cap height about 25 half-px).",
+   "fix": "Put the label in the Stage hud with `screen` (outside the blur) on a dark chip plate, anchored to a box."
+  },
+  {
+   "frames": "2930-3030",
+   "severity": "low",
+   "owner": "S2",
+   "what": "The footnote 'Simplified: grid, not platter layout' puts 'platter', a word on DIRECTION §1.2's never-on-screen list, on screen. It is §8's prescribed string, so the direction contradicts itself here.",
+   "fix": "Use 'Simplified: not the real disk layout' (6 words), or get the direction to confirm the exception."
+  }
+ ],
+ "version": "v1",
+ "method": "Decoded half-scale frames only (out/ep06/v1/ep06_film.mp4, 960×540, frame index = absolute frame); no playback, no audio. I read PLAYBOOK §4-§8, DIRECTION (all), the TRANSCRIPT for P01-P07, and editorial §D V1-V4 plus §E C00-C07 and C25. I used 12 images in total, all saved in out/ep06/review/v1/S1-S3/. Overview sheets: s1_overview (0-1408, step 30, 47 frames), s2_overview (1400-3180, step 30, 60 frames), s3_overview (3160-5130, step 35, 57 frames). Dense sync sheets at the transcript word frames: s1_dense (71 frames), s2_dense (69), s3_dense (62), mix_dense (34: SSD cleanup 655-697, Shift+Delete 1928-1956, wall 2160-2280, card swap 3478-3506, read pulse 3700-3760). Full half-scale montages with margin and bottom-140 guides: s1_full (f600, 660, 676, 690, 906, 1100) and s3_full (f4545, 4600, 5103, 5104, 5107, 3545). Text crops at 2× with a 10 px ruler (s1_text, s23_text) gave the cap heights. Bin crops (bins.png) at f0, 45, 76, 90, 100, 120, 1400 and 4035. Numerical checks: tools/static_check.py on an extracted clip of frames 0-5133 found 0 frozen stretches and 0 empty frames; a custom motion profile found no stretch with motion under 1.0 lasting 60 f or more, and only one under 1.5 (f670-767). A frame-difference cut list located every hard cut and flash. Pixel counts on the chip regions timed the chip onsets ('Not yet.' f826, 'Probably…' f888) and the scanner occlusion (f894-906). The S1-S3 render logs contain 0 '[kit]' text warnings. grep found no Math.random or Date in src/ep06. I read the cues.json files for S1-S3 as code only. No full-res stills were rendered, because every doubtful label measured above the floor on the half-scale frames. There was no previous review, so prev_fixed is omitted."
+}

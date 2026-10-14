@@ -1,0 +1,66 @@
+{
+ "id": "S9",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 9,
+  "craft": 7.5,
+  "timing": 8,
+  "brand": 8.5,
+  "engagement": 8.5,
+  "production": 7.5
+ },
+ "score_100": 81.25,
+ "issues": [
+  {
+   "frames": "14747",
+   "severity": "med",
+   "owner": "S9",
+   "what": "The desk passport (fictional-passport_a) appears on the first frame of S9. In the region x 600–820, y 400–540 at half scale, the mean frame difference is 36.9 at 14747 against under 0.4 on the frames either side, and bright pixels jump from 0 to 4,429 in one frame. The outgoing S8 desk has no passport, so the §6 handoff doesn't match.",
+   "fix": "Slide or drop the passport onto the desk on 'passport' (14798) with a thunk, or have S8 show it from about 14700 so the cut is identical."
+  },
+  {
+   "frames": "14787-14884, 15364-15400",
+   "severity": "med",
+   "owner": "S9",
+   "what": "The hud lines 'Back to the passport photo' and 'Want it back' sit over the blurred, light passport card on the monitor (2x crops at f14807, f14866 and f15396). 'passport' and 'back' are white on light grey and stay readable only because of the drop shadow.",
+   "fix": "Darken the plate by at least 40% under the hud band while the fork is up, or put the lines below the card. Keep the card dim while the text is up."
+  },
+  {
+   "frames": "16288-16345",
+   "severity": "med",
+   "owner": "S9",
+   "what": "The hero title 'Delete ≠ Erase' overlaps the index card rising behind it (f16320–16337). 'Delete' sits on the paper-white card, so it is white on white.",
+   "fix": "Keep the card below y≈300 at 1080p until the title exits at 16342, or add a dark scrim or shadow plate behind the title."
+  },
+  {
+   "frames": "16928-16975",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The image for 'make sure the boxes were unreadable from the start' (the glyph save) lands during the fast pull-out. The glyph boxes are only about 5 px at half scale, and it can't be made out on the sheets (f16930–16966), so the film's last idea has no clear picture.",
+   "fix": "Slow the pull-out from 16920 to 16975, or pulse a pale ring around the 9 boxes as the glyphs land."
+  },
+  {
+   "frames": "15756-15765",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The strip 'Microsoft recommends: Reset this PC · Clean data on' starts typing at 15756, 38 frames after 'Microsoft recommends' (15718), on the word 'reset'.",
+   "fix": "Start the strip at about 15718."
+  },
+  {
+   "frames": "15099-15106",
+   "severity": "low",
+   "owner": "S9",
+   "what": "'Recover onto a different drive' replaces 'Stop using that drive' 6–13 frames after 'recover' (15093), outside ±3.",
+   "fix": "Swap the lines at 15091."
+  },
+  {
+   "frames": "16090-16124",
+   "severity": "low",
+   "owner": "S9",
+   "what": "Item 6 ('Before it leaves your hands') never hands off the sealed drive. The board stays centred until the whip (f16110), against DIRECTION §8 S9 item 6.",
+   "fix": "Slide the sealed board off frame right from about 16104, under the pulse."
+  }
+ ],
+ "version": "v1",
+ "method": "I decoded frames only from out/ep06/v1/ep06_film.mp4, at half scale, and didn't play the video or listen to anything. I extracted [9935,17022] (7,088 frames, count verified) into out/ep06/review/v1/S7-S9/range.mp4. tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames. A custom pass over the same range measured per-frame motion (m15 and m1), luma std (flagging 13729–13733, 14277–14336 and 14507–14517) and hard cuts. I viewed 11 images: tools/sheet.py overview sheets for S7 (every 30 frames, 69 frames), S8 (every 36, 78) and S9 (every 30, 77); dense sheets s7_a, s7_b, s8_a, s8_b, s9_a and s9_b (32–47 frames each, around word-locked beats and all 3 boundaries); and 2 crop composites of native half-scale crops at 1–2x (crops1, crops2). For legibility, a script measured connected-component capital heights at about 45 frames. Every must-read label was ≥ 14 px tall at half scale, with keywords and heroes at 26–65 px, except the S7 quote attribution (about 11 px). Other scripts measured label onset frames against TRANSCRIPT.md, counted cyan, amber and coral pixels at 10280–10720, 12960–13150 and 13470–13740, scanned the bottom 140 px band for text every 15 frames (only props and footnotes found), measured the right extent of the 'fresh' caption, and diffed the region at the 14747 cut. I rendered no full-resolution stills. I read PLAYBOOK §4–§8, DIRECTION (in full), TRANSCRIPT S7–S9, the ledger C15–C26 and the S7–S9 plans. All S7–S9 render logs have 0 [kit] warnings."
+}

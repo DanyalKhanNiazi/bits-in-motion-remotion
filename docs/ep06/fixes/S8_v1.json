@@ -1,0 +1,59 @@
+{
+ "id": "S8",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 8.5,
+  "craft": 7.5,
+  "timing": 7.5,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8
+ },
+ "score_100": 79.25,
+ "issues": [
+  {
+   "frames": "14290-14336",
+   "severity": "med",
+   "owner": "S8",
+   "what": "The camera holds on an empty Settings window that shows only its title. Luma std is 11.7 and motion m15 is about 0.5 from 14295 to 14325, so the frame is near-empty and almost static for about 46 frames while the voice says 'Many newer Windows PCs turn on a version of it'.",
+   "fix": "Bring in the 'Device encryption' row by 'version' (14308) or earlier, or keep the key or drive visible until then. Add a 0.5 px/f drift."
+  },
+  {
+   "frames": "14507-14517",
+   "severity": "med",
+   "owner": "S8",
+   "what": "On 'One limit' the window closes onto a completely empty dark monitor (luma std 8.4–9.8) for 11 frames before the whip-down starts at 14518. That's longer than the 6-frame limit for a near-empty frame.",
+   "fix": "Start the whip at about 14506, or cut straight from the closing window to the key slot."
+  },
+  {
+   "frames": "12690-12818",
+   "severity": "med",
+   "owner": "S8",
+   "what": "The line 'Example: Crucial Storage Executive → Sanitize Drive' starts at x≈147 at half scale, over the map's white cells, which end at x≈252 (seen at 1.5x on f12740). It has no backing plate, sits over the busy wall, and is only about 6 px under the 'Drive makers ship tools' chip.",
+   "fix": "Give it the same dark chip as the line above, start it at x ≥ 300 at half scale (600 at 1080p) or move the map out of frame, and leave a gap of ≥ 16 px under the chip."
+  },
+  {
+   "frames": "14064-14236",
+   "severity": "low",
+   "owner": "S8",
+   "what": "The three quick objects (bench, laptop slab, hand, e-waste crate) are flat code-drawn shapes on an empty navy stage, with no rim light, specular sweep or depth of field (f14100). They are the least finished props in this range.",
+   "fix": "Add rim light, contact shadows, a light sweep and shallow depth of field, or set the laptop on a photo plate."
+  },
+  {
+   "frames": "12828-13064",
+   "severity": "low",
+   "owner": "S8",
+   "what": "The strip 'NIST: sanitize commands reach all storage areas more effectively than overwriting' drops the voice's 'can' ('can reach all of a drive's storage areas'), which makes it slightly stronger than NIST and the voice (FC4).",
+   "fix": "Change it to 'NIST: sanitize commands can reach all storage areas more effectively than overwriting' (12 words)."
+  },
+  {
+   "frames": "13500-13710",
+   "severity": "low",
+   "owner": "S8",
+   "what": "The footnote 'Only protects data saved while on' runs across the amber drive-actor chip under the wall (f13665, x≈220–270 at half scale).",
+   "fix": "Move the footnote right or up so it clears the actor."
+  }
+ ],
+ "version": "v1",
+ "method": "I decoded frames only from out/ep06/v1/ep06_film.mp4, at half scale, and didn't play the video or listen to anything. I extracted [9935,17022] (7,088 frames, count verified) into out/ep06/review/v1/S7-S9/range.mp4. tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames. A custom pass over the same range measured per-frame motion (m15 and m1), luma std (flagging 13729–13733, 14277–14336 and 14507–14517) and hard cuts. I viewed 11 images: tools/sheet.py overview sheets for S7 (every 30 frames, 69 frames), S8 (every 36, 78) and S9 (every 30, 77); dense sheets s7_a, s7_b, s8_a, s8_b, s9_a and s9_b (32–47 frames each, around word-locked beats and all 3 boundaries); and 2 crop composites of native half-scale crops at 1–2x (crops1, crops2). For legibility, a script measured connected-component capital heights at about 45 frames. Every must-read label was ≥ 14 px tall at half scale, with keywords and heroes at 26–65 px, except the S7 quote attribution (about 11 px). Other scripts measured label onset frames against TRANSCRIPT.md, counted cyan, amber and coral pixels at 10280–10720, 12960–13150 and 13470–13740, scanned the bottom 140 px band for text every 15 frames (only props and footnotes found), measured the right extent of the 'fresh' caption, and diffed the region at the 14747 cut. I rendered no full-resolution stills. I read PLAYBOOK §4–§8, DIRECTION (in full), TRANSCRIPT S7–S9, the ledger C15–C26 and the S7–S9 plans. All S7–S9 render logs have 0 [kit] warnings."
+}

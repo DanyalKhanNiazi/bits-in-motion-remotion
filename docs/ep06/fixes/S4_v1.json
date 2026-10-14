@@ -1,0 +1,67 @@
+{
+ "id": "S4",
+ "criteria": {
+  "clarity": 7.5,
+  "accuracy": 9,
+  "craft": 7.5,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 7.5,
+  "production": 8.5
+ },
+ "score_100": 79.75,
+ "prev_fixed": "No previous review exists.",
+ "issues": [
+  {
+   "frames": "6499-6640 (also 5644-5700)",
+   "severity": "med",
+   "owner": "S4",
+   "what": "The race payoff is clipped. The ScannerProp's tray, which should show the passport with grey missing bands, sits about 60% outside the bottom-right edge. Its visible part is about x 1740-1920, y 840-1080 at 1080p (f6574, f6604), which is also inside the bottom 140 px. The passport is about 50 px tall and the bands can't be read. The copy-out rebuild has the same problem: at 5660-5680 the tray photo is about 50 px and cut by the right edge.",
+   "fix": "Move the scanner up and left so the whole tray sits inside x<=1856, y<=940 at >=240 px wide. Or insert a 20-30 f tray close-up on 'chance to lose it' (6605-6640) showing the banded passport before the wall exit."
+  },
+  {
+   "frames": "6499-6634",
+   "severity": "med",
+   "owner": "S4",
+   "what": "'Recovery is a race' plays as a recap. No write lands during 'every write to that drive is a chance to lose it': all three hits already landed at 6128-6184. The beam dwells on the bottom run, the tally doesn't change, and a static coral bracket is the only coral (f6544-6634).",
+   "fix": "Follow DIRECTION §8 S4: on 'every write' (6554) and 'chance' (6610), drop 1-2 coral writes ahead of the moving beam onto still-lit photo boxes. Add a 6 f coral ring and a tally notch pulse per write."
+  },
+  {
+   "frames": "5190-5396",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The hardware-stage scanner is one 7 s composition. The scanner fills about 40% of the frame width on an empty dark stage, and the 30-f sheet frames 5194-5374 look nearly identical. The only changes are a small beam (5236), a sweep (5276) and the card sliding onto the plate (5336).",
+   "fix": "Add a slow orbit/push toward the plate from 5276, and cut or push closer when the struck card lands on 'deleted file' (5336), so the image changes about every 3 s."
+  },
+  {
+   "frames": "6305-6460",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The reported-speech strip 'Microsoft warns: any use of your computer can create files that overwrite that space' has 14 must-read words, over the 12-word cap (§1.3/§5). At 6451-6460 the dimmed strip is overlapped by the overwrite-slot render's silver insert (about x 700-1400, y 820-900 at 1080p).",
+   "fix": "Raise the slot render about 80 px so nothing crosses the strip, and clear the strip fully before 'any time' slams (6451). Flag the 14-word DIRECTION string to direction so it can be shortened."
+  },
+  {
+   "frames": "6030-6042",
+   "severity": "low",
+   "owner": "S4",
+   "what": "In 'Free means free', the last 'free' arrives at 6038 and settles at 6040. The voice says 'free.' at 6034, so it lands +4-6 f late (the first two words are on time).",
+   "fix": "Start the third word's slam at 6031 so it settles by 6034."
+  },
+  {
+   "frames": "5418-5505",
+   "severity": "low",
+   "owner": "S4",
+   "what": "In the QuoteStrip, the attribution line '— Microsoft · Windows File Recovery page' measures a 10 px cap at half scale (about 20 px cap, ~28 px font at 1080p). That is below even the 32 px footnote role. The quote line passes (16 px cap at half scale).",
+   "fix": "Set the attribution to >=32 px on screen (QuoteStrip prop), or ask the kit to raise its default."
+  },
+  {
+   "frames": "6514-6640",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The 'Illustrative' footnote sits straight on the lit wall over boxes 097-098, with the coral bracket line crossing it (about x 60-200, y 880-910 at 1080p). Figure-ground is weak.",
+   "fix": "Put the footnote on the standard bottom-left scrim position, clear of the write path."
+  }
+ ],
+ "version": "v1",
+ "method": "Decoded frames only; no playback and no audio. Read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14, and the S4/S5/S6 plans. Render logs S4-S7 contain 0 '[kit]' warnings. I extracted 5074-9965 (4,892 frames, count verified) and ran tools/static_check.py --offset 5074: 0 frozen stretches at the default 0.35 threshold and also at 1.0, and 0 empty frames. I used 13 images in all, from tools/sheet.py on out/ep06/v1/ep06_film.mp4 with absolute frames: three overview sheets every 30 f (S4 52, S5 59, S6 52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each (S4, S5, S6); a boundary sheet (5096-5110, 6641-6655, 8396-8410 and 9922-9951 every 2 f); sync sheets for S4 (56 frames) and S6 (60 frames) at the word frames; a mixed sheet (SSD dive 7141-7185, refusal 7295-7328, sweep and scanner launch 8716-8800, sparse stage 9728-9800); S5 beats (6885-7100, 7612-7764, 8104-8300); trays, split opening and multiply (5640-5680, 6590-6640, 8556-8660, 9064-9112); quote zoom, group erase and verdict hold (5390-5502, 7376-7600, 8960-9060); and one side-by-side of f8756 and f7712. I also measured without images: cap heights from connected components of bright pixels on half-scale crops (about 20 text elements), per-30-row luma mean and std on 20 frames (black top band, near-empty stage, empty bottom band of the split), and coral and white pixel onset tracking (strike starts at 6896 on 'Windows', tab around 6964-6984). No full-res stills were rendered; every element checked against the floors passed except the QuoteStrip attribution, so none were needed. I can't verify determinism from frames; the Archive's ids and states are consistent across all three sections. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

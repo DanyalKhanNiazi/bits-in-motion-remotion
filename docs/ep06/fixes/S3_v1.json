@@ -1,0 +1,52 @@
+{
+ "id": "S3",
+ "criteria": {
+  "clarity": 7.5,
+  "accuracy": 9,
+  "craft": 7.5,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 80.5,
+ "issues": [
+  {
+   "frames": "4526-4566",
+   "severity": "med",
+   "owner": "S3",
+   "what": "The keyword 'Nothing opens the boxes.' slams over the lower edge of the white index card. In f4545 the upper half of every letter sits on cream paper (white on white) and only the lower half is over the dark drawer. It becomes clean only after the pull-back from f4566 (f4600 reads well over the wall).",
+   "fix": "Start the pull-back on 'Nothing' (f4526) so the keyword lands over the dark wall, or place it on dark ground above the card or behind a dark scrim plate."
+  },
+  {
+   "frames": "4850-4960",
+   "severity": "med",
+   "owner": "S3",
+   "what": "'Rewriting every box … would take far longer' is shown as a thin white outline crawling over boxes 021→023 at about 30 f per box (f4885-4930). It reads as a selection highlight, not as slow work. The 'quick' ticks (f4836-4846) are in a different shot, so the quick-vs-slow contrast never shares a frame.",
+   "fix": "Stack the two in one frame: on top, two records ticking instantly; below, a rewrite stream refilling the photo's 9 boxes Bit by Bit with a numberless progress bar that barely moves. The crawl visibly stops on 'longer'."
+  },
+  {
+   "frames": "3484-3501",
+   "severity": "med",
+   "owner": "S3",
+   "what": "The mft-record_b render is visible for about 16 f before the f3502 flash. It reads as a dark chrome slab with five slots and a pink/magenta LED stripe, not as the cream paper card it swaps to at f3506 (different material and layout), so the 'registered' swap is a visible jump. The magenta stripe also breaks the colour roles.",
+   "fix": "Push straight into the vector card and show the render for at most 4 f under the flash, or register and regrade it (stripe to white, paper tone) so the swap is invisible."
+  },
+  {
+   "frames": "3502-3590",
+   "severity": "low",
+   "owner": "S3",
+   "what": "The fields 'light as spoken' only with a thin outline (size at f3530, dates at f3556, directions at f3586). The field names are grey on cream with an x-height of about 10 half-px, right at the floor and low contrast, and the spoken words are not echoed anywhere legible.",
+   "fix": "On each word, pop that field's label to bold ink, fill its bar, and add a 40 px or larger hud chip at the field anchor (name, size, dates, directions), removing the previous one."
+  },
+  {
+   "frames": "3758-3836",
+   "severity": "low",
+   "owner": "S3",
+   "what": "The 'environment break' is a floating passport.jpg window on a dark void rather than the reader-desk monitor. It also holds through 'The picture has one limit' (3793-3826), so the limit beat starts on the wrong image.",
+   "fix": "Reassemble the photo on the desk-plate monitor, then cut back to the drawer by 'limit' (f3826)."
+  }
+ ],
+ "version": "v1",
+ "method": "Decoded half-scale frames only (out/ep06/v1/ep06_film.mp4, 960×540, frame index = absolute frame); no playback, no audio. I read PLAYBOOK §4-§8, DIRECTION (all), the TRANSCRIPT for P01-P07, and editorial §D V1-V4 plus §E C00-C07 and C25. I used 12 images in total, all saved in out/ep06/review/v1/S1-S3/. Overview sheets: s1_overview (0-1408, step 30, 47 frames), s2_overview (1400-3180, step 30, 60 frames), s3_overview (3160-5130, step 35, 57 frames). Dense sync sheets at the transcript word frames: s1_dense (71 frames), s2_dense (69), s3_dense (62), mix_dense (34: SSD cleanup 655-697, Shift+Delete 1928-1956, wall 2160-2280, card swap 3478-3506, read pulse 3700-3760). Full half-scale montages with margin and bottom-140 guides: s1_full (f600, 660, 676, 690, 906, 1100) and s3_full (f4545, 4600, 5103, 5104, 5107, 3545). Text crops at 2× with a 10 px ruler (s1_text, s23_text) gave the cap heights. Bin crops (bins.png) at f0, 45, 76, 90, 100, 120, 1400 and 4035. Numerical checks: tools/static_check.py on an extracted clip of frames 0-5133 found 0 frozen stretches and 0 empty frames; a custom motion profile found no stretch with motion under 1.0 lasting 60 f or more, and only one under 1.5 (f670-767). A frame-difference cut list located every hard cut and flash. Pixel counts on the chip regions timed the chip onsets ('Not yet.' f826, 'Probably…' f888) and the scanner occlusion (f894-906). The S1-S3 render logs contain 0 '[kit]' text warnings. grep found no Math.random or Date in src/ep06. I read the cues.json files for S1-S3 as code only. No full-res stills were rendered, because every doubtful label measured above the floor on the half-scale frames. There was no previous review, so prev_fixed is omitted."
+}
