@@ -25,7 +25,14 @@ You are running in a cloud VM: Ubuntu, about 4 vCPUs, 16 GB RAM. You have a clon
 | Hero renders | The owner generates them into `public/ep06/assets/` using the exact "Save as" filenames. |
 | Your code | `src/ep06/`, `src/entries/ep06*.tsx`, `docs/ep06/`, `public/ep06/`, `audio_build/ep06/`, `tools/finish_ep06.sh` |
 
-If `public/ep06/assets/` is empty or incomplete:
+**The owner's renders are in `public/ep06/assets/`:** 77 transparent PNGs. They carry descriptive names (for example "Exploded 6×5 storage wall.png"), not the "Save as" names. In Phase 0:
+1. Make a labelled contact sheet of them.
+2. Match each one to its subject and variant in `inputs/ep06/ASSET_PROMPTS.md`.
+3. Copy each one to a canonical name with no spaces, `<subject>_<variant>.png` (for example `cluster-wall_d.png`), in the same folder.
+4. Write the mapping table to `docs/ep06/ASSET_MAP.md`.
+5. Use only the canonical names in code.
+
+If a subject is missing:
 - Build with code visuals.
 - List the 6–8 P1 renders that would help most in `docs/ep06/ASSET_REQUEST.md`.
 - Keep the code ready to swap them in through kit props (`imageSrc`).

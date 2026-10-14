@@ -118,8 +118,8 @@ def main():
             measured = main_it["start_sample"] / SR * 30.0 + (o - st / SR * 30.0)
             how = "onset detected in an isolated render"
         a0 = L.f2s(cue - 6)
-        mixed = onset_frames(fx_hp, a0, L.f2s(cue + 6))
-        rows.append((cue, label, vis, main_it["file"], round(measured - cue, 2), round(mixed - cue, 2), how))
+        mixed = round(onset_frames(fx_hp, a0, L.f2s(cue + 6)) - cue, 2) if main_it["anchor_s"] else "n/a (start-anchored)"
+        rows.append((cue, label, vis, main_it["file"], round(measured - cue, 2), mixed, how))
 
     # ---- spectral balance: voice vs music during speech --------------------------------------------------------------------
     from scipy import signal
@@ -271,7 +271,9 @@ def main():
     for r in rows:
         w(f"| {r[0]} | {r[1]} | {r[2]} | {r[3]} | {r[4]} | {r[5]} | {r[6]} |")
     w("")
-    w("**The music's arc, as mixed** (integrated loudness of the music bus per section, relative to the voice in the same section). The score's own dynamics survive the ducking:")
+    w("**The music's arc, as mixed** (integrated loudness of the music bus per section, relative to the voice in the same section). "
+      "The arc is written into the cue design as level rides (`cues_extra.json` → `music_rides`): light sections sit about 24-25 LU under the voice, "
+      "hero sections push to about 19-20 LU, and the closed loop never lets any speech window drop under 18.6 LU:")
     w("")
     w("| section | frames | music − voice (LU) | music short-term range in the section (P10-P95, LU) |")
     w("|---|---|---|---|")

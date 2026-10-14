@@ -60,6 +60,13 @@ def at(p, word, nth=1):
 
 EV = []
 OV = []
+RIDES = [[0, 21.0], [846, 20.0], [991, 19.0], [1124, 21.5], [1270, 19.5], [1440, 22.0], [1582, 25.0], [2800, 24.0], [3100, 21.5],
+         [3436, 23.0], [3600, 20.5], [3967, 23.0], [4234, 25.0], [4897, 24.0], [5425, 21.5], [5600, 24.0], [5954, 21.0], [6300, 19.5],
+         [6524, 24.5], [7300, 22.0], [7444, 23.0], [7700, 20.5], [7874, 19.0], [8300, 20.0], [8479, 22.5], [8886, 20.5], [9191, 24.0],
+         [9257, 22.5], [9507, 22.0], [9910, 21.0], [10077, 19.0], [10250, 23.0], [10731, 20.0], [10789, 24.0], [11346, 24.5],
+         [11565, 21.5], [11907, 23.5], [12604, 21.0], [12845, 24.0], [13607, 21.5], [13873, 23.0], [14633, 20.0], [14866, 24.0],
+         [15091, 22.0], [15843, 20.5], [16044, 22.0], [16783, 20.5], [16897, 20.0], [17080, 24.0], [17494, 22.5], [17850, 19.5],
+         [18000, 20.0], [18100, 19.0], [18367, 19.0]]
 # whip directions from the section plans (frame of the builder cue or of the picture transition) -> on-screen motion of objects:
 # a whip LEFT moves the content to the right, so its whoosh sweeps left -> right ("L"); a whip RIGHT sweeps right -> left ("R").
 WHIPS = {146: "L", 2404: "L", 4369: "L", 6252: "L", 6736: "L", 7440: "L", 8281: "L", 8479: "L", 8814: "L", 9489: "L", 9686: "L",
@@ -321,6 +328,9 @@ def build():
                               "stage": "ambience/amb_stage.wav", "glass_hum": "palette_lib/glass_hum_1.wav"}},
         "silences": [{"from": 7862, "to": 7874, "note": "suck-out before the Bridge reveal (the voice pauses here too)"}],
         "whip_directions": {str(k): v for k, v in sorted(WHIPS.items())},
+        "music_rides": {"about": "the music's arc: target gap (LU) of the music under the voice, interpolated between these frames; the mixer's "
+                                 "closed loop still enforces >= 18.6 LU wherever the voice speaks",
+                        "points": RIDES},
     }
     L.save_json(os.path.join(L.HERE, "cues_extra.json"), out)
     print("overrides", len(OV), "events", len(EV), "transitions", len(trans), "ambience regions", len(amb))

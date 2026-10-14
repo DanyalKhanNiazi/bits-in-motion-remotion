@@ -372,7 +372,23 @@ def load_music():
         x = L.load(os.path.join(HERE, "stems", s + ".wav"))
         stems[s] = np.pad(x, ((0, 0), (0, max(0, N - x.shape[1]))))[:, :N] * L.undb(MUSIC_BAL[s])
     bus = sum(stems.values())
-    return bus
+    return glue(bus)
+
+
+def glue(bus, ratio=3.0, above_median_db=1.0):
+    """Music-bus glue compressor (3:1 above the bus's median 100 ms level + 1 dB, gain smoothed over ~150 ms): it lowers the score's
+    crest so the closed loop can let hero passages sit near the 18.6 LU floor instead of trimming whole phrases for one hit."""
+    p = np.sum(bus * bus, axis=0) / 2
+    h = SR // 100
+    k = len(p) // h
+    e = L.lufs(uniform_filter1d(p[:k * h].reshape(k, h).mean(axis=1), 10))
+    live = e > -70
+    thr = np.median(e[live]) + above_median_db
+    gr = np.where(e > thr, (e - thr) * (1 - 1 / ratio), 0.0)
+    gr = uniform_filter1d(maximum_filter1d(gr, 5), 15)
+    g = np.repeat(L.undb(-gr), h)
+    g = np.pad(g, (0, len(p) - len(g)), constant_values=g[-1])
+    return bus * g
 
 
 def series(p, block, hop):
@@ -380,7 +396,18 @@ def series(p, block, hop):
     return st, L.lufs(bp)
 
 
-def music_gain(bus, vg, speech10, pauses, act10):
+def ride_curve(points):
+    """Target gap (LU) per sample from the cue design's music rides (linear between points, then smoothed over 1 s)."""
+    fr = np.array([p[0] for p in points], dtype=float)
+    gp = np.array([p[1] for p in points], dtype=float)
+    hop = SR // 100
+    t = np.arange(0, N, hop) / SR * 30.0
+    r = np.interp(t, fr, gp)
+    r = uniform_filter1d(r, 100)
+    return np.repeat(r, hop)[:N]
+
+
+def music_gain(bus, vg, speech10, pauses, act10, rides=None):
     """Gain curve (N,) for the music bus: nominal GAP_NOMINAL under the voice in speech, lifted in pauses, then a closed loop that
     enforces >= GAP_FLOOR LU in every speech window class. Returns (gain, report)."""
     pv = L.kpower(vg)
@@ -389,7 +416,9 @@ def music_gain(bus, vg, speech10, pauses, act10):
     sp = np.pad(sp, (0, max(0, N - len(sp))))[:N]
     ar = np.repeat(act10.astype(np.float64), SR // 100)                   # raw activity: decides which windows are "the voice speaks"
     ar = np.pad(ar, (0, max(0, N - len(ar))))[:N]
-    pm = L.kpower(bus)
+    ride = ride_curve(rides) if rides else np.full(N, GAP_NOMINAL)
+    ride_db = GAP_NOMINAL - ride                                          # + = the music may come forward here
+    pm = L.kpower(bus * L.undb(ride_db))
     sel = sp > 0.5
     m_speech = L.lufs(pm[sel].mean())
     g0 = V - GAP_NOMINAL - m_speech
@@ -417,8 +446,8 @@ def music_gain(bus, vg, speech10, pauses, act10):
     ok3 = sp3 >= 0.5
     med_gap = float(np.median((lv3 - (lm3 + g0))[ok3]))
     g0 += med_gap - GAP_NOMINAL
-    lift_db = lift * (GAP_NOMINAL - PAUSE_GAP)
-    g = np.full(N, g0) + lift_db
+    lift_db = lift * np.maximum(0.0, ride - PAUSE_GAP)
+    g = np.full(N, g0) + ride_db + lift_db
     rep = {"voice_I": V, "music_speech_lufs_raw": m_speech, "static_gain_db": g0, "pauses": len(pauses)}
     classes = [("400ms", 0.4, 0.05, 0.95), ("1s", 1.0, 0.1, 0.9), ("3s", 3.0, 0.25, 0.5)]
     trim_total = np.zeros(N)
@@ -516,7 +545,7 @@ def main():
         items, dropped = enforce_stack(items)
         fx = render_fx(items)
         amb = render_amb(extra, V, speech10)
-        gain, sp, mrep = music_gain(music_raw, vg, speech10, pauses, act10)
+        gain, sp, mrep = music_gain(music_raw, vg, speech10, pauses, act10, extra.get("music_rides", {}).get("points"))
         music = carve(music_raw * L.undb(gain), sp)
         # silences (full-mix suck-out: everything but the voice)
         for s in extra.get("silences", []):
