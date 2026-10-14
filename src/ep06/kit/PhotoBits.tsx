@@ -13,7 +13,7 @@ import React, {useId} from 'react';
 import {Img} from 'remotion';
 import {EASE, PAL} from './look';
 import {assetBox, assetUrl, type AssetName} from './assets';
-import {clamp01, lerp, nz, prog, rr, safeId} from './util';
+import {clamp01, lerp, nz, prog, rr, safeId, useImageReady} from './util';
 
 type Rect = {x: number; y: number; w: number; h: number};
 type Pt = {x: number; y: number};
@@ -46,6 +46,8 @@ const cloudPos = (k: number, cols: number, rows: number, r: Rect, seed: string):
 
 export const PhotoBits: React.FC<PhotoBitsProps> = ({frame: f, at, dur, mode, from: r, to, image, grid = [12, 16], size, hold = false}) => {
   const uid = safeId(useId());
+  // hold the render until the photo is decoded, so the first dissolve frame never shows a half-drawn image
+  useImageReady(image ? assetUrl(image) : null);
   const [cols, rows] = grid;
   const n = cols * rows;
   const cw = r.w / cols;
@@ -141,7 +143,7 @@ export const PhotoBits: React.FC<PhotoBitsProps> = ({frame: f, at, dur, mode, fr
 };
 
 /** the photo image, wiped away cell by cell along the same diagonal wave */
-const PhotoImage: React.FC<{image: AssetName; r: Rect; clipU: number; uid: string; cols?: number; rows?: number}> = ({image, r, clipU, uid, cols = 12, rows = 16}) => {
+const PhotoImage: React.FC<{image: AssetName; r: Rect; clipU: number; uid: string; cols?: number; rows?: number}> = ({image, r, clipU, cols = 12, rows = 16}) => {
   const b = assetBox(image);
   const k = Math.min(r.w / b.cw, r.h / b.ch);
   const w = b.w * k;
@@ -151,26 +153,17 @@ const PhotoImage: React.FC<{image: AssetName; r: Rect; clipU: number; uid: strin
   if (clipU <= 0) {
     return <Img src={assetUrl(image)} style={{position: 'absolute', left: ox, top: oy, width: w, height: h, pointerEvents: 'none'}} />;
   }
-  // keep only the cells the wave has not reached yet
+  // keep only the cells the wave has not reached yet (CSS clip-path in the image's own px; <Img> is awaited by Remotion)
   const cw = r.w / cols;
   const ch = r.h / rows;
   const cells: string[] = [];
   for (let rw = 0; rw < rows; rw++)
     for (let c = 0; c < cols; c++) {
       const wv = ((c / cols + rw / rows) / 2) / 0.6;
-      if (wv + 0.05 > clipU) cells.push(`M${r.x + c * cw} ${r.y + rw * ch}h${cw + 0.5}v${ch + 0.5}h${-cw - 0.5}Z`);
+      if (wv + 0.05 > clipU) cells.push(`M${(r.x + c * cw - ox).toFixed(1)} ${(r.y + rw * ch - oy).toFixed(1)}h${(cw + 0.5).toFixed(1)}v${(ch + 0.5).toFixed(1)}h${(-cw - 0.5).toFixed(1)}Z`);
     }
   if (!cells.length) return null;
-  return (
-    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
-      <defs>
-        <clipPath id={`${uid}-c`}>
-          <path d={cells.join('')} />
-        </clipPath>
-      </defs>
-      <image href={assetUrl(image)} x={ox} y={oy} width={w} height={h} clipPath={`url(#${uid}-c)`} />
-    </svg>
-  );
+  return <Img src={assetUrl(image)} style={{position: 'absolute', left: ox, top: oy, width: w, height: h, pointerEvents: 'none', clipPath: `path('${cells.join('')}')`}} />;
 };
 
 /** progress helper for callers syncing to PhotoBits (0..1 over [at, at + dur]) */

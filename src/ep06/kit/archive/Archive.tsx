@@ -11,7 +11,7 @@
  * the Stage's bloom (on cyan only). ≈ 700–1,300 SVG nodes.
  */
 import React, {useContext, useId} from 'react';
-import {random} from 'remotion';
+import {Img, random} from 'remotion';
 import {CameraContext} from '../camera';
 import {ARCHIVE_LIGHT} from '../envs';
 import {EASE, MONO, PAL} from '../look';
@@ -875,7 +875,6 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     cardOp > 0.01 ? (
       <g>
         <CardFace f={f} p={p} x={cp.x} y={cp.y + 70 * (1 - cardBuild)} w={cp.w} rot={cp.rot} t={cardTimes} shadow={1} shadowLift={lift * 260} opacity={cardOp} />
-        {renderCard(props, f, p, cp)}
       </g>
     ) : null;
   const cardInDrawer = lift < 0.15 && sh('drawer') > 0.5; // a hidden drawer (panels) leaves the card standing on its own
@@ -1088,7 +1087,15 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* ---------------- the registered wall render (cluster-wall_b) for render→code swaps */
   const wallRenderOp = clamp01(num(props.renders?.wall, f, 0));
   const wr = wallRenderRect();
-  const wallRender = wallRenderOp > 0.001 ? <image href={assetUrl('cluster-wall_b')} x={wr.x} y={wr.y} width={wr.w} height={wr.h} opacity={wallRenderOp} preserveAspectRatio="none" /> : null;
+  // an HTML <Img> (Remotion waits for it), in the back layer's frame
+  const backCssM = isIdentity(back) ? '' : `matrix(${back.map((v) => +v.toFixed(6)).join(', ')}) `;
+  const wallRender =
+    wallRenderOp > 0.001 ? (
+      <Img
+        src={assetUrl('cluster-wall_b')}
+        style={{position: 'absolute', left: 0, top: 0, width: wr.w, height: wr.h, transformOrigin: '0 0', transform: `${backCssM}translate(${wr.x}px, ${wr.y}px)`, opacity: wallRenderOp, pointerEvents: 'none'}}
+      />
+    ) : null;
 
   return (
     <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, pointerEvents: 'none'}}>
@@ -1109,7 +1116,6 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
           {!splitOn ? overlays : null}
           {effects}
           {scanNodes}
-          {wallRender}
           {liftShadow}
         </g>
         {splitOn ? (
@@ -1123,6 +1129,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
           </g>
         ) : null}
       </svg>
+      {wallRender}
       </div>
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         {cone}
@@ -1137,22 +1144,24 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
         {copyNodes}
         {trimNode}
       </svg>
+      {cardOp > 0.01 ? renderCard(props, f, cp, cardOp) : null}
     </div>
   );
 };
 
-/** mft-record_b registered onto the vector card (the card's units ARE its native px); LEDs regraded to white */
-const renderCard = (props: ArchiveProps, f: number, p: string, cp: {x: number; y: number; w: number; rot: number}) => {
-  const op = clamp01(num(props.renders?.card, f, 0));
+/** mft-record_b registered onto the vector card (the card's units ARE its native px); LEDs regraded to white.
+ *  An HTML <Img> over the Archive (Remotion waits for it to load). */
+const renderCard = (props: ArchiveProps, f: number, cp: {x: number; y: number; w: number; rot: number}, cardOp: number) => {
+  const op = clamp01(num(props.renders?.card, f, 0)) * cardOp;
   if (op <= 0.001) return null;
   const k = cardK(cp.w);
   return (
-    <g transform={`translate(${cp.x} ${cp.y}) rotate(${cp.rot}) scale(${k}) translate(${-CARD.cx} ${-CARD.cy})`} opacity={op}>
-      <image href={assetUrl('mft-record_b')} x={0} y={0} width={CARD.render.w} height={CARD.render.h} />
+    <div style={{position: 'absolute', left: 0, top: 0, width: CARD.render.w, height: CARD.render.h, transformOrigin: '0 0', transform: `translate(${cp.x}px, ${cp.y}px) rotate(${cp.rot}deg) scale(${k}) translate(${-CARD.cx}px, ${-CARD.cy}px)`, opacity: op, pointerEvents: 'none'}}>
+      <Img src={assetUrl('mft-record_b')} style={{position: 'absolute', left: 0, top: 0, width: CARD.render.w, height: CARD.render.h}} />
       {CARD.leds.map((b, i) => (
-        <rect key={i} x={b[0]} y={b[1]} width={b[2] - b[0]} height={b[3] - b[1]} rx={6} fill="#DDE3EC" />
+        <div key={i} style={{position: 'absolute', left: b[0], top: b[1], width: b[2] - b[0], height: b[3] - b[1], borderRadius: 6, background: '#DDE3EC'}} />
       ))}
-    </g>
+    </div>
   );
 };
 

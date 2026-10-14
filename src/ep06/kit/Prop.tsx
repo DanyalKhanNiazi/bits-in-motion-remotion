@@ -417,7 +417,7 @@ export const SwapVariant: React.FC<Omit<PropProps, 'src' | 'nudge'> & {srcs: rea
             width: box.w * 1.5,
             height: box.h * 1.5,
             borderRadius: '50%',
-            background: `radial-gradient(closest-side, rgba(255,255,255,${0.95 * flash}), rgba(150,240,255,${0.45 * flash}) 38%, rgba(0,229,255,0) 100%)`,
+            background: `radial-gradient(closest-side, rgba(255,255,255,${0.95 * flash}), rgba(195,204,221,${0.45 * flash}) 38%, rgba(143,156,181,0) 100%)`,
             mixBlendMode: 'screen',
             pointerEvents: 'none',
           }}

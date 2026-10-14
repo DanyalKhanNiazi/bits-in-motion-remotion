@@ -131,9 +131,9 @@ const Packets: React.FC<{f: number}> = ({f}) => {
       const tr = [0.08, 0.16, 0.24].map((d) => pos(t - d));
       nodes.push(
         <g key={id}>
-          <polyline points={[p, ...tr].map((q) => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ')} fill="none" stroke={PAL.muted} strokeOpacity={0.35} strokeWidth={6} strokeLinecap="round" />
-          <rect x={p.x - 26} y={p.y - 19} width={52} height={38} rx={7} fill="#0A0F18" stroke={rgba(PAL.annotation, 0.7)} strokeWidth={2} />
-          <ScrambleRows frame={f} rect={{x: p.x - 21, y: p.y - 17, w: 42, h: 32}} seed={`pk${id}`} size={12} every={2} />
+          <polyline points={[p, ...tr].map((q) => `${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' ')} fill="none" stroke={PAL.muted} strokeOpacity={0.35} strokeWidth={8} strokeLinecap="round" />
+          <rect x={p.x - 34} y={p.y - 25} width={68} height={50} rx={9} fill="#0A0F18" stroke={rgba(PAL.annotation, 0.75)} strokeWidth={2.5} />
+          <ScrambleRows frame={f} rect={{x: p.x - 28, y: p.y - 23, w: 56, h: 44}} seed={`pk${id}`} size={15} every={2} />
         </g>,
       );
     } else {
