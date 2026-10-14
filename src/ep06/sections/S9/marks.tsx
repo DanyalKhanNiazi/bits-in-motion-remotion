@@ -323,10 +323,42 @@ export const GlyphSave: React.FC<{frame: number; at: number; targets: ReadonlyAr
   });
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
-      <g fontFamily={MONO} fontWeight={500} fontSize={size} fill={PAL.muted} textAnchor="middle">
+      <g fontFamily={MONO} fontWeight={500} fontSize={size} fill={ring > 0 ? PAL.ink : PAL.muted} textAnchor="middle">
         {items}
       </g>
       {rings}
+    </svg>
+  );
+};
+/**
+ * What each box holds once the glyph save has landed: a dark tile with two large ink glyphs (re-rolled every 8 f), so
+ * "unreadable from the start" stays legible through the pull-out. World px; box i lands at glyphLand(at, i).
+ */
+export const GlyphTiles: React.FC<{frame: number; at: number; targets: ReadonlyArray<{x: number; y: number}>; dur?: number; size?: number}> = ({frame: f, at, targets, dur = 22, size = 34}) => {
+  const tiles = targets.map((p, i) => {
+    const land = glyphLand(at, i, dur);
+    if (f < land) return null;
+    const a = prog(f, land, 4, EASE.out);
+    const flash = 1 + 0.5 * (1 - prog(f, land, 10));
+    const seed = Math.floor((f - land) / 8);
+    const g = [0, 1].map((k) => GL[Math.floor(random(`s9t-${i}-${k}-${seed}`) * GL.length)]);
+    return (
+      <g key={i} opacity={a}>
+        <rect x={p.x - 28} y={p.y - 28} width={56} height={44} rx={6} fill={rgba('#070B15', 0.92)} stroke={rgba(PAL.ink, 0.55)} strokeWidth={1.5} />
+        <text x={p.x - 11} y={p.y + 6} fill={PAL.ink} opacity={Math.min(1, 0.92 * flash)}>
+          {g[0]}
+        </text>
+        <text x={p.x + 11} y={p.y + 6} fill={PAL.ink} opacity={Math.min(1, 0.92 * flash)}>
+          {g[1]}
+        </text>
+      </g>
+    );
+  });
+  return (
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+      <g fontFamily={MONO} fontWeight={600} fontSize={size} textAnchor="middle">
+        {tiles}
+      </g>
     </svg>
   );
 };

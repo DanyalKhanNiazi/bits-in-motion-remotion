@@ -89,7 +89,8 @@ const bitsAt = (x: number, y: number) => SB_XY.map(([bx, by]) => rr(r1(x + bx), 
 const coresAt = (_x: number, _y: number) => '';
 const PLATE_D = 'M2 40H21Q22 40 22.6 41L25.4 45.6Q26 46.6 27 46.6H37Q38 46.6 38.6 45.6L41.4 41Q42 40 43 40H62V62.6H2Z';
 const PLATE_TOP = 'M2.6 40.7H21.2L24.6 46.3Q25.6 47.3 27 47.3H37Q38.4 47.3 39.4 46.3L42.8 40.7H61.4';
-const GLYPHS = '#%&@$?*+=<>/{}[]~^ABDEFGHKMNPRSTVXYZ0123456789';
+/** scramble glyphs: letters and symbols only (no digits: DIRECTION §1.1 allows only decor box ids) */
+const GLYPHS = '#%&@$?*+=<>/{}[]~^ABDEFGHKMNPRSTVXYZQJW';
 const BIT_CENTER = {x: 32, y: 24};
 
 type Ctx = {f: number; p: string; R: Resolved; zoom: number};
@@ -620,15 +621,20 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     const y0 = GEOM.wall.y - 40;
     const h = GEOM.wall.h + 80;
     const trail = 1 - clamp01((t - sw.dur) / 22);
+    // skipped: the photo's untargeted boxes keep full cyan — redrawn ABOVE the band (it parts around them) with a cyan ring
     const shimmer = sw.kept.map((id) => {
-      const q = posOf(id, curSpot(R.labs[id]));
+      const l = R.labs[id];
+      if (shown(l, f) !== 'photo' || (l.scr <= f && l.scrOff > f)) return null;
+      const q = posOf(id, curSpot(l));
       const d = Math.abs(q.x + 32 - bx);
-      if (d > 110 || t > sw.dur + 2) return null;
-      const k = 1 - d / 110;
+      if (d > 150 || t > sw.dur + 2) return null;
+      const k = clamp01(1 - (d - 40) / 110);
       return (
         <g key={`sh${id}`}>
-          <ellipse cx={q.x + 32} cy={q.y + 26} rx={80} ry={66} fill={`url(#${p}-cyanGlow)`} opacity={0.8 * k} />
-          <rect x={q.x + 3} y={q.y + 3} width={58} height={46} rx={3} fill={`url(#${p}-washW)`} opacity={0.75 * k} />
+          <rect x={q.x - 8} y={q.y - 8} width={80} height={80} rx={8} fill="#04121A" opacity={0.85 * k} />
+          <BoxContent c="photo" x={q.x} y={q.y} ctx={ctx} id={id} mode={tileOf(colOf(id))} />
+          <rect x={q.x - 6} y={q.y - 6} width={76} height={76} rx={8} fill="none" stroke={PAL.photo} strokeWidth={3.5} opacity={k} />
+          <rect x={q.x - 11} y={q.y - 11} width={86} height={86} rx={11} fill="none" stroke={PAL.photoPale} strokeWidth={1.5} opacity={0.6 * k} />
         </g>
       );
     });

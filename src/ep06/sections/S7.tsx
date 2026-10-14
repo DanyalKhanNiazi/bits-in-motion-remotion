@@ -308,8 +308,8 @@ const EV17: ArchiveEvent[] = [...EV17_BASE, {at: MOVE_AT, op: 'remap', target: M
 const EV17_MOVED: ArchiveEvent[] = [...EV17_BASE, {at: -1e6, op: 'remap', target: MOVERS, dur: 1}];
 const EV17_FRESH: ArchiveEvent[] = [...EV17_BASE.filter((e) => e.op !== 'overwrite'), {at: -1e6, op: 'overwrite', target: 'photo', dur: 1}];
 const ssdCam: CamKey[] = [
-  K(W3.at, {x: 960, y: 540, zoom: 1.0}),
-  K(T.onAnSsd - 8, {x: 1010, y: 545, zoom: 1.07}),
+  K(W3.at, {x: 1330, y: 560, zoom: 1.15}),
+  K(T.onAnSsd - 8, {x: 1370, y: 548, zoom: 1.2}),
   K(T.windows - 8, {x: 890, y: 485, zoom: 1.24}, {dur: 48}),
   K(T.labels + 6, {x: 1210, y: 470, zoom: 1.55}, {dur: 52}),
   K(SPLIT_AT + 58, LAYERS, {dur: 56}),
@@ -406,9 +406,9 @@ const shotSsd = (f: number) => {
           <Label frame={f} at={T.keeps} exitAt={T.first + 18} text="Keeps moving data around" x={120} y={102} side="right" size={52} />
           <Label frame={f} at={T.noPart} exitAt={T.first + 18} text="so no part wears out first" x={120} y={174} side="right" size={44} />
           <Label frame={f} at={T.cantSee + 13} exitAt={T.all + 30} text="Spare space Windows can't see" x={Math.min(1040, spareS.x - 60)} y={150} to={spareS} side="left" size={52} />
-          <Label frame={f} at={T.land} exitAt={T.reach1 + 15} text="Can land somewhere fresh" x={1792} y={150} to={fresh} side="left" size={52} />
+          <Label frame={f} at={T.land} exitAt={T.reach1 + 7} text="Can land somewhere fresh" x={1792} y={150} to={fresh} side="left" size={52} />
           <Footnote frame={f} at={SPLIT_AT + 44} exitAt={T.end - 26} text="Schematic, not to scale" y={1010} />
-          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" sourceMode="line" reported="Writing over it can't reach every place old data was stored" />
+          <QuoteStrip frame={f} at={T.nist17 - 12} exitAt={T.end - 30} source="NIST · flash with spare cells" sourceMode="line" reported="Writing over it can't reach every place old data was stored" />
         </>
       }
     >

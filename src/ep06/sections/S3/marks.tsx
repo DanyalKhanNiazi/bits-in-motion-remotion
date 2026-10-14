@@ -119,66 +119,67 @@ const PB_XY: Array<[number, number]> = [
 ];
 
 /**
- * "Rewriting every box … would take far longer" (world px, drawn over the Archive in the same wide frame as the two
- * instant ticks): grey Bits fall one at a time into the photo's 9 boxes (each lands with a small coral write ring), a
- * numberless progress bar under the wall barely moves, and on `stallAt` everything stops: the falling Bit freezes and
- * blinks, the stream dies, the bar greys. It fades at `fadeAt` and the photo's Bits are untouched (it never happens).
+ * "Rewriting every box … would take far longer": a WHAT-IF strip (world px) over the wall's lower rows, never the
+ * Archive itself: a dashed, dark plate holding ghost copies of the photo's 9 boxes (their Bits dimmed). Grey Bits pop in
+ * one at a time, a numberless bar under them barely moves, and on `stallAt` it all stops: the Bit being written freezes
+ * and blinks, the bar greys. It fades at `fadeAt`. The real boxes 021–023 · 058–060 · 098–100 stay cyan throughout.
  */
-export const RewriteStream: React.FC<{frame: number; at: number; period: number; stallAt: number; fadeAt: number; bar: {x: number; y: number; w: number}}> = ({
+export const RewriteStream: React.FC<{frame: number; at: number; period: number; stallAt: number; fadeAt: number; strip: {x: number; y: number}}> = ({
   frame: f,
   at,
   period,
   stallAt,
   fadeAt,
-  bar,
+  strip,
 }) => {
   if (f < at - 8 || f > fadeAt + 22) return null;
-  const FL = 14; // flight frames per Bit
+  const FL = 10; // frames for one Bit to be written
+  const B = 56; // ghost box size
+  const PIT = 76;
+  const q = B / 64;
   const op = prog(f, at - 8, 8, EASE.out) * (1 - prog(f, fadeAt, 20, EASE.inOut));
   const tf = Math.min(f, stallAt); // the work's own clock stops on the stall
   const stalled = f >= stallAt;
-  const slots = PHOTO.flatMap((id) => PB_XY.map(([bx, by]) => ({x: boxXY(id).x + bx, y: boxXY(id).y + by, id})));
+  const boxAt = (i: number) => ({x: strip.x + i * PIT, y: strip.y});
+  const slots = PHOTO.flatMap((_, i) => PB_XY.map(([bx, by]) => ({x: boxAt(i).x + bx * q, y: boxAt(i).y + by * q, i})));
+  const S = 19 * q;
   const landed: typeof slots = [];
-  let flying: {x: number; y: number; u: number; id: number} | null = null;
+  let writing: {x: number; y: number; i: number; u: number} | null = null;
   for (let k = 0; k < slots.length; k++) {
     const t0 = at + k * period;
     if (tf < t0) break;
     const u = (tf - t0) / FL;
     if (u >= 1) landed.push(slots[k]);
-    else flying = {...slots[k], u: EASE.inOut(u), id: slots[k].id};
+    else writing = {...slots[k], u};
   }
-  const done = landed.length + (flying ? flying.u : 0);
+  const done = landed.length + (writing ? writing.u : 0);
   const fill = done / slots.length;
-  const head = flying ?? landed[landed.length - 1] ?? slots[0];
-  const hb = boxXY(head.id);
+  const headI = (writing ?? landed[landed.length - 1] ?? slots[0]).i;
+  const hb = boxAt(headI);
   const flick = stalled ? 0.35 + 0.65 * (0.5 + 0.5 * Math.cos((f - stallAt) * 1.4)) : 1;
   const grey = prog(f, stallAt, 8, EASE.out);
-  const rr = (x: number, y: number) => `M${x + 3.5} ${y}h12q3.5 0 3.5 3.5v12q0 3.5-3.5 3.5h-12q-3.5 0-3.5-3.5v-12q0-3.5 3.5-3.5z`;
-  const lastLand = landed.length ? at + (landed.length - 1) * period + FL : -1e9;
-  const ring = f - lastLand < 7 && landed.length ? (f - lastLand) / 7 : -1;
-  const rl = landed[landed.length - 1];
-  const bx0 = bar.x;
-  const bw = bar.w;
+  const rr = (x: number, y: number, s = S) => `M${x + 3} ${y}h${s - 6}q3 0 3 3v${s - 6}q0 3-3 3h-${s - 6}q-3 0-3-3v-${s - 6}q0-3 3-3z`;
+  const ghostBits = slots.map((sl) => rr(sl.x, sl.y)).join('');
+  const ghostBoxes = PHOTO.map((_, i) => `M${boxAt(i).x} ${boxAt(i).y}h${B}v${B}h-${B}z`).join('');
+  const W = 8 * PIT + B;
+  const barY = strip.y + B + 26;
+  const sp = writing ? Math.min(1, writing.u * 1.6) : 0;
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
-      <defs>
-        <linearGradient id="s3-rw-stream" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={PAL.oldBit} stopOpacity={0} />
-          <stop offset="1" stopColor={PAL.otherBit} stopOpacity={0.75} />
-        </linearGradient>
-      </defs>
-      {/* the stream into the box being rewritten, and the head's dashed ring */}
-      <rect x={hb.x + 26} y={hb.y - 150} width={12} height={150} rx={6} fill="url(#s3-rw-stream)" opacity={1 - grey} />
-      <rect x={hb.x - 6} y={hb.y - 6} width={76} height={76} rx={10} fill="none" stroke={PAL.ink} strokeWidth={3.5} strokeDasharray="12 7" strokeDashoffset={-tf * 1.2} opacity={flick} />
-      {/* rewritten Bits (grey) cover the photo's cyan ones, one at a time */}
-      {landed.length ? <path d={landed.map((s) => rr(s.x, s.y)).join('')} fill="#C3C9D2" stroke={PAL.tileInk} strokeWidth={1.5} /> : null}
-      {flying ? <path d={rr(flying.x, flying.y - 100 * (1 - flying.u))} fill={PAL.otherBit} stroke={PAL.tileInk} strokeWidth={1.5} opacity={flick} /> : null}
-      {ring >= 0 && rl ? <rect x={rl.x - 3 - 8 * ring} y={rl.y - 3 - 8 * ring} width={25 + 16 * ring} height={25 + 16 * ring} rx={6} fill="none" stroke={PAL.loss} strokeWidth={3} opacity={1 - ring} /> : null}
+      {/* the what-if plate: dark, dashed edge */}
+      <rect x={strip.x - 22} y={strip.y - 16} width={W + 44} height={B + 72} rx={18} fill="#070B15" fillOpacity={0.9} stroke={PAL.annotation} strokeOpacity={0.55} strokeWidth={2.5} strokeDasharray="10 8" />
+      {/* ghost copies of the photo's 9 boxes, Bits dimmed */}
+      <path d={ghostBoxes} fill={PAL.structure} fillOpacity={0.14} stroke={PAL.ink} strokeOpacity={0.4} strokeWidth={2} strokeDasharray="6 5" />
+      <path d={ghostBits} fill={PAL.photo} fillOpacity={0.32} />
+      {/* rewritten Bits (grey), one at a time */}
+      {landed.length ? <path d={landed.map((sl) => rr(sl.x, sl.y)).join('')} fill="#C3C9D2" stroke={PAL.tileInk} strokeWidth={1.2} /> : null}
+      {writing ? <path d={rr(writing.x + (S * (1 - sp)) / 2, writing.y + (S * (1 - sp)) / 2, Math.max(6.5, S * sp))} fill={PAL.otherBit} opacity={flick} /> : null}
+      {/* the write head on the ghost box being rewritten */}
+      <rect x={hb.x - 5} y={hb.y - 5} width={B + 10} height={B + 10} rx={9} fill="none" stroke={PAL.ink} strokeWidth={3} strokeDasharray="10 6" strokeDashoffset={-tf * 1.2} opacity={flick} />
       {/* numberless progress bar: the whole rewrite, barely begun */}
-      <rect x={bx0 - 18} y={bar.y - 22} width={bw + 36} height={44} rx={22} fill="#070B15" fillOpacity={0.88} stroke={PAL.annotation} strokeOpacity={0.35} strokeWidth={2} />
-      <rect x={bx0} y={bar.y - 9} width={bw} height={18} rx={9} fill={PAL.structure} fillOpacity={0.35} />
-      <rect x={bx0} y={bar.y - 9} width={Math.max(18, bw * fill)} height={18} rx={9} fill={grey > 0 ? PAL.oldBit : PAL.ink} fillOpacity={1 - 0.35 * grey} />
-      <circle cx={bx0 + Math.max(7, bw * fill)} cy={bar.y} r={13} fill={PAL.ink} opacity={0.35 * (1 - grey)} />
+      <rect x={strip.x} y={barY - 8} width={W} height={16} rx={8} fill={PAL.structure} fillOpacity={0.35} />
+      <rect x={strip.x} y={barY - 8} width={Math.max(16, W * fill)} height={16} rx={8} fill={grey > 0 ? PAL.oldBit : PAL.ink} fillOpacity={1 - 0.35 * grey} />
+      <circle cx={strip.x + Math.max(8, W * fill)} cy={barY} r={12} fill={PAL.ink} opacity={0.35 * (1 - grey)} />
     </svg>
   );
 };
@@ -200,9 +201,12 @@ export const cardToWorld = (card: {x: number; y: number}, nx: number, ny: number
 /** Where a field's printed label sits (card px), for hud chips. */
 export const fieldLabelPt = (k: FieldKey) => ({x: FIELD_LABEL[k].x, y: FIELD_LABEL[k].y - 13});
 
+/** approximate paper tone under each printed label (the card's paper gradient runs light top-left → darker bottom-right) */
+const LABEL_PAPER: Record<FieldKey, string> = {name: '#F3F1EC', size: '#EDEAE5', dates: '#E7E3DD', directions: '#EEEBE6'};
 /**
- * A field "lights as spoken" (world px, over the Archive): its printed label pops to bold ink on a white pill and its
- * bar fills with a pale structure tint; both go when the next field lights.
+ * A field "lights as spoken" (world px, over the Archive): the card's own printed label turns bold ink (a paper-tone
+ * halo hides the grey original) with a small pop, and its bar fills with a pale structure tint. The spoken word itself
+ * is echoed once, by the hud chip; both go when the next field is spoken.
  */
 export const FieldPop: React.FC<{frame: number; at: number; exitAt: number; field: FieldKey; card: {x: number; y: number}}> = ({frame: f, at, exitAt, field, card}) => {
   if (f < at - 1) return null;
@@ -213,39 +217,33 @@ export const FieldPop: React.FC<{frame: number; at: number; exitAt: number; fiel
   const op = clamp01(sp * 2) * (1 - ex);
   const fill = prog(f, at, 10, EASE.out);
   const L = FIELD_LABEL[field];
-  const p = cardToWorld(card, L.x, L.y - 13);
   const tint = field === 'directions' ? 0.14 : 0.3;
+  const s = 1 + 0.12 * Math.max(0, sp - 1) * 4; // only the spring's overshoot shows as a pop; settles at 1
   return (
-    <>
-      <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
-        {fieldBars(field).map((b, i) => {
-          const a = cardToWorld(card, b[0], b[1]);
-          return <rect key={i} x={a.x} y={a.y} width={(b[2] - b[0]) * k * fill} height={(b[3] - b[1]) * k} rx={14 * k} fill={PAL.structure} fillOpacity={tint} />;
-        })}
-      </svg>
-      <div style={{position: 'absolute', left: p.x, top: p.y, width: 0, height: 0, transform: `scale(${k * (1 + 0.14 * sp) * (1 - 0.1 * ex)})`, transformOrigin: '0 0', opacity: op}}>
-        <div
-          style={{
-            position: 'absolute',
-            [L.end ? 'right' : 'left']: -16,
-            top: 0,
-            transform: 'translateY(-50%)',
-            padding: '1px 16px 5px',
-            borderRadius: 999,
-            background: '#FFFFFF',
-            boxShadow: `0 0 0 3px ${PAL.tileInk}, 0 6px 18px rgba(0,0,0,0.28)`,
-            fontFamily: SANS,
-            fontWeight: 800,
-            fontSize: 42,
-            lineHeight: 1.2,
-            color: PAL.tileInk,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {field}
-        </div>
-      </div>
-    </>
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+      <g transform={`translate(${card.x} ${card.y}) scale(${k}) translate(${-CARD.cx} ${-CARD.cy})`}>
+        {fieldBars(field).map((b, i) => (
+          <rect key={i} x={b[0]} y={b[1]} width={(b[2] - b[0]) * fill} height={b[3] - b[1]} rx={14} fill={PAL.structure} fillOpacity={tint} />
+        ))}
+        <g transform={`translate(${L.x} ${L.y - 13}) scale(${s}) translate(${-L.x} ${-(L.y - 13)})`}>
+          <text
+            x={L.x}
+            y={L.y}
+            textAnchor={L.end ? 'end' : 'start'}
+            fontFamily={SANS}
+            fontWeight={800}
+            fontSize={36}
+            fill={PAL.tileInk}
+            stroke={LABEL_PAPER[field]}
+            strokeWidth={12}
+            strokeLinejoin="round"
+            paintOrder="stroke"
+          >
+            {field}
+          </text>
+        </g>
+      </g>
+    </svg>
   );
 };
 

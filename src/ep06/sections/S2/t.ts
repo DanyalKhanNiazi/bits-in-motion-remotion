@@ -77,8 +77,9 @@ export const K = {
   // "The real question": delete again, the bin's "Empty Recycle Bin" menu, hover
   del3Press: T.real + 2,
   del3Act: T.real + 3,
-  landed3: T.real + 4 + FLY,
-  zt5: T.real + 4 + FLY - 4, // ZoomThrough into the bin again as the photo lands (the bin on the stage: its menu fits)
+  fly3: 8, // the second delete: the same slide as the first, quick (8 f), landing before the ZoomThrough
+  landed3: T.real + 4 + 8,
+  zt5: T.real + 4 + 8 + 6, // ZoomThrough into the bin (the bin on the stage, already holding the photo: its menu fits)
   emptyHover: T.empty - 8,
   // "or skip it": a whip back to the folder (the other path: the file is still in its row, the bin empty), Shift + Delete
   whip: T.skip,

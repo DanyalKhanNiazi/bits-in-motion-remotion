@@ -56,6 +56,8 @@ const LX = 110; // tip lines: left edge
 const HEAD_Y = 116; // header chip row
 const L1 = 214; // first line row
 const L2 = 300; // second line row (the first has collapsed to a tick + stub above it)
+const HEAD_SIZE = 64; // scope headers read at label size (caps ≈ 45 px), with the tip line one row lower
+const L1H = L1 + 14; // the line row under a scope header
 
 /* ================================================================ tip 1: the bin opens and rewinds */
 const BIN = {x: 980, y: 610, w: 640};
@@ -173,8 +175,8 @@ export const Tip3: React.FC<{f: number}> = ({f}) => {
       motionBlur={0.45}
       hud={
         <>
-          <VerdictChip frame={f} at={T.onSsd + 10} text="SSD with TRIM" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={CUT.wh4 + 2} size={46} />
-          <TipLine frame={f} at={T.prepared} text="Be prepared for it to be gone" x={LX} y={L1} size={62} exitAt={CUT.wh4 + 2} />
+          <VerdictChip frame={f} at={T.onSsd + 10} text="SSD with TRIM" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={CUT.wh4 + 2} size={HEAD_SIZE} />
+          <TipLine frame={f} at={T.prepared} text="Be prepared for it to be gone" x={LX} y={L1H} size={62} exitAt={CUT.wh4 + 2} />
           <ClockGlyph frame={f} x={1760} y={170} size={110} at={T.onSsd + 6} exitAt={CUT.wh4} />
           <Footnote frame={f} at={T.onSsd + 12} exitAt={CUT.wh4} text="Illustrative timing" />
         </>
@@ -207,7 +209,7 @@ export const Tip4: React.FC<{f: number}> = ({f}) => {
       shake={[{at: T.slash, strength: 0.4}]}
       hud={
         <>
-          <VerdictChip frame={f} at={T.hardDrive} text="Hard drive: gone for good" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={clear} size={46} />
+          <VerdictChip frame={f} at={T.hardDrive} text="Hard drive: gone for good" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={clear} size={HEAD_SIZE} />
           <CommandWindow
             frame={f}
             x={LX - 10}
@@ -349,8 +351,8 @@ export const Tip6: React.FC<{f: number}> = ({f}) => {
       cam={cam}
       hud={
         <>
-          <VerdictChip frame={f} at={T.beforeHands} text="Before it leaves your hands" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={CUT.wh7 + 2} size={46} />
-          <TipLine frame={f} at={T.use} text="Whole SSD: drive maker's sanitize tool" x={LX} y={L1} size={72} exitAt={CUT.wh7 + 2} />
+          <VerdictChip frame={f} at={T.beforeHands} text="Before it leaves your hands" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={CUT.wh7 + 2} size={HEAD_SIZE} />
+          <TipLine frame={f} at={T.use} text="Whole SSD: drive maker's sanitize tool" x={LX} y={L1H} size={72} exitAt={CUT.wh7 + 2} />
         </>
       }
     >

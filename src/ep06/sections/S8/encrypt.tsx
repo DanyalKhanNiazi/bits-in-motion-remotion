@@ -213,7 +213,7 @@ export const ShotG: React.FC<{f: number}> = ({f}) => {
       shake={[{at: T.pulls + 10, strength: 0.4}, {at: SHATTER, strength: 0.8}]}
       hud={
         <>
-          <QuoteStrip frame={f} at={T.destroying + 4} exitAt={CUT.objects - 2} source="NIST" reported="destroying the key, a fast way to sanitize" />
+          <QuoteStrip frame={f} at={T.nistKey - 3} exitAt={CUT.objects - 2} source="NIST" reported="destroying the key, a fast way to sanitize" />
           <VerdictChip frame={f} at={T.underRight + 2} exitAt={CUT.objects - 2} text="Under the right conditions" tone="neutral" x={96} y={786} align="left" size={48} />
         </>
       }

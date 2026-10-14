@@ -4,7 +4,7 @@ All frames from `at()`; ≈ values below. Hero beats: the "huge wall" rocket (21
 ## A · desk / screen (reader-desk plate, dark Windows UI), 1379–1612
 - In: S1's exit push continued (kbScreen 1.72 @1409, +0.04/s, S1's slot layout, drift fades in), Explorer (This PC › Pictures), `passport.jpg` selected, bin empty.
 - "first click" 1445: cursor clicks the row (click ring).
-- "On your PC's own drive" 1472: caption **On your PC's own drive** (64 px, bottom-left), exits 1596.
+- "On your PC's own drive" 1472: caption **On your PC's own drive** (64 px, bottom-left, pops in whole on "On"), exits 1596.
 - "pressing delete" 1521/1536: KeyCap **Delete** slams; nothing leaves: the row stays listed and selected.
 - "doesn't remove anything" 1563–1601: lean in on the row; it pulses once on "remove" (still there).
 - "moves the photo into the recycle bin" 1622–1675: the thumbnail slides to the bin (51 f, Bits trail), lands on "bin" 1675; the bin's card lights with the photo + its Bits.
@@ -15,7 +15,7 @@ All frames from `at()`; ≈ values below. Hero beats: the "huge wall" rocket (21
 - "every byte intact" 1728/1748: a diagonal wave lights a 6×6 grid of the photo's cyan Bits over the photo in the card; pulse on "intact".
 - "restore" 1777–1808: tape REWIND (local glitch + ◀◀, no digits): the photo lifts out of the bin, cut inside the glitch to the screen where it flies back bin → row (Explorer `restore`, lands ≈1804).
 ## A' · screen again, 1786–2104 (with B' on the stage, 1843–1909)
-- "The real question starts" 1825: KeyCap Delete again; the photo flies to the bin; ZoomThrough @1843 into the stage bin (B'), the photo drops in; "empty the bin" 1870: "Empty Recycle Bin" menu, cursor hovering; slow push, held breath (re-hook). (The menu would run off the monitor's slot, so it plays on the stage.)
+- "The real question starts" 1825: KeyCap Delete again; the icon slides into the bin in 8 f (lands 1837); ZoomThrough @1843 into the stage bin (B'), the photo already in; "empty the bin" 1870: "Empty Recycle Bin" menu, cursor hovering; slow push, held breath (re-hook). (The menu would run off the monitor's slot, so it plays on the stage.)
 - "or skip it" 1903: whip (12 f) back to the folder: the other path, the file still in its row, the bin empty (the rewind look stays exclusive to "restore"). "shift plus delete" 1932/1951: KeyCaps **Shift + Delete** (Shift held); the row flashes and crumbles; the bin stays empty.
 - "To see what happens then" 1973: pull back to the desk wide. AtlasOpener **The picture** / sub **boxes and cards**, word on "picture" 2030 (impact).
 - "how Windows keeps track of files" 2045–2104: push back into the screen's (now empty) file row; ZoomThrough @2100.

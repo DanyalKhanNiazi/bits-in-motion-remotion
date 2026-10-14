@@ -135,7 +135,7 @@ export const ShotB: React.FC<{f: number}> = ({f}) => {
       cam={CAM_B}
       hud={
         <>
-          <KineticText frame={f} at={T.ssdTends + 2} exitAt={EDGE0 - 6} text="The SSD tends to…" x={960} y={96} size={72} mode="rise" />
+          <KineticText frame={f} at={T.tends - 2} exitAt={EDGE0 - 6} text="The SSD tends to…" x={960} y={96} size={72} mode="rise" />
           {face1 ? printed(<KineticText frame={f} at={T.destroy1} text="destroy files you'd like back" x={960} y={lineY} size={96} mode="slam" />) : null}
           {!face1 ? printed(<KineticText frame={f} at={Math.max(FLIP_MID + 2, T.resists + 13)} exitAt={EDGE0 - 2} text="resist when you destroy them" x={960} y={lineY} size={96} mode="slam" />) : null}
           {flare > 0 ? (

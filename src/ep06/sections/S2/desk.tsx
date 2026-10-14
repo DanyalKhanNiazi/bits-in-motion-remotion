@@ -99,7 +99,7 @@ const explorer = (f: number, scale: number): ExplorerProps => ({
   ...EX_BASE,
   selectAt: T.from - 40,
   // the first delete is the slow slide ("moves … into the recycle bin"); later flights are quick
-  flyDur: f < K.restoreAct ? K.fly1 : K.flyDur,
+  flyDur: f < K.restoreAct ? K.fly1 : f >= K.del3Act && f < K.whip ? K.fly3 : K.flyDur,
   flyTo: binFlyTo(BIN, 62),
   // after the whip ("or skip it") the screen is the other path: the file was restored and is still in its row
   actions:
@@ -178,7 +178,7 @@ export const deskShot = (f: number): React.ReactElement => {
       env={{kind: 'photo', plate: 'reader-desk', kb, children: <ScreenSlot rect={REGIONS.deskScreen}><ScreenContents f={f} scale={scale} /></ScreenSlot>}}
       hud={
         <>
-          <KineticText frame={f} at={T.own} exitAt={T.moves} text="On your PC's own drive" x={112} y={866} align="left" size={64} mode="rise" backing="plate" />
+          <KineticText frame={f} at={T.own - 2} exitAt={T.moves} text="On your PC's own drive" x={112} y={866} align="left" size={64} mode="pop" stagger={0} backing="plate" />
           <KeyCap frame={f} keys={['Delete']} x={1584} y={834} at={T.pressing} pressAt={T.del} exitAt={T.del + 40} />
           <KeyCap frame={f} keys={['Delete']} x={1584} y={834} at={K.del3Press - 9} pressAt={K.del3Press} exitAt={K.del3Press + 30} />
           <KeyCap frame={f} keys={['Shift', 'Delete']} x={1440} y={834} at={T.skip + 16} pressAt={T.shift} stagger={T.del2 - T.shift} hold={8} exitAt={T.del2 + 32} />
@@ -217,7 +217,7 @@ const B2_CAM: CamKey[] = [
 export const binShot = (f: number): React.ReactElement => {
   const q = binQuad(BIN_STAGE);
   const second = f >= K.zt5;
-  const hold = second ? K.zt5 + 10 : 0;
+  const hold = second ? K.zt5 - 24 : 0; // the second stay: the photo is already in (it landed on the screen)
   const rest = second ? undefined : K.rw1 + 1;
   const off = rest === undefined ? 1 : 1 - prog(f, rest, 6);
   const lit = second
@@ -237,7 +237,7 @@ export const binShot = (f: number): React.ReactElement => {
         sweep={{at: second ? [K.emptyHover + 14] : [T.holding], dur: 26, strength: 0.6}}
         shadow={{opacity: 0.65}}
       />
-      <CardBits frame={f} {...q} n={6} lit={lit} waveAt={second ? hold : T.every} waveDur={second ? 10 : 16} pulseAt={second ? undefined : T.intact} />
+      <CardBits frame={f} {...q} n={6} lit={lit} waveAt={second ? K.zt5 + 8 : T.every} waveDur={second ? 10 : 16} pulseAt={second ? undefined : T.intact} />
     </Stage>
   );
 };

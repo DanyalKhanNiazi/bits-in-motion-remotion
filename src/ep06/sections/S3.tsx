@@ -74,11 +74,11 @@ const C_CAM: CamKey[] = [
   {f: T.reads, x: 830, y: 420, zoom: 1.14},
   {f: T.boxes6 + 10, x: 850, y: 400, zoom: 1.22},
 ];
-/** each field lights on its word and goes when the next one lights: a bold-ink label pop on the card + a hud chip */
+/** each field lights on its word: ONE hud chip at the field (gone as the next field is spoken) + the card's own label bolded */
 const FIELD_SEQ = [
-  {field: 'name', at: T.nameW, exitAt: T.size},
-  {field: 'size', at: T.size, exitAt: T.dates},
-  {field: 'dates', at: T.dates, exitAt: T.directions},
+  {field: 'name', at: T.nameW, exitAt: T.size - 5},
+  {field: 'size', at: T.size, exitAt: T.dates - 5},
+  {field: 'dates', at: T.dates, exitAt: T.directions - 5},
   {field: 'directions', at: T.directions, exitAt: T.clusters},
 ] as const;
 const LIFT = {at: T.goes, dur: 20};
@@ -245,7 +245,7 @@ const shotG = (f: number) => {
       }
     >
       <Archive {...A} />
-      <RewriteStream frame={f} at={T.rewriting} period={20} stallAt={T.longer} fadeAt={T.longerEnd + 6} bar={{x: 776, y: 806, w: 720}} />
+      <RewriteStream frame={f} at={T.rewriting} period={20} stallAt={T.longer} fadeAt={T.longerEnd + 6} strip={{x: 800, y: 760}} />
       {/* the slow job's hourglass, in the gap between the map and the wall at the bar's start; it flips over on "longer" */}
       <Hourglass frame={f} at={T.rewriting - 2} flipAt={T.longer} exitAt={T.longerEnd + 6} x={664} y={800} h={130} />
       <GhostWrite frame={f} at={T.space - 4} dipAt={T.written} box={GHOST_BOX} />

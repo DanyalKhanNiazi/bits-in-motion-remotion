@@ -48,23 +48,45 @@ const Laptop: React.FC<{x: number; y: number; rot?: number; s?: number; op?: num
 };
 
 /** a gloved hand reaching down from the top; fingers curl over the laptop's far edge (grip 0..1) */
-const Hand: React.FC<{x: number; y: number; grip: number}> = ({x, y, grip}) => {
+/**
+ * a gloved hand reaching down from the top; fingers curl over the laptop's far edge (grip 0..1). Shaded like the other
+ * props: a cylindrical sleeve with a cuff, a top-lit glove with knuckle speculars, a cool rim on the lit side, and a
+ * soft contact shadow where the fingers press on the lid (drawn by the caller under the hand).
+ */
+const Hand: React.FC<{x: number; y: number; grip: number; f: number}> = ({x, y, grip, f}) => {
   const curl = 10 * grip;
+  const spec = 0.5 + 0.5 * Math.sin(f / 7);
+  const fingers = [-40, -14, 12, 36];
   return (
     <g transform={`translate(${x} ${y})`}>
-      {/* sleeve */}
-      <path d="M-70 -900L70 -900L62 -150Q60 -120 30 -116H-34Q-62 -120 -64 -150Z" fill="url(#s8-sleeve)" />
-      <path d="M62 -900L60 -150" stroke="#7E8CA6" strokeOpacity={0.5} strokeWidth={2} />
-      {/* palm (back of the glove) */}
-      <path d="M-58 -120Q-66 -60 -52 -18Q-30 6 0 6Q34 4 54 -20Q66 -60 58 -120Z" fill="url(#s8-glove)" />
-      {/* fingers over the edge */}
-      {[-40, -14, 12, 36].map((fx, i) => (
-        <rect key={i} x={fx - 11} y={-10 + curl * 0.4} width={22} height={46 + curl - (i === 0 || i === 3 ? 8 : 0)} rx={11} fill="url(#s8-glove)" stroke="#0B0F17" strokeOpacity={0.6} strokeWidth={1.5} />
+      {/* sleeve: a lit cylinder with fold lines and a cuff */}
+      <path d="M-74 -900L74 -900L66 -168Q64 -146 34 -142H-36Q-64 -146 -68 -168Z" fill="url(#s8-sleeveC)" />
+      <path d="M-30 -880Q-26 -600 -34 -300M18 -860Q24 -560 14 -330" fill="none" stroke="#0A0F18" strokeOpacity={0.35} strokeWidth={6} strokeLinecap="round" />
+      <path d="M44 -900L40 -170" stroke="url(#s8-sheen)" strokeWidth={10} strokeLinecap="round" />
+      <rect x={-70} y={-178} width={138} height={40} rx={14} fill="url(#s8-cuff)" />
+      <path d="M-66 -176H64" stroke="#C9DAF7" strokeOpacity={0.35} strokeWidth={2} />
+      {/* back of the glove */}
+      <path d="M-60 -140Q-70 -70 -54 -18Q-30 8 0 8Q36 6 56 -20Q70 -70 60 -140Z" fill="url(#s8-gloveC)" />
+      {/* fingers over the edge, each with a shaded underside and a knuckle specular */}
+      {fingers.map((fx, i) => {
+        const h = 48 + curl - (i === 0 || i === 3 ? 8 : 0);
+        return (
+          <g key={i}>
+            <rect x={fx - 12} y={-14 + curl * 0.4} width={24} height={h} rx={12} fill="url(#s8-gloveC)" />
+            <rect x={fx - 12} y={-14 + curl * 0.4 + h * 0.55} width={24} height={h * 0.45} rx={12} fill="#0B0F17" opacity={0.35} />
+            <ellipse cx={fx + 2} cy={-6 + curl * 0.4} rx={6} ry={4} fill="#E6EEFF" opacity={0.22 + 0.12 * spec} />
+          </g>
+        );
+      })}
+      {[-27, -1, 24].map((gx, i) => (
+        <path key={i} d={`M${gx} -12V${30 + curl}`} stroke="#06090F" strokeOpacity={0.55} strokeWidth={2} />
       ))}
       {/* thumb */}
-      <path d="M-56 -70Q-92 -40 -84 4Q-80 20 -66 14Q-58 -14 -40 -40Z" fill="url(#s8-glove)" />
-      {/* rim light */}
-      <path d="M58 -120Q66 -60 54 -20Q40 -2 22 4" fill="none" stroke="#AFC1DD" strokeOpacity={0.55} strokeWidth={2.4} />
+      <path d="M-58 -82Q-96 -44 -86 4Q-80 22 -64 14Q-56 -14 -40 -46Z" fill="url(#s8-gloveC)" />
+      <path d="M-84 -10Q-82 12 -66 12" fill="none" stroke="#E6EEFF" strokeOpacity={0.25} strokeWidth={2} />
+      {/* knuckle ridge highlight and the rim on the lit side */}
+      <path d="M-46 -34Q-6 -46 46 -34" fill="none" stroke="#E6EEFF" strokeOpacity={0.18 + 0.1 * spec} strokeWidth={5} strokeLinecap="round" />
+      <path d="M66 -900L62 -170M60 -140Q70 -70 56 -20Q42 -2 24 6" fill="none" stroke="#D3E2FF" strokeOpacity={0.7} strokeWidth={2.6} />
     </g>
   );
 };
@@ -180,6 +202,31 @@ const Defs: React.FC = () => (
       <stop offset="0" stopColor="#454E5E" />
       <stop offset="1" stopColor="#1C222C" />
     </linearGradient>
+    <linearGradient id="s8-sleeveC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stopColor="#0E1420" />
+      <stop offset="0.35" stopColor="#1E2940" />
+      <stop offset="0.72" stopColor="#33456A" />
+      <stop offset="0.9" stopColor="#24324E" />
+      <stop offset="1" stopColor="#3F5480" />
+    </linearGradient>
+    <linearGradient id="s8-sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#FFFFFF" stopOpacity={0} />
+      <stop offset="0.7" stopColor="#DCE8FF" stopOpacity={0.18} />
+      <stop offset="1" stopColor="#FFFFFF" stopOpacity={0.05} />
+    </linearGradient>
+    <linearGradient id="s8-cuff" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stopColor="#3A4A68" />
+      <stop offset="1" stopColor="#161E2E" />
+    </linearGradient>
+    <linearGradient id="s8-gloveC" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stopColor="#5A6578" />
+      <stop offset="0.45" stopColor="#3A4352" />
+      <stop offset="1" stopColor="#1A1F28" />
+    </linearGradient>
+    <radialGradient id="s8-gripshadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stopColor="#000" stopOpacity={0.6} />
+      <stop offset="1" stopColor="#000" stopOpacity={0} />
+    </radialGradient>
     <clipPath id="s8-backclip">
       <rect x={SEAT.x0 + 20} y={SEAT.back} width={SEAT.x1 - SEAT.x0 - 40} height={SEAT.top - SEAT.back + 10} rx={36} />
     </clipPath>
@@ -242,9 +289,16 @@ export const ShotH: React.FC<{f: number}> = ({f}) => {
           <Seat f={f} />
           <Sweep clip="s8-backclip" x0={SEAT.x0} x1={SEAT.x1} y0={SEAT.back} y1={SEAT.top} u={sweepSeat} />
           {lapSeat}
-          {showHand ? <Hand x={seatPos.x + 10} y={handY} grip={prog(f, LIFT - 2, 6)} /> : null}
+          {showHand && lift < 0.05 ? <ellipse cx={seatPos.x + 10} cy={seatPos.y - 18} rx={90 * handIn} ry={22 * handIn} fill="url(#s8-gripshadow)" opacity={handIn} /> : null}
         </>,
       )}
+      {/* the hand: a foreground layer (shallow depth of field), rim-lit, motion-blurred as it yanks the laptop up */}
+      {showHand
+        ? layer(
+            `${rimFilter(0.9, 1.2 + 5 * (1 - handIn))} ${lift > 0.02 && lift < 0.98 ? `blur(${(3 * Math.sin(Math.PI * lift)).toFixed(2)}px)` : ''}`,
+            <Hand x={seatPos.x + 10} y={handY} grip={prog(f, LIFT - 2, 6)} f={f} />,
+          )
+        : null}
       {/* "lost": the lights narrow onto the lonely laptop */}
       <div
         style={{

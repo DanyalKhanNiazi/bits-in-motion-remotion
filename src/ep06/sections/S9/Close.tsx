@@ -32,7 +32,7 @@ import {
   type Pose,
 } from '../../kit';
 import {CUT, T} from './t';
-import {GlyphSave, Lockup, glyphLand} from './marks';
+import {GlyphSave, GlyphTiles, Lockup, glyphLand} from './marks';
 
 /* ================================================================ P22a: Delete ≠ Erase; the passport sinks into its boxes; the strike */
 const PASS = {x: 1180, y: 500, w: 380, variant: 'screen' as const};
@@ -47,8 +47,9 @@ const SIG_END = {x: 1200, y: 236, zoom: 1.0};
 const LIFT0 = T.del2 + 6;
 const LIFT1 = T.indexCard + 1;
 const P22_CAM: CamKey[] = [
-  {f: CUT.p22, x: 900, y: 500, zoom: 1.05},
-  {f: T.erase + 8, x: 930, y: 490, zoom: 1.0},
+  // framed ~50 px higher in the world than the wall's centre: the drawer card's top stays ≥ 40 px under the title's baseline
+  {f: CUT.p22, x: 900, y: 446, zoom: 1.05},
+  {f: T.erase + 8, x: 930, y: 452, zoom: 1.0},
   {f: LIFT1 + 3, ...archiveCam('signature'), dur: LIFT1 + 3 - LIFT0},
   {f: CUT.split, ...SIG_END},
 ];
@@ -79,7 +80,7 @@ export const DeleteShot: React.FC<{f: number}> = ({f}) => {
         {at: T.del + 2, strength: 0.6},
         {at: T.crosses + 2, strength: 0.45},
       ]}
-      hud={<KineticText frame={f} at={T.del + 2} text="Delete ≠ Erase" x={960} y={176} size={176} mode="slam" exitAt={T.del2 - 2} />}
+      hud={<KineticText frame={f} at={T.del + 2} text="Delete ≠ Erase" x={960} y={170} size={176} mode="slam" exitAt={T.del2 - 2} />}
     >
       <Archive {...A} />
       <PassportCard frame={f} {...PASS} float={4} tiltY={-6} rim={{color: PAL.ink, strength: 0.45}} sweep={{at: [CUT.p22 + 2], dur: 18}} dissolveAt={DISSOLVE} dissolveDur={12} shadow={false} />
@@ -179,7 +180,7 @@ const SAVE = T.or + 2;
  * so the camera's velocity stays continuous.
  */
 const HOLD0 = SAVE - 4;
-const HOLD1 = SAVE + 30;
+const HOLD1 = SAVE + 38;
 const S_HOLD = 0.5;
 const finS: Float64Array = (() => {
   const n = FIN.end - FIN.a;
@@ -245,6 +246,7 @@ export const FinalShot: React.FC<{f: number}> = ({f}) => {
         </div>
       ) : null}
       <GlyphSave frame={f} at={SAVE} targets={targets} size={40} ring={1} />
+      <GlyphTiles frame={f} at={SAVE} targets={targets} />
     </Stage>
   );
 };

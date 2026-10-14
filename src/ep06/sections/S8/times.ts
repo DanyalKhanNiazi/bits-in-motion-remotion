@@ -11,6 +11,7 @@ export const T = {
   /* P18 */
   strange: w(18, 'strange'),
   ssdTends: w(18, 'The SSD tends'),
+  tends: w(18, 'tends'),
   destroy1: w(18, 'destroy'),
   resists: w(18, 'resists'),
   destroy2: w(18, 'destroy', 2),
@@ -55,6 +56,7 @@ export const T = {
   readsIt: w(20, 'reads it'),
   noise: w(20, 'noise'),
   thatsAlso: w(20, "That's also"),
+  nistKey: w(20, 'NIST'),
   destroying: w(20, 'destroying'),
   key2: w(20, 'key', 3),
   underRight: w(20, 'under the right'),
@@ -79,7 +81,7 @@ export const T = {
 
 /* shot cuts (absolute) */
 export const CUT = {
-  coin: T.ssdTends - 10, // whip A → B (12 f)
+  coin: T.ssdTends + 6, // whip A → B (12 f): "The strange reversal" rides it out ≥ 15 f after its sentence
   verdict: T.fact + 3, // FlashCut B → C on the chip
   dive: T.so - 8, // ZoomThrough C → D (16 f)
   key: P(20).start - 6, // whip D → E (12 f)
