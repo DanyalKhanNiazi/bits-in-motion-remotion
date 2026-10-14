@@ -102,7 +102,7 @@ export const ShotD: React.FC<{f: number}> = ({f}) => {
           <Converge f={f} at={T.eraseCmd} x={chip.x} y={chip.y} />
           <Converge f={f} at={T.sanitizeFn + 4} x={chip.x} y={chip.y} dur={22} />
           <QuoteStrip frame={f} at={T.nist + 2} exitAt={T.though - 4} source="NIST" reported="sanitize commands reach all storage areas more effectively than overwriting" />
-          <VerdictChip frame={f} at={T.though + 10} exitAt={CUT.key + 2} text="You're trusting the manufacturer" tone="neutral" x={960} y={118} size={54} />
+          <VerdictChip frame={f} at={T.trusting - 3} exitAt={CUT.key + 2} text="You're trusting the manufacturer" tone="neutral" x={960} y={118} size={54} />
           <Check f={f} at={CHECK_AT} x={chip.x} y={chip.y - 40} />
           <Footnote frame={f} at={T.so + 50} exitAt={CUT.key + 4} text="Schematic, not to scale" x={1420} y={1006} />
         </>
