@@ -165,7 +165,7 @@ export const ShotF: React.FC<{f: number}> = ({f}) => {
       }
     >
       <Archive frame={f} state="SSD_SAVED" events={F_EVENTS} boxes={boxes} />
-      <PhotoBits frame={f} at={DISSOLVE} dur={18} mode="dissolve" from={PASS} image="fictional-passport_b" grid={[10, 13]} />
+      {f < SINK ? <PhotoBits frame={f} at={DISSOLVE} dur={18} mode="dissolve" from={PASS} image="fictional-passport_b" grid={[10, 13]} /> : null}
       <PhotoBits frame={f} at={SINK} dur={SINK_DUR} mode="sink" from={PASS} grid={[10, 13]} to={[ka.keyBow]} />
       <KeyFixture
         frame={f}

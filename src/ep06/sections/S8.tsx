@@ -39,7 +39,7 @@ export const S8: React.FC<{frame: number}> = ({frame}) => {
   if (f < CUT.key) return D(f);
   if (f < CUT.key + 12) return <Whip frame={f} at={CUT.key} dir="left" a={D} b={E} />;
   if (f < CUT.save - 2) return E(f);
-  if (f < CUT.save + 12) return <FlashCut frame={f} at={CUT.save} a={E} b={F} />;
+  if (f < CUT.save + 12) return <FlashCut frame={f} at={CUT.save} a={E} b={F} strength={0.6} />;
   if (f < CUT.pulled) return F(f);
   if (f < CUT.pulled + 12) return <Whip frame={f} at={CUT.pulled} dir="up" a={F} b={G} />;
   if (f < CUT.objects) return G(f);
