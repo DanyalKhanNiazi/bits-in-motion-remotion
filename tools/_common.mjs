@@ -63,6 +63,10 @@ export const bundleEntry = async (entryArg) => {
     },
   });
   console.log(`bundled ${path.relative(ROOT, entry)} in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+  // Each bundle copies public/ (hundreds of MB) into the temp folder; delete it when this process exits.
+  if (path.basename(serveUrl).startsWith('remotion-webpack-bundle-')) {
+    process.on('exit', () => fs.rmSync(serveUrl, {recursive: true, force: true}));
+  }
   return serveUrl;
 };
 
