@@ -138,7 +138,7 @@ export const ShotH: React.FC<{f: number}> = ({f}) => {
       env={{kind: 'stage', spot: f < DROP ? 700 : 1600, floor: 860, warm: 0.25}}
       cam={CAM_H}
       shake={[{at: DROP + DROP_DUR, strength: 0.6}]}
-      hud={<QuoteStrip frame={f} at={T.microsoft + 14} exitAt={CUT.desk - 2} source="Microsoft" quote="lost, stolen, or … decommissioned devices" />}
+      hud={<QuoteStrip frame={f} at={T.microsoft + 14} source="Microsoft" quote="lost, stolen, or … decommissioned devices" />}
     >
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         <defs>

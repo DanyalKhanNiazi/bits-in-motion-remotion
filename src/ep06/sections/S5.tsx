@@ -59,7 +59,7 @@ const W = {
   anSsd: at(11, 'SSD').start,
   flash: at(11, 'flash memory').start,
   writeOver: at(11, 'write over').start,
-  oldData: at(11, 'old data').end,
+  oldData: at(11, 'data', 2).start,
   erased: at(11, 'erased').start,
   saved: at(11, 'saved something').start,
   writes: at(11, 'writes would').start,
@@ -143,7 +143,7 @@ const X = 42; // the refused write, then its group erased
 const Y = 55; // the save that has to wait for an erase
 const C_EVENTS: ArchiveEvent[] = [
   {at: W.writeOver - 7, op: 'refuse', target: X, dur: 20},
-  {at: W.oldData - 14, op: 'refuse', target: X, dur: 20},
+  {at: W.oldData - 11, op: 'refuse', target: X, dur: 20},
   {at: W.erased - 3, op: 'sweep', target: X, dur: 14},
   {at: W.saved - 9, op: 'refuse', target: Y, dur: 20},
   {at: W.saved + 21, op: 'sweep', target: Y, dur: 14},

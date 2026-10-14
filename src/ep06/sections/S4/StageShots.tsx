@@ -27,7 +27,7 @@ import {ImpactRing} from './fx';
 import {Tally} from './Tally';
 
 /* ---------------------------------------------------------------- the scanner hero */
-const SC = {x: 960, y: 548, w: 860} as const;
+const SC = {x: 960, y: 540, w: 930} as const;
 export const HERO_CAM: CamKey[] = [
   {f: CUT.whip1, x: 900, y: 520, zoom: 0.96},
   {f: T.theSpace, x: 940, y: 540, zoom: 1.04, ease: 'inOut'},
@@ -40,7 +40,7 @@ const plateQuad = (lift: number): Quad => {
   const P = UI_REGIONS.scanPlate;
   const cx = (P[0][0] + P[1][0] + P[2][0] + P[3][0]) / 4;
   const cy = (P[0][1] + P[1][1] + P[2][1] + P[3][1]) / 4;
-  const k = 0.84;
+  const k = 0.9;
   return P.map(([x, y]) => {
     const q = propPoint('recovery-scanner_a', SC, cx + (x - cx) * k, cy + (y - cy) * k);
     return [q.x, q.y - lift] as const;

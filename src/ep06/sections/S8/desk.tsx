@@ -20,13 +20,18 @@ import {
   WinFrame,
   clamp01,
   deskSlotScale,
+  lerp,
   prog,
   springAt,
   track,
   type KenBurns,
   type Key,
 } from '../../kit';
+import {at} from '../../timing';
 import {CUT, T} from './times';
+
+const EXIT0 = T.to - 40;
+const EXIT1 = T.to - 4;
 
 const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
   s: [
@@ -36,8 +41,7 @@ const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
     [T.oncePc + 18, 1.1, EASE.inOut],
     [T.started + 8, 1.08],
     [T.normally - 10, 1.34, EASE.inOut],
-    [T.to - 22, 1.38],
-    [T.to + 30, 1.05, EASE.inOut],
+    [EXIT0, 1.38],
   ],
   x: [
     [CUT.desk, 0],
@@ -46,8 +50,7 @@ const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
     [T.oncePc + 18, -150, EASE.inOut],
     [T.started + 8, -160],
     [T.normally - 10, -20, EASE.inOut],
-    [T.to - 22, -24],
-    [T.to + 30, -40, EASE.inOut],
+    [EXIT0, -24],
   ],
   y: [
     [CUT.desk, 50],
@@ -56,12 +59,25 @@ const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
     [T.oncePc + 18, -60, EASE.inOut],
     [T.started + 8, -66],
     [T.normally - 10, 118, EASE.inOut],
-    [T.to - 22, 126],
-    [T.to + 30, 0, EASE.inOut],
+    [EXIT0, 126],
   ],
 };
+/**
+ * S9 opens on the desk pulling back: its plate Ken Burns eases out from {s 1.2, x −80, y −60} at T.to − 30 to
+ * {s 1.06, x −24, y −6} at P21 "back" − 4 (S9/Fork.tsx). From EXIT0 our pull-back blends onto that exact curve, so
+ * the cut at T.to lands mid-move with matching position and speed.
+ */
+const S9_A = {f: T.to - 30, s: 1.2, x: -80, y: -60};
+const S9_B = {f: at(21, 'back to the passport').start - 4, s: 1.06, x: -24, y: -6};
+const s9Kb = (f: number) => {
+  const e = EASE.out(clamp01((f - S9_A.f) / (S9_B.f - S9_A.f)));
+  return {s: Math.exp(lerp(Math.log(S9_A.s), Math.log(S9_B.s), e)), x: lerp(S9_A.x, S9_B.x, e), y: lerp(S9_A.y, S9_B.y, e)};
+};
 export const deskKb = (f: number): KenBurns => {
-  const v = {s: track(f, KB_KEYS.s), x: track(f, KB_KEYS.x), y: track(f, KB_KEYS.y)};
+  const a = {s: track(f, KB_KEYS.s), x: track(f, KB_KEYS.x), y: track(f, KB_KEYS.y)};
+  const u = EASE.inOut(clamp01((f - EXIT0) / (EXIT1 - EXIT0)));
+  const b = u > 0 ? s9Kb(f) : a;
+  const v = {s: Math.exp(lerp(Math.log(a.s), Math.log(b.s), u)), x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u)};
   return {from: v, to: v, start: f, end: f + 1};
 };
 

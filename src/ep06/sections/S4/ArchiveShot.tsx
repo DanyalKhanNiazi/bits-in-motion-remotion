@@ -24,12 +24,13 @@ import {
   rgba,
   scannerAnchors,
   toScreen,
+  win,
   type ArchiveEvent,
   type CamKey,
   type Pose,
 } from '../../kit';
 import {CUT, T} from './t';
-import {LostRing} from './fx';
+import {BeamCore, Ground, HeaderRing, LostRing} from './fx';
 import {Tally, TALLY_EXIT} from './Tally';
 
 /* ---------------------------------------------------------------- camera */
@@ -70,8 +71,8 @@ const fromScreen = (p: Pose, sx: number, sy: number) => {
 };
 
 /* ---------------------------------------------------------------- the scanner in the foreground (screen px) */
-const SC_A = {x: 1645, y: 708, w: 470};
-const SC_B = {x: 1668, y: 700, w: 490};
+const SC_A = {x: 1600, y: 842, w: 640};
+const SC_B = {x: 1612, y: 838, w: 640};
 const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const zp = clamp01((Math.log(pose.zoom) - Math.log(1.15)) / (Math.log(HD.zoom) - Math.log(1.15)));
   const px = clamp01(1 - zp) * -(pose.x - ref.x) * pose.zoom * 0.1;
@@ -147,6 +148,8 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
       const k = EASE.inOut(prog(f, T.copy - 6, 12));
       tgt = {x: lerp(tgt.x, c.x, k), y: lerp(tgt.y, c.y, k), rx: lerp(tgt.rx, 330 * pose.zoom, k), ry: lerp(tgt.ry, 240 * pose.zoom, k)};
     }
+    hud.push(<Ground key="gA" s={s} f={f} on={prog(f, T.aTool - 4, 14) * (1 - prog(f, T.ifACard + 4, 14))} />);
+    hud.push(<BeamCore key="bcA" s={s} tgt={tgt} op={win(f, T.read - 4, T.ifACard + 2, 6, 6)} f={f} />);
     hud.push(
       <ScannerProp
         key="scA"
@@ -181,6 +184,8 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
     const hx = lerp(h.x, b21.x, kB);
     const hy = lerp(h.y, b21.y, kB);
     const tgt = {x: lerp(band.x, hx, kH), y: lerp(band.y, hy, kH), rx: lerp(70, 34 * pose.zoom, kH), ry: lerp(250, lerp(12, 26, kB) * pose.zoom, kH)};
+    hud.push(<Ground key="gB" s={s} f={f} on={prog(f, T.scan - 10, 14)} />);
+    hud.push(<BeamCore key="bcB" s={s} tgt={tgt} op={win(f, T.scan + 2, undefined, 6, 6) * (1 - 0.5 * prog(f, T.p9 + 10, 30))} f={f} />);
     hud.push(
       <ScannerProp
         key="scB"
@@ -206,6 +211,8 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
     const bPrev = S(boxC(PHOTO[Math.max(0, i - 1)]));
     const k = EASE.inOut(prog(f, RACE.copy[i] - 4, 5));
     const tgt = {x: lerp(bPrev.x, b.x, k), y: lerp(bPrev.y, b.y, k), rx: 40 * pose.zoom, ry: 26 * pose.zoom};
+    hud.push(<Ground key="gR" s={s} f={f} on={1 - prog(f, T.to - 22, 14)} />);
+    hud.push(<BeamCore key="bcR" s={s} tgt={tgt} op={win(f, CUT.whip3 - 4, T.to - 22, 6, 6)} f={f} />);
     hud.push(
       <ScannerProp
         key="scR"
@@ -214,7 +221,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
         exit={{kind: 'slide', at: T.to - 22, to: 'right', dur: 16}}
         shadow={false}
         rim={{color: '#DCE6F7', strength: 0.6}}
-        beam={{at: CUT.whip3 - 4, until: T.to - 18}}
+        beam={{at: CUT.whip3 - 4, until: T.to - 22}}
         beamTo={tgt}
         tray="partial"
         trayAt={RACE.trayAt}
@@ -237,6 +244,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
       {flagGlow > 0.01 ? (
         <div style={{position: 'absolute', left: an.flag.x - 90, top: an.flag.y - 60, width: 180, height: 120, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba(PAL.loss, 0.55 * flagGlow)}, rgba(0,0,0,0))`}} />
       ) : null}
+      <HeaderRing f={f} at={T.header} x={an.header.x} y={an.header.y - 9} />
       {race
         ? LOST.map((i) => {
             const p = boxXY(PHOTO[i]);
@@ -254,11 +262,11 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
     if (f >= T.reused - 2 && f < T.scan + 10)
       hud.push(
         <div key="reused" style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${c.x + 200}px ${c.y + 150}px`, transform: 'rotate(-7deg)'}}>
-          <KineticText frame={f} at={T.reused} text="Reused" x={c.x + 200} y={c.y + 150} size={104} mode="slam" exitAt={T.scan - 8} backing="plate" />
+          <KineticText frame={f} at={T.reused} text="Reused" x={c.x + 200} y={c.y + 150} size={104} mode="slam" exitAt={T.someTools + 2} backing="plate" />
         </div>,
       );
     hud.push(<KineticText key="some" frame={f} at={T.someTools} text="Some tools scan the boxes" x={960} y={104} size={80} mode="rise" stagger={4} exitAt={T.p9 + 8} />);
-    const hn = S(an.header);
+    const hn = S({x: an.header.x, y: an.header.y - 9});
     hud.push(<Label key="hdr" frame={f} at={T.header} text="Distinctive header" x={hn.x - 150} y={hn.y - 120} to={{x: hn.x, y: hn.y}} side="left" size={52} exitAt={T.p9 + 8} />);
     hud.push(<KineticText key="free" frame={f} at={T.free1} text="Free means free" x={960} y={118} size={110} mode="pop" stagger={Math.round((T.free2 - T.free1) / 2)} exitAt={T.freeEnd + 18} />);
     // the three writes

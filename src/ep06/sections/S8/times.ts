@@ -56,7 +56,7 @@ export const T = {
   noise: w(20, 'noise'),
   thatsAlso: w(20, "That's also"),
   destroying: w(20, 'destroying'),
-  key2: w(20, 'key', 2),
+  key2: w(20, 'key', 3),
   underRight: w(20, 'under the right'),
   fastWay: w(20, 'fast way'),
   microsoft: w(20, 'Microsoft'),

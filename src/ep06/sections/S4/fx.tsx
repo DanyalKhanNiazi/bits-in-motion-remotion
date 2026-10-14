@@ -1,7 +1,7 @@
 // S4 section-local effects (world px): the ghost future write (S3 handoff), the scanner's light shaft entering from
 // above, a white wash under the beam, and the coral "lost" ring on a box the scanner reaches too late.
 import React from 'react';
-import {BOX, EASE, PAL, clamp01, lerp, mixHex, prog, rgba} from '../../kit';
+import {BOX, EASE, PAL, clamp01, lerp, mixHex, prog, rgba, scannerAnchors} from '../../kit';
 const lerpHex = (a: string, b: string, t: number) => mixHex(a, b, clamp01(t));
 
 /**
@@ -56,7 +56,7 @@ export const LightShaft: React.FC<{sx: number; sy: number; tx: number; ty: numbe
           width: W,
           height: H,
           clipPath: poly,
-          background: `linear-gradient(180deg, ${rgba('#FFFFFF', 0.04)}, ${rgba('#FFFFFF', 0.2 * op * flick)} 70%, ${rgba('#FFFFFF', 0.3 * op * flick)})`,
+          background: `linear-gradient(180deg, ${rgba('#FFFFFF', 0.04)}, ${rgba('#FFFFFF', 0.32 * op * flick)} 70%, ${rgba('#FFFFFF', 0.46 * op * flick)})`,
         }}
       />
       <div
@@ -127,3 +127,36 @@ export const Wash: React.FC<{x: number; y: number; rx: number; ry: number; op: n
   );
 
 export const fadeIn = (f: number, a: number, d = 8) => prog(f, a, d, EASE.out);
+
+/** a dark pool behind the foreground scanner (hud px), so it separates from the wall */
+export const Ground: React.FC<{s: {x: number; y: number; w: number}; f: number; on: number}> = ({s, on}) =>
+  on <= 0.01 ? null : (
+    <div style={{position: 'absolute', left: s.x - s.w * 0.78, top: s.y - s.w * 0.62, width: s.w * 1.56, height: s.w * 1.3, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba('#02040A', 0.62 * on)}, ${rgba('#02040A', 0.3 * on)} 60%, rgba(0,0,0,0))`}} />
+  );
+
+/** a bright core line from the scanner's lens to its beam target (hud px) */
+export const BeamCore: React.FC<{s: {x: number; y: number; w: number}; tgt: {x: number; y: number}; op: number; f: number}> = ({s, tgt, op, f}) => {
+  if (op <= 0.01) return null;
+  const a = scannerAnchors(s).lens;
+  const fl = 0.85 + 0.15 * Math.sin(f * 1.3);
+  return (
+    <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+      <line x1={a.x} y1={a.y} x2={tgt.x} y2={tgt.y} stroke={rgba('#FFFFFF', 0.12 * op)} strokeWidth={22} strokeLinecap="round" />
+      <line x1={a.x} y1={a.y} x2={tgt.x} y2={tgt.y} stroke={rgba('#FFFFFF', 0.75 * op * fl)} strokeWidth={3} strokeLinecap="round" />
+      <circle cx={tgt.x} cy={tgt.y} r={10} fill={rgba('#FFFFFF', 0.8 * op * fl)} />
+      <circle cx={a.x} cy={a.y} r={16} fill={rgba('#FFFFFF', 0.5 * op)} />
+    </svg>
+  );
+};
+
+/** a white ring that blooms around the header notch when it is found (world px) */
+export const HeaderRing: React.FC<{f: number; at: number; x: number; y: number}> = ({f, at, x, y}) => {
+  const t = f - at;
+  if (t < -2 || t > 30) return null;
+  const u = clamp01((t + 2) / 32);
+  return (
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+      <ellipse cx={x} cy={y} rx={30 + 40 * EASE.out(u)} ry={8 + 14 * EASE.out(u)} fill="none" stroke="#FFFFFF" strokeWidth={lerp(4, 0.8, u)} opacity={1 - EASE.inCubic(u)} />
+    </svg>
+  );
+};

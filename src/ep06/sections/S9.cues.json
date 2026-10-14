@@ -1,1 +1,21 @@
-[]
+[
+  {"frame": 14838, "kind": "pop", "strength": 0.45},
+  {"frame": 14884, "kind": "whoosh", "strength": 0.5},
+  {"frame": 14920, "kind": "rewind", "strength": 0.6},
+  {"frame": 15016, "kind": "pop", "strength": 0.55},
+  {"frame": 15260, "kind": "swell", "strength": 0.3},
+  {"frame": 15364, "kind": "pop", "strength": 0.45},
+  {"frame": 15520, "kind": "type", "strength": 0.5},
+  {"frame": 15561, "kind": "impact", "strength": 0.55},
+  {"frame": 15597, "kind": "crate", "strength": 0.6},
+  {"frame": 15828, "kind": "tick", "strength": 0.55},
+  {"frame": 16083, "kind": "swell", "strength": 0.5},
+  {"frame": 16257, "kind": "crate", "strength": 0.6},
+  {"frame": 16262, "kind": "riser", "strength": 0.5},
+  {"frame": 16288, "kind": "impact", "strength": 0.9},
+  {"frame": 16355, "kind": "sting", "strength": 0.6},
+  {"frame": 16412, "kind": "whoosh", "strength": 0.45},
+  {"frame": 16869, "kind": "swell", "strength": 0.5},
+  {"frame": 16932, "kind": "glitch", "strength": 0.3},
+  {"frame": 16975, "kind": "swell", "strength": 0.7}
+]

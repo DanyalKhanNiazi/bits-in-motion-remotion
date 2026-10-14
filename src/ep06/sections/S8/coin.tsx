@@ -45,7 +45,7 @@ export const ShotA: React.FC<{f: number}> = ({f}) => (
     frame={f}
     env={{kind: 'archive', light: 'ssd'}}
     cam={CAM_A}
-    hud={<KineticText frame={f} at={T.strange} exitAt={CUT.coin - 4} text="The strange reversal" x={960} y={150} size={104} mode="slam" />}
+    hud={<KineticText frame={f} at={T.strange} text="The strange reversal" x={960} y={150} size={104} mode="slam" />}
   >
     <Archive frame={f} state="SSD_STALE" events={[MOVERS_EV]} />
   </Stage>
