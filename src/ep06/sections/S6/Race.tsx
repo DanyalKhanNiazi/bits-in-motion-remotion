@@ -200,7 +200,7 @@ const chipPair = (f: number, a: {text: string; at: number; exitAt: number}, b: {
 /** the clock: pops on "erases them" (top-right of the SSD panel); the re-hook "How fast, and how completely?": it swells
  *  2.5× into the panel's dark upper right (clear of the tray), a ring of ticks sweeps around it, and on "completely" an
  *  amber ring closes all the way round. No numerals. */
-const CLOCK = {x0: 1786, y0: 298, x1: 1716, y1: 372, size: 72, swell: 2.5};
+const CLOCK = {x0: 1786, y0: 298, x1: 1708, y1: 384, size: 72, swell: 2.5};
 const Clock: React.FC<{f: number}> = ({f}) => {
   const sw = springAt(f, T.howFast + 2, SPRING.pop);
   const size = CLOCK.size * lerp(1, CLOCK.swell, sw);
@@ -209,11 +209,11 @@ const Clock: React.FC<{f: number}> = ({f}) => {
   const out = prog(f, T.depends + 2, 8, EASE.inCubic);
   // tick sweep: 12 marks around the face light in turn (one lap per 24 f) from "fast"
   const tickOn = prog(f, T.fast, 8) * (1 - out);
-  const R = size * 0.66;
+  const R = size * 0.58;
   const head = (f - T.fast) / 2;
   // "completely": an amber ring closes all the way round
   const ringU = EASE.inOut(prog(f, T.completely, 20));
-  const ringR = size * 0.8;
+  const ringR = size * 0.68;
   const C = 2 * Math.PI * ringR;
   const flash = f >= T.completely + 20 ? Math.exp(-(f - T.completely - 20) / 6) : 0;
   return (
@@ -226,7 +226,7 @@ const Clock: React.FC<{f: number}> = ({f}) => {
                 const d = (((head - i) % 12) + 12) % 12; // 0 = the lit head, trailing behind it
                 const lit = f >= T.fast ? Math.exp(-d / 2.2) : 0;
                 return (
-                  <circle key={i} cx={x + R * 1.12 * Math.cos(a)} cy={y + R * 1.12 * Math.sin(a)} r={size * (0.022 + 0.018 * lit)} fill={rgba(PAL.drive, (0.25 + 0.75 * lit) * tickOn)} />
+                  <circle key={i} cx={x + R * Math.cos(a)} cy={y + R * Math.sin(a)} r={size * (0.022 + 0.018 * lit)} fill={rgba(PAL.drive, (0.25 + 0.75 * lit) * tickOn)} />
                 );
               })
             : null}

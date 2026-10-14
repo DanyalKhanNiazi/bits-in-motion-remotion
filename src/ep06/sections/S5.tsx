@@ -1,9 +1,11 @@
 /**
  * S5, P10–P12 [6649, 8404): the turn to the SSD. Plan: docs/ep06/plans/S5_plan.md.
  *   A  the hard-drive verdict on the wall (HDD_RACE_LOST)
- *   B  match cut on "SSD": the same drawer and cards, the same delete; the wall flips into flash; "The SSD"
- *   C  DriveDive into the flash: refused writes, a group erase, a stalled save, housekeeping that skips the photo
- *   D  the catch: boundary, "Still full", the TRIM note through the slot, the NTFS / drive-support chips
+ *   B  match cut on "SSD": the same drawer and cards under an "SSD" tag, the same delete; the wall flips into flash
+ *   C0 the SSD board's hero beat on the hardware stage + "The SSD"; explode on "flash", dive on "memory"
+ *   C  inside the flash (env 'flash' floor, flash traces on the wall): refused writes, a group erase, a stalled save,
+ *      housekeeping that skips the photo
+ *   D  the catch: boundary (the drive's scan stops there), "Still full", the TRIM note through the slot, the chips
  * Every timing comes from at(); frames are absolute.
  */
 import React from 'react';
@@ -13,7 +15,6 @@ import {
   EASE,
   GEOM,
   ClockGlyph,
-  DriveDive,
   FlashCut,
   Footnote,
   Label,
@@ -26,6 +27,7 @@ import {
   archiveAnchors,
   archiveCam,
   cardPlugs,
+  groupIds,
   prog,
   rgba,
   poseAt,
@@ -40,6 +42,11 @@ import {
 import {at} from '../timing';
 import {SECTION} from '../sections';
 import {Hourglass} from './S5/Hourglass';
+import {FlashTraces} from './S5/FlashTraces';
+import {SsdTag} from './S5/SsdTag';
+import {SsdHero} from './S5/SsdHero';
+import {Refusal} from './S5/Refusal';
+import {DriveScan} from './S5/DriveScan';
 
 const {from: FROM, to: TO} = SECTION('S5');
 
@@ -54,10 +61,12 @@ const W = {
   sameWin: at(10, 'same windows').end,
   sameFs: at(10, 'file system').end,
   sameCards: at(10, 'index cards').start,
+  but10: at(10, 'but underneath').start,
   under: at(10, 'underneath').start,
   // P11
   anSsd: at(11, 'SSD').start,
   flash: at(11, 'flash memory').start,
+  memory: at(11, 'memory').start,
   writeOver: at(11, 'write over').start,
   oldData: at(11, 'data', 2).start,
   erased: at(11, 'erased').start,
@@ -70,6 +79,7 @@ const W = {
   // P12
   but: at(12, "but there's a catch").start,
   doesnt: at(12, "doesn't read").start,
+  read: at(12, 'read').start,
   farAs: at(12, 'as far as the drive knows').start,
   stillFull: at(12, 'still full').start,
   wants: at(12, 'someone wants').end,
@@ -85,10 +95,13 @@ const W = {
 
 /* ================================================================ cut points */
 const CUT_B = W.ssd; // FlashCut A → B on "SSD"
-const DIVE = W.flash - 16; // DriveDive: the explode flash lands on "flash"
+const FLIP = W.under + 10; // the wall flips into flash, column by column, once the push has landed on it
+const FLIP_DUR = 58;
+const LIGHT_SWITCH = W.but10 + 8; // inside the fast push to the wall
+const HERO_AT = W.anSsd - 24; // B pushes into the SSD board's hero beat
+const SWAP = W.flash; // ssd-board_a → _d under a flash
+const DIVE = W.memory; // dive into the flash
 const WHIP_D = W.but - 4; // Whip C → D into "But there's a catch"
-const FLIP = W.under + 1; // the wall flips into flash
-const LIGHT_SWITCH = FLIP + 8; // inside the fast push
 const HK = W.housekeeping + 5; // housekeeping sweeps
 
 /* ================================================================ A + B camera (one continuous move across the cut) */
@@ -99,9 +112,10 @@ const CAM_AB: CamKey[] = [
   {f: W.expect, x: WALL.x + 16, y: WALL.y + 6, zoom: WALL.zoom * 1.05},
   {f: CUT_B + 12, x: 990, y: 540, zoom: 1.0, dur: 36, ease: 'inOut'},
   {f: W.sameWin + 2, x: 800, y: 486, zoom: 1.16, dur: 52},
-  {f: W.under - 4, x: 770, y: 492, zoom: 1.22},
-  {f: W.under + 22, x: 1284, y: 556, zoom: 1.46, dur: 26, ease: 'inOut'},
-  {f: DIVE, x: 1284, y: 548, zoom: 1.56},
+  {f: W.but10 - 2, x: 780, y: 490, zoom: 1.2},
+  // "But underneath": a fast push until the wall fills the frame, then a held, slow creep while it flips
+  {f: W.under + 12, x: 1288, y: 560, zoom: 1.74, dur: 17, ease: 'inOut'},
+  {f: HERO_AT + 12, x: 1288, y: 556, zoom: 1.8},
 ];
 
 const shotA = (f: number) => (
@@ -126,11 +140,15 @@ const B_EVENTS: ArchiveEvent[] = [
   {at: W.sameFs - 14, op: 'mapFlip', target: 'photo', dur: 16},
   {at: W.sameCards + 12, op: 'flag'},
 ];
+/** the SSD tag hangs above the wall (world anchor), so it rides the camera with the wall it names */
+const TAG_ANCHOR = {x: 1110, y: 158};
 const shotB = (f: number) => {
   const light: ArchiveLight = f < LIGHT_SWITCH ? 'warm' : 'ssd';
+  const tag = toScreen(poseAt(f, CAM_AB), TAG_ANCHOR.x, TAG_ANCHOR.y);
   return (
-    <Stage frame={f} env={{kind: 'archive', light}} cam={CAM_AB} hud={<AtlasOpener frame={f} at={W.anSsd - 20} word="The SSD" />}>
-      <Archive frame={f} state="SSD_SAVED" light={light} events={B_EVENTS} flip={{at: FLIP, dur: 46}} />
+    <Stage frame={f} env={{kind: 'archive', light}} cam={CAM_AB} hud={<SsdTag frame={f} at={CUT_B + 3} exitAt={W.but10 + 2} x={tag.x} y={Math.max(104, tag.y)} />}>
+      <Archive frame={f} state="SSD_SAVED" light={light} events={B_EVENTS} flip={{at: FLIP, dur: FLIP_DUR}} />
+      {f >= FLIP ? <FlashTraces frame={f} flip={{at: FLIP, dur: FLIP_DUR}} /> : null}
     </Stage>
   );
 };
@@ -138,42 +156,44 @@ const shotB = (f: number) => {
 /* ================================================================ C: inside the flash */
 /** old grey Bits (data the drive already knows is old); never in the photo's groups */
 const OLD: Record<number, Content> = {};
-for (const id of [2, 3, 9, 10, 18, 19, 27, 31, 36, 41, 42, 43, 45, 47, 51, 54, 55, 56, 61, 63, 73, 74, 81, 82, 83, 86, 87, 101, 102, 104, 105, 110, 118, 119, 125, 127, 137, 138]) OLD[id] = 'old';
+const OLD_IDS = [2, 3, 9, 10, 18, 19, 27, 31, 36, 41, 42, 43, 45, 47, 51, 54, 55, 56, 61, 63, 73, 74, 81, 82, 83, 86, 87, 101, 102, 104, 105, 110, 118, 119, 125, 127, 137, 138];
+for (const id of OLD_IDS) OLD[id] = 'old';
 const X = 42; // the refused write, then its group erased
 const Y = 55; // the save that has to wait for an erase
+const ON_DEMAND = new Set([...groupIds(X), ...groupIds(Y)]);
+/** housekeeping: one band across the wall clears every old group ahead of time; the photo's groups survive it */
+const HK_TARGET = OLD_IDS.filter((id) => !ON_DEMAND.has(id));
+const REFUSE_X = [W.writeOver + 5, W.oldData]; // impact frames of the two big refused writes on 042
 const C_EVENTS: ArchiveEvent[] = [
-  {at: W.writeOver - 7, op: 'refuse', target: X, dur: 20},
-  {at: W.oldData - 11, op: 'refuse', target: X, dur: 20},
-  {at: W.erased - 3, op: 'sweep', target: X, dur: 14},
-  {at: W.saved - 9, op: 'refuse', target: Y, dur: 20},
-  {at: W.saved + 21, op: 'sweep', target: Y, dur: 14},
-  {at: W.writes - 11, op: 'refuse', target: 74, dur: 20},
-  {at: W.slow - 11, op: 'refuse', target: 36, dur: 20},
-  // housekeeping, in the background: each row holding a photo run gets a left → right pass that clears the old-grey groups
-  // (still-wanted white Bits hop first) and visibly skips the photo's group (024 / 057 / 097 are its empty members)
-  {at: HK, op: 'sweep', target: [18, 24, 27, 31], dur: 64},
-  {at: HK + 10, op: 'sweep', target: [51, 57, 63], dur: 50},
-  {at: HK + 20, op: 'sweep', target: [97, 101, 105, 110], dur: 64},
-  // and the rest of the wall, at the same time
-  {at: HK + 4, op: 'sweep', target: [2, 9, 36, 45], dur: 64},
-  {at: HK + 14, op: 'sweep', target: [74, 81, 86, 118, 125, 137], dur: 76},
+  // the band reaches 041–044 on "erased"
+  {at: W.erased - 16, op: 'sweep', target: X, dur: 30},
+  // the stalled save: refused on "saved", its group cleared on demand while more saves bounce
+  {at: W.saved - 14, op: 'refuse', target: Y, dur: 26},
+  {at: W.saved + 3, op: 'sweep', target: Y, dur: 30},
+  {at: W.writes - 14, op: 'refuse', target: 74, dur: 26},
+  {at: W.slow - 14, op: 'refuse', target: 36, dur: 26},
+  {at: HK, op: 'sweep', target: HK_TARGET, dur: 88},
 ];
+/** every key keeps the wall's top edge above the frame (no empty band over the wall); the landing shows the flash floor */
 const CAM_C: CamKey[] = [
-  {f: DIVE + 30, x: 1190, y: 430, zoom: 1.9},
-  {f: W.writeOver - 46, x: 1236, y: 422, zoom: 2.0},
-  {f: W.writeOver - 4, x: 1392, y: 420, zoom: 3.0, dur: 40},
-  {f: W.erased - 6, x: 1386, y: 426, zoom: 3.1},
-  {f: W.erased + 20, x: 1404, y: 430, zoom: 2.8, dur: 22},
-  {f: W.saved - 2, x: 1160, y: 476, zoom: 2.3, dur: 60},
-  {f: W.slow + 16, x: 1170, y: 486, zoom: 2.2},
-  {f: W.soDrive + 40, x: 1284, y: 474, zoom: 1.6, dur: 40},
-  {f: WHIP_D - 34, x: 1292, y: 468, zoom: 1.65},
-  {f: WHIP_D + 12, x: 1430, y: 488, zoom: 1.9, dur: 46, ease: 'inExpo'},
+  {f: DIVE + 6, x: 1290, y: 745, zoom: 1.74},
+  {f: W.writeOver - 38, x: 1330, y: 560, zoom: 1.85, dur: 77},
+  {f: W.writeOver - 2, x: 1392, y: 422, zoom: 3.3, dur: 34, ease: 'inOut'},
+  {f: W.oldData + 22, x: 1396, y: 426, zoom: 3.38},
+  {f: W.erased - 4, x: 1428, y: 462, zoom: 2.6, dur: 28},
+  {f: W.saved - 22, x: 1424, y: 468, zoom: 2.5},
+  {f: W.saved - 2, x: 1160, y: 490, zoom: 2.3, dur: 50},
+  {f: W.slow + 16, x: 1170, y: 500, zoom: 2.2},
+  {f: HK + 22, x: 1212, y: 528, zoom: 2.0, dur: 50},
+  {f: HK + 36, x: 1216, y: 526, zoom: 2.02},
+  {f: HK + 86, x: 1300, y: 502, zoom: 2.25, dur: 50},
+  {f: WHIP_D - 2, x: 1306, y: 500, zoom: 2.3},
+  {f: WHIP_D + 12, x: 1340, y: 530, zoom: 1.95, dur: 14, ease: 'inExpo'},
 ];
 const shotC = (f: number) => (
   <Stage
     frame={f}
-    env={{kind: 'flash', amber: 1.1}}
+    env={{kind: 'flash', amber: 1.2}}
     cam={CAM_C}
     hud={
       <>
@@ -185,8 +205,15 @@ const shotC = (f: number) => (
     }
   >
     <Archive frame={f} state="SSD_DELETED" boxes={OLD} show={{drawer: 0, map: 0, card: 0, threads: 0, ghost: 0}} events={C_EVENTS} />
+    <FlashTraces frame={f} opacity={0.85} />
+    {REFUSE_X.map((h) => (
+      <Refusal key={h} frame={f} box={X} hit={h} />
+    ))}
   </Stage>
 );
+
+/* ================================================================ C0: the SSD hero (inside SsdHero) + "The SSD" */
+const heroHud = (f: number) => <AtlasOpener frame={f} at={W.anSsd - 20} word="The SSD" y={866} scrim={0.12} />;
 
 /* ================================================================ D: the catch, the boundary, TRIM */
 /**
@@ -203,13 +230,13 @@ const D_EVENTS: ArchiveEvent[] = [
   {at: W.clusters - 2, op: 'readPulse', dur: 34},
   {at: TRIM_AT, op: 'trim', dur: TRIM_DUR},
 ];
-/** the hero note (trim-notice_b) rises above the card, then flies into the card's middle plug and shrinks to the small note */
+/** the hero note (the kit's paper envelope) rises above the card, then flies into the card's middle plug and shrinks to the Archive's own note */
 const PLUG = cardPlugs(GEOM.card.x, GEOM.card.y, GEOM.card.w)[1];
-const HERO_W = 190;
+const HERO_W = 230;
 const HERO_SMALL = 76 / HERO_W;
 const HERO_PATH: TrimPath = {
   pts: [
-    {x: 420, y: 150},
+    {x: 420, y: 142},
     {x: 470, y: 250},
     {x: PLUG.x - 20, y: PLUG.y},
   ],
@@ -224,12 +251,17 @@ const CAM_D: CamKey[] = [
   {f: W.farAs - 2, x: BOUNDARY.x + 10, y: BOUNDARY.y - 2, zoom: BOUNDARY.zoom * 1.015},
   {f: W.farAs + 40, x: 1240, y: 610, zoom: 1.3, dur: 42},
   {f: W.sends - 22, x: 1262, y: 600, zoom: 1.36},
-  {f: W.sends + 12, x: 440, y: 270, zoom: 2.1, dur: 34},
-  {f: W.listing - 4, x: 432, y: 266, zoom: 2.2},
+  {f: W.sends + 12, x: 440, y: 282, zoom: 2.0, dur: 34},
+  {f: W.listing - 4, x: 432, y: 278, zoom: 2.08},
   {f: W.listing + 62, x: 690, y: 420, zoom: 1.45, dur: 66},
-  {f: TO - 20, x: 700, y: 432, zoom: 1.48},
-  {f: TO + 2, ...BOUNDARY, dur: 22, ease: 'out'},
+  {f: W.byDefault - 12, x: 700, y: 440, zoom: 1.5},
+  // the note through the slot is the subject: settle into `boundary` (the S6 framing) before it reaches the slot
+  {f: TRIM_AT + 76, x: BOUNDARY.x - 8, y: BOUNDARY.y + 6, zoom: BOUNDARY.zoom * 0.985, dur: 50},
+  {f: TO, ...BOUNDARY},
 ];
+/** the two chips sit on each side of the boundary, below the card (world anchors: they never cover the card) */
+const NTFS_AT = {x: 372, y: 528};
+const DRIVES_AT = {x: 1010, y: 528};
 const shotD = (f: number) => {
   const A = {frame: f, state: 'SSD_DELETED' as const, events: D_EVENTS};
   const pose = poseAt(f, CAM_D);
@@ -239,6 +271,8 @@ const shotD = (f: number) => {
   const hs = 1 - (1 - HERO_SMALL) * prog(f, HERO_PATH.at, HERO_PATH.dur, EASE.inOut);
   const nt = toScreen(pose, hp.x + (HERO_W / 2) * hs, hp.y - 10);
   const swap = f >= HERO_PATH.at + HERO_PATH.dur ? Math.exp(-(f - HERO_PATH.at - HERO_PATH.dur) / 2.5) : 0;
+  const ntfs = toScreen(pose, NTFS_AT.x, NTFS_AT.y);
+  const drives = toScreen(pose, DRIVES_AT.x, DRIVES_AT.y);
   return (
     <Stage
       frame={f}
@@ -248,25 +282,16 @@ const shotD = (f: number) => {
         <>
           <Label frame={f} at={W.stillFull + 2} exitAt={W.wants + 22} text="Still full" size={56} x={full.x - 40} y={full.y - 170} to={full} side="left" />
           <Label frame={f} at={W.trim + 1} exitAt={W.delete + 26} text="TRIM" size={56} x={nt.x + 48} y={nt.y - 40} to={nt} side="right" accent={PAL.emphasis} />
-          <VerdictChip frame={f} at={W.byDefault + 2} text="On NTFS, by default" x={470} y={128} exitAt={TO - 12} />
-          <VerdictChip frame={f} at={W.forDrives + 1} text="For drives that support it" x={1430} y={128} exitAt={TO - 10} />
+          <VerdictChip frame={f} at={W.byDefault + 2} text="On NTFS, by default" x={ntfs.x} y={ntfs.y} exitAt={TO - 12} />
+          <VerdictChip frame={f} at={W.forDrives + 1} text="For drives that support it" x={drives.x} y={drives.y} exitAt={TO - 10} />
         </>
       }
     >
       <Archive {...A} />
+      <DriveScan frame={f} rings={[W.read - 4, W.read + 10]} dim={[W.read, W.sends - 22]} pane={[W.doesnt + 10, W.sends - 22]} />
       {f < TRIM_AT ? (
         <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${hp.x}px ${hp.y}px`, transform: `scale(${hs})`}}>
-          <TrimNote
-            frame={f}
-            variant="render"
-            {...HERO}
-            w={HERO_W}
-            numberSize={8}
-            enter={{kind: 'rise', at: W.shortNote - 6, dur: 16}}
-            rim={{color: PAL.structure, strength: 0.6}}
-            sweep={{at: [W.trim - 4], dur: 18}}
-            float={3}
-          />
+          <TrimNote frame={f} variant="envelope" {...HERO} w={HERO_W} numberSize={10} at={W.shortNote - 6} float={3} />
         </div>
       ) : null}
       {swap > 0.02 ? (
@@ -280,7 +305,7 @@ const shotD = (f: number) => {
 export const S5: React.FC<{frame: number}> = ({frame}) => {
   const f = Math.max(FROM - 30, Math.min(TO + 29, frame));
   if (f < CUT_B + 10) return <FlashCut frame={f} at={CUT_B} a={shotA} b={shotB} strength={0.85} />;
-  if (f < DIVE + 42) return <DriveDive frame={f} at={DIVE} drive="ssd-board_a" explode="ssd-board_d" from={{x: 960, y: 560}} a={shotB} b={shotC} />;
+  if (f < WHIP_D) return <SsdHero frame={f} at={HERO_AT} swapAt={SWAP} diveAt={DIVE} from={{x: 960, y: 600}} a={shotB} b={shotC} hud={heroHud} />;
   if (f < WHIP_D + 12) return <Whip frame={f} at={WHIP_D} dur={12} dir="right" a={shotC} b={shotD} />;
   return shotD(f);
 };

@@ -43,9 +43,9 @@ const OX = 2200;
 const CAGE = {x0: OX + 1080, y0: 330, x1: OX + 1680, y1: 790};
 const NOTE = {x: OX + 560, y: 560, w: 230};
 /** the array set's framing: note on the left, the array filling the right (lands as the pan ends) */
-const AX = OX + 1000;
+const AX = OX + 1010;
 const AY = 560;
-const AZ = 1.16;
+const AZ = 1.28;
 const NOTE_STOP_X = CAGE.x0 + 26 - NOTE.w / 2 - 6;
 const PATH_DUR = 70;
 const NOTE_PATH = {pts: [{x: NOTE.x, y: NOTE.y}, {x: OX + 1500, y: NOTE.y}], at: 0, dur: PATH_DUR, stopAt: 0};
@@ -431,8 +431,9 @@ const CAP = (() => {
   const gap = 0.26 * size;
   const w1 = textWidth(a, size, 700);
   const W = w1 + gap + textWidth(b, size, 700);
-  const x1 = 960 - W / 2;
-  return {size, a, b, x1, x2: x1 + w1 + gap};
+  // the seam between the two parts: part a is right-aligned to it, part b starts a word gap after it
+  const seam = 960 - W / 2 + w1;
+  return {size, a, b, seam, x2: seam + gap};
 })();
 
 const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; rot: number}}> = ({f, pose}) => {
@@ -444,7 +445,7 @@ const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; 
   return (
     <>
       <Title f={f} pose={pose} />
-      <KineticText frame={f} at={T.depending} text={CAP.a} x={CAP.x1} y={300} align="left" size={CAP.size} weight={700} mode="rise" stagger={7} exitAt={PULL + 8} />
+      <KineticText frame={f} at={T.depending} text={CAP.a} x={CAP.seam} y={300} align="right" size={CAP.size} weight={700} mode="rise" stagger={7} exitAt={PULL + 8} />
       <KineticText frame={f} at={T.chip} text={CAP.b} x={CAP.x2} y={300} align="left" size={CAP.size} weight={700} mode="slam" accent={PAL.drive} exitAt={PULL + 8} />
       <Footnote frame={f} at={T.nearlyAll} exitAt={PAN + 4} text="Illustrative spread, not per-drive data" y={1010} />
       <Label frame={f} at={T.certain} text="Certain multi-drive arrays" x={cageTL.x - 40} y={cageTL.y - 96} to={cageTL} side="right" size={52} exitAt={T.to + 4} />
