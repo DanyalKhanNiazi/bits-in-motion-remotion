@@ -30,5 +30,8 @@ Main-session figures are read from the session's own token counter at each check
 | 5 | Fix round 2: builders S1–S9 (increments over their round-1 figures) | 275,782 | 9.37M |
 | 5 | Fix round 2: kit A (glyphs, sweep skip) | 8,041 | 9.38M |
 | 5–6 | Main session: round-2 orchestration, v3 renders, thumbnail, packaging | 45,000 | 9.42M |
+| 5 | Review v3: 3 range reviewers (workflow) | 707,074 | 10.13M |
+| 6 | Main session: final checks, README, hand-off | 20,000 | 10.15M |
+| | **Total** | **10,152,028** | **10.15M** (cap 14M) |
 
 Builder figures are the peak token counts their notifications reported; agents whose context was compacted reported smaller numbers afterwards, so the true cumulative use is somewhat higher.

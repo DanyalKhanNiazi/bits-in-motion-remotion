@@ -6,7 +6,7 @@ Ported from the Episode 03 mixer (`audio_build/ep03/`). Same DSP, palette synthe
 - **Voice:** `F:/YouTube Channels/Bits in Motion/Videos/06 Why Deleting a File Doesn't Erase It/Voiceover/fullvoiceover.mp3` (`--voice` overrides).
 - **Length:** 17,023 frames = 567.432 s (was 18,367 / 612.2 s). The duration check is now `duration_567.432s_within_1_frame`.
 - **Sections:** `SECTION_FRAMES` in `build_mix.py` (S1 0-1409, S2 -3167, S3 -5104, S4 -6649, S5 -8404, S6 -9935, S7 -11976, S8 -14747, S9 -17023). The 22 paragraph starts are embedded and checked against `public/ep06/timeline.json` on every run (mismatch = exit 2).
-- **Cues:** read at run time from `src/ep06/sections/S1..S9.cues.json` (empty `[]` today; nothing is baked in). A missing file is a warning in the log and in `measure.json`.
+- **Cues:** read at run time from `src/ep06/sections/S1..S9.cues.json` (127 cues across the nine sections; nothing is baked in). A missing file is a warning in the log and in `measure.json`.
 - **Music:** same two Pixabay tracks, same paths. `music_plan.json` is re-timed: hook lift with its drop on P02 "So, is it gone?" (24.8 s); main bed from S2 (46.97 s); lifts at P11 (SSD board reveal), P13 (mid-film hero, entered through the track's bar-16 fill) and P22 (callback); darker bed under the dense paragraphs (P14, P16-P18, P20); louder gap offsets in S1/S5/S6/S9; tonic-pad resolve from 553.2 s landing at 567.2 s.
 - **New:** `--check` (parse-only dry run) and a `voice_correlation_ge_0.9999` check (Ep03 only reported the correlation).
 - **Tools:** `make_test_cues.py` now builds Ep06 test cues (`test/`, gitignored). Palette files only had their title changed.
