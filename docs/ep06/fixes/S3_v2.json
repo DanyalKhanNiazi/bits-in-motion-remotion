@@ -1,0 +1,32 @@
+{
+ "id": "S3",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 8.5,
+  "craft": 8.5,
+  "timing": 8.5,
+  "brand": 9,
+  "engagement": 8.5,
+  "production": 8
+ },
+ "score_100": 83.8,
+ "issues": [
+  {
+   "frames": "4880-5000",
+   "severity": "med",
+   "owner": "S3",
+   "what": "The hypothetical 'Rewriting every box … would take far longer' visibly overwrites the photo's real data. A white beam turns box 021's cyan Bits grey: the cyan-pixel fraction in 021 falls from 0.37 at f4880 to about 0.09 between f4928 and f4976, all 4 Bits are grey at f4950, and one Bit of 022 is grey at f4950-4984. After the whip at f4992, 021 is fully cyan again (f5000, f5050) with no undo shown. This contradicts 'Nothing opens the boxes' and HDD_DELETED, and it breaks continuity for S4, which needs 021's header glyph and the temporary-file write on 022.",
+   "fix": "Draw the rewrite as a what-if that never touches the Archive state: a translucent, dashed ghost overlay or a separate strip above the wall that crawls and then stops on 'longer' (f4957). Alternatively, fade the hypothetical grey back to cyan before the f4992 whip. Keep 021-023 cyan in every frame of S3."
+  },
+  {
+   "frames": "3502-3600",
+   "severity": "low",
+   "owner": "S3",
+   "what": "Each spoken field name appears twice at once: the card's printed field name pops into a pill, and a separate hud chip with the same word appears next to it. At f3586 'directions' is on screen twice (a pill on the card header plus a hud chip with a leader at the top right), and 'dates' is on screen twice (a pill plus a fading hud chip at the left). At f3527-3530, 'name' and 'size' are each doubled. The result is redundant clutter on the card that is meant to teach four fields.",
+   "fix": "Keep one cue per field: the hud chip at the field anchor, with the card's own field name only bolded or filled. Exit each chip when the next field is spoken."
+  }
+ ],
+ "prev_fixed": "v1 #1 ('Nothing opens the boxes.' white on cream): FIXED. The keyword now sits on a dark scrim plate, with its text bottom at about 926 px at 1080p, above the bottom 140 px (f4540). For about 6 f during the slam (f4524-4530) the scrim reads mid-grey over the card, so contrast is lower but still readable. v1 #2 (quick vs slow never shared a frame): PARTLY FIXED. Two ticks (card at about f4820, map at about f4828) stay up while a numberless progress bar barely moves (about 7 px at f4846, about 60 px at f4954, gone at f4960 on 'longer') next to a coral hourglass, all in one wide frame. However, the crawl now overwrites box 021 (new issue above). v1 #3 (mft-record render visible as a chrome slab with a magenta stripe): FIXED. Only the vector card is seen in the canyon (f3478-3485), with one flash at f3486. v1 #4 (fields lit only by thin outlines): FIXED, but over-done. Pills plus 40 px+ hud chips land on name f3502, size f3527, dates f3553 and directions f3581, all within ±1 f, but every word is doubled. v1 #5 (environment break on a void, held into 'limit'): FIXED. The Bits reassemble on the desk-plate monitor (f3758-3800), and a whip back to the drawer (f3801-3806) lands before 'limit'@3826.",
+ "version": "v2",
+ "method": "I worked from decoded half-scale frames only (out/ep06/v2/ep06_film.mp4, 960×540, decoded index = absolute frame). There was no playback and no audio. I read PLAYBOOK §4-§8, DIRECTION in full, TRANSCRIPT P01-P07, editorial §D V1-V4, §E C00-C07 and C25, and the previous reviews docs/ep06/fixes/S1_v1.json, S2_v1.json, S3_v1.json and range_S1-S3_v1.md. I extracted frames 0-5139 to out/ep06/review/v2/S1-S3/clip_0_5139.mp4 (re-encoded at crf 10). tools/static_check.py --offset 0 found 0 frozen stretches and 0 empty frames (motion median 9.32, min 0.58). A custom 15-frame-gap motion profile found no stretch under 1.5 lasting 30 f or more and no dark or low-variance frames, and a frame-difference cut list located every cut and flash (16, 189, 475-482, 1230-1234, 1273-1275, 1321-1324, 1360-1365, 1686, 1786, 1849, 1909, 2106, 2757, 2794-2799, 2881, 2909-2912, 3352-3359, 3486, 3755-3760, 3801-3805, 4234-4236, 5104). I used 13 images, all in out/ep06/review/v2/S1-S3/: s1_overview (57 frames, step 25), s1_dense (74 frames at word frames), s1_full (9 full frames with 64 px and bottom-140 guides), s1_crops (bins at f0/45/84/100/1404, chips at f906, preview at f1356), s2_overview (59 frames, step 30), s2_dense (83 frames), s2_crops (text at 1520/1876/1940/2045/2600/2775/3005/2950), s3_overview (59 frames, step 33), s3_dense (76 frames), boundaries (36 frames across 1400-1418, 3158-3176 and 5076-5135), s3_full (f3586, 4540, 4920 and 5050 with guides), s3_crops (text) and s3_rewrite (box 021 at f4880/4920/4950/4984/5000, pre-flash card at f3483/3485). Pixel measurements: tag visibility per frame (f1226-1372); box 021's cyan fraction (f4840-5000); progress-bar fill (f4840-4996); the signature card's top row (f380-460); header and label rows for the margins; and the 'File system' plate-header height. The S1-S3 render logs contain 0 '[kit]' warnings. grep found no Math.random or Date in src/ep06. The cues JSON (read as data only) has S1 10 cues (impacts at 187 and 397), S2 13 (2755, 2881) and S3 15 (4526), about 13-14 per minute. I rendered no full-res stills, because every doubtful label measured above the floors on the half-scale frames. The range score is the frame-weighted mean of the three section scores."
+}

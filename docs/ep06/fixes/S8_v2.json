@@ -1,0 +1,46 @@
+{
+ "id": "S8",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 8.5,
+  "craft": 8,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 8.5,
+  "production": 8.5
+ },
+ "score_100": 84,
+ "issues": [
+  {
+   "frames": "13496-13740 (seen at 13576)",
+   "severity": "low",
+   "owner": "kit",
+   "what": "The Archive's 'scrambled' glyph boxes show digits. Pairs such as '78' and '65' are visible in the photo's spare-space boxes at f13576 (x≈640–900, y≈470–530 half-scale). DIRECTION §1.1 allows only decor box identifiers as unspoken digits. The source is src/ep06/kit/archive/Archive.tsx GLYPHS, which ends in '0123456789'; ScrambleField's own alphabet has no digits. The same renderer draws the glyph save in S9 (16925–16972).",
+   "fix": "Remove 0–9 from the Archive GLYPHS string so it matches ScrambleField."
+  },
+  {
+   "frames": "14158-14200",
+   "severity": "low",
+   "owner": "S8",
+   "what": "In the three-objects beat, the bench and laptop now have rim light and shading, but the 'stolen' hand (f14176) is still a flat navy arm with a mitten hand: no specular, rim or depth of field. It is the least finished prop in the range.",
+   "fix": "Give the hand a rim light and a soft contact shadow on the laptop, or show only its shadow and the laptop lifting."
+  },
+  {
+   "frames": "11995-12026",
+   "severity": "low",
+   "owner": "S8",
+   "what": "'The strange reversal' lands on time (11995 for the word at 11993) but is gone by 12026, before its sentence ends (about 12030). The rule is to hold at least 15 f after the sentence (about 12045).",
+   "fix": "Let the keyword ride the 12028 whip and exit with it, or start the whip at about 12040."
+  },
+  {
+   "frames": "13873-13902",
+   "severity": "low",
+   "owner": "S8",
+   "what": "The strip 'NIST: destroying the key, a fast way to sanitize' reaches 50 % at 13903, 30 f after 'NIST'@13873 and 9 f after 'destroying'@13894. The key shatter (13898–13900) is on time.",
+   "fix": "Bring the strip in at 13894, with the shatter."
+  }
+ ],
+ "prev_fixed": "5 of 6 v1 issues are fixed and 1 is partly fixed. (1) The Settings window shows the 'Device encryption' row from about 14278, so the window is no longer empty. (2) The whip at 14510–14512 leaves straight from the window, so the 11-frame empty monitor is gone. (3) The Example line now has a dark chip plate, sits about 30 px under 'Drive makers ship tools', and has no map behind it. (4) The three quick objects are PARTLY fixed: the bench and laptop are lit, but the hand is still flat. (5) The strip now includes 'can' and is 12 words. (6) The footnote 'Only protects data saved while on' has moved right (x≥655 half) and is clear of the drive actor.",
+ "version": "v2",
+ "method": "I decoded frames only from out/ep06/v2/ep06_film.mp4 (960×540, 17,023 frames verified by ffprobe), at half scale, and didn't play the video or listen to anything. I extracted [9935,17022] by decoded frame index into out/ep06/review/v2/S7-S9/range.mp4 (7,088 frames, count verified). tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames (motion median 7.78). A custom pass over the same range at 480×270 measured per-frame motion (m1 and m15), luma std and hard cuts; it found no m15<1.5 stretch of 40 f or more, and the near-empty candidates were 13157 (1 f, mid-whip) and 13729–13734 (6 f, at the limit). I viewed 12 images: 3 overview sheets from tools/sheet.py (S7 every 30 frames, 69 frames; S8 every 40, 70; S9 every 33, 69; width 320, 6 columns); 4 dense sheets (d7a: 9929–10162 boundary, shredder, roll and deflect; d8a: 11952–11996 boundary, 12128–12160 coin flip, 12228–12268 flash cut, 12438–12470 opener; d8b: 13150–13166, 13724–13742, 14240–14288, 14500–14560, 14716–14758 boundary; d9a: 15632–15662, 16278–16396 title and strike, 16908–16972 glyph save, 16996–17022 end); and 5 composites of native half-scale crops at 1–2x with a pixel ruler (crops_a to crops_e).\n\nScripts measured: capital heights by row profile (must-read text at 15–20 px, keywords and heroes at 30–64 px, attributions at 12 px = footnote role, the verdict 'T' at 20 px); the 50 % onsets and exits of 45 labels against TRANSCRIPT.md; cyan, coral, amber and magenta pixel counts at 9935–10180, 10280–10740, 11980–12260, 12960–13150, 13470–13740 and 16840–17022; text in the bottom 140 px band every 20 frames across the range (only footnotes found); the left and right extents of 12 text lines (all within the 64 px margin); the right extent of the 'fresh' caption over 11536–11668; and the edge clipping on the coin flip (1–2 f only, mid-blur, not listed).\n\nI rendered no full-resolution stills. I read PLAYBOOK §4–§8, DIRECTION (in full), TRANSCRIPT S7–S9, the ledger C15–C26, the S7–S9 plans and the v1 reviews S7_v1, S8_v1, S9_v1 and range_S7-S9_v1. The render logs out/ep06/v2/S7.log, S8.log and S9.log have 0 [kit] warnings. I grepped the kit for the glyph alphabets to name the owner of the digit-glyph issue. The range score is the frame-weighted mean of the three section scores (84.75, 84.0, 87.0), which is 85.2. Working files are in /home/user/bits-in-motion-remotion/out/ep06/review/v2/S7-S9/."
+}

@@ -1,0 +1,39 @@
+{
+ "id": "S5",
+ "criteria": {
+  "clarity": 8,
+  "accuracy": 9.5,
+  "craft": 7.5,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 82.5,
+ "prev_fixed": "1 (med, flat black top band; env 'flash' missing): FIXED. The wall now fills the top, and a graphite floor with amber traces and the chip actor sits below (f7189). 2 (med, SSD hero barely there): FIXED. ssd-board_a is on the dark stage from about 7095 to 7176 (≈80 f), with a light sweep at about 7110, 'The SSD' at 7124, a flash swap at 7157 to the lifted variant, and the dive at 7177-7180. 3 (med, no SSD cue in the match cut; weak flip): PARTLY fixed. The 'SSD' chip with its icon arrives on the flash at 6822-6824 ('SSD'@6823), which is fixed. The flip is still an amber wipe line (see issue 1). 4 (med, scattered sweep; the skip is invisible): PARTLY fixed. A continuous amber band now crosses the wall and leaves dark groups with embers, and the photo groups survive. The skip itself is still not shown (issue 2). 5 (low, TRIM note doesn't read as a note): FIXED. The envelope with its magenta seal is ≈470 px wide at 8200, and ≈164 px wide in the slot at 8392. 6 (low, boundary is only a line): FIXED. The amber actor's scan arcs up and stops at the boundary while the drawer dims (7870-7882), then 'Still full' lands at 8005 (spoken 8002-8014). 7 (low, NTFS chip on the card): PARTLY fixed. The chip is off the card but now sits on the drawer handle (issue 3). 8 (low, refused write too small): FIXED. Box 042 is ≈280 px wide, and a white Bit falls, hits under a coral ring and bounces away over 7300-7335, on 'write over'@7296-7307 and 'old data'@7316-7325.",
+ "issues": [
+  {
+   "frames": "7004-7092",
+   "severity": "low",
+   "owner": "S5",
+   "what": "'But underneath, the storage wall works very differently' is drawn as a thin amber vertical line sweeping across the wall (f7034 at about x 1520, f7060 at about x 1820 on the 0.6-scale crop). Behind the line the change from steel to graphite is subtle: graphite cells with small grey plates on the left, steel lips on the right (f7040, f7060). It reads as a scan line repainting the wall, not as the wall flipping to show flash underneath.",
+   "fix": "Make the reveal a staggered per-column rotation (8-10 f per column, 2 f stagger) whose back faces are the graphite cells. Or lift the steel layer forward and away, so 'underneath' is literal. Land the last column on 'differently' (7077)."
+  },
+  {
+   "frames": "7685-7715",
+   "severity": "low",
+   "owner": "S5",
+   "what": "The housekeeping band passes straight over the photo's group. At f7700 the amber band (about x 650-770 at 1080p) covers box 022 (x≈708) and washes its cyan Bits pale. Nothing marks a skip (no dashed outline, no gap in the band); the photo boxes simply look unchanged afterwards (f7712, f7730). The key point, that the photo's boxes are still 'full' to the drive, has to be inferred.",
+   "fix": "Open a gap in the band as it crosses each photo group, or have the band hop over the group. Flash a dashed amber outline on 021-024, 057-060 and 097-100 for 6 f, and keep the cyan untinted under the band."
+  },
+  {
+   "frames": "8336-8402",
+   "severity": "low",
+   "owner": "S5",
+   "what": "The chip 'On NTFS, by default' (≈ x 190-640, y 610-670 at 1080p at f8392) sits on the drawer's front handle and label plate (handle ≈ x 310-520, y 586-692). The text collides with a hero prop.",
+   "fix": "Anchor the chip 40-60 px above the drawer top, or on a scrim left of the boundary line clear of the handle. Mirror it level with 'For drives that support it'."
+  }
+ ],
+ "version": "v2",
+ "method": "Decoded frames only; no playback and no audio. I read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14 (grep), and fixes S4/S5/S6_v1.json plus range_S4-S6_v1.md. Render logs S1-S9 v2 contain 0 '[kit]' warnings. I extracted 5074-9965 from out/ep06/v2/ep06_film.mp4 by decoded index (4,892 frames, count verified) into out/ep06/review/v2/S4-S6/clip_5074_9965.mp4. tools/static_check.py --offset 5074 reports 0 frozen stretches at both the 0.35 and 1.0 thresholds, and 0 empty frames. I used 13 images in all. From tools/sheet.py: overview sheets for S4, S5 and S6 every 30 f (52/59/52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each; word-sync sheets for S4 and S6 (48 frames each, at the word frames ±3) and a 48-frame S5 beats sheet (match cut, flip, hero/dive, refusal, sweep, boundary, TRIM); a boundary sheet (5098-5108, 6642-6656, 8396-8410 and 9922-9950, every 2 f). From my own crops of half-scale frames: a race/tray/sweep/split/QuestionCard/flip crop sheet, a 2× crop comparing the f8710 HDD and SSD panels (steel against graphite, confirmed), and a tray strip (f5670, 5690, 6560, 9040). Measurements without images: cap heights from connected components of bright pixels on half-scale frames (about 30 text elements); onset and exit series from bright-pixel fractions in label boxes across the frame-indexed gray decode (Recovery, quote strip, verdict, chips, 'Still full', 'For drives', QuestionCard, Unlisted, Gone, 'At most', 'Distinctive header'); amber, cyan and coral pixel fractions in the SSD panel for the erase timing (8714-8746); per-band luma mean and std (split bottom band, drive-row stage); frame-to-frame motion over 9070-9130; Bit colour in tagged boxes; and the scanner-prop extents at the frame edge. No full-res stills were rendered, because every must-read element measured above the half-scale floors (caps ≥14 px, keywords ≥22 px). I can't verify determinism from frames. The Archive's box ids, states and framings match across S3→S4→S5→S6→S7. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

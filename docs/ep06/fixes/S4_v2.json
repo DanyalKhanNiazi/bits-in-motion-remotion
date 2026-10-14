@@ -1,0 +1,46 @@
+{
+ "id": "S4",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9.5,
+  "craft": 8,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 84.75,
+ "prev_fixed": "1 (med, tray clipped and small): PARTLY fixed. The tray is now fully in frame: the content's right edge is at x≈1864 and its bottom at y≈1012 at 1080p (f5670, f6575). That is still 56 px from the right edge, inside the 64 px margin. The rebuilt passport is ≈120×190 px (f5670) and the race passport ≈146×222 px (f6625), both readable. 2 (med, the race plays as a recap): FIXED. Coral writes land at f6558 and f6608-6614, the tally goes from 5 to 6 to 7 notches on 'every write' and 'chance', and the tray passport shows coral/grey bands. 3 (low, one hardware-stage composition): FIXED. The camera pushes in over 5224-5314, the card lands on the plate under the beam at 5336-5344, and a card close-up follows at 5404. 4 (low, 14-word strip and the slot overlapping it): FIXED. The strip now has 11 words at y≈854-912, clear of the slot render, and it is gone before 'any time' slams in (6450-6452). 5 (low, 'free' late): FIXED. The third word lands at 6032 against the spoken 6034. 6 (low, attribution at 10 px): FIXED. The cap is now 12 px at half scale, ≈24 px cap (≈34 px font) at 1080p. 7 (low, footnote sitting on the wall): FIXED. 'Illustrative' now sits on a scrim pill at about x 80-280, y 850-880.",
+ "issues": [
+  {
+   "frames": "6552-6648",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The writes in 'every write to that drive is a chance to lose it' only hit boxes that are already lost. The coral ring at f6558 lands on 059 (already grey), and the rings at f6608-6614 land on 099 (already grey) and on its neighbour 101 (dashed). No still-lit photo box is ever in danger, and 098 and 100 are still lit at f6648. The tally notches, but the image reads as a recap of losses rather than a live race.",
+   "fix": "Keep HDD_RACE_LOST, but stage a near-miss. On 'chance' (6610), drop one coral write onto 100 a few frames before the beam reaches it. The beam copies 100 just in time, then the ring hits 101. Pulse a new grey band into the tray passport on each write."
+  },
+  {
+   "frames": "5412-5508",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The QuoteStrip “…the file data can still exist and be recovered.” clears at 5504-5508. The sentence ends by 5497 at the latest ('recovered.'@5473, next word 'A'@5498), so the strip holds only about 7-11 f after its sentence instead of ≥15 f.",
+   "fix": "Hold the strip to ≥5513 and start its exit after that, overlapping the scanner's 'read the cards' beam (5518)."
+  },
+  {
+   "frames": "5839-5853",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The label 'Distinctive header' appears at f5853, on 'header'@5852. That is 14 f after 'distinctive'@5839. From 5840 to 5851 only the camera push and the ring are visible.",
+   "fix": "Type the label in from 5839 so that 'header' completes at 5852, or start the push 10 f earlier."
+  },
+  {
+   "frames": "5640-5690, 6560-6640",
+   "severity": "low",
+   "owner": "S4",
+   "what": "The scanner tray, where the payoff happens, stays small and sits at the frame edge. The props extend to x≈1864 and y≈1012 at 1080p, 56 px from the right edge and inside the 64 px margin. The rebuilt photo at 5670 is ≈120×190 px, and the race passport's missing bands at 6575-6625 sit in a ≈146×222 px card.",
+   "fix": "Shift the scanner about 60 px left and 40 px up. On 'copy the bytes back out' (5640) and 'chance to lose it' (6605), scale the tray 1.3× or push the camera in, so the passport is ≥250 px tall."
+  }
+ ],
+ "version": "v2",
+ "method": "Decoded frames only; no playback and no audio. I read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14 (grep), and fixes S4/S5/S6_v1.json plus range_S4-S6_v1.md. Render logs S1-S9 v2 contain 0 '[kit]' warnings. I extracted 5074-9965 from out/ep06/v2/ep06_film.mp4 by decoded index (4,892 frames, count verified) into out/ep06/review/v2/S4-S6/clip_5074_9965.mp4. tools/static_check.py --offset 5074 reports 0 frozen stretches at both the 0.35 and 1.0 thresholds, and 0 empty frames. I used 13 images in all. From tools/sheet.py: overview sheets for S4, S5 and S6 every 30 f (52/59/52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each; word-sync sheets for S4 and S6 (48 frames each, at the word frames ±3) and a 48-frame S5 beats sheet (match cut, flip, hero/dive, refusal, sweep, boundary, TRIM); a boundary sheet (5098-5108, 6642-6656, 8396-8410 and 9922-9950, every 2 f). From my own crops of half-scale frames: a race/tray/sweep/split/QuestionCard/flip crop sheet, a 2× crop comparing the f8710 HDD and SSD panels (steel against graphite, confirmed), and a tray strip (f5670, 5690, 6560, 9040). Measurements without images: cap heights from connected components of bright pixels on half-scale frames (about 30 text elements); onset and exit series from bright-pixel fractions in label boxes across the frame-indexed gray decode (Recovery, quote strip, verdict, chips, 'Still full', 'For drives', QuestionCard, Unlisted, Gone, 'At most', 'Distinctive header'); amber, cyan and coral pixel fractions in the SSD panel for the erase timing (8714-8746); per-band luma mean and std (split bottom band, drive-row stage); frame-to-frame motion over 9070-9130; Bit colour in tagged boxes; and the scanner-prop extents at the frame edge. No full-res stills were rendered, because every must-read element measured above the half-scale floors (caps ≥14 px, keywords ≥22 px). I can't verify determinism from frames. The Archive's box ids, states and framings match across S3→S4→S5→S6→S7. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

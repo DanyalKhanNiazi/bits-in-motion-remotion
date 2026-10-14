@@ -1,0 +1,32 @@
+{
+ "id": "S2",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9,
+  "craft": 8.5,
+  "timing": 8.5,
+  "brand": 9,
+  "engagement": 8,
+  "production": 8.5
+ },
+ "score_100": 85.3,
+ "issues": [
+  {
+   "frames": "1829-1859",
+   "severity": "low",
+   "owner": "S2",
+   "what": "After the rewind restores the photo (f1806), the Delete keycap reappears (f1829). A hard cut at f1849 (frame-diff spike) then jumps straight to the bin close-up with the photo already inside (f1859). The second delete is implied, never shown, so the move reads as a jump or a repeated beat just before the 'Empty Recycle Bin' re-hook (f1866-1900).",
+   "fix": "Show the second delete as a quick slide of the icon into the bin over 6–8 f, the same move as f1626-1678 but faster, or match-cut on the keycap press. Alternatively, skip the re-delete and push from the restored row straight to a bin that already holds it."
+  },
+  {
+   "frames": "1472-1500",
+   "severity": "low",
+   "owner": "S2",
+   "what": "The caption 'On your PC's own drive' types on: it shows nothing at f1472 ('On'@1472), 'On' at f1476 (+4 f), and completes at about f1500. Keyword captions should slam on the word, and the first letters land just outside the ±3 f window.",
+   "fix": "Slam the whole caption in at f1472 (with a pop overshoot), or start the type-on at f1469 and complete it within 6 f."
+  }
+ ],
+ "prev_fixed": "v1 #1 (photo leaves during 'doesn't remove anything'): FIXED. The row stays listed and selected through the Delete press (f1532-1618), dims at f1626 ('moves'@1622), and the icon lands in the bin at f1674-1678 ('bin'@1675) with its Bits. v1 #2 (rewind reused for 'skip it'): FIXED. A horizontal whip with blur (f1908-1912) replaces it, and the rewind look is used only for 'restore' (f1782-1800). v1 #3 (blurred 'clusters' label): FIXED. It now sits on a dark hud chip with a leader, crisp, at about 26 half-px ascender (crop of f3005), landing at f2988 ('clusters'@2990). v1 #4 ('platter' footnote): FIXED. The footnote now reads 'Simplified: not the real disk layout' (f2950).",
+ "version": "v2",
+ "method": "I worked from decoded half-scale frames only (out/ep06/v2/ep06_film.mp4, 960×540, decoded index = absolute frame). There was no playback and no audio. I read PLAYBOOK §4-§8, DIRECTION in full, TRANSCRIPT P01-P07, editorial §D V1-V4, §E C00-C07 and C25, and the previous reviews docs/ep06/fixes/S1_v1.json, S2_v1.json, S3_v1.json and range_S1-S3_v1.md. I extracted frames 0-5139 to out/ep06/review/v2/S1-S3/clip_0_5139.mp4 (re-encoded at crf 10). tools/static_check.py --offset 0 found 0 frozen stretches and 0 empty frames (motion median 9.32, min 0.58). A custom 15-frame-gap motion profile found no stretch under 1.5 lasting 30 f or more and no dark or low-variance frames, and a frame-difference cut list located every cut and flash (16, 189, 475-482, 1230-1234, 1273-1275, 1321-1324, 1360-1365, 1686, 1786, 1849, 1909, 2106, 2757, 2794-2799, 2881, 2909-2912, 3352-3359, 3486, 3755-3760, 3801-3805, 4234-4236, 5104). I used 13 images, all in out/ep06/review/v2/S1-S3/: s1_overview (57 frames, step 25), s1_dense (74 frames at word frames), s1_full (9 full frames with 64 px and bottom-140 guides), s1_crops (bins at f0/45/84/100/1404, chips at f906, preview at f1356), s2_overview (59 frames, step 30), s2_dense (83 frames), s2_crops (text at 1520/1876/1940/2045/2600/2775/3005/2950), s3_overview (59 frames, step 33), s3_dense (76 frames), boundaries (36 frames across 1400-1418, 3158-3176 and 5076-5135), s3_full (f3586, 4540, 4920 and 5050 with guides), s3_crops (text) and s3_rewrite (box 021 at f4880/4920/4950/4984/5000, pre-flash card at f3483/3485). Pixel measurements: tag visibility per frame (f1226-1372); box 021's cyan fraction (f4840-5000); progress-bar fill (f4840-4996); the signature card's top row (f380-460); header and label rows for the margins; and the 'File system' plate-header height. The S1-S3 render logs contain 0 '[kit]' warnings. grep found no Math.random or Date in src/ep06. The cues JSON (read as data only) has S1 10 cues (impacts at 187 and 397), S2 13 (2755, 2881) and S3 15 (4526), about 13-14 per minute. I rendered no full-res stills, because every doubtful label measured above the floors on the half-scale frames. The range score is the frame-weighted mean of the three section scores."
+}

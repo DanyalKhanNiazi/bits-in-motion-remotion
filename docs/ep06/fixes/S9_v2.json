@@ -1,0 +1,39 @@
+{
+ "id": "S9",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9.5,
+  "craft": 8,
+  "timing": 9,
+  "brand": 8.5,
+  "engagement": 9,
+  "production": 8.5
+ },
+ "score_100": 87,
+ "issues": [
+  {
+   "frames": "16296-16342",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The hero title 'Delete ≠ Erase' is now above the cards, but its baseline (y≈117 half-scale at f16320) is only about 3 px above the top edge of the paper-white drawer card (y≈120). 'Delete' touches the card, which reads as a near-collision on the film's title line.",
+   "fix": "Raise the title by at least 20 px at 1080p, or keep the drawer 40 px lower until the title exits at 16342."
+  },
+  {
+   "frames": "16928-16972",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The image for 'make sure the boxes were unreadable from the start' is still hard to read during the pull-out. Pale outlines now mark the 9 boxes (f16956–16972), but the glyphs themselves are about 5 px at half scale and grey.",
+   "fix": "Ease the pull-out between 16925 and 16960, or brighten the 9 glyph boxes briefly (PAL.muted to ink) as they land."
+  },
+  {
+   "frames": "15414-15626, 16006-16124",
+   "severity": "low",
+   "owner": "S9",
+   "what": "The scope headers 'Hard drive: gone for good' and 'Before it leaves your hands' are set as small top-left chips, with capitals about 15–16 px tall at half scale. That passes the 14 px floor, but they are smaller than the tip lines (about 22 px), even though they carry the scope that makes cipher /w and the sanitize tool safe advice.",
+   "fix": "Set the scope header at the line's size (≥ 22 px capitals at half scale), or merge it into the line."
+  }
+ ],
+ "prev_fixed": "5 of 7 v1 issues are fixed and 2 are partly fixed. (1) fictional-passport_a is in S8's pull-back from about 14722, so the cut at 14747 has no pop. (2) 'Back to the passport photo', 'Want it back' and 'Want it gone' now sit on dark plates. (3) 'Delete ≠ Erase' over the card is PARTLY fixed: the title no longer sits on white, but it is tangent to the card. (4) The glyph save is PARTLY fixed: pale box outlines were added, but the glyphs are still tiny. (5) The Microsoft strip now reaches 50 % at 15723, after 'Microsoft'@15718. (6) The swap to 'Recover onto a different drive' now happens at 15092–15094, on 'recover'@15093. (7) The sealed board now drops into a shipping box (16100–16120) before the whip.",
+ "version": "v2",
+ "method": "I decoded frames only from out/ep06/v2/ep06_film.mp4 (960×540, 17,023 frames verified by ffprobe), at half scale, and didn't play the video or listen to anything. I extracted [9935,17022] by decoded frame index into out/ep06/review/v2/S7-S9/range.mp4 (7,088 frames, count verified). tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames (motion median 7.78). A custom pass over the same range at 480×270 measured per-frame motion (m1 and m15), luma std and hard cuts; it found no m15<1.5 stretch of 40 f or more, and the near-empty candidates were 13157 (1 f, mid-whip) and 13729–13734 (6 f, at the limit). I viewed 12 images: 3 overview sheets from tools/sheet.py (S7 every 30 frames, 69 frames; S8 every 40, 70; S9 every 33, 69; width 320, 6 columns); 4 dense sheets (d7a: 9929–10162 boundary, shredder, roll and deflect; d8a: 11952–11996 boundary, 12128–12160 coin flip, 12228–12268 flash cut, 12438–12470 opener; d8b: 13150–13166, 13724–13742, 14240–14288, 14500–14560, 14716–14758 boundary; d9a: 15632–15662, 16278–16396 title and strike, 16908–16972 glyph save, 16996–17022 end); and 5 composites of native half-scale crops at 1–2x with a pixel ruler (crops_a to crops_e).\n\nScripts measured: capital heights by row profile (must-read text at 15–20 px, keywords and heroes at 30–64 px, attributions at 12 px = footnote role, the verdict 'T' at 20 px); the 50 % onsets and exits of 45 labels against TRANSCRIPT.md; cyan, coral, amber and magenta pixel counts at 9935–10180, 10280–10740, 11980–12260, 12960–13150, 13470–13740 and 16840–17022; text in the bottom 140 px band every 20 frames across the range (only footnotes found); the left and right extents of 12 text lines (all within the 64 px margin); the right extent of the 'fresh' caption over 11536–11668; and the edge clipping on the coin flip (1–2 f only, mid-blur, not listed).\n\nI rendered no full-resolution stills. I read PLAYBOOK §4–§8, DIRECTION (in full), TRANSCRIPT S7–S9, the ledger C15–C26, the S7–S9 plans and the v1 reviews S7_v1, S8_v1, S9_v1 and range_S7-S9_v1. The render logs out/ep06/v2/S7.log, S8.log and S9.log have 0 [kit] warnings. I grepped the kit for the glyph alphabets to name the owner of the digit-glyph issue. The range score is the frame-weighted mean of the three section scores (84.75, 84.0, 87.0), which is 85.2. Working files are in /home/user/bits-in-motion-remotion/out/ep06/review/v2/S7-S9/."
+}

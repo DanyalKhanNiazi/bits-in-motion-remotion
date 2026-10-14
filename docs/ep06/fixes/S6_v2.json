@@ -1,0 +1,39 @@
+{
+ "id": "S6",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9.5,
+  "craft": 8,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 9,
+  "production": 8.5
+ },
+ "score_100": 86.25,
+ "prev_fixed": "1 (high, near-empty stage at 9746-9808): FIXED. The array with its lit drives is in place as the whip lands (9754-9760), the note sits left, and 'Certain multi-drive arrays' lands at 9850 ('certain'@9842). The refusal ring fires at 9892 ('never'@9890). 2 (med, flat bottom 300 px; erase only a few pixels): PARTLY fixed. The panel Archives are larger (boxes ≈37 px at 1080p), but the erase is still late and brief, and y 780-1080 stays flat until the verdict (issue 2). 3 (low, magenta 'Nothing'): FIXED. It is coral (f8920). 4 (low, 'chip' early): FIXED. 'Depends on who made' lands by 9550 and 'the chip' at 9556 ('chip'@9553), with an amber chip ripple. 5 (low, 14 must-read words): FIXED. The band label is gone by 9682, before the stamp at 9685-9688; the peak is now 9 words. 6 (low, weak 'How fast' re-hook): FIXED. The clock glyph swells to ≈90 px over 8994-9060, and the right tray keeps its empty dashed frame (f9040). 7 (low, a lone 70 px drive): FIXED. The zoom-through keeps the drive at hero size (9066), and the row of 16 appears on 'drive' (9084).",
+ "issues": [
+  {
+   "frames": "8417-8536",
+   "severity": "med",
+   "owner": "S6",
+   "what": "The re-hook QuestionCard 'What will the drive do?' (keyword caps ≈56-58 px at 1080p, inside the floors) overlaps the photo's white index card. The text runs from y≈456 to 536 at 1080p and the card's lower edge is at y≈516, over x≈376-670 (f8470). So the white words 'What will the' sit partly on white paper, and the drop shadow alone separates them. This is a keyword-on-hero-prop collision on a re-hook.",
+   "fix": "Set the card over the wall right of the boundary (x≥900 at 1080p), or reframe the drawer up and left by about 80 px for 8410-8540. Otherwise give the QuestionCard its dark scrim so no letter sits on the paper."
+  },
+  {
+   "frames": "8719-8745 (and 8656-8900 for the bottom band)",
+   "severity": "med",
+   "owner": "S6",
+   "what": "In the mid-film hero, the SSD's erase on 'erases them' (8721) is a blink. Amber in the SSD panel only crosses from left to right over 8732-8742, which is +11 f late and lasts about 10 f. By 8744 the cyan is gone (cyan pixel share in the panel falls from 4.7% to 0). Only the clock glyph (8726) comes before it. Through the whole race the bottom 300 px of the split (y 780-1080) stays flat: luma 15-22, std 6-11 at f8704, 8740 and 8790, until the verdict at 8903.",
+   "fix": "Start the sweep at 8719-8721 and run it ≥24 f across the panel, ending on 'them' (8738-8745). Swell the clock glyph with it, and give the erased boxes their 14 f amber edge sweep. Use the free lower band by sliding both panels' content about 60 px down, or by placing the scanners lower, until the verdict lands."
+  },
+  {
+   "frames": "9084-9115",
+   "severity": "low",
+   "owner": "S6",
+   "what": "After the zoom-through, the 16-drive row fills only a band at y≈420-720 at 1080p. The rest of the stage is empty (rows above y 420 have luma 22-26, std 9-14) for about 30 f before the study frame starts building on 'study' (9116). The stage reads as sparse during 'depends on the drive'.",
+   "fix": "Bring the study frame's corner brackets and the dim title plate in with the multiply at 9084, or start the camera push into the row there, so the frame is composed as the drives land."
+  }
+ ],
+ "version": "v2",
+ "method": "Decoded frames only; no playback and no audio. I read PLAYBOOK §4-§8, DIRECTION (all of it), TRANSCRIPT P08-P15, ledger rows C08-C14 (grep), and fixes S4/S5/S6_v1.json plus range_S4-S6_v1.md. Render logs S1-S9 v2 contain 0 '[kit]' warnings. I extracted 5074-9965 from out/ep06/v2/ep06_film.mp4 by decoded index (4,892 frames, count verified) into out/ep06/review/v2/S4-S6/clip_5074_9965.mp4. tools/static_check.py --offset 5074 reports 0 frozen stretches at both the 0.35 and 1.0 thresholds, and 0 empty frames. I used 13 images in all. From tools/sheet.py: overview sheets for S4, S5 and S6 every 30 f (52/59/52 frames, width 320); three native 960 px detail sheets of 8 text-heavy frames each; word-sync sheets for S4 and S6 (48 frames each, at the word frames ±3) and a 48-frame S5 beats sheet (match cut, flip, hero/dive, refusal, sweep, boundary, TRIM); a boundary sheet (5098-5108, 6642-6656, 8396-8410 and 9922-9950, every 2 f). From my own crops of half-scale frames: a race/tray/sweep/split/QuestionCard/flip crop sheet, a 2× crop comparing the f8710 HDD and SSD panels (steel against graphite, confirmed), and a tray strip (f5670, 5690, 6560, 9040). Measurements without images: cap heights from connected components of bright pixels on half-scale frames (about 30 text elements); onset and exit series from bright-pixel fractions in label boxes across the frame-indexed gray decode (Recovery, quote strip, verdict, chips, 'Still full', 'For drives', QuestionCard, Unlisted, Gone, 'At most', 'Distinctive header'); amber, cyan and coral pixel fractions in the SSD panel for the erase timing (8714-8746); per-band luma mean and std (split bottom band, drive-row stage); frame-to-frame motion over 9070-9130; Bit colour in tagged boxes; and the scanner-prop extents at the frame edge. No full-res stills were rendered, because every must-read element measured above the half-scale floors (caps ≥14 px, keywords ≥22 px). I can't verify determinism from frames. The Archive's box ids, states and framings match across S3→S4→S5→S6→S7. Range score = section scores weighted by length (1545/1755/1531 f)."
+}

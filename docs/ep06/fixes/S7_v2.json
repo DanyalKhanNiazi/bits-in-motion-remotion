@@ -1,0 +1,32 @@
+{
+ "id": "S7",
+ "criteria": {
+  "clarity": 8.5,
+  "accuracy": 9,
+  "craft": 8,
+  "timing": 8.5,
+  "brand": 8.5,
+  "engagement": 8.5,
+  "production": 8.5
+ },
+ "score_100": 84.75,
+ "issues": [
+  {
+   "frames": "10754-10924",
+   "severity": "med",
+   "owner": "S7",
+   "what": "The QuestionCard 'Try the hard-drive method on an SSD?' (half-scale text box x≈107–830, y≈69–108) sits partly on the paper-white drawer card (card x≈47–237, top edge y≈86 at f10835). The lower half of 'Try the' is white-on-pale and the card's coral strike runs behind 'the' (1.5x crops at f10760 and f10835). This is the P17 re-hook and must-read, and the overlap lasts about 170 frames.",
+   "fix": "Start the card at x ≥ 260 half-scale (≥ 520 px at 1080p), or raise it above the drawer (y ≤ 60 half). Another option is to dim the drawer card under a dark plate behind the question, or keep the drawer off-frame until the 10916 push."
+  },
+  {
+   "frames": "11662-11675",
+   "severity": "low",
+   "owner": "S7",
+   "what": "The P17 strip ('Writing over it can't reach every place old data was stored' / '— NIST · flash with spare cells') reaches 50 % of its pixels at 11675, 12–13 f after 'NIST'@11662, which is outside ±3. Because it enters late, 'Can land somewhere fresh' has to leave at 11665, only about 5–10 f after its sentence ends ('reach.'@11638), short of the 15-frame hold.",
+   "fix": "Bring the strip in at 11660 and hold 'Can land somewhere fresh' until about 11655. The two can overlap: together they are 4 + 10 words, which is ≤ 12 counted words."
+  }
+ ],
+ "prev_fixed": "All 6 v1 issues are fixed. (1) The 'Can land somewhere fresh' text now ends at x=857 half-scale (1714 at 1080p) for every frame 11542–11662, so it no longer clips. (2) There is no cyan after the HDD_WIPED wave: 0 cyan px at every 10th frame 10360–10730. (3) The P15 hero beat now plays full-frame after the roll. Boxes are about 25 px wide at half scale, the stream bends visibly to a box 3 to the right (10142–10162), and the reset is cued by a ◀◀ glyph and a reversed amber sweep (10046–10060). (4) The P17 strip body is now 10 words plus a source line. (5) The P16 strip is reported speech, 'Overwriting typically hinders recovery', and the attribution capitals are 12 px at half scale (footnote role). (6) The deflected write lands in a white ring with 0 coral px from 10040 to 10180.",
+ "version": "v2",
+ "method": "I decoded frames only from out/ep06/v2/ep06_film.mp4 (960×540, 17,023 frames verified by ffprobe), at half scale, and didn't play the video or listen to anything. I extracted [9935,17022] by decoded frame index into out/ep06/review/v2/S7-S9/range.mp4 (7,088 frames, count verified). tools/static_check.py with --offset 9935 found 0 frozen stretches and 0 empty frames (motion median 7.78). A custom pass over the same range at 480×270 measured per-frame motion (m1 and m15), luma std and hard cuts; it found no m15<1.5 stretch of 40 f or more, and the near-empty candidates were 13157 (1 f, mid-whip) and 13729–13734 (6 f, at the limit). I viewed 12 images: 3 overview sheets from tools/sheet.py (S7 every 30 frames, 69 frames; S8 every 40, 70; S9 every 33, 69; width 320, 6 columns); 4 dense sheets (d7a: 9929–10162 boundary, shredder, roll and deflect; d8a: 11952–11996 boundary, 12128–12160 coin flip, 12228–12268 flash cut, 12438–12470 opener; d8b: 13150–13166, 13724–13742, 14240–14288, 14500–14560, 14716–14758 boundary; d9a: 15632–15662, 16278–16396 title and strike, 16908–16972 glyph save, 16996–17022 end); and 5 composites of native half-scale crops at 1–2x with a pixel ruler (crops_a to crops_e).\n\nScripts measured: capital heights by row profile (must-read text at 15–20 px, keywords and heroes at 30–64 px, attributions at 12 px = footnote role, the verdict 'T' at 20 px); the 50 % onsets and exits of 45 labels against TRANSCRIPT.md; cyan, coral, amber and magenta pixel counts at 9935–10180, 10280–10740, 11980–12260, 12960–13150, 13470–13740 and 16840–17022; text in the bottom 140 px band every 20 frames across the range (only footnotes found); the left and right extents of 12 text lines (all within the 64 px margin); the right extent of the 'fresh' caption over 11536–11668; and the edge clipping on the coin flip (1–2 f only, mid-blur, not listed).\n\nI rendered no full-resolution stills. I read PLAYBOOK §4–§8, DIRECTION (in full), TRANSCRIPT S7–S9, the ledger C15–C26, the S7–S9 plans and the v1 reviews S7_v1, S8_v1, S9_v1 and range_S7-S9_v1. The render logs out/ep06/v2/S7.log, S8.log and S9.log have 0 [kit] warnings. I grepped the kit for the glyph alphabets to name the owner of the digit-glyph issue. The range score is the frame-weighted mean of the three section scores (84.75, 84.0, 87.0), which is 85.2. Working files are in /home/user/bits-in-motion-remotion/out/ep06/review/v2/S7-S9/."
+}
