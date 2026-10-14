@@ -1,0 +1,43 @@
+{
+ "id": "S8 (15091-17079) The tricks",
+ "score_100": 75,
+ "best": "The levers on the Bridge ('Fewer bytes per token' / 'More tokens per trip') give the tricks a physical grammar. The 16/8/4-bit trays and the shrinking crates, with 'Costs accuracy' landing on 'cost' (15698), are clear. The bent 'ONE AT A TIME' ruler (16200) is a memorable image. The draft-and-check run (✓✓✓✗ at 16440, Kept/Dropped) is readable. Every number matches the voice: 'More than 40% faster', 'not ×2', '×2–3 faster'.",
+ "issues": [
+  {
+   "frames": "15106-15200, 16120-16200, 16540-16600",
+   "severity": "high",
+   "what": "Hero text collides with the 3D set. 'The tricks' is drawn across the tower and the die. 'Speculative decoding' runs over the bridge rail and the tower top. 'One trip → several pieces' runs into the die ('pieces' sits on the die face).",
+   "fix": "Lay these out in reserved clear space: the top band (y < 260) or the left third with the set pushed right. Or put a soft dark scrim behind the text and offset the camera so the text never overlaps an asset."
+  },
+  {
+   "frames": "15780-16040",
+   "severity": "high",
+   "what": "NVIDIA single-user test: two lanes of about 14 px word tiles ('Each new piece needs the ones before...') plus about 6 small labels, which is clutter and unreadable at 390 px. The capsule bars are hard to parse, and the 40% hero is the only thing that reads.",
+   "fix": "Remove the word-tile rows, or replace them with blank white tiles. Make the lanes 2× taller with 48 px '16-bit' / '8-bit' labels, and show the run capsule split as two big coloured segments labelled 'Moving the weights' and 'Other work' at 44 px."
+  },
+  {
+   "frames": "16860-17076",
+   "severity": "med",
+   "what": "The Normal/Speculative split chat is close to a slide for about 7 s: two nearly static text panels in small type, with only the '×2–3 faster' keyword moving. The 'Same answer' chip also overclaims. The voice says 'without changing what the big model is likely to say', which describes the same odds, not the same answer, and the qualifying footnote is tiny.",
+   "fix": "Stream both panels live: the Speculative panel's text arrives in bursts of 3-4 words per crate, the Normal panel's one word at a time. Add a slow push. Change the chip to 'Same odds as the big model' (at least 40 px) and drop the footnote."
+  },
+  {
+   "frames": "15091-15420, 16080-16140",
+   "severity": "med",
+   "what": "Answer tiles popping out of the die fly up and are clipped at the top-right edge as tiny unreadable tags. The 'Batching' tag stays stuck on the die into the speculative opener (16140), where it is stale.",
+   "fix": "Keep popped tiles inside the 64 px safe frame, landing them in an answer strip, and fade the 'Batching' tag before 16100."
+  },
+  {
+   "frames": "15240-15420",
+   "severity": "med",
+   "what": "Lever nameplates and tags ('Fewer bytes per token', 'More tokens per trip', 'Batching', '8-bit') are about 24 px.",
+   "fix": "Raise them to at least 44 px on pill backings, or show each one as a 64 px keyword when spoken, then shrink it to the plate."
+  },
+  {
+   "frames": "15470-15560",
+   "severity": "low",
+   "what": "The 4-bit tray enters cropped at the right edge, and its label arrives as a blurred ghost before the camera settles.",
+   "fix": "Start the pan so all three trays sit inside the safe frame by 15539 ('4'), and pop '4 bits' after the tray lands."
+  }
+ ]
+}

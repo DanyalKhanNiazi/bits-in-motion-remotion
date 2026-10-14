@@ -1,0 +1,37 @@
+{
+ "id": "S1 (0-1581) Hook",
+ "score_100": 81,
+ "v1_issues_fixed": "FIXED: beauty-shot opening (f0 now opens on the payoff: Read and Write monitors with large timers; Read hits 0.03 s by f5 while Write climbs 0.1 to 2.9 s through f95; the GPU arrives only at f80-100 as the source); the 200-292 static hold (now a large centred '≈750 words' pill and 'Read 0.00 s' to 'under 0.03 s' at about 60 px, with a push); 'Barely noticed' spacing (correct at f1580). PARTLY FIXED: 'For ONE piece!' (now about 60-70 px with ONE in cyan, readable on a phone at f1100, but it does not slam at 96-120 px, and the 'good' tile is still about 30 px); the near-empty frame after it (cut from about 65 frames to about 25). NOT FIXED: the left-cropped giant answer line at f610-730 ('g slowed and suppliers raised prices.' is cut mid-word, with only a soft fade); there is still no title moment (the tiles assemble at f1280 and whip away at f1310).",
+ "remaining": [
+  {
+   "frames": "610-730, 760-860",
+   "severity": "med",
+   "what": "The answer line is still cut at the left edge mid-word ('g slowed and suppliers...', 'verall,' at f820-860), and the tiles morph over the plain text at f730 ('Overall the outlook' ghosted over its own tiles). It reads as accidental."
+  },
+  {
+   "frames": "0-90",
+   "severity": "low",
+   "what": "The hook is strong but rests only on the two timers. Both monitors' contents are unreadable texture at phone size, and the 'x200' contrast is not foreshadowed in the first 3 s. 'A small AI model' and 'A single data-center GPU' are about 30-36 px."
+  },
+  {
+   "frames": "1080-1112",
+   "severity": "med",
+   "what": "'For ONE piece!' is improved but still a polite caption beside the crate (about 60-70 px). The token 'good' is about 30 px. There is no scale slam, shake or dolly on 'piece!' (f1097), so the film's key contrast image still under-lands."
+  },
+  {
+   "frames": "1124-1150",
+   "severity": "med",
+   "what": "Near-empty navy frame with one thin cyan line and the Bit for about 25 frames, under 'Let's follow one question'. This breaks the 6-frame empty-frame rule."
+  },
+  {
+   "frames": "930-1010",
+   "severity": "low",
+   "what": "'That model, one conversation' (about 22 px) and 'Where the math happens' (about 30 px) are below the 40 px minimum. 'Clearly slowed' and 'Barely noticed' are about 30-36 px."
+  },
+  {
+   "frames": "1240-1320",
+   "severity": "low",
+   "what": "There is no title or opener card after the 11 tiles assemble; the moment is spent on a whip."
+  }
+ ]
+}

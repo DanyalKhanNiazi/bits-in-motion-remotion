@@ -1,0 +1,37 @@
+{
+ "id": "S5 (6524-9506) Weights and the Bridge",
+ "score_100": 84,
+ "v2_issues_fixed": "4 of 7 fixed, 2 partly fixed, 1 not fixed. FIXED: (1) The must-read labels on the GPU and Bridge now read at 390 px: 'The card's own memory' (7590), 'Tiny on-chip storage' (7700), 'The math happens here' (7790), 'Memory' and 'Math units' (about 48 px at 7950), 'NVIDIA H100' (8520), 'Narrow bridge' and 'faster still' (8790), and 'Your reading speed' (9440). (2) The 'Every token' / 'All of them' collision is gone (8261-8264 shows only 'All of them'). (3) 'Every token' no longer sits under the tile row; it is bottom left and clear (8444-8461). (4) The '8 billion weights' type is no longer stacked on the ChatGPT, Claude and Gemini cards (7274-7374 is a clean equation set). PARTLY FIXED: (5) The Bridge reveal now uses the premium HBM tower and die with the owner's weight-crate render, after a dive-through at 7813-7822. The title lands at about 7874-7880 (word 7873), 'Memory' by 7924 (word 7904) and 'Math units' by 7950 (word 7940). It is still a side or three-quarter view of a thin deck on stick legs, with no low-angle hero move. (6) 'also called parameters' is no longer hidden behind a tile, but it is a tiny 'also' under 'Weights' at 6624. NOT FIXED: (7) The model-size cards are blank 6774-6824, then hold with low motion 6868-6935 (67 frames).",
+ "remaining": [
+  {
+   "frames": "8905-8990",
+   "severity": "med",
+   "what": "85 frames of low motion on the '≈300× longer' stopwatch setup before the 1 s clock starts (8989). This breaks the 45-frame rule. At about 8961 the incoming 'Math' label lands on the footnote 'On paper: peak spec rates' (about 16 px), so it reads 'peak spe[Math]rates' (confirmed at 390 px)."
+  },
+  {
+   "frames": "7830-8030",
+   "severity": "med",
+   "what": "The Bridge reveal is on sync and now premium, but it is still a mostly lateral reframe of a side view. The deck is a thin strip on two stick legs and the crates are small (8000). There is no crane-up or foreground haze. At 7950-7974 the 'The bridge' title overlaps the HBM tower roof."
+  },
+  {
+   "frames": "9040-9077",
+   "severity": "low",
+   "what": "Clock semantics: the red Delivery dial shows a '1 s' chip next to '5 min' while its hand sits at 12. The Math clock gains a pink ring and a pause mark. The intent (math done, delivery barely started) is right, but the '1 s' chip on the 5-minute dial is ambiguous."
+  },
+  {
+   "frames": "6774-6935",
+   "severity": "low",
+   "what": "The ChatGPT, Claude and Gemini glass cards are blank for about 100 frames, then hold on '?' with 67 low-motion frames (6868-6935)."
+  },
+  {
+   "frames": "7424, 7174-7224",
+   "severity": "low",
+   "what": "'◀◀ From the start' is still about 14-16 px (7424). The bit-diagram labels '16' and '1 byte' are about 18-20 px (7174-7224)."
+  },
+  {
+   "frames": "9261-9480",
+   "severity": "low",
+   "what": "The gauge render is premium and its 150 tokens/s readout and '≈¾ of the limit' are correct. The limit itself is not marked on the dial. '≈¾ of the limit' sits at about y 895-930, close to the bottom 140 px."
+  }
+ ]
+}

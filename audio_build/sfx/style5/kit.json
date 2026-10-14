@@ -1,0 +1,226 @@
+{
+ "style": 5,
+ "name": "Live Panels",
+ "release_delay_ms": 140,
+ "cues": {
+  "button_press": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/button_press.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/mouse-click-153941.mp3",
+   "processing": "press 0.068-0.115 s, attack aligned, 0.5/10 ms fades",
+   "level_db": -12.0,
+   "dur_ms": 42.6,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    3.0,
+    22.7,
+    4.8,
+    69.5
+   ],
+   "level_db_f0": -16.0
+  },
+  "button_release": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/button_release.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/mouse-click-153941.mp3",
+   "processing": "release 0.158-0.205 s; played 2.7 dB under its press (its natural ratio per sfx_style5.md)",
+   "level_db": -14.7,
+   "dur_ms": 42.9,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    12.3,
+    25.8,
+    3.8,
+    58.1
+   ]
+  },
+  "land_A": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/land_A.wav",
+   "source": "synthesized (numpy)",
+   "processing": "soft celesta-like tone A 440.0 Hz: 1x (tau 160 ms), 2x -14 dB, 3x -26 dB, 4x -22 dB, 3 ms attack, 300 ms with 120 ms fade",
+   "level_db": -14.0,
+   "dur_ms": 300.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.48,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 440.0
+  },
+  "land_C": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/land_C.wav",
+   "source": "synthesized (numpy)",
+   "processing": "soft celesta-like tone C 523.3 Hz: 1x (tau 160 ms), 2x -14 dB, 3x -26 dB, 4x -22 dB, 3 ms attack, 300 ms with 120 ms fade",
+   "level_db": -14.0,
+   "dur_ms": 300.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.5,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    99.7,
+    0.3,
+    0.0
+   ],
+   "f0_hz": 523.3
+  },
+  "land_D": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/land_D.wav",
+   "source": "synthesized (numpy)",
+   "processing": "soft celesta-like tone D 587.3 Hz: 1x (tau 160 ms), 2x -14 dB, 3x -26 dB, 4x -22 dB, 3 ms attack, 300 ms with 120 ms fade",
+   "level_db": -14.0,
+   "dur_ms": 300.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.5,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    99.7,
+    0.3,
+    0.0
+   ],
+   "f0_hz": 587.3
+  },
+  "land_E": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/land_E.wav",
+   "source": "synthesized (numpy)",
+   "processing": "soft celesta-like tone E 659.3 Hz: 1x (tau 160 ms), 2x -14 dB, 3x -26 dB, 4x -22 dB, 3 ms attack, 300 ms with 120 ms fade",
+   "level_db": -14.0,
+   "dur_ms": 300.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.9,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    99.7,
+    0.3,
+    0.0
+   ],
+   "f0_hz": 659.3
+  },
+  "land_G": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/land_G.wav",
+   "source": "synthesized (numpy)",
+   "processing": "soft celesta-like tone G 784.0 Hz: 1x (tau 160 ms), 2x -14 dB, 3x -26 dB, 4x -22 dB, 3 ms attack, 300 ms with 120 ms fade",
+   "level_db": -14.0,
+   "dur_ms": 300.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.77,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    99.7,
+    0.3,
+    0.0
+   ],
+   "f0_hz": 784.0
+  },
+  "lens_open": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/lens_open.wav",
+   "source": "synthesized (numpy)",
+   "processing": "bowed-vibraphone-like swell on C4 261.6 Hz (+4x -24 dB): 150 ms rise, 30 ms hold, 70 ms release; 250 ms",
+   "level_db": -14.0,
+   "dur_ms": 250.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 25.5,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    99.6,
+    0.0,
+    0.4,
+    0.0
+   ]
+  },
+  "lens_close": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/lens_close.wav",
+   "source": "synthesized (numpy)",
+   "processing": "exact reverse of lens_open",
+   "level_db": -14.0,
+   "dur_ms": 250.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 11.77,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    99.6,
+    0.0,
+    0.4,
+    0.0
+   ]
+  },
+  "lock": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/lock.wav",
+   "source": "synthesized (numpy)",
+   "processing": "two dry celesta ticks E6 1318.5 Hz (tau 6 ms, 2x -15 dB) 40 ms apart, 2nd -1 dB, HP 700 Hz",
+   "level_db": -15.0,
+   "dur_ms": 75.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.06,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    1.0,
+    99.0,
+    0.0
+   ]
+  },
+  "standby_loop": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/standby_loop.wav",
+   "source": "synthesized (numpy)",
+   "processing": "held bowed-vibraphone-like A2 110 Hz + octave -11 dB, slow 0.25 Hz +-1 dB swell, LP 250 Hz 24 dB/oct; exactly periodic 20.0 s loop",
+   "level_db": -26.0,
+   "dur_ms": 20000.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    100.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "length_s": 20.0,
+   "wrap_jump_vs_p99_step": 0.067,
+   "rms_50ms_range_db": 2.22
+  },
+  "energize": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/energize.wav",
+   "source": "synthesized (numpy)",
+   "processing": "A1/A2/E3 swell 450 ms, HP none, LP 400 Hz, 300 ms quarter-sine rise, 150 ms fall",
+   "level_db": -11.0,
+   "dur_ms": 450.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 52.06,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    100.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "dive": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/dive.wav",
+   "source": "synthesized (numpy)",
+   "processing": "rising vibraphone-like glide C4 -> C5 over 520 ms (+4x -22 dB), peaks at its end",
+   "level_db": -11.0,
+   "dur_ms": 520.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 68.27,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    3.5,
+    95.9,
+    0.6,
+    0.0
+   ]
+  },
+  "alert": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style5/alert.wav",
+   "source": "synthesized (numpy)",
+   "processing": "two dull thumps on C3 (110 ms, 10% drop), 105 ms apart, 2nd -1.5 dB, LP 600 Hz",
+   "level_db": -9.0,
+   "dur_ms": 235.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.92,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    99.8,
+    0.2,
+    0.0,
+    0.0
+   ]
+  }
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "style": 5,
+ "_provisional": "from Motion Brand/stage_a_files/sound/sfx_style5.md cue table, mapped to the Part A A7 vocabulary (button on f0/f1837 only; standby end f1817 as in the A7 example)",
+ "cues": [
+  {
+   "cue": "button",
+   "frame": 0
+  },
+  {
+   "cue": "land",
+   "frame": 59,
+   "note": "A"
+  },
+  {
+   "cue": "lens_open",
+   "frame": 197
+  },
+  {
+   "cue": "land",
+   "frame": 498,
+   "note": "A"
+  },
+  {
+   "cue": "lens_open",
+   "frame": 608
+  },
+  {
+   "cue": "land",
+   "frame": 748,
+   "note": "A"
+  },
+  {
+   "cue": "land",
+   "frame": 781,
+   "note": "C"
+  },
+  {
+   "cue": "land",
+   "frame": 808,
+   "note": "D"
+  },
+  {
+   "cue": "land",
+   "frame": 832,
+   "note": "E"
+  },
+  {
+   "cue": "land",
+   "frame": 860,
+   "note": "G"
+  },
+  {
+   "cue": "standby",
+   "start": 1475,
+   "end": 1817
+  },
+  {
+   "cue": "lock",
+   "frame": 1798
+  },
+  {
+   "cue": "button",
+   "frame": 1837
+  }
+ ]
+}

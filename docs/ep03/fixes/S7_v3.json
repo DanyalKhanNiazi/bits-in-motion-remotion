@@ -1,0 +1,32 @@
+{
+ "id": "S7 (11907-15090) The three waits",
+ "score_100": 84,
+ "v2_issues_fixed": "Mostly fixed. FIXED: (1) 'Next token for every conversation' now sits in clear space to the left of the batch tray, with no text-on-asset collision (14130-14180). (2) The tradeoff payoff: 'slower' slams in at 15062 (word at 15061) and stays fully legible to 15090, about 28 frames, because the whip blurs only the monitor while the left column holds. The coral gap markers are now underlines, not stray hyphens (15050-15090). (3) The 'Weights' tags are no longer seen clipped to 'Weigh' or 'eights' at 13300 and 13860; the note stacks read cleanly. New since v2: the owner-supplied weight crate lands on 'Much bigger' (12432); '≈1 GB per 8,000 tokens' is a strong hero number (13672); and the door transitions plus numbered badges give a clear 1-2-3 structure. Bridge check: the S7 Bridge (12340, 13300, 13860) matches S5 (8300-9300), with the same gold-pinned HBM tower, cyan glass deck on glowing pylons, die with gold cache and navy grid floor. NOT FIXED: the tradeoff is still a mostly static monitor with chat text of about 26 px; the source tags are still small; the 8/16-slot rails are still unlabeled at 14400-14470; and the 'Ours' bridge shot is still sparse (12357).",
+ "remaining": [
+  {
+   "frames": "14866-15090",
+   "severity": "med",
+   "what": "The tradeoff payoff, the chapter's punchline, still reads like a slide: a static monitor and a left text column. The chat text inside the monitor is about 26 px, so it cannot be read on a phone. The left labels 'Each token:' and 'Your stream:' are about 44 px, under the 64 px keyword size. The hold rule is now met; the remaining problem is the composition."
+  },
+  {
+   "frames": "12580-12660, 14370-14440",
+   "severity": "low",
+   "what": "'Anthropic says' and 'NVIDIA's benchmark' are about 30-36 px source tags, under the 40 px must-read minimum. At 14400-14470 the two 8-slot rails have no words on screen until '8 bits per weight' lands at about 14480."
+  },
+  {
+   "frames": "13630-13672",
+   "severity": "low",
+   "what": "The 8,000 counter rolls up through 1,250 → 7,302 → 7,975 and lands on 8,000 at about 13665-13672, about 25 frames after the spoken '8' (13639). It does land on 'tokens' (13661), but for about a second the screen shows numbers that are never spoken."
+  },
+  {
+   "frames": "12330-12420",
+   "severity": "low",
+   "what": "The plain-bridge shot with three small crates is still mostly empty deck and floor until the big crate arrives at about 12430."
+  },
+  {
+   "frames": "12880-12900, 13400-13420",
+   "severity": "low",
+   "what": "The door labels ('Before the first word', 'When it's busy') and the 'And long chats?' pill are about 24-28 px. They are brief, but they cannot be read at 390 px."
+  }
+ ]
+}

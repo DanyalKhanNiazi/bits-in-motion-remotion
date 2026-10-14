@@ -1,0 +1,22 @@
+{
+ "id": "S9 (17080-18366) Close and sign-off",
+ "score_100": 87,
+ "v2_issues_fixed": "Largely fixed. FIXED: (1) In the loop shot the answer-strip tiles no longer stack or collide; 'before it, the answer is' runs cleanly at about 40 px, above the bottom 140 px (17245). (2) 'One after another' is now a large label centred in the ring (17350), not a 40 px aside. (3) The tilt to the answer tiles no longer half-crops the question row; the question is fully in frame at 17620, then exits cleanly. (4) The finale chat text is about 40-48 px at 18200-18240 and about 36-40 px at the final frame, so the callback words 'gigabytes of numbers cross a bridge, again and again, piece after piece' can be read. They type on within about 3-7 frames of each spoken word (sampled every 8 frames). (5) The final hold is not static: the mean frame difference stays about 0.6-0.7 through 18348-18366, and 'B / Bits in Motion' types on at 18296-18328 at about 70 px cap, above the bottom 140 px. CALLBACK AND ENDING: the question rebuilds as 11 tiles (17395-17575), a lens dive goes through 'before' into the Bridge, and 'It's the trip.' lands on the hero bridge with the weight crate (17845). The tile ring whips (17890) into the opening's Read/Write bars on the reader monitor (17935-18025), a direct callback to the hook. A long pull-back goes from crates on the bridge (18070-18160) out through the reader-desk monitor. The Bridge is identical to S5 throughout. No stretch of more than 45 frames under the low-motion threshold anywhere in 11907-18366.",
+ "remaining": [
+  {
+   "frames": "17080-17110",
+   "severity": "low",
+   "what": "On the section's first frames, the carried-over answer strip ('piece depends on the') is large and sits in the bottom 140 px. It is clipped by the left and bottom frame edges before it shrinks into the loop shot."
+  },
+  {
+   "frames": "17080-17320",
+   "severity": "low",
+   "what": "The loop composition is still a small ring on a big floor for about 8 s, and the strip tiles are about 30-40 px. It is clean but calm for the paragraph that states the film's rule."
+  },
+  {
+   "frames": "18300-18366",
+   "severity": "low",
+   "what": "The sign-off frame is attractive but plain: there is no end-screen space or subscribe prompt, and the wordmark sits over the monitor's lower bezel. This is a brand-frame choice, not a defect."
+  }
+ ]
+}

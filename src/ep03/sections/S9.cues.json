@@ -1,0 +1,14 @@
+[
+  {"frame": 17134, "kind": "pop", "strength": 0.4},
+  {"frame": 17313, "kind": "pop", "strength": 0.5},
+  {"frame": 17358, "kind": "whoosh", "strength": 0.55},
+  {"frame": 17672, "kind": "riser", "strength": 0.5},
+  {"frame": 17850, "kind": "impact", "strength": 0.85},
+  {"frame": 17880, "kind": "whoosh", "strength": 0.5},
+  {"frame": 17918, "kind": "pop", "strength": 0.6},
+  {"frame": 17958, "kind": "type", "strength": 0.45},
+  {"frame": 18027, "kind": "whoosh", "strength": 0.5},
+  {"frame": 18172, "kind": "swell", "strength": 0.5},
+  {"frame": 18277, "kind": "crate", "strength": 0.35},
+  {"frame": 18295, "kind": "sting", "strength": 0.6}
+]

@@ -1,0 +1,255 @@
+{
+ "style": 6,
+ "name": "Signal Atlas",
+ "release_delay_ms": 200,
+ "cues": {
+  "button_press": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/button_press.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/rm click (3).wav + synthesized 90 Hz body",
+   "processing": "the real press at f1837: rm click (3) press 0.110-0.150 s (attack aligned, 0.5/8 ms fades) + a 90 Hz sine body (2 ms attack, tau 22 ms, 2x -14 dB) at -5 dB re the click, 110 ms",
+   "level_db": -9.0,
+   "dur_ms": 110.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.5,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    98.8,
+    0.1,
+    0.5,
+    0.7
+   ]
+  },
+  "button_press_f0": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/button_press_f0.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/rm click (3).wav",
+   "processing": "the f0 preview press: the click alone (no 90 Hz body, bible \u00a712); the cue's gain_db -4 makes it 4 dB quieter",
+   "level_db": -9.0,
+   "dur_ms": 36.4,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.8,
+    2.0,
+    38.5,
+    58.6
+   ]
+  },
+  "button_release": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/button_release.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/rm click (3).wav",
+   "processing": "release 0.325-0.365 s (the same switch's own, naturally softer); played 4 dB under its press, 200 ms after the frame (the cap's release starts 6 frames after contact)",
+   "level_db": -13.0,
+   "dur_ms": 38.5,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    7.6,
+    7.9,
+    61.2,
+    23.3
+   ]
+  },
+  "land_A": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/land_A.wav",
+   "source": "synthesized (numpy)",
+   "processing": "glass-pixel bell A 440.00 Hz: sine (1.5 ms attack, tau 28 ms, about 70 ms to -22 dB) whose attack adds 3x at -10 dB (tau 5 ms) and 5x at -16 dB (tau 3 ms); 120 ms with a 30 ms fade; body in 300 Hz-1 kHz",
+   "level_db": -12.0,
+   "dur_ms": 120.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.25,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 440.0
+  },
+  "land_C": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/land_C.wav",
+   "source": "synthesized (numpy)",
+   "processing": "glass-pixel bell C 523.25 Hz: sine (1.5 ms attack, tau 28 ms, about 70 ms to -22 dB) whose attack adds 3x at -10 dB (tau 5 ms) and 5x at -16 dB (tau 3 ms); 120 ms with a 30 ms fade; body in 300 Hz-1 kHz",
+   "level_db": -12.0,
+   "dur_ms": 120.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.25,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 523.3
+  },
+  "land_D": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/land_D.wav",
+   "source": "synthesized (numpy)",
+   "processing": "glass-pixel bell D 587.33 Hz: sine (1.5 ms attack, tau 28 ms, about 70 ms to -22 dB) whose attack adds 3x at -10 dB (tau 5 ms) and 5x at -16 dB (tau 3 ms); 120 ms with a 30 ms fade; body in 300 Hz-1 kHz",
+   "level_db": -12.0,
+   "dur_ms": 120.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.25,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 587.3
+  },
+  "land_E": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/land_E.wav",
+   "source": "synthesized (numpy)",
+   "processing": "glass-pixel bell E 659.26 Hz: sine (1.5 ms attack, tau 28 ms, about 70 ms to -22 dB) whose attack adds 3x at -10 dB (tau 5 ms) and 5x at -16 dB (tau 3 ms); 120 ms with a 30 ms fade; body in 300 Hz-1 kHz",
+   "level_db": -12.0,
+   "dur_ms": 120.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.27,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 659.3
+  },
+  "land_G": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/land_G.wav",
+   "source": "synthesized (numpy)",
+   "processing": "glass-pixel bell G 783.99 Hz: sine (1.5 ms attack, tau 28 ms, about 70 ms to -22 dB) whose attack adds 3x at -10 dB (tau 5 ms) and 5x at -16 dB (tau 3 ms); 120 ms with a 30 ms fade; body in 300 Hz-1 kHz",
+   "level_db": -12.0,
+   "dur_ms": 120.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.25,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 784.0
+  },
+  "lens_open": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/lens_open.wav",
+   "source": "synthesized (numpy)",
+   "processing": "airy filtered-noise swell, 220 ms: band-pass sweeping 1.2-5 kHz -> 2.8-10 kHz, -3 dB at 2 kHz (speech band), plus a faint glass glide E5 -> A5 (659 -> 880 Hz, 3x -18 dB) at -16 dB; 170 ms sin^2 rise, 45 ms fall. Played at -16, not the token -13: dense noise reads 3-4 LU louder than a click or bell of the same peak, and the Land must stay the leading sound",
+   "level_db": -16.0,
+   "dur_ms": 220.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 36.44,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    18.5,
+    21.2,
+    60.3
+   ]
+  },
+  "lens_close": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/lens_close.wav",
+   "source": "synthesized (numpy)",
+   "processing": "exact reverse of lens_open (the bible's 'and its reverse'); -16 like the open",
+   "level_db": -16.0,
+   "dur_ms": 220.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 9.71,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    18.5,
+    21.2,
+    60.3
+   ]
+  },
+  "lock": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/lock.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry double tick 40 ms apart: each a 1.5 ms noise click high-passed at 3.5 kHz (-6 dB) + an A5 880 Hz sine body (tau 4 ms, 3x -14 dB); the 2nd -2 dB and +50 cents; 60 ms. Played at -13, not the token -15: it lands on the stressed 'like' (f1798), where at -15 its phone-band (350 Hz-8 kHz) loudness measured 19 LU under the word",
+   "level_db": -13.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.06,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    1.9,
+    79.4,
+    14.1,
+    4.6
+   ]
+  },
+  "standby_loop": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/standby_loop.wav",
+   "source": "synthesized (numpy)",
+   "processing": "A1 55 Hz sine + A2 110 Hz at -6 dB, both with a 0.25 Hz +-1 dB swell; exactly periodic 20.0 s loop (the mixer fades 0.4 s inside the span, so it is gone within 1 s of the span's end)",
+   "level_db": -26.0,
+   "dur_ms": 20000.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.15,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    100.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "length_s": 20.0,
+   "wrap_jump_vs_p99_step": 0.921,
+   "rms_50ms_range_db": 2.53
+  },
+  "energize": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/energize.wav",
+   "source": "synthesized (numpy)",
+   "processing": "A2/E3/A3/E4/A4 chord (110-440 Hz) under a low-pass opening 350 Hz -> 2.4 kHz over 450 ms, 330 ms rise, 110 ms fall (the fill-front's sound: low hum to phone-audible)",
+   "level_db": -11.0,
+   "dur_ms": 450.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 55.46,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    93.3,
+    6.7,
+    0.0,
+    0.0
+   ]
+  },
+  "dive": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/dive.wav",
+   "source": "synthesized (numpy)",
+   "processing": "500 ms: band-passed noise rising 0.6-2.5 kHz -> 3-11 kHz (-3 dB at 2 kHz) + a glass glide A4 -> A5 (440 -> 880 Hz, 3x -16 dB) at -9 dB; 420 ms rise, 50 ms fall (peaks on the arrival)",
+   "level_db": -11.0,
+   "dur_ms": 500.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 94.29,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    74.5,
+    16.6,
+    8.8
+   ]
+  },
+  "surface": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/surface.wav",
+   "source": "synthesized (numpy)",
+   "processing": "exact reverse of dive (the bible's dive / surface pair, T7)",
+   "level_db": -11.0,
+   "dur_ms": 500.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 9.4,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    57.1,
+    10.6,
+    32.3
+   ]
+  },
+  "alert": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style6/alert.wav",
+   "source": "synthesized (numpy)",
+   "processing": "two square-ish blips on a falling minor third, C5 then A4 (85 ms each, tau 30 ms, 3x -9, 5x -14, 7x -19 dB held: the Land's sine gone square), 100 ms apart, 2nd -1.5 dB, LP 3 kHz; body in 300 Hz-1 kHz",
+   "level_db": -9.0,
+   "dur_ms": 205.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.33,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.5,
+    85.7,
+    13.8,
+    0.0
+   ]
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "id": "S9 (17080-18366) Close and sign-off",
+ "score_100": 84,
+ "v1_issues_fixed": "Fixed. (1) The thesis line 'It's the trip.' is at about 90 px and fully legible from about 17856 to about 17884, roughly 28 frames, with the crate on the bridge, and the whip starts at about 17886. (2) The ending has no reflow snap after 18300. The chat is dimmed by 18352, 'B / Bits in Motion' types on at about 56-64 px above the bottom 140 px, and the last frame is a clean brand frame. (3) The loop labels 'How long each run takes' / 'How many pieces per run' are now about 44 px, with the trick props (trays, conveyor) beside the ring. (4) After the whip, the ghost-slot frame has a lit slot plus the Bit, so it is not empty (17405). (5) 'Read' / 'Write' are now about 44 px (17980). 'Made in order' lands on 17650 at about 56 px. The 11-tile 'all at once' ring flies around the monitor (17896-17910).",
+ "remaining": [
+  {
+   "frames": "17200-17260",
+   "severity": "med",
+   "what": "In the loop shot, answer-strip tiles collide at the bottom of the ring: 'answer' and 'is' stack over 'it,' (17230). The strip tiles are about 20 px and sit low in the frame. At 17080 the strip is clipped at the left edge ('h piece depends on the') and runs inside the bottom 140 px."
+  },
+  {
+   "frames": "17080-17360",
+   "severity": "low",
+   "what": "The loop composition is still wide and calm: a small ring on a large floor for about 9 s. 'One after another' (17321) lands at only about 40 px for the paragraph's key line."
+  },
+  {
+   "frames": "17630-17700",
+   "severity": "low",
+   "what": "During the tilt down to the answer tiles, the question's top row is half cut off by the top frame edge. It reads as a crop, not a deliberate frame."
+  },
+  {
+   "frames": "18200-18350",
+   "severity": "low",
+   "what": "The finale chat text inside the monitor is about 22-26 px, so on a phone the callback words are unreadable and only the voice carries them. From the sampled frames, the crates behind the wordmark barely move between 18352 and 18366. The final hold may be close to static, but this cannot be confirmed without playback."
+  }
+ ]
+}

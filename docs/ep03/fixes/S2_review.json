@@ -1,0 +1,31 @@
+{
+ "id": "S2 (1582-2810) Tokens",
+ "score_100": 75,
+ "best": "The token story is clear and concrete. Tiles click into the physical token bench and flip to show ID numbers (f1816). A vocabulary drawer hero asset (card 'game' 13902, f1880) lands on 'fixed list' (f1865). '10 words + ?' counts to '11 numbers' on f2094-2105, and a Llama row stacks to 'Same 11 pieces ✓' (f2264). The 'Photosynthesis' tile splits to 'Photos' + 'ynthesis' with the missing 's' popped out in magenta, a good visual joke that is accurate to the voice. The ruler shows '≈4 characters', then 'token ≈ ¾ word', both correct.",
+ "issues": [
+  {
+   "frames": "1613-1660",
+   "severity": "med",
+   "what": "The tiles flying into one line collide and overlap ('answers' over 'arrive', 'onepiec a' stacked) for about 20 frames. They then dissolve to plain text with broken spacing: 'Why do AI answersarrive one piece at  a  time ?' (f1649-1688), at about 28 px, which is below the 40 px minimum.",
+   "fix": "Animate the tiles on non-intersecting paths (stagger by index and land left to right). For the plain-text state, render from a single string with normal word spacing at 56 px or larger. Do not reuse tile x-positions as text positions."
+  },
+  {
+   "frames": "1688-2264 (labels)",
+   "severity": "med",
+   "what": "Must-read labels are too small: 'Tokenizer', 'The fixed list', 'OpenAI's open-source tokenizer' and 'Meta's Llama' are about 22-26 px at 1080p. At 390 px they render 8-9 px tall and are marginal.",
+   "fix": "Bump the source and role labels to at least 40 px (Sora semibold) with the leader lines. Or move the source credit into a single 40 px lower-third chip that stays put. Keep 64 px margins."
+  },
+  {
+   "frames": "2136-2420",
+   "severity": "med",
+   "what": "Slide-feel. The same two-row bench in the same navy grid stays on screen for about 9 s ('11 numbers' -> Llama -> 'Same 11 pieces' -> 'Every word = one piece'), with mostly text changes. S2 overall is one navy room for about 40 s.",
+   "fix": "Add a camera move per beat. Orbit the bench 15 degrees for Llama and run a light sweep across both rows on 'same 11'. On 'Every word happened to be one piece', show a match cut where each word card drops onto its tile. Vary the environment: put the drawer and bench on the warm reader desk plate, or under a macro rim light."
+  },
+  {
+   "frames": "2600-2700",
+   "severity": "low",
+   "what": "The ruler runs off the right frame edge, and 'English | OpenAI's rule of thumb' is about 20 px.",
+   "fix": "Keep the ruler inside the safe area or fade its end. Make the label 40 px or larger, or reduce it to a footnote under the 6-word rule."
+  }
+ ]
+}

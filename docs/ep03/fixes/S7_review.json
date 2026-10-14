@@ -1,0 +1,61 @@
+{
+ "id": "S7 (11907-15090) The three waits",
+ "score_100": 76,
+ "best": "The governing metaphor finally carries the explanation. Crates stamped 'Weights' carry growing piles of note cards (13200-13860). The wall of 40 chips lights up bridge by bridge (12660-12840). The '≈1 GB / per 8,000 tokens' hero (13620-13740) and the '1 request vs 200 requests, ×60' split (14590-14700), followed by the 'almost ×3' token lanes (14780-14830), are clear, memorable images. Every on-screen number matches the voice, and 'weights' is spelled correctly everywhere ('8 bits per weight', 14510). The coral 1/2/3 chapter badges with door openers work as re-hooks.",
+ "issues": [
+  {
+   "frames": "14100-14110, 15236-15245 (S8), 15836-15845 (S8)",
+   "severity": "high",
+   "what": "While captions pop in word by word, the space between words collapses, so screens show typos: 'Nexttoken' (14105), 'Fewer bytes pertoken' (15240) and 'Morethan' (15840). Confirmed at full resolution. This is a shared kit bug.",
+   "fix": "In the word-pop caption component, put each word in its own inline-block span with a fixed trailing gap (margin-right 0.28em), or lay out the full line first with the unrevealed words at opacity 0. Never let the width of the line grow while words appear. Re-render every keyword caption."
+  },
+  {
+   "frames": "12240-12330, 13020-13330, 14285-14380, 14465-14530",
+   "severity": "high",
+   "what": "Must-read labels are far below the 40 px minimum, about 22-28 px at 1080p: 'Reasoning tokens first', 'Running notes', 'Numbers already worked out', 'Saves math ✓', 'Not travel ✗', '+ all the notes', 'Our answer', 'NVIDIA's benchmark', 'instead of 16'. At 390 px they are 5-6 px tall and unreadable. 'Saves math / Not travel' is the key idea of wait 2, and on a phone it is invisible.",
+   "fix": "Raise label size to at least 44 px semibold (64 px for 'Saves math ✓' / 'Not travel ✗' and 'Our answer: just one') and give labels a dark pill backing. 'instead of 16' should be at least 48 px."
+  },
+  {
+   "frames": "14866-15090",
+   "severity": "high",
+   "what": "The payoff of the batching chapter is a nearly static reader-desk chat for about 7 s that reads as a slide. 'Each token: cheaper ✓' and 'Your stream: slower' are about 22 px captions tucked into the bottom corners. 'Your stream: slower' appears only from 15064 to 15088 (24 frames). 'The tradeoff' sits on top of the chat window's 'Assistant' header, so the two collide.",
+   "fix": "Build the tradeoff as an image. The answer streams in the chat with visible coral gaps, beside a pair of 64 px keywords that slam in: 'Each token: cheaper ✓' at 14977 and 'Your stream: slower' at 15061, both held until the cut, plus a slow push. Move 'The tradeoff' above the monitor bezel, or drop it once the two keywords land."
+  },
+  {
+   "frames": "12180-12330",
+   "severity": "med",
+   "what": "The camera push crops the question bubble at the right edge of the frame ('...one piece at a ti', '...one piece at'). It reads as a layout error.",
+   "fix": "Shift the chat composition left by about 180 px, or reduce the zoom target, so the bubble stays at least 64 px inside the frame for the whole push."
+  },
+  {
+   "frames": "12554-12620",
+   "severity": "med",
+   "what": "The 'Anthropic says' tag is drawn on top of the weight-tray tiles and collides with them.",
+   "fix": "Anchor the tag above the tray in clear space, or give it a dark pill, and bring it in at least 40 px wide of the tiles."
+  },
+  {
+   "frames": "14555-14565",
+   "severity": "med",
+   "what": "While the labels cross-fade, a ghost label reading '1 requests' (wrong plural) appears top right before '200 requests' resolves.",
+   "fix": "Don't morph one label into the other. Pop '1 request' (left) and '200 requests' (right) as separate elements, '200 requests' at 14561."
+  },
+  {
+   "frames": "14730-14745",
+   "severity": "med",
+   "what": "The flash cut into the token lanes washes the whole frame to pale grey-blue for several frames. It breaks the deep-black grade and reads as a blown exposure.",
+   "fix": "Cap the flash at 2-3 frames, peaking at about 40% white, and tint it cyan. Or replace it with a whip."
+  },
+  {
+   "frames": "13840-13870",
+   "severity": "low",
+   "what": "'More to haul, every piece' lands over a fully motion-blurred whip, so the frame is text on blur with no image, and the hold before the hall opener is weak.",
+   "fix": "Hold the crate with its tall note pile 15-20 frames past 13849, then start the whip."
+  },
+  {
+   "frames": "12330-12480",
+   "severity": "low",
+   "what": "The 'Ours' crate shot on a long, plain bridge is sparse. Most of the frame is empty floor, and the 'Much bigger models' keyword isn't visible near 12422.",
+   "fix": "Frame tighter on the crate and tower, and pop 'Much bigger models' (64 px) on 12422 as the '?' crate rolls in."
+  }
+ ]
+}

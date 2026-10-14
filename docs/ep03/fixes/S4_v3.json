@@ -1,0 +1,32 @@
+{
+ "id": "S4 (4897-6523) Reading vs writing",
+ "score_100": 79,
+ "v2_issues_fixed": "2 of 5 fixed, 2 partly fixed, 1 not fixed. FIXED: (1) The S3 to S4 boundary is no longer a hard cut. 4897 continues the S3 chat window, the frame diff at 4897 is below 20, and the only hard cut is the intended rewind cut at 4953. (2) The 'One token per run, in order' caption is now one even line with 'in order' in cyan (5815). PARTLY FIXED: (3) The 'Same test' panel is rebuilt with two 3D chip renders on pads and a reading token block (6085-6247). It is no longer a flat UI slide, but the top half is still empty, and '≈1,000 tokens' and the writing tile row are small. (4) The 5599-5923 die-and-ring stretch now changes framing, but the die is cropped at the top edge (5599-5761) and then at the left edge with the same ring (5815-5923). PARTLY FIXED: (5) The 'Math' and 'Wait' labels at 6301-6463 now read at phone width. NOT FIXED: the footnote 'vs one writing run' is still tiny.",
+ "remaining": [
+  {
+   "frames": "6339-6409",
+   "severity": "med",
+   "what": "70 frames of low motion (mean diff below 0.6 at 160x90) on the ×1000 cube versus the small 'Wait' cube. The footnote '| vs one writing run' is about 16 px and cannot be read at 390 px (checked at 6400)."
+  },
+  {
+   "frames": "5815-5945",
+   "severity": "med",
+   "what": "The 'loop explains / so many runs' beats are still one composition: the die is cropped at the left edge with the ring on the right. At 5923 the floating tiles show fragments ('be', 'it,', 'oken'), so half-cut words come back as debris."
+  },
+  {
+   "frames": "6085-6247",
+   "severity": "low",
+   "what": "In the 'Same test' panel the upper half of the frame is empty, 'Same test' is a small grey heading, '≈1,000 tokens' is about 20 px, and the writing tile row ('Because', 'the') is tiny. The race between the two chips reads weakly at 390 px (6100)."
+  },
+  {
+   "frames": "5275-5491",
+   "severity": "low",
+   "what": "In the 'Your prompt: no such wait' and 'Side by side' rows, the prompt tile words are still about 20-24 px. They turn into grey chips at phone width."
+  },
+  {
+   "frames": "5599-5761",
+   "severity": "low",
+   "what": "The die is cropped hard at the top frame edge with no safe margin while 'Same run → first piece' plays."
+  }
+ ]
+}

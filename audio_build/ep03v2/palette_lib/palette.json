@@ -1,0 +1,1329 @@
+{
+ "sr": 48000,
+ "files": [
+  {
+   "file": "tile_click_1.wav",
+   "role": "tile_click",
+   "anchor_s": 0.004,
+   "dur_s": 0.224,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -22.56,
+   "centroid_hz": 5047,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Organic_Click_27.wav",
+     "sha256_16": "9aba411f46220686",
+     "anchor_in_file_s": 0.028,
+     "gain_db": 0,
+     "pitch_semitones": 0
+    }
+   ],
+   "note": "tile snap, HP 180 Hz"
+  },
+  {
+   "file": "tile_click_2.wav",
+   "role": "tile_click",
+   "anchor_s": 0.004,
+   "dur_s": 0.224,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -20.64,
+   "centroid_hz": 5744,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Organic_Click_07.wav",
+     "sha256_16": "b452d09820f622e7",
+     "anchor_in_file_s": 0.027,
+     "gain_db": 0,
+     "pitch_semitones": 0
+    }
+   ],
+   "note": "tile snap, HP 180 Hz"
+  },
+  {
+   "file": "tile_click_3.wav",
+   "role": "tile_click",
+   "anchor_s": 0.004,
+   "dur_s": 0.224,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -21.39,
+   "centroid_hz": 7171,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/click_plastic_1.wav",
+     "sha256_16": "d74f9e5258664872",
+     "anchor_in_file_s": 0.037,
+     "gain_db": 0,
+     "pitch_semitones": -1
+    }
+   ],
+   "note": "tile snap, HP 180 Hz"
+  },
+  {
+   "file": "tile_click_4.wav",
+   "role": "tile_click",
+   "anchor_s": 0.004,
+   "dur_s": 0.17,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -20.57,
+   "centroid_hz": 3710,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Tactile Click.wav",
+     "sha256_16": "5a8a8c96330eb51a",
+     "anchor_in_file_s": 0.034,
+     "gain_db": 0,
+     "pitch_semitones": 0
+    }
+   ],
+   "note": "tile snap, HP 180 Hz + synthesized ceramic ping 2.9/4.7 kHz at -16 dB"
+  },
+  {
+   "file": "tile_seat_1.wav",
+   "role": "tile_seat",
+   "anchor_s": 0.006,
+   "dur_s": 0.306,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -26.79,
+   "centroid_hz": 5195,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Part_Assembly_06.wav",
+     "sha256_16": "b5001926216e0953",
+     "anchor_in_file_s": 0.437,
+     "pitch_semitones": 0
+    }
+   ],
+   "note": "heavier tile landing in a slot"
+  },
+  {
+   "file": "tile_seat_2.wav",
+   "role": "tile_seat",
+   "anchor_s": 0.007,
+   "dur_s": 0.306,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -25.44,
+   "centroid_hz": 2040,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/click_plastic_5.wav",
+     "sha256_16": "2b6f98cff008da95",
+     "anchor_in_file_s": 0.181,
+     "pitch_semitones": -2
+    }
+   ],
+   "note": "heavier tile landing in a slot"
+  },
+  {
+   "file": "ui_pop_1.wav",
+   "role": "ui_pop",
+   "anchor_s": 0.004,
+   "dur_s": 0.254,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -22.32,
+   "centroid_hz": 5617,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Organic_Click_09.wav",
+     "sha256_16": "bae77559050b2d36",
+     "anchor_in_file_s": 0.01
+    }
+   ],
+   "note": "caption / label pop (real click)"
+  },
+  {
+   "file": "ui_pop_2.wav",
+   "role": "ui_pop",
+   "anchor_s": 0.004,
+   "dur_s": 0.254,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -22.49,
+   "centroid_hz": 7634,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Organic_Click_23.wav",
+     "sha256_16": "b7eab9402daa5509",
+     "anchor_in_file_s": 0.006
+    }
+   ],
+   "note": "caption / label pop (real click)"
+  },
+  {
+   "file": "ui_pop_3.wav",
+   "role": "ui_pop",
+   "anchor_s": 0.004,
+   "dur_s": 0.254,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -30.23,
+   "centroid_hz": 8343,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/click_plastic_4.wav",
+     "sha256_16": "2cb2df07a3a0d3f9",
+     "anchor_in_file_s": 0.073
+    }
+   ],
+   "note": "caption / label pop (real click)"
+  },
+  {
+   "file": "blade_snip_1.wav",
+   "role": "blade_snip",
+   "anchor_s": 0.002,
+   "dur_s": 0.22,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -19.52,
+   "centroid_hz": 5422,
+   "sources": [],
+   "note": "synthesized: noise scrape 2.8-10.5 kHz + 6.4/9.1/3.8 kHz ring + 180 Hz knock"
+  },
+  {
+   "file": "blade_snip_2.wav",
+   "role": "blade_snip",
+   "anchor_s": 0.0,
+   "dur_s": 0.22,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -19.63,
+   "centroid_hz": 4988,
+   "sources": [],
+   "note": "synthesized: noise scrape 2.8-10.5 kHz + 6.4/9.1/3.8 kHz ring + 180 Hz knock"
+  },
+  {
+   "file": "crate_land_1.wav",
+   "role": "crate_land",
+   "anchor_s": 0.025,
+   "dur_s": 2.189,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.13,
+   "centroid_hz": 420,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Metal_02.wav",
+     "sha256_16": "4f724424846d249b",
+     "anchor_in_file_s": 0.269,
+     "gain_db": 0.0,
+     "pitch_semitones": 0
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Door_Low_01.wav",
+     "sha256_16": "df7d304e961dd9d1",
+     "anchor_in_file_s": 0.344,
+     "gain_db": -3.0,
+     "pitch_semitones": 0
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Debris_Metal_03.wav",
+     "sha256_16": "7f88842296b67ba3",
+     "anchor_in_file_s": 0.071,
+     "gain_db": -11.0,
+     "delay_s": 0.018,
+     "note": "rattle layer, HP 300 Hz"
+    }
+   ],
+   "note": "heavy metal crate landing: slam + low body + metal rattle"
+  },
+  {
+   "file": "crate_land_2.wav",
+   "role": "crate_land",
+   "anchor_s": 0.025,
+   "dur_s": 1.889,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -11.56,
+   "centroid_hz": 1811,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Metallic_Impact_01.wav",
+     "sha256_16": "48efed09eca6097a",
+     "anchor_in_file_s": 0.215,
+     "gain_db": 0.0,
+     "pitch_semitones": 0
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Metal_03.wav",
+     "sha256_16": "3119e643749dd0a6",
+     "anchor_in_file_s": 0.196,
+     "gain_db": -2.0,
+     "pitch_semitones": 0
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Debris_Metal_03.wav",
+     "sha256_16": "7f88842296b67ba3",
+     "anchor_in_file_s": 0.071,
+     "gain_db": -11.0,
+     "delay_s": 0.018,
+     "note": "rattle layer, HP 300 Hz"
+    }
+   ],
+   "note": "heavy metal crate landing: slam + low body + metal rattle"
+  },
+  {
+   "file": "crate_land_3.wav",
+   "role": "crate_land",
+   "anchor_s": 0.025,
+   "dur_s": 2.054,
+   "peak_db": -1.14,
+   "max_momentary_lufs": -13.18,
+   "centroid_hz": 183,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Metal_02.wav",
+     "sha256_16": "4f724424846d249b",
+     "anchor_in_file_s": 0.336,
+     "gain_db": 0.0,
+     "pitch_semitones": -3
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Door_Low_02.wav",
+     "sha256_16": "f28ba324a0351501",
+     "anchor_in_file_s": 0.252,
+     "gain_db": -4.0,
+     "pitch_semitones": 0
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Debris_Metal_03.wav",
+     "sha256_16": "7f88842296b67ba3",
+     "anchor_in_file_s": 0.071,
+     "gain_db": -11.0,
+     "delay_s": 0.018,
+     "note": "rattle layer, HP 300 Hz"
+    }
+   ],
+   "note": "heavy metal crate landing: slam + low body + metal rattle"
+  },
+  {
+   "file": "crate_pass_1.wav",
+   "role": "crate_pass",
+   "anchor_s": 0.9,
+   "dur_s": 2.0,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -13.85,
+   "centroid_hz": 896,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Flyby Whoosh.wav",
+     "sha256_16": "290713df9ad9b4ba",
+     "peak_in_file_s": 1.4379
+    }
+   ],
+   "note": "crate pass-by (Doppler), peak on the cue"
+  },
+  {
+   "file": "crate_pass_2.wav",
+   "role": "crate_pass",
+   "anchor_s": 1.1,
+   "dur_s": 2.3,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -12.47,
+   "centroid_hz": 498,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Doppler_FX_01.wav",
+     "sha256_16": "1187a38b27544aaf",
+     "peak_in_file_s": 2.6227
+    }
+   ],
+   "note": "crate pass-by (Doppler), peak on the cue"
+  },
+  {
+   "file": "crate_pass_3.wav",
+   "role": "crate_pass",
+   "anchor_s": 0.8,
+   "dur_s": 1.9,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -13.32,
+   "centroid_hz": 99,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Power_Wooshes_02.wav",
+     "sha256_16": "658709dc11ec4a2c",
+     "peak_in_file_s": 1.5123
+    }
+   ],
+   "note": "crate pass-by (Doppler), peak on the cue"
+  },
+  {
+   "file": "whoosh_fast_1.wav",
+   "role": "whoosh_fast",
+   "anchor_s": 0.2,
+   "dur_s": 0.6,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.22,
+   "centroid_hz": 4187,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_1.wav",
+     "sha256_16": "1d8d2d4ed3618b4b",
+     "peak_in_file_s": 0.4764
+    }
+   ],
+   "note": "fast whoosh, pre-roll 6 frames (cosine fade-in), peak on the cut"
+  },
+  {
+   "file": "whoosh_fast_2.wav",
+   "role": "whoosh_fast",
+   "anchor_s": 0.2,
+   "dur_s": 0.6,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.94,
+   "centroid_hz": 4628,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_5.wav",
+     "sha256_16": "83043dfc21a2a4b1",
+     "peak_in_file_s": 0.5359
+    }
+   ],
+   "note": "fast whoosh, pre-roll 6 frames (cosine fade-in), peak on the cut"
+  },
+  {
+   "file": "whoosh_fast_3.wav",
+   "role": "whoosh_fast",
+   "anchor_s": 0.2,
+   "dur_s": 0.7,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -10.54,
+   "centroid_hz": 1901,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Epic_Swishes_03.wav",
+     "sha256_16": "c6247342acb13251",
+     "peak_in_file_s": 0.336
+    }
+   ],
+   "note": "fast whoosh, pre-roll 6 frames (cosine fade-in), peak on the cut"
+  },
+  {
+   "file": "whoosh_med_1.wav",
+   "role": "whoosh_med",
+   "anchor_s": 0.267,
+   "dur_s": 0.967,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -13.67,
+   "centroid_hz": 406,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/medium_whoosh_1.wav",
+     "sha256_16": "cdbf714191ff787e",
+     "peak_in_file_s": 0.9443
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -9,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "med whoosh, pre-roll 8 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "whoosh_med_2.wav",
+   "role": "whoosh_med",
+   "anchor_s": 0.267,
+   "dur_s": 0.967,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -13.01,
+   "centroid_hz": 429,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/medium_whoosh_4.wav",
+     "sha256_16": "e39e7db20c037168",
+     "peak_in_file_s": 0.839
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -9,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "med whoosh, pre-roll 8 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "whoosh_med_3.wav",
+   "role": "whoosh_med",
+   "anchor_s": 0.267,
+   "dur_s": 1.017,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.57,
+   "centroid_hz": 501,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/medium_whoosh_5.wav",
+     "sha256_16": "7499a6fe8863d380",
+     "peak_in_file_s": 0.808
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -9,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "med whoosh, pre-roll 8 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "whoosh_slow_1.wav",
+   "role": "whoosh_slow",
+   "anchor_s": 0.333,
+   "dur_s": 1.283,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.72,
+   "centroid_hz": 332,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/large_whoosh_4.wav",
+     "sha256_16": "d6c5baaf1a8236e6",
+     "peak_in_file_s": 1.5126
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -12,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "slow whoosh, pre-roll 10 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "whoosh_slow_2.wav",
+   "role": "whoosh_slow",
+   "anchor_s": 0.333,
+   "dur_s": 1.833,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -12.98,
+   "centroid_hz": 316,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Smooth Cinematic Whoosh.wav",
+     "sha256_16": "05ee4fc679048f08",
+     "peak_in_file_s": 0.7927
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -12,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "slow whoosh, pre-roll 10 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "whoosh_slow_3.wav",
+   "role": "whoosh_slow",
+   "anchor_s": 0.333,
+   "dur_s": 1.233,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -13.47,
+   "centroid_hz": 1566,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/Short Airy Whoosh.wav",
+     "sha256_16": "ba00beb2fa7518e5",
+     "peak_in_file_s": 1.0216
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/small_whoosh_fast_4.wav",
+     "sha256_16": "4aa6f46c20aaeefb",
+     "peak_in_file_s": 0.5497,
+     "gain_db": -12,
+     "note": "air layer, peaks aligned"
+    }
+   ],
+   "note": "slow whoosh, pre-roll 10 frames (cosine fade-in), peak on the cut + air layer"
+  },
+  {
+   "file": "cam_swish_1.wav",
+   "role": "cam_swish",
+   "anchor_s": 0.2,
+   "dur_s": 0.55,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -22.04,
+   "centroid_hz": 1128,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/cloth_fast_whoosh_1.wav",
+     "sha256_16": "92379291f8544c84",
+     "peak_in_file_s": 0.3528
+    }
+   ],
+   "note": "camera-move swish (cloth/air), peak on the move"
+  },
+  {
+   "file": "cam_swish_2.wav",
+   "role": "cam_swish",
+   "anchor_s": 0.2,
+   "dur_s": 0.55,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -18.63,
+   "centroid_hz": 2235,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/02 Whooshes & Transitions/cloth_fast_whoosh_4.wav",
+     "sha256_16": "4c0667dc7abfd1d0",
+     "peak_in_file_s": 0.3687
+    }
+   ],
+   "note": "camera-move swish (cloth/air), peak on the move"
+  },
+  {
+   "file": "impact_big_1.wav",
+   "role": "impact_big",
+   "anchor_s": 0.013,
+   "dur_s": 3.53,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -8.27,
+   "centroid_hz": 148,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/11 Cinematic & Drones/Cinematic_Hit_003.wav",
+     "sha256_16": "ecd05db7188a9605",
+     "anchor_in_file_s": 0.38
+    }
+   ],
+   "note": "big cinematic impact"
+  },
+  {
+   "file": "impact_big_2.wav",
+   "role": "impact_big",
+   "anchor_s": 0.025,
+   "dur_s": 3.525,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -15.4,
+   "centroid_hz": 465,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Impact_Hits_02.wav",
+     "sha256_16": "eb52d19d4f243b38",
+     "anchor_in_file_s": 0.155
+    }
+   ],
+   "note": "big cinematic impact"
+  },
+  {
+   "file": "impact_big_3.wav",
+   "role": "impact_big",
+   "anchor_s": 0.023,
+   "dur_s": 3.53,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -11.24,
+   "centroid_hz": 61,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/11 Cinematic & Drones/Cinematic_Hit_001.wav",
+     "sha256_16": "951f77d6c58bd1a8",
+     "anchor_in_file_s": 0.698
+    }
+   ],
+   "note": "big cinematic impact"
+  },
+  {
+   "file": "impact_small_1.wav",
+   "role": "impact_small",
+   "anchor_s": 0.021,
+   "dur_s": 0.92,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -8.37,
+   "centroid_hz": 192,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Tech_02.wav",
+     "sha256_16": "92d59fd0f923ab13",
+     "anchor_in_file_s": 0.457
+    }
+   ],
+   "note": "small impact / slam"
+  },
+  {
+   "file": "impact_small_2.wav",
+   "role": "impact_small",
+   "anchor_s": 0.002,
+   "dur_s": 0.624,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -11.5,
+   "centroid_hz": 63,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Quick_Impact_01.wav",
+     "sha256_16": "c3c0d42a5b146ed7",
+     "anchor_in_file_s": 0.338
+    }
+   ],
+   "note": "small impact / slam"
+  },
+  {
+   "file": "impact_small_3.wav",
+   "role": "impact_small",
+   "anchor_s": 0.008,
+   "dur_s": 0.505,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -8.04,
+   "centroid_hz": 2224,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Quick_Impact_02.wav",
+     "sha256_16": "73828c127074a249",
+     "anchor_in_file_s": 0.457
+    }
+   ],
+   "note": "small impact / slam"
+  },
+  {
+   "file": "sub_drop_1.wav",
+   "role": "sub_drop",
+   "anchor_s": 0.011,
+   "dur_s": 2.61,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -6.71,
+   "centroid_hz": 74,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Sub_Impact.wav",
+     "sha256_16": "c106c96ecb9c207c",
+     "anchor_in_file_s": 0.005
+    }
+   ],
+   "note": "sub drop, LP 180 Hz"
+  },
+  {
+   "file": "sub_drop_2.wav",
+   "role": "sub_drop",
+   "anchor_s": 0.013,
+   "dur_s": 2.61,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -8.11,
+   "centroid_hz": 71,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Sub_Boom.wav",
+     "sha256_16": "acb731bb06de3464",
+     "anchor_in_file_s": 0.187
+    }
+   ],
+   "note": "sub drop, LP 180 Hz"
+  },
+  {
+   "file": "riser_1s_1.wav",
+   "role": "riser_1s",
+   "anchor_s": 1.0,
+   "dur_s": 1.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -7.99,
+   "centroid_hz": 1595,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Risers_Tech_04.wav",
+     "sha256_16": "e2ec535d9d91d5d1",
+     "peak_in_file_s": 4.6337,
+     "note": "last 1.0 s before its climax"
+    }
+   ],
+   "note": "1 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "riser_1s_2.wav",
+   "role": "riser_1s",
+   "anchor_s": 1.0,
+   "dur_s": 1.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -10.94,
+   "centroid_hz": 1720,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Risers_Tech_02.wav",
+     "sha256_16": "3f6319d6d724dc2d",
+     "peak_in_file_s": 2.7718,
+     "note": "last 1.0 s before its climax"
+    }
+   ],
+   "note": "1 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "riser_2s_1.wav",
+   "role": "riser_2s",
+   "anchor_s": 2.0,
+   "dur_s": 2.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -10.44,
+   "centroid_hz": 586,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Risers_Tech_01.wav",
+     "sha256_16": "1263ae4b6fb8ee26",
+     "peak_in_file_s": 2.3382,
+     "note": "last 2.0 s before its climax"
+    }
+   ],
+   "note": "2 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "riser_2s_2.wav",
+   "role": "riser_2s",
+   "anchor_s": 2.0,
+   "dur_s": 2.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -11.19,
+   "centroid_hz": 171,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Classic Riser (2).wav",
+     "sha256_16": "f9fb8bea4134e3b1",
+     "peak_in_file_s": 2.1515,
+     "note": "last 2.0 s before its climax"
+    }
+   ],
+   "note": "2 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "riser_4s_1.wav",
+   "role": "riser_4s",
+   "anchor_s": 4.0,
+   "dur_s": 4.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -9.52,
+   "centroid_hz": 962,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Risers_Deep_02.wav",
+     "sha256_16": "e4d7d998d644f9c8",
+     "peak_in_file_s": 17.0335,
+     "note": "last 4.0 s before its climax"
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Risers_Tech_03.wav",
+     "sha256_16": "e934f8b399266ba8",
+     "peak_in_file_s": 8.0528,
+     "gain_db": -5
+    }
+   ],
+   "note": "4 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "riser_4s_2.wav",
+   "role": "riser_4s",
+   "anchor_s": 4.0,
+   "dur_s": 4.06,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -10.71,
+   "centroid_hz": 619,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/03 Risers & Buildups/Energy Rise_01.wav",
+     "sha256_16": "4fef7021b00beda2",
+     "peak_in_file_s": 0.832,
+     "note": "last 4.0 s before its climax"
+    }
+   ],
+   "note": "4 s noise riser, anchor = its arrival (end)"
+  },
+  {
+   "file": "stopwatch_click_1.wav",
+   "role": "stopwatch_click",
+   "anchor_s": 0.003,
+   "dur_s": 0.123,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -19.08,
+   "centroid_hz": 3102,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/click_tick1_1.wav",
+     "sha256_16": "b41a74c2367c33bb",
+     "anchor_in_file_s": 0.01
+    }
+   ],
+   "note": "stopwatch button click"
+  },
+  {
+   "file": "stopwatch_click_2.wav",
+   "role": "stopwatch_click",
+   "anchor_s": 0.003,
+   "dur_s": 0.123,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -15.47,
+   "centroid_hz": 1837,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/click_tick2_4.wav",
+     "sha256_16": "4b35d1abb990e5ad",
+     "anchor_in_file_s": 0.001
+    }
+   ],
+   "note": "stopwatch button click"
+  },
+  {
+   "file": "stopwatch_run_1.wav",
+   "role": "stopwatch_run",
+   "anchor_s": 0.0,
+   "dur_s": 9.0,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -20.54,
+   "centroid_hz": 4771,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Tick_Tock_Fast_01.wav",
+     "sha256_16": "ea25853185f7662d",
+     "segment_s": [
+      0.5,
+      9.5
+     ]
+    }
+   ],
+   "note": "running clock ticks (bed, start-aligned)"
+  },
+  {
+   "file": "servo_1.wav",
+   "role": "servo",
+   "anchor_s": 0.0,
+   "dur_s": 0.65,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -9.67,
+   "centroid_hz": 848,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Robotic_Movement_01.wav",
+     "sha256_16": "ecfbd7f97fc7144a",
+     "peak_in_file_s": 2.0952,
+     "gain_db": -8,
+     "delay_s": 0.15,
+     "note": "real motor layer"
+    }
+   ],
+   "note": "gauge needle servo: synthesized geared-motor glide + stop click, with a real robotic-movement layer; anchor = motion start"
+  },
+  {
+   "file": "servo_2.wav",
+   "role": "servo",
+   "anchor_s": 0.0,
+   "dur_s": 0.95,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -9.09,
+   "centroid_hz": 851,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Robotic_Movement_01.wav",
+     "sha256_16": "ecfbd7f97fc7144a",
+     "peak_in_file_s": 2.0952,
+     "gain_db": -8,
+     "delay_s": 0.15,
+     "note": "real motor layer"
+    }
+   ],
+   "note": "gauge needle servo: synthesized geared-motor glide + stop click, with a real robotic-movement layer; anchor = motion start"
+  },
+  {
+   "file": "dial_clunk_1.wav",
+   "role": "dial_clunk",
+   "anchor_s": 0.001,
+   "dur_s": 1.01,
+   "peak_db": -1.0,
+   "max_momentary_lufs": -14.45,
+   "centroid_hz": 72,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Locked_Down_02.wav",
+     "sha256_16": "6a2d0519d88367fe",
+     "anchor_in_file_s": 0.36
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Locked_Down_01.wav",
+     "sha256_16": "b4a42b8255153967",
+     "anchor_in_file_s": 0.514,
+     "gain_db": -3
+    }
+   ],
+   "note": "power-dial clunk: mechanism click + low clunk"
+  },
+  {
+   "file": "dial_clunk_2.wav",
+   "role": "dial_clunk",
+   "anchor_s": 0.025,
+   "dur_s": 0.944,
+   "peak_db": -3.22,
+   "max_momentary_lufs": -16.48,
+   "centroid_hz": 762,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/01 Impacts & Hits/Slam_Unlock_02.wav",
+     "sha256_16": "48b719f13e329c81",
+     "anchor_in_file_s": 0.288
+    },
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Locked_Down_Gears_01.wav",
+     "sha256_16": "1b216aec5a2cbddb",
+     "anchor_in_file_s": 0.543,
+     "gain_db": -3
+    }
+   ],
+   "note": "power-dial clunk: mechanism click + low clunk"
+  },
+  {
+   "file": "dial_ratchet_1.wav",
+   "role": "dial_ratchet",
+   "anchor_s": 0.01,
+   "dur_s": 0.81,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -17.16,
+   "centroid_hz": 7127,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/09 Mechanical & Objects/Gears_Cranks_Small_01.wav",
+     "sha256_16": "1c1d5f908cb2f843",
+     "anchor_in_file_s": 0.505
+    }
+   ],
+   "note": "ratchet turn under the dial"
+  },
+  {
+   "file": "key_enter_1.wav",
+   "role": "key_enter",
+   "anchor_s": 0.01,
+   "dur_s": 0.29,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -23.08,
+   "centroid_hz": 4204,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/keyboard_logitech_enter.wav",
+     "sha256_16": "6ff41b7b375213e0",
+     "anchor_in_file_s": 1.042
+    }
+   ],
+   "note": "keyboard Enter press"
+  },
+  {
+   "file": "key_enter_2.wav",
+   "role": "key_enter",
+   "anchor_s": 0.01,
+   "dur_s": 0.16,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -21.48,
+   "centroid_hz": 4405,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Keyboard one key press.wav",
+     "sha256_16": "418c12ad5b63c6ff",
+     "anchor_in_file_s": 0.01
+    }
+   ],
+   "note": "keyboard Enter press"
+  },
+  {
+   "file": "card_riffle_1.wav",
+   "role": "card_riffle",
+   "anchor_s": 0.0,
+   "dur_s": 0.9,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -16.92,
+   "centroid_hz": 3406,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/07 Foley & Movement/turn_paper_fast_4.wav",
+     "sha256_16": "1677c510c13eef34",
+     "peak_in_file_s": 0.6348,
+     "gain_db": -4,
+     "delay_s": 0.3,
+     "note": "real paper layer"
+    }
+   ],
+   "note": "card riffle: synthesized flick train (34 cards, 0.75 s) + real fast page turn; anchor = first card"
+  },
+  {
+   "file": "card_riffle_2.wav",
+   "role": "card_riffle",
+   "anchor_s": 0.0,
+   "dur_s": 0.9,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -17.9,
+   "centroid_hz": 3522,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/07 Foley & Movement/turn_paper_fast_5.wav",
+     "sha256_16": "4ec5939a1c4ab30a",
+     "peak_in_file_s": 0.5213,
+     "gain_db": -4,
+     "delay_s": 0.3,
+     "note": "real paper layer"
+    }
+   ],
+   "note": "card riffle: synthesized flick train (34 cards, 0.75 s) + real fast page turn; anchor = first card"
+  },
+  {
+   "file": "glass_shimmer_1.wav",
+   "role": "glass_shimmer",
+   "anchor_s": 2.0,
+   "dur_s": 3.2,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -10.43,
+   "centroid_hz": 10624,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Energy Sparkle_02.wav",
+     "sha256_16": "06ab339121d4d895",
+     "peak_in_file_s": 6.5965
+    }
+   ],
+   "note": "high glass sparkle swell, HP 3 kHz, anchor = peak"
+  },
+  {
+   "file": "glass_shimmer_2.wav",
+   "role": "glass_shimmer",
+   "anchor_s": 0.3,
+   "dur_s": 3.3,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -9.32,
+   "centroid_hz": 2521,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Gleams_Chimes_01.wav",
+     "sha256_16": "e7ee282bf818f489",
+     "peak_in_file_s": 2.0835
+    }
+   ],
+   "note": "glass chime gleam, HP 600 Hz, anchor = peak"
+  },
+  {
+   "file": "glass_hum_1.wav",
+   "role": "glass_hum",
+   "anchor_s": 0.0,
+   "dur_s": 6.0,
+   "peak_db": -6.0,
+   "max_momentary_lufs": -12.46,
+   "centroid_hz": 213,
+   "sources": [],
+   "note": "synthesized glass-deck hum in D (D3 A3 D4 + 1.17/2.35 kHz glass partials)"
+  },
+  {
+   "file": "data_chatter_1.wav",
+   "role": "data_chatter",
+   "anchor_s": 0.0,
+   "dur_s": 6.0,
+   "peak_db": -4.0,
+   "max_momentary_lufs": -13.7,
+   "centroid_hz": 10834,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/digital_data_4.wav",
+     "sha256_16": "dfd0bb0f7a5a5b17",
+     "segment_s": [
+      0.2,
+      6.2
+     ]
+    }
+   ],
+   "note": "digital data chatter (HP 2.5 kHz), start-aligned"
+  },
+  {
+   "file": "data_chatter_2.wav",
+   "role": "data_chatter",
+   "anchor_s": 0.0,
+   "dur_s": 2.7,
+   "peak_db": -4.0,
+   "max_momentary_lufs": -11.01,
+   "centroid_hz": 4725,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Glitch_Tech_Chatter_01.wav",
+     "sha256_16": "cf7caa1553fc8dac",
+     "segment_s": [
+      0.0,
+      2.7
+     ]
+    }
+   ],
+   "note": "digital data chatter (HP 2.5 kHz), start-aligned"
+  },
+  {
+   "file": "data_chatter_3.wav",
+   "role": "data_chatter",
+   "anchor_s": 0.0,
+   "dur_s": 2.8,
+   "peak_db": -4.0,
+   "max_momentary_lufs": -8.24,
+   "centroid_hz": 6633,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/digital_data_1.wav",
+     "sha256_16": "5664ee40752034a9",
+     "segment_s": [
+      0.0,
+      2.8
+     ]
+    }
+   ],
+   "note": "digital data chatter (HP 2.5 kHz), start-aligned"
+  },
+  {
+   "file": "tape_rewind_1.wav",
+   "role": "tape_rewind",
+   "anchor_s": 0.0,
+   "dur_s": 3.7,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -14.33,
+   "centroid_hz": 1025,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/08 Nature & Elements/VCR_Rewind_01.wav",
+     "sha256_16": "191f2bdc121aa361",
+     "segment_s": [
+      2.6,
+      6.3
+     ]
+    }
+   ],
+   "note": "VCR rewind whine (accelerating), start-aligned"
+  },
+  {
+   "file": "tape_rewind_2.wav",
+   "role": "tape_rewind",
+   "anchor_s": 0.01,
+   "dur_s": 1.791,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -9.69,
+   "centroid_hz": 5341,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/08 Nature & Elements/Rewind.mp3",
+     "sha256_16": "c8ff343627bed88c",
+     "anchor_in_file_s": 0.989
+    }
+   ],
+   "note": "rewind scrub"
+  },
+  {
+   "file": "tape_stop_1.wav",
+   "role": "tape_stop",
+   "anchor_s": 0.05,
+   "dur_s": 1.15,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -11.41,
+   "centroid_hz": 446,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/11 Cinematic & Drones/Record_Warp_01.wav",
+     "sha256_16": "41ea9a9ad7ea351e",
+     "peak_in_file_s": 0.2404
+    }
+   ],
+   "note": "tape-stop / record warp, anchor = start of the slow-down"
+  },
+  {
+   "file": "tape_stop_2.wav",
+   "role": "tape_stop",
+   "anchor_s": 0.05,
+   "dur_s": 1.126,
+   "peak_db": -2.0,
+   "max_momentary_lufs": -12.29,
+   "centroid_hz": 326,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/11 Cinematic & Drones/Record_Warp_02.wav",
+     "sha256_16": "e4427c21bd38b8ef",
+     "peak_in_file_s": 0.8042
+    }
+   ],
+   "note": "tape-stop / record warp, anchor = start of the slow-down"
+  },
+  {
+   "file": "glitch_1.wav",
+   "role": "glitch",
+   "anchor_s": 0.01,
+   "dur_s": 0.61,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -13.55,
+   "centroid_hz": 4671,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Glitch_Small_01.wav",
+     "sha256_16": "de8f32477aa1bde0",
+     "anchor_in_file_s": 0.001
+    }
+   ],
+   "note": "digital glitch"
+  },
+  {
+   "file": "glitch_2.wav",
+   "role": "glitch",
+   "anchor_s": 0.01,
+   "dur_s": 0.61,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -14.95,
+   "centroid_hz": 3460,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Glitch_Tech_Short_02.wav",
+     "sha256_16": "109cb70ce38e5060",
+     "anchor_in_file_s": 0.002
+    }
+   ],
+   "note": "digital glitch"
+  },
+  {
+   "file": "glitch_3.wav",
+   "role": "glitch",
+   "anchor_s": 0.01,
+   "dur_s": 0.61,
+   "peak_db": -3.0,
+   "max_momentary_lufs": -16.24,
+   "centroid_hz": 2618,
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Glitch_Tech_Short_01.wav",
+     "sha256_16": "3c778d05e0dfc804",
+     "anchor_in_file_s": 0.044
+    }
+   ],
+   "note": "digital glitch"
+  }
+ ],
+ "ambience": {
+  "amb_desk_night.wav": {
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/14 Ambiences & Beds/apartment ambience.mp3",
+     "sha256_16": "46acd33e6b2735ad",
+     "segment_s": [
+      4,
+      66
+     ],
+     "note": "real apartment room tone (low rumble)"
+    }
+   ],
+   "synth": "pink room air LP 2.4 kHz"
+  },
+  "amb_datacenter.wav": {
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/12 Weapons & Combat/ventilation and light buzz.mp3",
+     "sha256_16": "6c74074899a3e107",
+     "segment_s": [
+      8,
+      70
+     ],
+     "note": "real ventilation + 60 Hz light buzz"
+    }
+   ],
+   "synth": "server fans: airflow + 5 drifting blade-pass tones per channel + faint coil whine"
+  },
+  "amb_chip.wav": {
+   "sources": [
+    {
+     "path": "D:/Assets/01 Audio/Sound Effects/12 Weapons & Combat/ventilation and light buzz.mp3",
+     "sha256_16": "6c74074899a3e107",
+     "segment_s": [
+      8,
+      70
+     ],
+     "note": "buzz layer, HP 900 Hz, -9 dB"
+    }
+   ],
+   "synth": "73.4 Hz (D) electrical hum with harmonics, breathing, crackle, coil whine"
+  },
+  "amb_stage.wav": {
+   "sources": [],
+   "synth": "studio air (pink LP 1.8 kHz) + sub rumble < 90 Hz"
+  }
+ },
+ "rules": "anchor_s = the sample that lands on the cue frame"
+}

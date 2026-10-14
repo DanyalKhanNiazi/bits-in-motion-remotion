@@ -1,0 +1,22 @@
+[
+  {"frame": 15192, "kind": "pop", "strength": 0.6},
+  {"frame": 15355, "kind": "dial", "strength": 0.55},
+  {"frame": 15418, "kind": "dial", "strength": 0.6},
+  {"frame": 15451, "kind": "whoosh", "strength": 0.6},
+  {"frame": 15673, "kind": "glitch", "strength": 0.7},
+  {"frame": 15826, "kind": "riser", "strength": 0.5},
+  {"frame": 15843, "kind": "impact", "strength": 0.8},
+  {"frame": 16114, "kind": "sting", "strength": 0.6},
+  {"frame": 16191, "kind": "sting", "strength": 0.7},
+  {"frame": 16379, "kind": "crate", "strength": 0.8},
+  {"frame": 16406, "kind": "tick", "strength": 0.5},
+  {"frame": 16410, "kind": "tick", "strength": 0.5},
+  {"frame": 16414, "kind": "tick", "strength": 0.5},
+  {"frame": 16418, "kind": "impact", "strength": 0.55},
+  {"frame": 16728, "kind": "crate", "strength": 0.45},
+  {"frame": 16753, "kind": "pop", "strength": 0.8},
+  {"frame": 16783, "kind": "impact", "strength": 0.75},
+  {"frame": 16880, "kind": "riser", "strength": 0.5},
+  {"frame": 16897, "kind": "impact", "strength": 0.9},
+  {"frame": 17058, "kind": "whoosh", "strength": 0.6}
+]

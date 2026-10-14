@@ -1,0 +1,429 @@
+{
+ "bpm": 100,
+ "key": "D minor (Aeolian; Dorian / Phrygian colours)",
+ "anchors": {
+  "M1_grid": 1,
+  "x200": 532,
+  "crate1": 891,
+  "riser1": 846,
+  "crate_hits_math": 991,
+  "monument": 1027,
+  "one": 1086,
+  "piece": 1097,
+  "title": 1282,
+  "dial1": 1375,
+  "eleven": 2094,
+  "photo_chop": 2467,
+  "200k": 3132,
+  "riser200k": 3045,
+  "likely": 3252,
+  "different": 3404,
+  "loop": 3600,
+  "riser_loop": 3580,
+  "end_token": 3706,
+  "never_see": 3751,
+  "trick": 4181,
+  "ten_s": 4497,
+  "rewind": 4917,
+  "hit_enter": 4952,
+  "one_run": 5463,
+  "riser_onerun": 5425,
+  "q_card1": 5954,
+  "tie": 6236,
+  "burst": 6300,
+  "w1": 6385,
+  "w2": 6393,
+  "w3": 6409,
+  "verdict1": 6470,
+  "8b": 7076,
+  "16GB_again": 7343,
+  "callback": 7393,
+  "bridge": 7874,
+  "gpu_drop": 7465,
+  "riser_bridge": 7774,
+  "token_fly": 8222,
+  "3tb": 8640,
+  "x300": 8886,
+  "riser300": 8868,
+  "math_turn": 8989,
+  "delivery": 9028,
+  "gauge150": 9257,
+  "experiment": 9521,
+  "cap": 9910,
+  "payoff": 10077,
+  "riser_pay": 10030,
+  "barely_changed": 10177,
+  "bounce": 10633,
+  "memory": 10731,
+  "riser_mem": 10670,
+  "rtx": 11046,
+  "q_card2": 11565,
+  "door1": 11905,
+  "giant_crate": 12464,
+  "riser_w1": 12400,
+  "split": 12604,
+  "door2": 12851,
+  "1GB": 13607,
+  "riser_1gb": 13590,
+  "haul": 13816,
+  "door3": 13883,
+  "batch": 14216,
+  "x60": 14633,
+  "riser_x60": 14620,
+  "far_apart": 14808,
+  "leverB": 15355,
+  "leverA": 15418,
+  "squeeze": 15673,
+  "40pct": 15843,
+  "riser40": 15826,
+  "another": 16044,
+  "spec": 16114,
+  "bends": 16191,
+  "ok1": 16406,
+  "ok2": 16410,
+  "ok3": 16414,
+  "cross": 16418,
+  "own": 16783,
+  "x2_3": 16897,
+  "riser_x23": 16880,
+  "loop_again": 17313,
+  "trip": 17850,
+  "all_at_once": 17918,
+  "signoff": 18295
+ },
+ "mutes": [
+  [
+   1019,
+   1027
+  ],
+  [
+   5938,
+   5954
+  ],
+  [
+   7862,
+   7874
+  ],
+  [
+   10067,
+   10075
+  ],
+  [
+   11550,
+   11565
+  ]
+ ],
+ "marks": [
+  [
+   1,
+   "hit Dm_lo x0.6"
+  ],
+  [
+   532,
+   "hit Dm_lo x0.5"
+  ],
+  [
+   891,
+   "riser 1.5s"
+  ],
+  [
+   991,
+   "hit Dm_lo x0.85"
+  ],
+  [
+   1019,
+   "drop-out: suck-out before the monument"
+  ],
+  [
+   1027,
+   "hit [26, 38, 45, 50, 53] x1.25"
+  ],
+  [
+   1097,
+   "sting"
+  ],
+  [
+   1375,
+   "power dial: pad filter closes (amber drains)"
+  ],
+  [
+   2094,
+   "hit Dm_lo x0.45"
+  ],
+  [
+   2467,
+   "hit Gm x0.4"
+  ],
+  [
+   3132,
+   "hit Bblyd x0.7"
+  ],
+  [
+   3132,
+   "riser 2.9s"
+  ],
+  [
+   3600,
+   "hit Dm_lo x0.65"
+  ],
+  [
+   3600,
+   "riser 0.6666666666666666s"
+  ],
+  [
+   4196,
+   "sting"
+  ],
+  [
+   4497,
+   "sting"
+  ],
+  [
+   4917,
+   "tape-stop, then the music rewinds"
+  ],
+  [
+   5320,
+   "sting"
+  ],
+  [
+   5463,
+   "hit [38, 50, 53, 57, 60, 64, 65, 69] x0.7"
+  ],
+  [
+   5463,
+   "riser 1.2666666666666666s"
+  ],
+  [
+   5938,
+   "drop-out: before the re-hook card 'Why is each writing run so slow?'"
+  ],
+  [
+   5954,
+   "sting"
+  ],
+  [
+   6236,
+   "sting"
+  ],
+  [
+   6300,
+   "hit Dm_lo x1.0"
+  ],
+  [
+   6470,
+   "hit Bb x0.55"
+  ],
+  [
+   7343,
+   "hit [26, 38, 45, 50, 53] x0.8"
+  ],
+  [
+   7343,
+   "riser 2.0s"
+  ],
+  [
+   7393,
+   "sting"
+  ],
+  [
+   7862,
+   "drop-out: the moment of silence before the bridge"
+  ],
+  [
+   7874,
+   "hit [26, 38, 45, 50, 57, 62] x1.2"
+  ],
+  [
+   8886,
+   "hit Dm_lo x0.8"
+  ],
+  [
+   8886,
+   "riser 0.6s"
+  ],
+  [
+   9521,
+   "sting"
+  ],
+  [
+   10067,
+   "drop-out: a breath before the payoff"
+  ],
+  [
+   10077,
+   "hit Dm_lo x0.9"
+  ],
+  [
+   10077,
+   "riser 1.5666666666666667s"
+  ],
+  [
+   10177,
+   "payoff resolves (Bb-F-C-Dm)"
+  ],
+  [
+   10731,
+   "hit Dm_lo x0.8"
+  ],
+  [
+   10731,
+   "riser 2.033333333333333s"
+  ],
+  [
+   11550,
+   "drop-out: before the re-hook card 'Why do chatbots keep you waiting?'"
+  ],
+  [
+   11565,
+   "sting"
+  ],
+  [
+   11905,
+   "riser 0.7333333333333333s"
+  ],
+  [
+   12464,
+   "hit Dm_lo x0.7"
+  ],
+  [
+   12464,
+   "riser 2.1333333333333333s"
+  ],
+  [
+   12604,
+   "hit [27, 39, 46, 51, 55] x0.8"
+  ],
+  [
+   12851,
+   "sting"
+  ],
+  [
+   13607,
+   "hit Dm_lo x0.65"
+  ],
+  [
+   13607,
+   "riser 0.5666666666666667s"
+  ],
+  [
+   13883,
+   "sting"
+  ],
+  [
+   14216,
+   "hit Gm x0.6"
+  ],
+  [
+   14633,
+   "hit Bblyd x0.85"
+  ],
+  [
+   14633,
+   "riser 1.0333333333333332s"
+  ],
+  [
+   14808,
+   "sting"
+  ],
+  [
+   15843,
+   "hit F x0.6"
+  ],
+  [
+   15843,
+   "riser 1.0666666666666667s"
+  ],
+  [
+   16114,
+   "sting"
+  ],
+  [
+   16783,
+   "hit Dm_lo x0.6"
+  ],
+  [
+   16897,
+   "hit F x0.75"
+  ],
+  [
+   16897,
+   "riser 1.0666666666666667s"
+  ],
+  [
+   17850,
+   "hit [26, 38, 45, 50, 57] x1.0"
+  ],
+  [
+   17918,
+   "sting"
+  ],
+  [
+   18295,
+   "final chord D major (Picardy), rings to the end"
+  ],
+  [
+   18295,
+   "hit [26, 38, 50, 57, 62, 66] x0.7"
+  ],
+  [
+   18295,
+   "sting"
+  ]
+ ],
+ "post": [
+  [
+   "stutter",
+   3751
+  ],
+  [
+   "tapestop",
+   4891,
+   4913
+  ],
+  [
+   "rewind",
+   4917,
+   4952,
+   4777,
+   4891
+  ],
+  [
+   "pingpong",
+   12711,
+   12845
+  ],
+  [
+   "crush",
+   15659,
+   15712
+  ]
+ ],
+ "events": 3438,
+ "stems": {
+  "pads": {
+   "integrated_lufs": -17.73,
+   "peak_db": -0.18
+  },
+  "pulse": {
+   "integrated_lufs": -24.45,
+   "peak_db": -8.1
+  },
+  "bass": {
+   "integrated_lufs": -15.81,
+   "peak_db": -0.18
+  },
+  "perc": {
+   "integrated_lufs": -20.79,
+   "peak_db": -0.18
+  },
+  "motif": {
+   "integrated_lufs": -16.96,
+   "peak_db": -0.18
+  },
+  "hits": {
+   "integrated_lufs": -17.37,
+   "peak_db": -0.18
+  }
+ }
+}

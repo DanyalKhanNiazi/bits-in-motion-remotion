@@ -1,0 +1,32 @@
+{
+ "id": "S4 (4897-6523) Reading vs writing",
+ "score_100": 77,
+ "v1_issues_fixed": "3 of 7 fully fixed, 3 partly fixed, 1 not fixed. FIXED: the exit is now a real match cut, with the coral wait block turning into the '?' tile over the S5 tray (6508-6540). The x1000 number now clears the cube (6390-6490). No half-cut reel words show in the 5090-5190 chain. PARTLY FIXED: the chip world now changes camera (tilted at 5390, a top-down chunk grid at 5540, the die off-centre at 5640-5940), but 5640-5940 is still one die-plus-ring layout. The answer rail tiles are bigger ('Because' is about 44 px), but faded tiles still sit at the left edge (5790). The rewind and the Enter keycap now work (rewind 4940-4950, cut 4953, keycap lit 4962 against 'enter' 4958), but the 4897 boundary is still a hard cut (diff 27.7) from a different chat framing. NOT FIXED: the 'Same test' panel (6044-6250) is the same flat bar-chart slide. 'Same test' and '≈1,000 tokens' are about 20-24 px, with the same low-motion runs at 6082-6135 and 6139-6191. The footnote 'Both vs writing one token' is still about 14 px.",
+ "remaining": [
+  {
+   "frames": "6044-6250",
+   "severity": "med",
+   "what": "The 'Same test' reading-vs-writing panel is unchanged from v1: two flat UI lanes with stopwatches and a big empty right half. 'Same test' and '≈1,000 tokens' are about 20-24 px. Motion stays low for 54 and 53 frames (6082-6135 and 6139-6191, mean diff below 0.6 at 160x90)."
+  },
+  {
+   "frames": "5640-5945",
+   "severity": "med",
+   "what": "Five beats ('first piece', 'one token per run', 'in order', 'loop explains', 'so many runs') share one composition: the die at the top left, the ring at the right and the rail below. At 5790 the caption 'One token per run, in' has a tiny 'order' trailing it. At 5890 'depends' sits on the die's bottom edge."
+  },
+  {
+   "frames": "6340-6450",
+   "severity": "low",
+   "what": "The footnote 'Both vs writing one token' is about 14 px and cannot be read at phone width. The 'Math' and 'Wait' labels are about 24 px."
+  },
+  {
+   "frames": "5240-5440",
+   "severity": "low",
+   "what": "The prompt tile words in the 'side by side' row are about 20-26 px and turn into grey chips at 390 px. 'Side by side' is about 36 px."
+  },
+  {
+   "frames": "4890-4905",
+   "severity": "low",
+   "what": "The S3 to S4 boundary is still a hard cut (diff 27.7) from a left-aligned chat window to a monitor framing with a rewind HUD. The answer text does not visibly carry across."
+  }
+ ]
+}

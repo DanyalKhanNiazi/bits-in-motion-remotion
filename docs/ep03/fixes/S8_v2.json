@@ -1,0 +1,32 @@
+{
+ "id": "S8 (15091-17079) The tricks",
+ "score_100": 81,
+ "v1_issues_fixed": "Largely fixed. FIXED: (1) The hero-text collisions are resolved. 'The tricks' was dropped, 'Speculative decoding' sits in the clear top band (16120), and 'One trip → several pieces' sits top right, clear of the die (16570). (2) The NVIDIA test is decluttered. The word tiles are now blank white tiles, the lanes are bigger, '16-bit' / '8-bit' are about 40 px, and '40% faster' and 'not ×2' read cleanly, also at 390 px (15950). (3) The Normal/Speculative split now streams: Normal crawls, Speculative arrives in bursts. The chip now reads 'Same odds as the big model', which matches the voice, and the chat text is about 40 px (16900-17040). (4) The lever nameplates 'Fewer bytes per token' / 'More tokens per trip' are now about 44 px on pills (15240-15400). (5) All three trays are inside the frame by '4' (15580). NOT FIXED: the 'Batching' tag is still on the die at 16070 during the speculative opener, and it fades only by about 16120.",
+ "remaining": [
+  {
+   "frames": "15091-15220",
+   "severity": "med",
+   "what": "The chapter opens on a small bridge set floating in the middle of a mostly empty frame, with a tiny answer strip at top right. There is no keyword or prop for 'the tricks' (15106), so the chapter start is a weak re-hook after the S7 whip."
+  },
+  {
+   "frames": "15840-15850",
+   "severity": "low",
+   "what": "'40% faster' overshoots on its pop: at 15845 it is scaled up and clipped by the right frame edge ('faster' is cut) before it settles at about 15880."
+  },
+  {
+   "frames": "16300-16800",
+   "severity": "med",
+   "what": "The draft-and-check labels 'Small, fast model', 'Big model', 'Kept', 'Dropped' and 'Its own token' are about 24-32 px, below the 40 px minimum. The draft tiles on the conveyor are also small, so on a phone the keep/drop logic rests only on the ✓/✗ icons."
+  },
+  {
+   "frames": "17000-17079",
+   "severity": "low",
+   "what": "The 'Same odds as the big model' chip is about 36 px and straddles the divider between the two panels, so it overlaps both panel frames. 'NVIDIA's single-user test' (15760-15900) is about 30 px."
+  },
+  {
+   "frames": "16044-16110",
+   "severity": "low",
+   "what": "The stale 'Batching' tag stays on the die into the speculative-decoding opener."
+  }
+ ]
+}

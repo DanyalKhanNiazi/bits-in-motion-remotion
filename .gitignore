@@ -1,0 +1,16 @@
+# Bits in Motion Remotion project: code, docs and hero renders only.
+# Voice, music, mixes and renders stay local (private recordings and licence-restricted music).
+node_modules/
+out/
+__pycache__/
+*.pyc
+*.wav
+*.mp3
+*.m4a
+*.mp4
+*.mov
+*.webm
+audio_build/work/
+audio_build/*/work/
+audio_build/*/test/
+.remotion/

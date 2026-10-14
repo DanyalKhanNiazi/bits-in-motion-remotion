@@ -1,0 +1,979 @@
+{
+ "schema": 1,
+ "fps": 30,
+ "total_frames": 18367,
+ "duration_s": 612.2057,
+ "beds": {
+  "main": {
+   "title": "Minimal Idm Ambient Works - Loop",
+   "artist": "Musinova",
+   "licence": "Pixabay Content License",
+   "key": "A minor",
+   "bpm": 93.0,
+   "source": "F:/YouTube Channels/Bits in Motion/Motion Brand/stage_a_files/sound/music_candidates/Style 3 - primary - Minimal Idm Ambient Works - Loop.mp3",
+   "loop_s": 92.9032,
+   "loop_start_s": 0.0224,
+   "processing": "36-bar loop tiled seamlessly, high-pass 100 Hz 24 dB/oct, high shelf -3 dB at 5 kHz, 1-4 kHz dip -3.5 dB; darker copy low-passed at 2.4 kHz for tension sections"
+  },
+  "lift": {
+   "title": "Engineering Graphics",
+   "artist": "bearstockmusic",
+   "licence": "Pixabay Content License",
+   "key": "D major -> C major (varispeed -2 st)",
+   "bpm": 98.0,
+   "source": "F:/YouTube Channels/Bits in Motion/Motion Brand/stage_a_files/sound/music_candidates/Style 1 - primary - Engineering Graphics.mp3",
+   "varispeed": 0.890909,
+   "processing": "resampled 55/49 (pitch -2 semitones, tempo 110 -> 98 BPM), high-pass 130 Hz 24 dB/oct, shelf and 1-4 kHz dip as the main bed"
+  }
+ },
+ "ducking": {
+  "mode": "sidechain: voice-activity duck + voice-loudness follower",
+  "gap_nominal_LU": 22.0,
+  "gap_floor_LU": 19.5,
+  "gap_floor_by_window": {
+   "phrase": 19.5,
+   "3s": 19.5,
+   "1s": 19.0,
+   "400ms": 18.8
+  },
+  "speech_fraction_enforced": {
+   "3s": 0.5,
+   "1s": 0.7,
+   "400ms": 0.8
+  },
+  "speech_fraction_reported": {
+   "3s": 0.5,
+   "1s": 0.9,
+   "400ms": 0.95
+  },
+  "pause_rise_dB": 4.0,
+  "follow_window_ms": 300,
+  "follow_range_dB": [
+   -10.0,
+   4.0
+  ],
+  "lookahead_ms": 60,
+  "attack_ms": 25,
+  "release_ms": 450,
+  "speech_threshold_dBFS_raw": -52.0,
+  "bridge_gaps_ms": 150,
+  "note": "while the voice speaks the music sits a constant gap under the voice's own 300 ms loudness (it follows the voice envelope within follow_range_dB), calibrated so the integrated speech gap is gap_nominal_LU; in pauses it breathes up by pause_rise_dB (ducks in 25 ms with 60 ms look-ahead, recovers over release_ms); a closed loop then trims the music wherever a speech phrase, or a 3 s / 1 s / 0.4 s window that is mostly speech, is closer to the voice than its floor"
+ },
+ "music_selection": {
+  "candidates_measured": [
+   {
+    "track": "Style 3 primary: Minimal Idm Ambient Works - Loop",
+    "artist": "Musinova",
+    "tempo_bpm": 93.0,
+    "key": "A minor",
+    "onset_strength_mean": 1.725,
+    "centroid_hz": 1288,
+    "rms_dB": -9.7,
+    "rms_std_dB": 1.8,
+    "licence_in_CREDITS_md": true,
+    "role": "channel bed"
+   },
+   {
+    "track": "Style 1 primary: Engineering Graphics",
+    "artist": "bearstockmusic",
+    "tempo_bpm": 110.0,
+    "key": "D major / B minor",
+    "onset_strength_mean": 1.999,
+    "centroid_hz": 1261,
+    "rms_dB": -11.0,
+    "rms_std_dB": 8.8,
+    "licence_in_CREDITS_md": true,
+    "role": "hook and hero moments (most energetic documented track)"
+   },
+   {
+    "track": "Style 3 backup: Explorations - Loopable Edit",
+    "artist": "Musinova",
+    "tempo_bpm": 92.3,
+    "key": "C major",
+    "onset_strength_mean": 1.758,
+    "centroid_hz": 1358,
+    "rms_dB": -10.4,
+    "rms_std_dB": 2.8,
+    "licence_in_CREDITS_md": false,
+    "role": "not used (licence only in the Stage A notes, not in CREDITS.md)"
+   },
+   {
+    "track": "Style 1 backup: Contact needle tempo 88",
+    "artist": "?",
+    "tempo_bpm": 89.1,
+    "key": "G major",
+    "onset_strength_mean": 1.419,
+    "centroid_hz": 3110,
+    "rms_dB": -23.8,
+    "rms_std_dB": 5.0,
+    "licence_in_CREDITS_md": false,
+    "role": "not used (quiet, licence not in CREDITS.md)"
+   },
+   {
+    "track": "Style 2 primary: Enter the realm - no Piano",
+    "artist": "SamuelFJohanns",
+    "tempo_bpm": null,
+    "key": "E minor",
+    "onset_strength_mean": 0.687,
+    "centroid_hz": 546,
+    "rms_dB": -21.0,
+    "rms_std_dB": 9.7,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (slow, sparse: not energetic)"
+   },
+   {
+    "track": "Style 2 backup: Rite Ambient - no Piano",
+    "artist": "?",
+    "tempo_bpm": null,
+    "key": "E minor",
+    "onset_strength_mean": 0.68,
+    "centroid_hz": 522,
+    "rms_dB": -22.8,
+    "rms_std_dB": 11.4,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   },
+   {
+    "track": "Style 4 primary: Stay the Course",
+    "artist": "Kevin MacLeod",
+    "tempo_bpm": 60.1,
+    "key": "C major",
+    "onset_strength_mean": 0.889,
+    "centroid_hz": 455,
+    "rms_dB": -21.0,
+    "rms_std_dB": 8.9,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (60 BPM, CC BY needs a credit line)"
+   },
+   {
+    "track": "Style 4 backup: Deep Cosmic Resonance (Purified)",
+    "artist": "?",
+    "tempo_bpm": 80.7,
+    "key": "G major",
+    "onset_strength_mean": 0.599,
+    "centroid_hz": 330,
+    "rms_dB": -14.0,
+    "rms_std_dB": 6.6,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   },
+   {
+    "track": "Style 5 primary: Soft Vibraphone Ambient Loop_012",
+    "artist": "VelvetKeys",
+    "tempo_bpm": 117.5,
+    "key": "C major",
+    "onset_strength_mean": 0.838,
+    "centroid_hz": 478,
+    "rms_dB": -12.9,
+    "rms_std_dB": 4.9,
+    "licence_in_CREDITS_md": true,
+    "role": "not used (sparse, AI-labelled)"
+   },
+   {
+    "track": "Style 5 backup: In Memoriam",
+    "artist": "?",
+    "tempo_bpm": 69.8,
+    "key": "E minor",
+    "onset_strength_mean": 0.78,
+    "centroid_hz": 748,
+    "rms_dB": -14.1,
+    "rms_std_dB": 14.3,
+    "licence_in_CREDITS_md": false,
+    "role": "not used"
+   }
+  ],
+  "choice": "Engineering Graphics is the most energetic track whose licence is documented in audio_build/CREDITS.md (onset strength 2.0 against 1.7 for the bed, 110 BPM, bright marimba and bass, strong 16-bar structure: 8 bars intro, 8 bars build, drop at bar 17). Resampled -2 semitones (D -> C major, B minor -> A minor) it shares the bed's key and its tempo drops to 98 BPM, close to the bed's 93 BPM. It is never layered with the bed, only cross-faded at paragraph starts."
+ },
+ "main_entry": {
+  "t_s": 52.733,
+  "note": "the main bed's loop restarts from its first bar when S2 begins"
+ },
+ "layers": [
+  {
+   "id": "hook",
+   "bed": "lift",
+   "note": "hook: natural order of the track (quiet marimba intro, 8-bar build, then the drop on P02 'Let's follow one question')",
+   "t0_s": 0.0,
+   "t1_s": 54.333,
+   "src_start_s": 1.864,
+   "fade_in_s": 0.12,
+   "fade_out_s": 2.2
+  },
+  {
+   "id": "lift_P11",
+   "bed": "lift",
+   "note": "P11 bridge reveal: the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 245.684,
+   "t1_s": 284.133,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  },
+  {
+   "id": "lift_P13",
+   "bed": "lift",
+   "note": "P13 the experiment (mid-film hero): the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 314.451,
+   "t1_s": 355.7,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  },
+  {
+   "id": "lift_P22",
+   "bed": "lift",
+   "note": "P22 callback: back to the question: the track's bar-16 fill then the drop on the paragraph's first word",
+   "t0_s": 576.384,
+   "t1_s": 600.6,
+   "src_start_s": 36.882,
+   "fade_in_s": 1.0,
+   "fade_out_s": 2.0
+  }
+ ],
+ "sections": [
+  {
+   "id": "S1",
+   "t0_s": 0.0,
+   "t1_s": 52.733,
+   "paragraphs": [
+    1,
+    2
+   ],
+   "tone_dark": [
+    0.3,
+    0.3
+   ],
+   "gap_offset_dB": 1.2,
+   "beds": [
+    "lift:hook"
+   ]
+  },
+  {
+   "id": "S2",
+   "t0_s": 52.733,
+   "t1_s": 93.7,
+   "paragraphs": [
+    3,
+    4
+   ],
+   "tone_dark": [
+    0.4,
+    0.4
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main",
+    "lift:hook"
+   ]
+  },
+  {
+   "id": "S3",
+   "t0_s": 93.7,
+   "t1_s": 163.233,
+   "paragraphs": [
+    5,
+    7
+   ],
+   "tone_dark": [
+    0.3,
+    0.3,
+    0.3
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S4",
+   "t0_s": 163.233,
+   "t1_s": 217.467,
+   "paragraphs": [
+    8,
+    9
+   ],
+   "tone_dark": [
+    0.35,
+    0.5
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S5",
+   "t0_s": 217.467,
+   "t1_s": 316.9,
+   "paragraphs": [
+    10,
+    12
+   ],
+   "tone_dark": [
+    0.4,
+    0.2,
+    0.2
+   ],
+   "gap_offset_dB": 0.5,
+   "beds": [
+    "main",
+    "lift:lift_P11",
+    "lift:lift_P13"
+   ]
+  },
+  {
+   "id": "S6",
+   "t0_s": 316.9,
+   "t1_s": 396.9,
+   "paragraphs": [
+    13,
+    15
+   ],
+   "tone_dark": [
+    0.15,
+    0.3,
+    0.35
+   ],
+   "gap_offset_dB": 1.0,
+   "beds": [
+    "main",
+    "lift:lift_P13"
+   ]
+  },
+  {
+   "id": "S7",
+   "t0_s": 396.9,
+   "t1_s": 503.033,
+   "paragraphs": [
+    16,
+    18
+   ],
+   "tone_dark": [
+    0.6,
+    0.6,
+    0.6
+   ],
+   "gap_offset_dB": 0.0,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S8",
+   "t0_s": 503.033,
+   "t1_s": 569.333,
+   "paragraphs": [
+    19,
+    20
+   ],
+   "tone_dark": [
+    0.3,
+    0.2
+   ],
+   "gap_offset_dB": 0.5,
+   "beds": [
+    "main"
+   ]
+  },
+  {
+   "id": "S9",
+   "t0_s": 569.333,
+   "t1_s": 612.206,
+   "paragraphs": [
+    21,
+    22
+   ],
+   "tone_dark": [
+    0.2,
+    0.1
+   ],
+   "gap_offset_dB": 1.0,
+   "beds": [
+    "main",
+    "lift:lift_P22"
+   ]
+  }
+ ],
+ "swells": [
+  {
+   "t_s": 0.033,
+   "frame": 1.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 17.733,
+   "frame": 532.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 28.2,
+   "frame": 846.0,
+   "source": "riser",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 29.7,
+   "frame": 891.0,
+   "source": "crate",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 33.033,
+   "frame": 991.0,
+   "source": "impact",
+   "strength": 1.0,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 2.0,
+   "lift_pause_dB": 5.0
+  },
+  {
+   "t_s": 34.233,
+   "frame": 1027.0,
+   "source": "impact",
+   "strength": 1.0,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 2.0,
+   "lift_pause_dB": 5.0
+  },
+  {
+   "t_s": 36.2,
+   "frame": 1086.0,
+   "source": "sting",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 36.567,
+   "frame": 1097.0,
+   "source": "impact",
+   "strength": 0.75,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.5,
+   "lift_pause_dB": 3.75
+  },
+  {
+   "t_s": 42.733,
+   "frame": 1282.0,
+   "source": "swell",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 69.8,
+   "frame": 2094.0,
+   "source": "impact",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 82.233,
+   "frame": 2467.0,
+   "source": "impact",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 101.5,
+   "frame": 3045.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 104.4,
+   "frame": 3132.0,
+   "source": "impact",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 120.0,
+   "frame": 3600.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 161.867,
+   "frame": 4856.0,
+   "source": "impact",
+   "strength": 0.65,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.3,
+   "lift_pause_dB": 3.25
+  },
+  {
+   "t_s": 180.833,
+   "frame": 5425.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 182.1,
+   "frame": 5463.0,
+   "source": "impact",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 198.467,
+   "frame": 5954.0,
+   "source": "sting",
+   "strength": 0.75,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.5,
+   "lift_pause_dB": 3.75
+  },
+  {
+   "t_s": 210.0,
+   "frame": 6300.0,
+   "source": "impact",
+   "strength": 1.0,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 2.0,
+   "lift_pause_dB": 5.0
+  },
+  {
+   "t_s": 215.667,
+   "frame": 6470.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 244.767,
+   "frame": 7343.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 246.433,
+   "frame": 7393.0,
+   "source": "sting",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 247.633,
+   "frame": 7429.0,
+   "source": "crate",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 254.6,
+   "frame": 7638.0,
+   "source": "crate",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 259.133,
+   "frame": 7774.0,
+   "source": "riser",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 262.467,
+   "frame": 7874.0,
+   "source": "impact",
+   "strength": 1.0,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 2.0,
+   "lift_pause_dB": 5.0
+  },
+  {
+   "t_s": 262.533,
+   "frame": 7876.0,
+   "source": "swell",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 281.8,
+   "frame": 8454.0,
+   "source": "crate",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 295.6,
+   "frame": 8868.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 296.2,
+   "frame": 8886.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 334.333,
+   "frame": 10030.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 335.9,
+   "frame": 10077.0,
+   "source": "impact",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 344.267,
+   "frame": 10328.0,
+   "source": "crate",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 357.7,
+   "frame": 10731.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 385.5,
+   "frame": 11565.0,
+   "source": "sting",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 396.833,
+   "frame": 11905.0,
+   "source": "swell",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 413.333,
+   "frame": 12400.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 415.467,
+   "frame": 12464.0,
+   "source": "crate",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 420.133,
+   "frame": 12604.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 428.367,
+   "frame": 12851.0,
+   "source": "swell",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 453.0,
+   "frame": 13590.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 453.567,
+   "frame": 13607.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 462.767,
+   "frame": 13883.0,
+   "source": "swell",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 473.867,
+   "frame": 14216.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 487.333,
+   "frame": 14620.0,
+   "source": "riser",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 487.767,
+   "frame": 14633.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 493.6,
+   "frame": 14808.0,
+   "source": "sting",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 528.1,
+   "frame": 15843.0,
+   "source": "impact",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 537.133,
+   "frame": 16114.0,
+   "source": "sting",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 539.7,
+   "frame": 16191.0,
+   "source": "sting",
+   "strength": 0.7,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.4,
+   "lift_pause_dB": 3.5
+  },
+  {
+   "t_s": 545.967,
+   "frame": 16379.0,
+   "source": "crate",
+   "strength": 0.8,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.6,
+   "lift_pause_dB": 4.0
+  },
+  {
+   "t_s": 559.433,
+   "frame": 16783.0,
+   "source": "impact",
+   "strength": 0.75,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.5,
+   "lift_pause_dB": 3.75
+  },
+  {
+   "t_s": 563.233,
+   "frame": 16897.0,
+   "source": "impact",
+   "strength": 0.9,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.8,
+   "lift_pause_dB": 4.5
+  },
+  {
+   "t_s": 595.0,
+   "frame": 17850.0,
+   "source": "impact",
+   "strength": 0.85,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.7,
+   "lift_pause_dB": 4.25
+  },
+  {
+   "t_s": 609.833,
+   "frame": 18295.0,
+   "source": "sting",
+   "strength": 0.6,
+   "lead_s": 1.6,
+   "release_s": 1.2,
+   "lift_speech_dB": 1.2,
+   "lift_pause_dB": 3.0
+  },
+  {
+   "t_s": 611.956,
+   "frame": null,
+   "source": "final_resolve",
+   "strength": 1.0,
+   "lead_s": 5.0,
+   "release_s": 0.3,
+   "lift_speech_dB": 2.2,
+   "lift_pause_dB": 9.0
+  }
+ ],
+ "final_resolve": {
+  "start_s": 598.006,
+  "peak_s": 612.006,
+  "end_s": 612.2057,
+  "chord": "A minor (A2 E3 A3 C4 E4 A4)",
+  "note": "main bed cross-fades into a synthesized tonic pad that swells to land as the last word ends (the voice ends at 611.99 s); 180 ms fade at the file end"
+ },
+ "tone_note": "tone_dark: 0 = full bed, 1 = low-passed copy, per paragraph, 1.5 s cross-fades",
+ "measured": {
+  "gap_phrase_min_LU_enforced_set": 19.650000003074595,
+  "gap_3s_min_LU_enforced_set": 20.085262668582775,
+  "gap_1s_min_LU_enforced_set": 19.06452065391976,
+  "gap_400ms_min_LU_enforced_set": 18.792247046401897,
+  "max_trim_dB": 10.210486190487646,
+  "follower_range_dB": [
+   -24.332066203520483,
+   -3.3723084855068493
+  ],
+  "open_state_gain_dB_median": -8.066766812746472
+ }
+}

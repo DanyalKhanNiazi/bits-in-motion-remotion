@@ -1,0 +1,49 @@
+{
+ "id": "S4 (4897-6523) Reading vs writing",
+ "score_100": 74,
+ "best": "The rewind is a strong signature beat: the tape counter runs from 00:06 down to 00:00 starting on 'rewind' (4918), and the Enter keycap is pressed on 'enter' (4958). The x1000 cube against the tiny coral x4 wait block (6300-6520) is the clearest scale image in the range. Every number on screen matches the voice (5/4, ≈1,000, 4, x1000, x4). The re-hook card is placed correctly (5954).",
+ "issues": [
+  {
+   "frames": "5350-5945",
+   "severity": "med",
+   "what": "For about 20 s the 'chip world' uses the same centred die, the same idle loop ring on the right and a tile row at the top. Only the caption and a few small answer tiles change. Across 5422/5647/5722/5797/5872 it reads as one repeated layout, not a fresh image every 3-6 s.",
+   "fix": "Give each sub-beat its own camera: a low hero angle on 'side by side' (5425), a high top-down crane for 'chunk by chunk' (5502), a close-up on the output port for 'first piece' (5640), and an orbit to the ring for 'one token per run' (5738). Move the die off centre in at least two of them."
+  },
+  {
+   "frames": "5640-5945",
+   "severity": "med",
+   "what": "The answer chain is tiny (tile text about 20 px at 1080p, unreadable at 390 px) and runs off the left edge, clipped ('Because' cut at x=0 at 5797/5872). The prompt row clips at the top edge at 5647/5722 and shows as grey bars.",
+   "fix": "Scale the answer rail tiles to at least 44 px text and keep them inside the 64 px safe margin. Either frame the top prompt row fully or blur and darken it deliberately so it does not read as a cropping error."
+  },
+  {
+   "frames": "6044-6250",
+   "severity": "med",
+   "what": "The 'Same test' panel is a bar-chart slide: flat UI lanes, a big empty right and bottom area, and small labels ('Same test', '≈1,000 tokens' at about 20-24 px). It is near-static from 6083 to 6135 (53 frames below 0.6 mean diff). The writing lane stays unlabeled until 6191.",
+   "fix": "Make it physical: put 1,000 tiles and 4 tiles on the same hardware stage, with two timers racing to one finish line. Raise the labels to 48 px or more and add a slow push plus particle drift through 6083-6135."
+  },
+  {
+   "frames": "4890-4905",
+   "severity": "med",
+   "what": "Continuity jump at the S3 to S4 cut. At 4894 the chat shows a long answer ('...the whole answer finally done. That is'); at 4902 it is a different window framing with a different, shorter answer text ('...until the last one'). The answer appears to rewrite itself before the rewind starts.",
+   "fix": "Hand off the exact chat state (same text, same scroll, same framing) from S3's last frame into S4's first frame, then start the tape-stop decel from that state."
+  },
+  {
+   "frames": "6300-6520",
+   "severity": "low",
+   "what": "The footnote 'Both vs writing one token' is about 14 px, illegible at 390 px. At 6472-6512 '×1000' nearly touches the cube's left face.",
+   "fix": "Set the footnote to 28 px or more, or drop it and keep the voice. Add a 40 px or larger gap between '×1000' and the cube, or move the number above it."
+  },
+  {
+   "frames": "5100-5180",
+   "severity": "low",
+   "what": "The candidate-word reel in slot 4 shows half-cut stacked words ('makes / types', 'adds'), which reads as a rendering glitch at speed.",
+   "fix": "Mask the reel to one clean row with motion blur, or show whole words that snap per tick."
+  },
+  {
+   "frames": "6504-6528",
+   "severity": "low",
+   "what": "The exit push goes into the cube, then hard-cuts (diff 37 at 6524) to an unrelated grey weight tray. This is not the planned push into the coral wait stack, and it is not a match cut.",
+   "fix": "Push into the coral wait block and match-cut its colour and shape to the '?' token tile over the S5 tray, or whip as on the other transitions."
+  }
+ ]
+}

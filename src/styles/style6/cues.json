@@ -1,0 +1,20 @@
+{
+  "style": 6,
+  "cues": [
+    {"cue": "button", "frame": 0, "gain_db": -4},
+    {"cue": "land", "frame": 59, "note": "A", "gain_db": -4},
+    {"cue": "lens_open", "frame": 197},
+    {"cue": "lens_close", "frame": 331},
+    {"cue": "land", "frame": 498, "note": "A", "gain_db": -4},
+    {"cue": "lens_open", "frame": 608},
+    {"cue": "lens_close", "frame": 706},
+    {"cue": "land", "frame": 748, "note": "A", "gain_db": -4},
+    {"cue": "land", "frame": 781, "note": "C", "gain_db": -4},
+    {"cue": "land", "frame": 808, "note": "D", "gain_db": -4},
+    {"cue": "land", "frame": 832, "note": "E", "gain_db": -4},
+    {"cue": "land", "frame": 860, "note": "G", "gain_db": -4},
+    {"cue": "standby", "start": 1475, "end": 1817},
+    {"cue": "lock", "frame": 1798},
+    {"cue": "button", "frame": 1837}
+  ]
+}

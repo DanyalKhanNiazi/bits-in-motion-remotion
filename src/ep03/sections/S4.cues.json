@@ -1,0 +1,21 @@
+[
+  {"frame": 4917, "kind": "rewind", "strength": 0.9},
+  {"frame": 4959, "kind": "pop", "strength": 0.7},
+  {"frame": 4963, "kind": "whoosh", "strength": 0.6},
+  {"frame": 5190, "kind": "pop", "strength": 0.6},
+  {"frame": 5213, "kind": "whoosh", "strength": 0.5},
+  {"frame": 5425, "kind": "riser", "strength": 0.6},
+  {"frame": 5463, "kind": "impact", "strength": 0.85},
+  {"frame": 5954, "kind": "sting", "strength": 0.75},
+  {"frame": 6042, "kind": "whoosh", "strength": 0.5},
+  {"frame": 6236, "kind": "pop", "strength": 0.55},
+  {"frame": 6300, "kind": "impact", "strength": 1.0},
+  {"frame": 6347, "kind": "pop", "strength": 0.45},
+  {"frame": 6370, "kind": "tick", "strength": 0.45},
+  {"frame": 6385, "kind": "tick", "strength": 0.5},
+  {"frame": 6393, "kind": "tick", "strength": 0.55},
+  {"frame": 6401, "kind": "tick", "strength": 0.6},
+  {"frame": 6409, "kind": "tick", "strength": 0.7},
+  {"frame": 6470, "kind": "impact", "strength": 0.8},
+  {"frame": 6504, "kind": "whoosh", "strength": 0.7}
+]

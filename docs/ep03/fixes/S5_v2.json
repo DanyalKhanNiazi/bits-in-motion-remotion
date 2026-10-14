@@ -1,0 +1,42 @@
+{
+ "id": "S5 (6524-9506) Weights and the Bridge",
+ "score_100": 80,
+ "v1_issues_fixed": "6 of 8 fixed, 1 partly fixed, 1 not fixed. FIXED: the Bridge is rebuilt with the real assets, an HBM stack tower and the compute-cache die, plus a dive-through flash at 7820, a camera reframe at 7830-7900 and god rays behind from 7900. The deck lights at 7850-7870 and 'The bridge' lands at about 7875-7880 against the word at 7873. 'Memory' arrives at about 7910 (word 7904) and 'Math' at 7940 (word 7940). The single weight is centred, and its value rolls from 2.4993 to 0.4804 to 0.0212, settling at 7144 on 'stored' (7147) at about 44 px. The bits 00111100 10101110 are the correct bf16 encoding of 0.0212. The equation's '×' lands at 7300 and '≈' at 7304. The text reads 'over 3 TB/s' (8684). 'Waiting' is now a clear coral caption at the top right (9224). The 150 tokens/s gauge stretch no longer trips the low-motion check. PARTLY FIXED: at 6744-6770 the glass cards are present, but they stay blank until about 6772, and motion is low from 6754 to 6842 (89 frames). NOT FIXED: label sizes. 'The card's own memory', 'Tiny on-chip storage', 'The math happens here', 'Memory', 'Math units', 'The weights', 'NVIDIA H100', 'Narrow bridge', 'faster still', 'Your reading speed', '◀◀ From the start' and 'On paper: peak spec rates' are still about 14-30 px.",
+ "remaining": [
+  {
+   "frames": "7424-9464",
+   "severity": "high",
+   "what": "The must-read labels are still under 40 px. 'Memory' and 'Math units' on the Bridge reveal are about 28 px and barely legible at 390 px (checked at 7950). The same goes for 'The card's own memory' (7544-7604), 'Tiny on-chip storage' and 'The math happens here' (7664-7800), 'NVIDIA H100' (8504), 'Narrow bridge', 'Math units' and 'faster still' (8744-8804), 'Your reading speed' (9344-9464), and 'From the start' (7424, about 14 px)."
+  },
+  {
+   "frames": "8250-8275",
+   "severity": "med",
+   "what": "Text collision: the outgoing caption 'Every token' and the incoming 'All of them' overlap at full opacity under the layer stack, so it reads 'Eve[All of them]ken' (confirmed at full resolution at 8264)."
+  },
+  {
+   "frames": "8430-8460",
+   "severity": "med",
+   "what": "The 'Every token' headline (cyan, motion-blurred) sits right on top of the token tile row 'Because a model writes one'. The tiles cover the bottom of the letters (8444)."
+  },
+  {
+   "frames": "7830-8030",
+   "severity": "med",
+   "what": "The Bridge reveal now uses premium assets and lands on its word, but it is still a mostly lateral reframe of a side view. The deck is a thin translucent strip on two stick legs, the crates are tiny (7990), and there is no low-angle crane-up and no foreground haze. It reads as a good diagram, not yet the film's hero image."
+  },
+  {
+   "frames": "6640-6710",
+   "severity": "low",
+   "what": "'also called parameters' is partly hidden behind a foreground weight tile ('al' cut off at 6644). 'Billions of numbers' is set over busy tile trays (6704). The example tile shows '0.5271', which then differs from the 0.0212 used for the single weight."
+  },
+  {
+   "frames": "7090-7110",
+   "severity": "low",
+   "what": "The big '8 billion weights' is stacked over the ghosted ChatGPT, Claude and Gemini cards and their '?'s, so the type layers on type."
+  },
+  {
+   "frames": "6754-6842",
+   "severity": "low",
+   "what": "89 frames of very low motion on the model-size cards over the server-room plate. The cards are blank until about 6772."
+  }
+ ]
+}

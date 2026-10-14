@@ -1,0 +1,32 @@
+{
+ "id": "S7 (11907-15090) The three waits",
+ "score_100": 82,
+ "v1_issues_fixed": "Mostly fixed. FIXED: (1) The caption word-gap bug is gone: 'Next token for' (14105-14112) shows correct spacing. (2) Must-read labels are now about 40-50 px on dark pills: 'Reasoning tokens first', 'Hidden', 'Saves math ✓' / 'Not travel ✗' (13215), '+ all the notes', and '8 bits per weight / instead of 16' (14500). All are readable at 390 px. (3) The question bubble stays fully in frame through the push (12250-12300). (4) 'Anthropic says' sits above the tray in clear space (12580). (5) The '1 requests' ghost is gone; '1' and '200' now pop separately (14562). (6) The flash into the token lanes is removed and the grade stays deep (14738). (7) 'More to haul, every piece' now lands on a held shot of the tall note piles, not on blur (13860). (8) 'Much bigger models' pops as a keyword (12460). PARTLY FIXED: the tradeoff payoff. 'The tradeoff' has moved off the monitor, the chat streams, 'Each token: cheaper ✓' lands, and 'slower' slams in on its word (15062, word at 15061). But the beat is still a mostly static monitor, and 'Your stream: slower' is fully legible for only about 20 frames before the whip (15065-15085).",
+ "remaining": [
+  {
+   "frames": "14866-15090",
+   "severity": "med",
+   "what": "The tradeoff payoff still reads close to a slide. It is a monitor whose chat text is about 20 px (unreadable on a phone), beside left-column labels of about 44-48 px rather than the 64 px keywords asked for. 'Your stream: slower' is fully legible for only about 20 frames before the whip at about 15085, which breaks the hold-15-frames rule, and this is the chapter's punchline. The coral gap markers in the chat ('the -last -one -is -done, -and -when') read as stray hyphens or typos."
+  },
+  {
+   "frames": "14100-14200",
+   "severity": "med",
+   "what": "The keyword 'Next token for every conversation' runs into the grid tray asset: 'token for' overlaps the tray's left corner (14105-14112). This is a text-on-asset collision."
+  },
+  {
+   "frames": "13280-13330, 13840-13870",
+   "severity": "low",
+   "what": "The 'Weights' crate tags are partly hidden by the note piles. One reads as 'Weigh' (13860), and the right crate's tag is clipped to 'eights' next to '+ all the notes' (13300)."
+  },
+  {
+   "frames": "12330-12420",
+   "severity": "low",
+   "what": "The 'Ours' crates on the long plain bridge are still sparse. Most of the frame is empty floor and rail for about 3 s."
+  },
+  {
+   "frames": "14340-14440",
+   "severity": "low",
+   "what": "The 'NVIDIA's' source tag is about 30 px. The two 16/8-slot rails at 14400 have no labels on screen, so the frame carries no words until '8 bits per weight' lands."
+  }
+ ]
+}

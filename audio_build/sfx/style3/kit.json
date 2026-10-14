@@ -1,0 +1,226 @@
+{
+ "style": 3,
+ "name": "Living Schematic",
+ "release_delay_ms": 150,
+ "cues": {
+  "button_press": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/button_press.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/rm click (3).wav",
+   "processing": "press 0.110-0.150 s, attack aligned, 0.5/8 ms fades",
+   "level_db": -12.0,
+   "dur_ms": 36.4,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.8,
+    2.0,
+    38.5,
+    58.6
+   ],
+   "level_db_f0": -16.0
+  },
+  "button_release": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/button_release.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/rm click (3).wav",
+   "processing": "release 0.325-0.365 s (the switch's own, naturally softer); played 4 dB under its press",
+   "level_db": -16.0,
+   "dur_ms": 38.5,
+   "peak_dBFS": -1.0,
+   "onset_ms": 1.0,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    7.6,
+    7.9,
+    61.2,
+    23.3
+   ]
+  },
+  "land_A": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/land_A.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry tick: 2 ms noise click above 4 kHz (-8 dB) + sine body A 440.0 Hz (body in 300 Hz-1 kHz), tau 16 ms, 2x -18 dB, no room, 60 ms",
+   "level_db": -12.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.17,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 440.0
+  },
+  "land_C": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/land_C.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry tick: 2 ms noise click above 4 kHz (-8 dB) + sine body C 523.3 Hz (body in 300 Hz-1 kHz), tau 16 ms, 2x -18 dB, no room, 60 ms",
+   "level_db": -12.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.17,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 523.3
+  },
+  "land_D": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/land_D.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry tick: 2 ms noise click above 4 kHz (-8 dB) + sine body D 587.3 Hz (body in 300 Hz-1 kHz), tau 16 ms, 2x -18 dB, no room, 60 ms",
+   "level_db": -12.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.15,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 587.3
+  },
+  "land_E": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/land_E.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry tick: 2 ms noise click above 4 kHz (-8 dB) + sine body E 659.3 Hz (body in 300 Hz-1 kHz), tau 16 ms, 2x -18 dB, no room, 60 ms",
+   "level_db": -12.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.15,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 659.3
+  },
+  "land_G": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/land_G.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry tick: 2 ms noise click above 4 kHz (-8 dB) + sine body G 784.0 Hz (body in 300 Hz-1 kHz), tau 16 ms, 2x -18 dB, no room, 60 ms",
+   "level_db": -12.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.15,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    100.0,
+    0.0,
+    0.0
+   ],
+   "f0_hz": 784.0
+  },
+  "lens_open": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/lens_open.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Shutter.wav",
+   "processing": "very short shutter 0.050-0.270 s, HP 300 Hz, -4 dB at 2.5 kHz, 50 ms sin^2 swell-in, 60 ms fall (open = shaped swell)",
+   "level_db": -13.0,
+   "dur_ms": 220.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 56.54,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    0.7,
+    43.1,
+    56.2
+   ]
+  },
+  "lens_close": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/lens_close.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/06 UI, Clicks & Camera/Shutter.wav",
+   "processing": "exact reverse of lens_open",
+   "level_db": -13.0,
+   "dur_ms": 220.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 53.85,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    0.7,
+    43.1,
+    56.2
+   ]
+  },
+  "lock": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/lock.wav",
+   "source": "synthesized (numpy)",
+   "processing": "two dry synthesized ticks 40 ms apart: 2 ms noise click above 4 kHz + 3 ms 220 Hz body; 2nd -2 dB; 60 ms",
+   "level_db": -15.0,
+   "dur_ms": 60.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.17,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    13.3,
+    1.8,
+    0.3,
+    84.5
+   ]
+  },
+  "standby_loop": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/standby_loop.wav",
+   "source": "synthesized (numpy)",
+   "processing": "55.00 Hz sine (A1) + 110 Hz octave at -14 dB (a hint on small speakers, as the notes suggest); exactly periodic 20.0 s loop. Replaces Drones_01.wav, which beats at ~1.8 Hz (10-12 dB swings) after the shift",
+   "level_db": -26.0,
+   "dur_ms": 20000.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.15,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    100.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "length_s": 20.0,
+   "wrap_jump_vs_p99_step": 1.001,
+   "rms_50ms_range_db": 0.26
+  },
+  "energize": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/energize.wav",
+   "source": "D:/Assets/01 Audio/Sound Effects/05 Glitch & Digital/Analog Synth Hit Deep.wav",
+   "processing": "sustain 0.50-0.98 s, varispeed to A1 (51.9 -> 55 Hz), LP 400 Hz, 250 ms rise, 150 ms fall (~450 ms)",
+   "level_db": -11.0,
+   "dur_ms": 453.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 41.77,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    90.8,
+    9.2,
+    0.0,
+    0.0
+   ]
+  },
+  "dive": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/dive.wav",
+   "source": "synthesized (numpy)",
+   "processing": "dry rising sweep: band-passed noise 1.5-4 kHz -> 5-12 kHz over 500 ms, 350 ms rise, 40 ms fall",
+   "level_db": -11.0,
+   "dur_ms": 500.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 82.98,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    0.0,
+    0.3,
+    40.5,
+    59.3
+   ]
+  },
+  "alert": {
+   "file": "F:/YouTube Channels/Bits in Motion/remotion/audio_build/sfx/style3/alert.wav",
+   "source": "synthesized (numpy)",
+   "processing": "two dry low blips E3 then C3 (70 ms each, soft-clipped sine), 100 ms apart, LP 800 Hz",
+   "level_db": -9.0,
+   "dur_ms": 190.0,
+   "peak_dBFS": -1.0,
+   "onset_ms": 0.62,
+   "bands_pct_<300/300-1k/1-4k/>4k": [
+    95.5,
+    4.5,
+    0.0,
+    0.0
+   ]
+  }
+ }
+}

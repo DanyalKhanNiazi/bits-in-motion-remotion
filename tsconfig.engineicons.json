@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/shared/**/*", "src/engine/**/*", "src/icons/**/*", "src/entries/engineicons.tsx", "src/entries/engineicons.register.ts"]
+}

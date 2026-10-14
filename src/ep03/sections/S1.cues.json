@@ -1,0 +1,18 @@
+[
+  {"frame": 1, "kind": "impact", "strength": 0.8},
+  {"frame": 34, "kind": "type", "strength": 0.35},
+  {"frame": 172, "kind": "tick", "strength": 0.35},
+  {"frame": 177, "kind": "pop", "strength": 0.8},
+  {"frame": 292, "kind": "tick", "strength": 0.6},
+  {"frame": 532, "kind": "impact", "strength": 0.9},
+  {"frame": 721, "kind": "glitch", "strength": 0.45},
+  {"frame": 846, "kind": "riser", "strength": 0.7},
+  {"frame": 891, "kind": "crate", "strength": 0.85},
+  {"frame": 991, "kind": "impact", "strength": 1.0},
+  {"frame": 1027, "kind": "impact", "strength": 1.0},
+  {"frame": 1086, "kind": "sting", "strength": 0.8},
+  {"frame": 1097, "kind": "impact", "strength": 0.75},
+  {"frame": 1282, "kind": "swell", "strength": 0.7},
+  {"frame": 1375, "kind": "dial", "strength": 0.65},
+  {"frame": 1566, "kind": "whoosh", "strength": 0.55}
+]

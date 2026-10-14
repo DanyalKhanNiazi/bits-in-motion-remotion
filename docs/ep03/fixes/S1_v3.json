@@ -1,0 +1,42 @@
+{
+ "id": "S1 (0-1581) Hook",
+ "score_100": 86,
+ "v2_issues_fixed": "FIXED: the left-cropped answer line (f640-730 now shows both lines in full, inside the safe area); 'For ONE piece!' (it now slams with scale overshoot and motion blur: ONE at f1086, 'piece!' at f1098 on the word at f1097, settling at about 110 px and 90 px; the 'good' tile is about 55 px; it reads well on a 390 px phone); 'Half power', 'Clearly slowed' and 'Barely noticed' are now about 45-55 px. The blink wipe at f288-294 lands on 'blink' (f290). The owner's stopwatch render is premium chrome with a convincing dial and readout plate. The crate render (f910-1120) is the best image in the range: ≈16 GB is mapped onto its plate with correct perspective, the lighting matches, and it rides a premium cyan Bridge. PARTLY FIXED: the empty frame after the punch (f1130-1140 now shows ghost slot outlines and a fading 'good' chip, and the Bit route lights by f1142, so it is short and not fully empty); the title moment (f1300 adds a 'BITS IN MOTION' wordmark under the 11 tiles, but it is about 25 px and lasts about 1 s). NOT FIXED: 'That model, one conversation' (about 22 px) and 'Where the math happens' (about 30 px) at f910-1012; the tiles morphing over the plain text at f724-742.",
+ "remaining": [
+  {
+   "frames": "0-90",
+   "severity": "med",
+   "what": "The first 3 s hook rests on two stopwatches in a wide shot. The key number 'Read 0.03 s' is a readout of about 45 px inside the dial, against a 160-320 px hero-number rule; the 'Read' and 'Write' labels are about 30 px and about 5 px on a phone. ×200 is not foreshadowed. It looks premium, but it is a calm opening rather than a scroll-stopper."
+  },
+  {
+   "frames": "16-22",
+   "severity": "low",
+   "what": "'Nvidia's own test' slides in across the Write stopwatch ('test' sits on 'Write' at f18) before it settles between the two watches. The casing is 'Nvidia' while the voice and brand say NVIDIA."
+  },
+  {
+   "frames": "190-290",
+   "severity": "low",
+   "what": "The Read watch shows 0.03 s at f6-145, then 0.00 s again at f190-280 with no visible reset, before 'under 0.03 s'. The replay is unmotivated, and 'Read 0.03 s' and 'under 0.03 s' repeat each other at f325-370."
+  },
+  {
+   "frames": "910-1012",
+   "severity": "med",
+   "what": "'That model, one conversation' is still about 22 px and 'Where the math happens' about 30 px, both under the 40 px minimum and unreadable on a phone."
+  },
+  {
+   "frames": "724-742",
+   "severity": "low",
+   "what": "The plain answer text and the incoming tiles overlap for about 20 frames ('outlook for next year' is doubled), so the morph reads as a collision."
+  },
+  {
+   "frames": "760-865",
+   "severity": "low",
+   "what": "'Each piece depends on the ones before it' is a row of about 25 px tiles in the lower third, with the rest of the frame empty navy apart from thin arcs. It is weak for a key concept."
+  },
+  {
+   "frames": "1290-1320",
+   "severity": "low",
+   "what": "The title or opener moment is still minimal: the wordmark is about 25 px and held for about 1 s."
+  }
+ ]
+}

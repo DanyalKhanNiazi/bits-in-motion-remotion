@@ -1,0 +1,1587 @@
+[
+  {
+    "id": "P01",
+    "anchors": [
+      {
+        "text": "read a prompt",
+        "start": 157,
+        "end": 185,
+        "word_ids": [
+          "SRT17",
+          "SRT18",
+          "SRT19"
+        ]
+      },
+      {
+        "text": "Under three hundredths",
+        "start": 290,
+        "end": 350,
+        "word_ids": [
+          "SRT30",
+          "SRT31",
+          "SRT32"
+        ]
+      },
+      {
+        "text": "Then",
+        "start": 382,
+        "end": 392,
+        "word_ids": [
+          "SRT37"
+        ]
+      },
+      {
+        "text": "six and a half",
+        "start": 479,
+        "end": 503,
+        "word_ids": [
+          "SRT51",
+          "SRT52",
+          "SRT53",
+          "SRT54"
+        ]
+      },
+      {
+        "text": "Each piece depends",
+        "start": 755,
+        "end": 790,
+        "word_ids": [
+          "SRT82",
+          "SRT83",
+          "SRT84"
+        ]
+      },
+      {
+        "text": "hauls almost",
+        "start": 889,
+        "end": 911,
+        "word_ids": [
+          "SRT99",
+          "SRT100"
+        ]
+      },
+      {
+        "text": "For one piece",
+        "start": 1080,
+        "end": 1109,
+        "word_ids": [
+          "SRT115",
+          "SRT116",
+          "SRT117"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P02",
+    "anchors": [
+      {
+        "text": "Why do AI",
+        "start": 1197,
+        "end": 1218,
+        "word_ids": [
+          "SRT127",
+          "SRT128",
+          "SRT129"
+        ]
+      },
+      {
+        "text": "an experiment",
+        "start": 1331,
+        "end": 1348,
+        "word_ids": [
+          "SRT144",
+          "SRT145"
+        ]
+      },
+      {
+        "text": "half power",
+        "start": 1411,
+        "end": 1433,
+        "word_ids": [
+          "SRT153",
+          "SRT154"
+        ]
+      },
+      {
+        "text": "clearly slowed",
+        "start": 1474,
+        "end": 1500,
+        "word_ids": [
+          "SRT161",
+          "SRT162"
+        ]
+      },
+      {
+        "text": "barely noticed",
+        "start": 1537,
+        "end": 1566,
+        "word_ids": [
+          "SRT167",
+          "SRT168"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P03",
+    "anchors": [
+      {
+        "text": "A tokenizer",
+        "start": 1670,
+        "end": 1706,
+        "word_ids": [
+          "SRT182",
+          "SRT183"
+        ]
+      },
+      {
+        "text": "ID number",
+        "start": 1832,
+        "end": 1852,
+        "word_ids": [
+          "SRT196",
+          "SRT197"
+        ]
+      },
+      {
+        "text": "With OpenAI",
+        "start": 1943,
+        "end": 1972,
+        "word_ids": [
+          "SRT206",
+          "SRT207"
+        ]
+      },
+      {
+        "text": "11 numbers",
+        "start": 2094,
+        "end": 2121,
+        "word_ids": [
+          "SRT222",
+          "SRT223"
+        ]
+      },
+      {
+        "text": "Meta",
+        "start": 2138,
+        "end": 2149,
+        "word_ids": [
+          "SRT225"
+        ]
+      },
+      {
+        "text": "same 11 pieces",
+        "start": 2251,
+        "end": 2285,
+        "word_ids": [
+          "SRT235",
+          "SRT236",
+          "SRT237"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P04",
+    "anchors": [
+      {
+        "text": "Photosynthesis",
+        "start": 2423,
+        "end": 2461,
+        "word_ids": [
+          "SRT255"
+        ]
+      },
+      {
+        "text": "becomes two",
+        "start": 2461,
+        "end": 2491,
+        "word_ids": [
+          "SRT256",
+          "SRT257"
+        ]
+      },
+      {
+        "text": "without its first letter",
+        "start": 2572,
+        "end": 2602,
+        "word_ids": [
+          "SRT265",
+          "SRT266",
+          "SRT267",
+          "SRT268"
+        ]
+      },
+      {
+        "text": "For English",
+        "start": 2615,
+        "end": 2632,
+        "word_ids": [
+          "SRT270",
+          "SRT271"
+        ]
+      },
+      {
+        "text": "four characters",
+        "start": 2693,
+        "end": 2718,
+        "word_ids": [
+          "SRT279",
+          "SRT280"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P05",
+    "anchors": [
+      {
+        "text": "Given all",
+        "start": 2861,
+        "end": 2876,
+        "word_ids": [
+          "SRT296",
+          "SRT297"
+        ]
+      },
+      {
+        "text": "it scores",
+        "start": 2917,
+        "end": 2932,
+        "word_ids": [
+          "SRT303",
+          "SRT304"
+        ]
+      },
+      {
+        "text": "200",
+        "start": 3116,
+        "end": 3135,
+        "word_ids": [
+          "SRT323"
+        ]
+      },
+      {
+        "text": "one gets picked",
+        "start": 3195,
+        "end": 3224,
+        "word_ids": [
+          "SRT328",
+          "SRT329",
+          "SRT330"
+        ]
+      },
+      {
+        "text": "randomness",
+        "start": 3292,
+        "end": 3308,
+        "word_ids": [
+          "SRT340"
+        ]
+      },
+      {
+        "text": "different answer",
+        "start": 3404,
+        "end": 3423,
+        "word_ids": [
+          "SRT353",
+          "SRT354"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P06",
+    "anchors": [
+      {
+        "text": "tacked onto",
+        "start": 3470,
+        "end": 3488,
+        "word_ids": [
+          "SRT360",
+          "SRT361"
+        ]
+      },
+      {
+        "text": "runs again",
+        "start": 3522,
+        "end": 3542,
+        "word_ids": [
+          "SRT368",
+          "SRT369"
+        ]
+      },
+      {
+        "text": "special end token",
+        "start": 3696,
+        "end": 3732,
+        "word_ids": [
+          "SRT389",
+          "SRT391",
+          "SRT392"
+        ]
+      },
+      {
+        "text": "Without any tricks",
+        "start": 3782,
+        "end": 3814,
+        "word_ids": [
+          "SRT399",
+          "SRT400",
+          "SRT401"
+        ]
+      },
+      {
+        "text": "100 runs",
+        "start": 3869,
+        "end": 3895,
+        "word_ids": [
+          "SRT408",
+          "SRT409"
+        ]
+      },
+      {
+        "text": "mostly experimental",
+        "start": 4050,
+        "end": 4116,
+        "word_ids": [
+          "SRT427",
+          "SRT428"
+        ]
+      },
+      {
+        "text": "bends the rule",
+        "start": 4195,
+        "end": 4219,
+        "word_ids": [
+          "SRT440",
+          "SRT441",
+          "SRT442"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P07",
+    "anchors": [
+      {
+        "text": "Streaming",
+        "start": 4375,
+        "end": 4389,
+        "word_ids": [
+          "SRT461"
+        ]
+      },
+      {
+        "text": "10 seconds either way",
+        "start": 4497,
+        "end": 4537,
+        "word_ids": [
+          "SRT474",
+          "SRT475",
+          "SRT476",
+          "SRT477"
+        ]
+      },
+      {
+        "text": "first half",
+        "start": 4576,
+        "end": 4596,
+        "word_ids": [
+          "SRT484",
+          "SRT485"
+        ]
+      },
+      {
+        "text": "small bunches",
+        "start": 4714,
+        "end": 4741,
+        "word_ids": [
+          "SRT500",
+          "SRT501"
+        ]
+      },
+      {
+        "text": "end doesn",
+        "start": 4846,
+        "end": 4869,
+        "word_ids": [
+          "SRT516",
+          "SRT517"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P08",
+    "anchors": [
+      {
+        "text": "piece 5",
+        "start": 5141,
+        "end": 5161,
+        "word_ids": [
+          "SRT551",
+          "SRT552"
+        ]
+      },
+      {
+        "text": "piece 4",
+        "start": 5190,
+        "end": 5211,
+        "word_ids": [
+          "SRT557",
+          "SRT558"
+        ]
+      },
+      {
+        "text": "Your prompt",
+        "start": 5225,
+        "end": 5241,
+        "word_ids": [
+          "SRT560",
+          "SRT561"
+        ]
+      },
+      {
+        "text": "already there",
+        "start": 5320,
+        "end": 5344,
+        "word_ids": [
+          "SRT572",
+          "SRT573"
+        ]
+      },
+      {
+        "text": "single run",
+        "start": 5465,
+        "end": 5484,
+        "word_ids": [
+          "SRT590",
+          "SRT591"
+        ]
+      },
+      {
+        "text": "chunk",
+        "start": 5502,
+        "end": 5515,
+        "word_ids": [
+          "SRT594"
+        ]
+      },
+      {
+        "text": "same run picks",
+        "start": 5592,
+        "end": 5622,
+        "word_ids": [
+          "SRT605",
+          "SRT606",
+          "SRT607"
+        ]
+      },
+      {
+        "text": "Writing the rest",
+        "start": 5680,
+        "end": 5703,
+        "word_ids": [
+          "SRT615",
+          "SRT616",
+          "SRT617"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P09",
+    "anchors": [
+      {
+        "text": "why is each",
+        "start": 5954,
+        "end": 5975,
+        "word_ids": [
+          "SRT644",
+          "SRT645",
+          "SRT646"
+        ]
+      },
+      {
+        "text": "same test",
+        "start": 6038,
+        "end": 6062,
+        "word_ids": [
+          "SRT654",
+          "SRT655"
+        ]
+      },
+      {
+        "text": "four tokens",
+        "start": 6200,
+        "end": 6223,
+        "word_ids": [
+          "SRT671",
+          "SRT672"
+        ]
+      },
+      {
+        "text": "a thousand times",
+        "start": 6289,
+        "end": 6324,
+        "word_ids": [
+          "SRT681",
+          "SRT682",
+          "SRT683"
+        ]
+      },
+      {
+        "text": "four times",
+        "start": 6409,
+        "end": 6430,
+        "word_ids": [
+          "SRT694",
+          "SRT695"
+        ]
+      },
+      {
+        "text": "math isn",
+        "start": 6473,
+        "end": 6494,
+        "word_ids": [
+          "SRT702",
+          "SRT703"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P10",
+    "anchors": [
+      {
+        "text": "weights",
+        "start": 6593,
+        "end": 6606,
+        "word_ids": [
+          "SRT717"
+        ]
+      },
+      {
+        "text": "companies behind",
+        "start": 6746,
+        "end": 6772,
+        "word_ids": [
+          "SRT733",
+          "SRT734"
+        ]
+      },
+      {
+        "text": "open model",
+        "start": 6947,
+        "end": 6963,
+        "word_ids": [
+          "SRT756",
+          "SRT757"
+        ]
+      },
+      {
+        "text": "8 billion weights",
+        "start": 7076,
+        "end": 7110,
+        "word_ids": [
+          "SRT768",
+          "SRT769",
+          "SRT770"
+        ]
+      },
+      {
+        "text": "2 bytes",
+        "start": 7218,
+        "end": 7237,
+        "word_ids": [
+          "SRT784",
+          "SRT785"
+        ]
+      },
+      {
+        "text": "about 16 gigabytes",
+        "start": 7304,
+        "end": 7361,
+        "word_ids": [
+          "SRT793",
+          "SRT794",
+          "SRT795"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P11",
+    "anchors": [
+      {
+        "text": "card",
+        "start": 7525,
+        "end": 7535,
+        "word_ids": [
+          "SRT814"
+        ]
+      },
+      {
+        "text": "math happens",
+        "start": 7738,
+        "end": 7763,
+        "word_ids": [
+          "SRT839",
+          "SRT840"
+        ]
+      },
+      {
+        "text": "a bridge",
+        "start": 7849,
+        "end": 7885,
+        "word_ids": [
+          "SRT854",
+          "SRT855"
+        ]
+      },
+      {
+        "text": "weights have to cross",
+        "start": 7978,
+        "end": 8006,
+        "word_ids": [
+          "SRT866",
+          "SRT867",
+          "SRT868",
+          "SRT869"
+        ]
+      },
+      {
+        "text": "32 layers",
+        "start": 8091,
+        "end": 8122,
+        "word_ids": [
+          "SRT882",
+          "SRT883"
+        ]
+      },
+      {
+        "text": "every new token",
+        "start": 8204,
+        "end": 8232,
+        "word_ids": [
+          "SRT895",
+          "SRT896",
+          "SRT897"
+        ]
+      },
+      {
+        "text": "single conversation",
+        "start": 8311,
+        "end": 8338,
+        "word_ids": [
+          "SRT910",
+          "SRT911"
+        ]
+      },
+      {
+        "text": "every token",
+        "start": 8442,
+        "end": 8466,
+        "word_ids": [
+          "SRT921",
+          "SRT922"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P12",
+    "anchors": [
+      {
+        "text": "bridge itself is fast",
+        "start": 8561,
+        "end": 8603,
+        "word_ids": [
+          "SRT933",
+          "SRT934",
+          "SRT935",
+          "SRT936"
+        ]
+      },
+      {
+        "text": "3 trillion",
+        "start": 8640,
+        "end": 8668,
+        "word_ids": [
+          "SRT942",
+          "SRT943"
+        ]
+      },
+      {
+        "text": "On paper",
+        "start": 8816,
+        "end": 8830,
+        "word_ids": [
+          "SRT962",
+          "SRT963"
+        ]
+      },
+      {
+        "text": "300 times",
+        "start": 8886,
+        "end": 8922,
+        "word_ids": [
+          "SRT970",
+          "SRT971"
+        ]
+      },
+      {
+        "text": "1 second",
+        "start": 8989,
+        "end": 9009,
+        "word_ids": [
+          "SRT981",
+          "SRT982"
+        ]
+      },
+      {
+        "text": "5 minutes",
+        "start": 9054,
+        "end": 9078,
+        "word_ids": [
+          "SRT989",
+          "SRT990"
+        ]
+      },
+      {
+        "text": "time waiting",
+        "start": 9182,
+        "end": 9203,
+        "word_ids": [
+          "SRT1005",
+          "SRT1006"
+        ]
+      },
+      {
+        "text": "test measured",
+        "start": 9229,
+        "end": 9248,
+        "word_ids": [
+          "SRT1009",
+          "SRT1010"
+        ]
+      },
+      {
+        "text": "theoretical limit",
+        "start": 9468,
+        "end": 9497,
+        "word_ids": [
+          "SRT1032",
+          "SRT1033"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P13",
+    "anchors": [
+      {
+        "text": "Researchers ran",
+        "start": 9695,
+        "end": 9719,
+        "word_ids": [
+          "SRT1055",
+          "SRT1056"
+        ]
+      },
+      {
+        "text": "8",
+        "start": 9766,
+        "end": 9776,
+        "word_ids": [
+          "SRT1062"
+        ]
+      },
+      {
+        "text": "Then",
+        "start": 9878,
+        "end": 9898,
+        "word_ids": [
+          "SRT1076"
+        ]
+      },
+      {
+        "text": "half power",
+        "start": 9955,
+        "end": 9978,
+        "word_ids": [
+          "SRT1083",
+          "SRT1084"
+        ]
+      },
+      {
+        "text": "Reading prompts",
+        "start": 10058,
+        "end": 10077,
+        "word_ids": [
+          "SRT1093",
+          "SRT1094"
+        ]
+      },
+      {
+        "text": "Writing answers",
+        "start": 10142,
+        "end": 10163,
+        "word_ids": [
+          "SRT1099",
+          "SRT1100"
+        ]
+      },
+      {
+        "text": "When the model reads",
+        "start": 10208,
+        "end": 10232,
+        "word_ids": [
+          "SRT1104",
+          "SRT1105",
+          "SRT1106",
+          "SRT1107"
+        ]
+      },
+      {
+        "text": "When it writes",
+        "start": 10444,
+        "end": 10465,
+        "word_ids": [
+          "SRT1135",
+          "SRT1136",
+          "SRT1137"
+        ]
+      },
+      {
+        "text": "Writing was waiting",
+        "start": 10684,
+        "end": 10725,
+        "word_ids": [
+          "SRT1162",
+          "SRT1163",
+          "SRT1164"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P14",
+    "anchors": [
+      {
+        "text": "memory bandwidth",
+        "start": 10835,
+        "end": 10874,
+        "word_ids": [
+          "SRT1178",
+          "SRT1179"
+        ]
+      },
+      {
+        "text": "RTX",
+        "start": 11046,
+        "end": 11062,
+        "word_ids": [
+          "SRT1199"
+        ]
+      },
+      {
+        "text": "little over half",
+        "start": 11146,
+        "end": 11172,
+        "word_ids": [
+          "SRT1209",
+          "SRT1210",
+          "SRT1211"
+        ]
+      },
+      {
+        "text": "In theory",
+        "start": 11228,
+        "end": 11243,
+        "word_ids": [
+          "SRT1216",
+          "SRT1217"
+        ]
+      },
+      {
+        "text": "one person at home",
+        "start": 11380,
+        "end": 11409,
+        "word_ids": [
+          "SRT1236",
+          "SRT1237",
+          "SRT1238",
+          "SRT1239"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P15",
+    "anchors": [
+      {
+        "text": "small model",
+        "start": 11431,
+        "end": 11452,
+        "word_ids": [
+          "SRT1243",
+          "SRT1244"
+        ]
+      },
+      {
+        "text": "keep you waiting",
+        "start": 11650,
+        "end": 11674,
+        "word_ids": [
+          "SRT1265",
+          "SRT1266",
+          "SRT1267"
+        ]
+      },
+      {
+        "text": "three waits",
+        "start": 11699,
+        "end": 11719,
+        "word_ids": [
+          "SRT1271",
+          "SRT1272"
+        ]
+      },
+      {
+        "text": "first word",
+        "start": 11776,
+        "end": 11793,
+        "word_ids": [
+          "SRT1277",
+          "SRT1278"
+        ]
+      },
+      {
+        "text": "chat gets long",
+        "start": 11814,
+        "end": 11839,
+        "word_ids": [
+          "SRT1282",
+          "SRT1283",
+          "SRT1284"
+        ]
+      },
+      {
+        "text": "service gets busy",
+        "start": 11869,
+        "end": 11896,
+        "word_ids": [
+          "SRT1289",
+          "SRT1290",
+          "SRT1291"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P16",
+    "anchors": [
+      {
+        "text": "travel",
+        "start": 12021,
+        "end": 12030,
+        "word_ids": [
+          "SRT1306"
+        ]
+      },
+      {
+        "text": "busy server",
+        "start": 12082,
+        "end": 12100,
+        "word_ids": [
+          "SRT1315",
+          "SRT1316"
+        ]
+      },
+      {
+        "text": "thinking message",
+        "start": 12183,
+        "end": 12211,
+        "word_ids": [
+          "SRT1328",
+          "SRT1329"
+        ]
+      },
+      {
+        "text": "reasoning tokens",
+        "start": 12235,
+        "end": 12262,
+        "word_ids": [
+          "SRT1332",
+          "SRT1333"
+        ]
+      },
+      {
+        "text": "On top",
+        "start": 12334,
+        "end": 12358,
+        "word_ids": [
+          "SRT1341",
+          "SRT1342"
+        ]
+      },
+      {
+        "text": "much bigger",
+        "start": 12422,
+        "end": 12442,
+        "word_ids": [
+          "SRT1352",
+          "SRT1353"
+        ]
+      },
+      {
+        "text": "Anthropic",
+        "start": 12554,
+        "end": 12569,
+        "word_ids": [
+          "SRT1367"
+        ]
+      },
+      {
+        "text": "passing results",
+        "start": 12790,
+        "end": 12814,
+        "word_ids": [
+          "SRT1393",
+          "SRT1394"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P17",
+    "anchors": [
+      {
+        "text": "running notes",
+        "start": 13015,
+        "end": 13033,
+        "word_ids": [
+          "SRT1419",
+          "SRT1420"
+        ]
+      },
+      {
+        "text": "numbers it already",
+        "start": 13091,
+        "end": 13115,
+        "word_ids": [
+          "SRT1427",
+          "SRT1428",
+          "SRT1429"
+        ]
+      },
+      {
+        "text": "save math",
+        "start": 13169,
+        "end": 13196,
+        "word_ids": [
+          "SRT1437",
+          "SRT1438"
+        ]
+      },
+      {
+        "text": "Every new token",
+        "start": 13237,
+        "end": 13260,
+        "word_ids": [
+          "SRT1443",
+          "SRT1444",
+          "SRT1445"
+        ]
+      },
+      {
+        "text": "whole conversation",
+        "start": 13429,
+        "end": 13456,
+        "word_ids": [
+          "SRT1467",
+          "SRT1468"
+        ]
+      },
+      {
+        "text": "a gigabyte",
+        "start": 13601,
+        "end": 13620,
+        "word_ids": [
+          "SRT1487",
+          "SRT1488"
+        ]
+      },
+      {
+        "text": "every conversation",
+        "start": 13690,
+        "end": 13718,
+        "word_ids": [
+          "SRT1496",
+          "SRT1497"
+        ]
+      },
+      {
+        "text": "longer the chat",
+        "start": 13759,
+        "end": 13780,
+        "word_ids": [
+          "SRT1503",
+          "SRT1504",
+          "SRT1505"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P18",
+    "anchors": [
+      {
+        "text": "many people",
+        "start": 13975,
+        "end": 13996,
+        "word_ids": [
+          "SRT1528",
+          "SRT1529"
+        ]
+      },
+      {
+        "text": "one trip",
+        "start": 14026,
+        "end": 14040,
+        "word_ids": [
+          "SRT1534",
+          "SRT1535"
+        ]
+      },
+      {
+        "text": "a batch",
+        "start": 14206,
+        "end": 14228,
+        "word_ids": [
+          "SRT1554",
+          "SRT1555"
+        ]
+      },
+      {
+        "text": "our answer",
+        "start": 14275,
+        "end": 14291,
+        "word_ids": [
+          "SRT1562",
+          "SRT1563"
+        ]
+      },
+      {
+        "text": "NVIDIA",
+        "start": 14350,
+        "end": 14366,
+        "word_ids": [
+          "SRT1572"
+        ]
+      },
+      {
+        "text": "short prompts",
+        "start": 14518,
+        "end": 14540,
+        "word_ids": [
+          "SRT1592",
+          "SRT1593"
+        ]
+      },
+      {
+        "text": "200 requests",
+        "start": 14561,
+        "end": 14594,
+        "word_ids": [
+          "SRT1596",
+          "SRT1597"
+        ]
+      },
+      {
+        "text": "60 times",
+        "start": 14633,
+        "end": 14662,
+        "word_ids": [
+          "SRT1602",
+          "SRT1603"
+        ]
+      },
+      {
+        "text": "almost three times",
+        "start": 14797,
+        "end": 14836,
+        "word_ids": [
+          "SRT1619",
+          "SRT1620",
+          "SRT1621"
+        ]
+      },
+      {
+        "text": "tradeoff",
+        "start": 14882,
+        "end": 14896,
+        "word_ids": [
+          "SRT1627"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P19",
+    "anchors": [
+      {
+        "text": "Carry fewer bytes",
+        "start": 15221,
+        "end": 15248,
+        "word_ids": [
+          "SRT1665",
+          "SRT1666",
+          "SRT1667"
+        ]
+      },
+      {
+        "text": "more tokens",
+        "start": 15295,
+        "end": 15317,
+        "word_ids": [
+          "SRT1673",
+          "SRT1674"
+        ]
+      },
+      {
+        "text": "Batching",
+        "start": 15355,
+        "end": 15364,
+        "word_ids": [
+          "SRT1680"
+        ]
+      },
+      {
+        "text": "That 8",
+        "start": 15412,
+        "end": 15427,
+        "word_ids": [
+          "SRT1686",
+          "SRT1687"
+        ]
+      },
+      {
+        "text": "Store each",
+        "start": 15466,
+        "end": 15499,
+        "word_ids": [
+          "SRT1694",
+          "SRT1695"
+        ]
+      },
+      {
+        "text": "4 bits",
+        "start": 15539,
+        "end": 15560,
+        "word_ids": [
+          "SRT1701",
+          "SRT1702"
+        ]
+      },
+      {
+        "text": "accuracy",
+        "start": 15707,
+        "end": 15725,
+        "word_ids": [
+          "SRT1720"
+        ]
+      },
+      {
+        "text": "single",
+        "start": 15758,
+        "end": 15766,
+        "word_ids": [
+          "SRT1724"
+        ]
+      },
+      {
+        "text": "40",
+        "start": 15843,
+        "end": 15857,
+        "word_ids": [
+          "SRT1735"
+        ]
+      },
+      {
+        "text": "twice",
+        "start": 15899,
+        "end": 15910,
+        "word_ids": [
+          "SRT1740"
+        ]
+      },
+      {
+        "text": "only work",
+        "start": 15994,
+        "end": 16014,
+        "word_ids": [
+          "SRT1751",
+          "SRT1752"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P20",
+    "anchors": [
+      {
+        "text": "speculative decoding",
+        "start": 16114,
+        "end": 16152,
+        "word_ids": [
+          "SRT1768",
+          "SRT1769"
+        ]
+      },
+      {
+        "text": "small",
+        "start": 16255,
+        "end": 16268,
+        "word_ids": [
+          "SRT1785"
+        ]
+      },
+      {
+        "text": "guesses several",
+        "start": 16295,
+        "end": 16322,
+        "word_ids": [
+          "SRT1789",
+          "SRT1790"
+        ]
+      },
+      {
+        "text": "big model",
+        "start": 16361,
+        "end": 16378,
+        "word_ids": [
+          "SRT1795",
+          "SRT1796"
+        ]
+      },
+      {
+        "text": "checks all",
+        "start": 16387,
+        "end": 16406,
+        "word_ids": [
+          "SRT1798",
+          "SRT1799"
+        ]
+      },
+      {
+        "text": "It keeps",
+        "start": 16640,
+        "end": 16655,
+        "word_ids": [
+          "SRT1830",
+          "SRT1831"
+        ]
+      },
+      {
+        "text": "first one it disagrees",
+        "start": 16695,
+        "end": 16728,
+        "word_ids": [
+          "SRT1837",
+          "SRT1838",
+          "SRT1839",
+          "SRT1840"
+        ]
+      },
+      {
+        "text": "adds a token",
+        "start": 16753,
+        "end": 16774,
+        "word_ids": [
+          "SRT1844",
+          "SRT1845",
+          "SRT1846"
+        ]
+      },
+      {
+        "text": "When the guesses",
+        "start": 16801,
+        "end": 16816,
+        "word_ids": [
+          "SRT1851",
+          "SRT1852",
+          "SRT1853"
+        ]
+      },
+      {
+        "text": "two to three",
+        "start": 16897,
+        "end": 16920,
+        "word_ids": [
+          "SRT1862",
+          "SRT1863",
+          "SRT1864"
+        ]
+      },
+      {
+        "text": "likely to say",
+        "start": 17051,
+        "end": 17072,
+        "word_ids": [
+          "SRT1881",
+          "SRT1882",
+          "SRT1883"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P21",
+    "anchors": [
+      {
+        "text": "how long",
+        "start": 17134,
+        "end": 17155,
+        "word_ids": [
+          "SRT1891",
+          "SRT1892"
+        ]
+      },
+      {
+        "text": "how many pieces",
+        "start": 17198,
+        "end": 17227,
+        "word_ids": [
+          "SRT1898",
+          "SRT1899",
+          "SRT1900"
+        ]
+      },
+      {
+        "text": "None of them",
+        "start": 17275,
+        "end": 17292,
+        "word_ids": [
+          "SRT1906",
+          "SRT1907",
+          "SRT1908"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "P22",
+    "anchors": [
+      {
+        "text": "Why do AI",
+        "start": 17419,
+        "end": 17437,
+        "word_ids": [
+          "SRT1923",
+          "SRT1924",
+          "SRT1925"
+        ]
+      },
+      {
+        "text": "Because each piece",
+        "start": 17507,
+        "end": 17537,
+        "word_ids": [
+          "SRT1934",
+          "SRT1935",
+          "SRT1936"
+        ]
+      },
+      {
+        "text": "made in order",
+        "start": 17650,
+        "end": 17673,
+        "word_ids": [
+          "SRT1952",
+          "SRT1953",
+          "SRT1954"
+        ]
+      },
+      {
+        "text": "single conversation",
+        "start": 17698,
+        "end": 17725,
+        "word_ids": [
+          "SRT1959",
+          "SRT1960"
+        ]
+      },
+      {
+        "text": "it's the trip",
+        "start": 17836,
+        "end": 17860,
+        "word_ids": [
+          "SRT1975",
+          "SRT1976",
+          "SRT1977"
+        ]
+      },
+      {
+        "text": "question went in",
+        "start": 17878,
+        "end": 17906,
+        "word_ids": [
+          "SRT1980",
+          "SRT1981",
+          "SRT1982"
+        ]
+      },
+      {
+        "text": "answer comes out",
+        "start": 17963,
+        "end": 17990,
+        "word_ids": [
+          "SRT1990",
+          "SRT1991",
+          "SRT1992"
+        ]
+      },
+      {
+        "text": "next time",
+        "start": 18056,
+        "end": 18070,
+        "word_ids": [
+          "SRT2000",
+          "SRT2001"
+        ]
+      },
+      {
+        "text": "gigabytes",
+        "start": 18205,
+        "end": 18220,
+        "word_ids": [
+          "SRT2019"
+        ]
+      },
+      {
+        "text": "again and again",
+        "start": 18277,
+        "end": 18310,
+        "word_ids": [
+          "SRT2026",
+          "SRT2027",
+          "SRT2028"
+        ]
+      },
+      {
+        "text": "piece after piece",
+        "start": 18322,
+        "end": 18356,
+        "word_ids": [
+          "SRT2030",
+          "SRT2031",
+          "SRT2032"
+        ]
+      }
+    ]
+  }
+]

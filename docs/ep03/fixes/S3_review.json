@@ -1,0 +1,55 @@
+{
+ "id": "S3 (2811-4896) Scoring, loop, streaming + S3->S4 boundary",
+ "score_100": 72,
+ "best": "The counter lands '200,000' exactly on ',000' (f3135) and 'options' on f3153-3155. The weighted spin wheel has 'A dash of randomness' at f3290 ('dash' f3281). 'Different answer ≠' lands on f3404-3412. THE LOOP is a clean circular route with the chip, the Bit and 'Pick one / Tack onto end', and 'The loop' appears on f3600. The '100 tokens = 100 runs' counter and a ghosted 'end' tile after the sentence are both present. The 'Streaming / Not streaming' split monitors both finish at '10 s', and 'First half: read / Still being written / Doesn't exist yet' hits on f4856. The rewind at S4 (◀◀ and a scrubbing timecode) lands on 'rewind' f4917.",
+ "issues": [
+  {
+   "frames": "2950-3180",
+   "severity": "high",
+   "what": "The '200,000 options' image is a grey noise plane, not a readable field of candidate tiles, so the scale never registers as 'tiles'. The probability-bar scene before it uses about 20 px tile labels and a footnote of about 14 px ('Words and odds: illustrative'), which is unreadable at 390 px.",
+   "fix": "Build the field from instanced token tiles (the real tile asset), legible in the foreground and receding to a horizon. Start the camera on 8 readable tiles at 64 px or larger and pull back through about 3 orders of magnitude while the counter runs. Make the footnote 32 px or larger."
+  },
+  {
+   "frames": "3330-3435",
+   "severity": "med",
+   "what": "'Same question twice' is two thin strips of about 18 px tiles floating in a mostly empty frame. The answers ('Because' vs 'It') are not legible on a phone, and only 'Different answer' reads.",
+   "fix": "Frame two big chat bubbles (the reader-world monitor) side by side with the question at 48 px, and have each answer's first word slam in at 80 px or larger in a different colour. Fill the frame and push in on the ≠."
+  },
+  {
+   "frames": "3500-3790",
+   "severity": "med",
+   "what": "The loop labels 'Model runs', 'Pick one', 'Tack onto end' and 'Mostly experimental' are about 24 px. From f3720 the camera push crops the chip off the top edge and the answer strip off the left edge ('odel writes'). The ghosted 'end' tile is about 20 px and barely visible on 'special end token, which you never see' (f3696-3758).",
+   "fix": "Raise the labels to 40 px or larger. Re-frame the push so the chip stays inside the safe area, or commit to a deliberate close-up on the Bit. Give the end token a beat: a 1.5x scale pop with a dashed outline and 'end' at 40 px or larger on f3706-3721, then let it fade to ghost on 'never see'."
+  },
+  {
+   "frames": "4120-4230",
+   "severity": "low",
+   "what": "The tease 'a trick that bends the rule' is a tiny 'LATER' tag of about 18 px. The re-hook is wasted.",
+   "fix": "On 'bends' (f4195), visibly bend the loop ring (or let a second Bit jump ahead), with a 64 px or larger 'Later: a trick' card held 30 or more frames."
+  },
+  {
+   "frames": "4390-4440",
+   "severity": "med",
+   "what": "Word-spacing bug again: 'Notstreaming' renders with no space for about 1.5 s while 'streaming' scales in.",
+   "fix": "Use the same fix as 'Barelynoticed': reserve each word's final layout width before animating. Add a QA grep over all multi-word labels at the midpoint of their entry animation."
+  },
+  {
+   "frames": "4440-4780",
+   "severity": "med",
+   "what": "The streaming split and the single chat monitor carry the idea in body text of about 18-22 px. At 390 px the 'read the first half while the second is written' idea depends on two small callouts. The chat-monitor hold (f4560-4780) is about 7 s of small UI with a slow drift, and it reads as a screenshot slide.",
+   "fix": "Split the answer visually: the first half highlighted bright with an eye icon and 'You read this' at 56 px, and the second half as dashed fog with 'Not written yet' at 56 px. Increase the answer font to 36 px or larger and show fewer lines. Add a camera move that tracks the Bit."
+  },
+  {
+   "frames": "4892-4898 (S3->S4 boundary)",
+   "severity": "med",
+   "what": "Continuity break: a hard cut from the zoomed chat to a new framing of the same chat UI whose answer text is reworded ('Because the model writes... run once for every single piece...' becomes 'Because a model writes... the next one cannot start until the last one is done'). This is a jump cut with mismatched content; the rewind only starts at f4917.",
+   "fix": "Keep the identical answer string across the cut and either continue the push-out in one move, or start the rewind directly from the S3 framing on 'rewind' (f4917), using the reverse scrub as the transition."
+  },
+  {
+   "frames": "2811-4896 (whole)",
+   "severity": "med",
+   "what": "Environment monotony: S3 is almost all navy with a cyan grid floor (only the brief monitor plate at f4230-4340). With S2, this makes about 2.5 minutes in one look, repeating the previous cut's 'one navy room' failure.",
+   "fix": "Move the loop into the 'inside the package' macro world (die plate, emissive traces) and stage the streaming beat on the warm reader-desk plate with shallow depth of field. Keep the shared grade."
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "id": "S8 (15091-17079) The tricks",
+ "score_100": 84,
+ "v2_issues_fixed": "Fixed or improved on 4 of 5. FIXED: (1) The chapter now has a 'The tricks' keyword (about 110 px) rising off the HBM tower, so the opener re-hooks (15166). (2) The '40% faster' pop no longer clips at the right edge: 40% appears at 15846 (word at 15843), 'faster' fits by 15852 with about 128 px margin, and the label settles by 15862. (3) The stale 'Batching' tag is gone in the speculative opener; the die reads 'More tokens per trip' at 16066-16141. (4) 'Same odds as the big model' now sits inside the Speculative panel and no longer straddles the divider (17041). 'NVIDIA's single-user test' is now about 36-40 px. PARTLY FIXED: the draft-and-check labels ('Small, fast model', 'Big model', 'Kept', 'Dropped') are about 36-42 px and readable at 390 px, but the draft tile words on the conveyor are still about 24-30 px. The Bridge (15166, 15400) matches S5 exactly. 'The trick that bends the rule' with the bending 'ONE AT A TIME' arc (16216) is one of the best images in the range.",
+ "remaining": [
+  {
+   "frames": "15091-15160",
+   "severity": "low",
+   "what": "The first 2-3 s are still a wide, calm bridge with small crates before 'The tricks' arrives. At 15166 the 's' of 'The tricks' nearly touches the answer-strip node at top right, a gap of about 10 px."
+  },
+  {
+   "frames": "16290-16800",
+   "severity": "low",
+   "what": "The draft tiles ('the', 'ones', 'before', 'that') on the conveyor are about 24-30 px, so on a phone the keep/drop logic still rests mainly on the ✓/✗ marks and the 'Kept' / 'Dropped' tags."
+  },
+  {
+   "frames": "15680-15720, 16960-17000",
+   "severity": "low",
+   "what": "The 'Accuracy' meter label (about 24 px) and 'One request at a time' (about 34 px) are under 40 px. While it pops in (17000), the 'Same odds' chip is tiny for about 20 frames."
+  },
+  {
+   "frames": "16816-16840",
+   "severity": "low",
+   "what": "The Normal/Speculative panels open with ghosted or blurred chat text for about 1 s before streaming begins. This is a brief, near-empty read."
+  }
+ ]
+}

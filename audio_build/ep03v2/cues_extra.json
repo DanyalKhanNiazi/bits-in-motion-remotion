@@ -1,0 +1,3119 @@
+{
+ "version": 2,
+ "about": "Step 3: the extra cue design -> cues_extra.json (owned by the sound build; the builders' S*.cues.json stay untouched).",
+ "conventions": {
+  "frame": "absolute film frame at 30 fps; sample = frame * 1600",
+  "anchor": "default = each palette file's own anchor (onset for hits and clicks, peak for whooshes and pass-bys, end for risers); 'start' = the file's first sample sits on the frame",
+  "pan": "-1 left .. +1 right; pan_to makes it a sweep across the sound",
+  "builder whooshes": "a builder whoosh cue marks the START of the whip; the whoosh starts there and peaks on the picture's transition peak (found within +3..+12 frames), i.e. 6-10 frames later",
+  "builder risers": "start on the cue and end exactly on the next hero cue (impact / sting / crate / swell within 200 frames)"
+ },
+ "overrides": [
+  {
+   "frame": 1,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "impact_big",
+    "sub_drop"
+   ],
+   "pan": 0.0,
+   "gain_db": -3,
+   "note": "cold-open wall slam"
+  },
+  {
+   "frame": 172,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "stopwatch_click"
+   ],
+   "pan": -0.4,
+   "gain_db": 0.0,
+   "note": "read clock armed"
+  },
+  {
+   "frame": 177,
+   "kind": "pop",
+   "tol": 6,
+   "roles": [
+    "impact_small"
+   ],
+   "pan": 0.0,
+   "gain_db": -4,
+   "note": "the 750-word wall slams into the chat"
+  },
+  {
+   "frame": 292,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "stopwatch_click"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "the clock freezes inside the blink"
+  },
+  {
+   "frame": 532,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "impact_big"
+   ],
+   "pan": 0.0,
+   "gain_db": -2,
+   "note": "x200 slams"
+  },
+  {
+   "frame": 721,
+   "kind": "glitch",
+   "tol": 6,
+   "roles": [
+    "glitch"
+   ],
+   "pan": 0.0,
+   "gain_db": -4,
+   "note": "words materialise into tiles"
+  },
+  {
+   "frame": 891,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass"
+   ],
+   "pan": -0.7,
+   "gain_db": 0.0,
+   "note": "the giant crate leaves memory and thunders across (L to R)",
+   "pan_to": 0.6,
+   "anchor": "start"
+  },
+  {
+   "frame": 991,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "crate_land",
+    "sub_drop"
+   ],
+   "pan": 0.35,
+   "gain_db": 0.0,
+   "note": "the crate hits the math (die, right)"
+  },
+  {
+   "frame": 1027,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "impact_big",
+    "crate_land",
+    "sub_drop"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "the monumental crate lands"
+  },
+  {
+   "frame": 1086,
+   "kind": "sting",
+   "tol": 6,
+   "roles": [
+    "glass_shimmer"
+   ],
+   "pan": 0.0,
+   "gain_db": -6,
+   "note": "For ONE"
+  },
+  {
+   "frame": 1097,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "tile_seat"
+   ],
+   "pan": 0.0,
+   "gain_db": 0,
+   "note": "piece! - the tiny tile (music carries the sting)"
+  },
+  {
+   "frame": 1282,
+   "kind": "swell",
+   "tol": 6,
+   "roles": [
+    "glass_shimmer"
+   ],
+   "pan": 0.0,
+   "gain_db": -3,
+   "note": "title moment sweep"
+  },
+  {
+   "frame": 1375,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "dial_clunk",
+    "dial_ratchet"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "power dial capped to half"
+  },
+  {
+   "frame": 1706,
+   "kind": "type",
+   "tol": 6,
+   "roles": [
+    "blade_snip"
+   ],
+   "pan": -0.6,
+   "gain_db": 0.0,
+   "note": "first chop of the tokenizer blade"
+  },
+  {
+   "frame": 1790,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": -0.6,
+   "gain_db": 0.0,
+   "note": "flip wave starts (IDs)"
+  },
+  {
+   "frame": 2693,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": -0.3,
+   "gain_db": 0.0,
+   "note": "first character cell clicks onto the ruler"
+  },
+  {
+   "frame": 3252,
+   "kind": "pop",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": 0.0,
+   "gain_db": -2,
+   "note": "wheel settles on 'Because'"
+  },
+  {
+   "frame": 4917,
+   "kind": "rewind",
+   "tol": 6,
+   "roles": [
+    "tape_rewind"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "the rewind (tape scrubs back)",
+   "anchor": "start"
+  },
+  {
+   "frame": 4959,
+   "kind": "pop",
+   "tol": 6,
+   "roles": [
+    "key_enter"
+   ],
+   "pan": 0.0,
+   "gain_db": 0,
+   "note": "Enter key pressed"
+  },
+  {
+   "frame": 5190,
+   "kind": "pop",
+   "tol": 6,
+   "roles": [
+    "tile_seat"
+   ],
+   "pan": 0.0,
+   "gain_db": -2,
+   "note": "piece 4 lands"
+  },
+  {
+   "frame": 6385,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.0,
+   "gain_db": -10,
+   "note": "wait block 1 (heavy)"
+  },
+  {
+   "frame": 6397,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.0,
+   "gain_db": -9,
+   "note": "wait block 2 (heavy)"
+  },
+  {
+   "frame": 6409,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.0,
+   "gain_db": -7,
+   "note": "wait block 3 (x4)"
+  },
+  {
+   "frame": 7164,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": 0.0,
+   "gain_db": -3,
+   "note": "bit tiles arc into the BF16 holder"
+  },
+  {
+   "frame": 7429,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass"
+   ],
+   "pan": -0.6,
+   "gain_db": 0.0,
+   "note": "callback: the opening crate thunders across",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 7638,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.1,
+   "gain_db": 0.0,
+   "note": "crate slams above the tiny cache"
+  },
+  {
+   "frame": 7774,
+   "kind": "riser",
+   "tol": 4,
+   "roles": [
+    "riser"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "build into the Bridge (ends at the suck-out)"
+  },
+  {
+   "frame": 7876,
+   "kind": "swell",
+   "tol": 6,
+   "roles": [
+    "glass_shimmer_2"
+   ],
+   "pan": 0.0,
+   "gain_db": -2,
+   "note": "Bridge reveal: glass gleam after the hit",
+   "anchor": "start"
+  },
+  {
+   "frame": 8454,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.45,
+   "gain_db": -3,
+   "note": "every token: crate lands at the die"
+  },
+  {
+   "frame": 8989,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "stopwatch_click"
+   ],
+   "pan": 0.3,
+   "gain_db": 0.0,
+   "note": "math stopwatch: one turn"
+  },
+  {
+   "frame": 9028,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "stopwatch_run",
+    "dial_ratchet"
+   ],
+   "pan": -0.2,
+   "gain_db": 0.0,
+   "note": "delivery clock hands spin",
+   "anchor": "start"
+  },
+  {
+   "frame": 9257,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "servo"
+   ],
+   "pan": 0.0,
+   "gain_db": 0.0,
+   "note": "gauge needle springs to 150"
+  },
+  {
+   "frame": 9482,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass"
+   ],
+   "pan": -0.5,
+   "gain_db": 0.0,
+   "note": "crate leaves (exit)",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 9910,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "dial_clunk",
+    "dial_ratchet"
+   ],
+   "pan": -0.3,
+   "gain_db": 0.0,
+   "note": "every GPU capped to half power"
+  },
+  {
+   "frame": 10328,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_land"
+   ],
+   "pan": 0.2,
+   "gain_db": 0.0,
+   "note": "crate arrival: all the prompt's tiles at once"
+  },
+  {
+   "frame": 12464,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass",
+    "crate_land"
+   ],
+   "pan": -0.4,
+   "gain_db": 0.0,
+   "note": "giant '?' crate thunders across (shake)",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 13816,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass"
+   ],
+   "pan": -0.6,
+   "gain_db": 0.0,
+   "note": "crate hauls a taller pile of notes",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 15355,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "dial_clunk"
+   ],
+   "pan": 0.35,
+   "gain_db": 0.0,
+   "note": "lever B snaps ON"
+  },
+  {
+   "frame": 15418,
+   "kind": "dial",
+   "tol": 6,
+   "roles": [
+    "dial_clunk",
+    "dial_ratchet"
+   ],
+   "pan": -0.35,
+   "gain_db": 0.0,
+   "note": "lever A clicks to its 8 notch"
+  },
+  {
+   "frame": 16379,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass",
+    "crate_land"
+   ],
+   "pan": -0.5,
+   "gain_db": 0.0,
+   "note": "one big crate crosses and arrives",
+   "pan_to": 0.4
+  },
+  {
+   "frame": 16406,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": -0.3,
+   "gain_db": 0.0,
+   "note": "check 1"
+  },
+  {
+   "frame": 16410,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": -0.1,
+   "gain_db": 0.0,
+   "note": "check 2"
+  },
+  {
+   "frame": 16414,
+   "kind": "tick",
+   "tol": 6,
+   "roles": [
+    "tile_click"
+   ],
+   "pan": 0.1,
+   "gain_db": 0.0,
+   "note": "check 3"
+  },
+  {
+   "frame": 16418,
+   "kind": "impact",
+   "tol": 6,
+   "roles": [
+    "impact_small"
+   ],
+   "pan": 0.3,
+   "gain_db": -3,
+   "note": "hard coral stop on the cross"
+  },
+  {
+   "frame": 16728,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "tile_seat"
+   ],
+   "pan": 0.4,
+   "gain_db": 0.0,
+   "note": "the rejected guess drops into the bin"
+  },
+  {
+   "frame": 16753,
+   "kind": "pop",
+   "tol": 6,
+   "roles": [
+    "tile_seat"
+   ],
+   "pan": 0.2,
+   "gain_db": 0.0,
+   "note": "the big model's own token slams in"
+  },
+  {
+   "frame": 17958,
+   "kind": "type",
+   "tol": 6,
+   "roles": [
+    "data_chatter"
+   ],
+   "pan": 0.0,
+   "gain_db": -4,
+   "note": "the answer streams out (token chatter)",
+   "anchor": "start"
+  },
+  {
+   "frame": 18277,
+   "kind": "crate",
+   "tol": 6,
+   "roles": [
+    "crate_pass"
+   ],
+   "pan": -0.6,
+   "gain_db": -4,
+   "note": "crates cross again and again",
+   "pan_to": 0.6
+  }
+ ],
+ "events": [
+  {
+   "frame": 3,
+   "role": "stopwatch_click",
+   "strength": 0.6,
+   "pan": -0.5,
+   "note": "read clock freezes at 0.03 s (left screen)",
+   "group": "cold_open_clocks"
+  },
+  {
+   "frame": 8,
+   "role": "stopwatch_run",
+   "strength": 0.35,
+   "pan": 0.5,
+   "note": "write clock runs (right screen)",
+   "group": "cold_open_clocks",
+   "anchor": "start"
+  },
+  {
+   "frame": 401,
+   "role": "stopwatch_run",
+   "strength": 0.3,
+   "pan": 0.2,
+   "note": "write clock crawls to 6.5 s",
+   "anchor": "start"
+  },
+  {
+   "frame": 721,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "each word becomes a token tile",
+   "group": "run721"
+  },
+  {
+   "frame": 727,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": -0.25,
+   "note": "each word becomes a token tile",
+   "group": "run721"
+  },
+  {
+   "frame": 733,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.0,
+   "note": "each word becomes a token tile",
+   "group": "run721"
+  },
+  {
+   "frame": 739,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.25,
+   "note": "each word becomes a token tile",
+   "group": "run721"
+  },
+  {
+   "frame": 745,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.5,
+   "note": "each word becomes a token tile",
+   "group": "run721"
+  },
+  {
+   "frame": 1197,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": -0.55,
+   "note": "question tiles snap in, row 1 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1202,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": -0.28,
+   "note": "question tiles snap in, row 1 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1208,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": 0.0,
+   "note": "question tiles snap in, row 1 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1208,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": 0.12,
+   "note": "question tiles snap in, row 2 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1218,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": 0.28,
+   "note": "question tiles snap in, row 1 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1232,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": 0.55,
+   "note": "question tiles snap in, row 1 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1245,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": -0.55,
+   "note": "question tiles snap in, row 2 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1255,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": -0.33,
+   "note": "question tiles snap in, row 2 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1264,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": -0.1,
+   "note": "question tiles snap in, row 2 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1271,
+   "role": "tile_click",
+   "strength": 0.5,
+   "pan": 0.35,
+   "note": "question tiles snap in, row 2 (word-synced)",
+   "group": "title_tiles"
+  },
+  {
+   "frame": 1279,
+   "role": "tile_seat",
+   "strength": 0.55,
+   "pan": 0.55,
+   "note": "the '?' tile seats"
+  },
+  {
+   "frame": 1710,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.6,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1711,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": -0.47,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1715,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.48,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1716,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": -0.33,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1720,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.36,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1721,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": -0.2,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1725,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.24,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1726,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": -0.07,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1730,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.12,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1731,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": 0.07,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1735,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.0,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1736,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": 0.2,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1740,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.12,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1741,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": 0.33,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1745,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.24,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1746,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": 0.47,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1750,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.36,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1751,
+   "role": "blade_snip",
+   "strength": 0.4,
+   "pan": 0.6,
+   "note": "tokenizer blade chop",
+   "group": "chops"
+  },
+  {
+   "frame": 1755,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.48,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1760,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.6,
+   "note": "severed piece clicks into its slot",
+   "group": "chops"
+  },
+  {
+   "frame": 1792,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.48,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1794,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.36,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1796,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.24,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1798,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.12,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1800,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.0,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1802,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.12,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1804,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.24,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1806,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.36,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1808,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.48,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1810,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.6,
+   "note": "flip wave (IDs)",
+   "group": "flip1"
+  },
+  {
+   "frame": 1852,
+   "role": "card_riffle",
+   "strength": 0.6,
+   "pan": -0.2,
+   "note": "vocabulary drawer: cards riffle forward",
+   "anchor": "start"
+  },
+  {
+   "frame": 1886,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.1,
+   "note": "the riffle stops on 'Why 13903'"
+  },
+  {
+   "frame": 2020,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.6,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2022,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.48,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2024,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.36,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2026,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.24,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2028,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.12,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2030,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.0,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2032,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.12,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2034,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.24,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2036,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.36,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2038,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.48,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2040,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.6,
+   "note": "wave flips back to words",
+   "group": "run2020"
+  },
+  {
+   "frame": 2204,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.6,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2206,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.48,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2208,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.36,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2210,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.24,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2212,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.12,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2214,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.0,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2216,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.12,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2218,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.24,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2220,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.36,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2222,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.48,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2224,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.6,
+   "note": "Llama pieces lock onto the same tiles",
+   "group": "run2204"
+  },
+  {
+   "frame": 2697,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.1,
+   "note": "character cells click onto the ruler",
+   "group": "run2697"
+  },
+  {
+   "frame": 2701,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.1,
+   "note": "character cells click onto the ruler",
+   "group": "run2697"
+  },
+  {
+   "frame": 2705,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.3,
+   "note": "character cells click onto the ruler",
+   "group": "run2697"
+  },
+  {
+   "frame": 2728,
+   "role": "tile_seat",
+   "strength": 0.4,
+   "pan": 0.1,
+   "note": "cells fuse into one token"
+  },
+  {
+   "frame": 3495,
+   "role": "tile_seat",
+   "strength": 0.5,
+   "pan": 0.3,
+   "note": "'Because' tacked onto the end"
+  },
+  {
+   "frame": 3620,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": -0.4,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3640,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": -0.27,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3657,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": -0.13,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3671,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.0,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3683,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.13,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3693,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.27,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3701,
+   "role": "tile_click",
+   "strength": 0.3,
+   "pan": 0.4,
+   "note": "a tile per lap as the loop accelerates",
+   "group": "run3620"
+  },
+  {
+   "frame": 3826,
+   "role": "data_chatter",
+   "strength": 0.45,
+   "pan": 0.0,
+   "note": "100 runs: tiles fill the grid",
+   "anchor": "start"
+  },
+  {
+   "frame": 3955,
+   "role": "tile_seat",
+   "strength": 0.45,
+   "pan": -0.3,
+   "note": "counter reaches 100"
+  },
+  {
+   "frame": 4250,
+   "role": "data_chatter",
+   "strength": 0.35,
+   "pan": 0.2,
+   "note": "answer streams word by word (desk)",
+   "anchor": "start"
+  },
+  {
+   "frame": 4893,
+   "role": "tape_stop",
+   "strength": 0.6,
+   "pan": 0.0,
+   "note": "tape-stop deceleration into the rewind"
+  },
+  {
+   "frame": 4952,
+   "role": "dial_clunk",
+   "strength": 0.6,
+   "pan": 0.0,
+   "note": "the rewind lands with a clunk"
+  },
+  {
+   "frame": 5250,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5252,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": -0.48,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5254,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": -0.36,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5256,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": -0.24,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5258,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": -0.12,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5260,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.0,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5262,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.12,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5264,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.24,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5266,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.36,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5268,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.48,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5270,
+   "role": "tile_click",
+   "strength": 0.18,
+   "pan": 0.6,
+   "note": "ready ticks under every tile",
+   "group": "run5250"
+  },
+  {
+   "frame": 5320,
+   "role": "glass_shimmer",
+   "strength": 0.5,
+   "pan": 0.0,
+   "note": "all eleven tiles flare at once"
+  },
+  {
+   "frame": 5350,
+   "role": "cam_swish",
+   "strength": 0.4,
+   "pan": 0.0,
+   "note": "crane down to the die"
+  },
+  {
+   "frame": 5506,
+   "role": "tile_seat",
+   "strength": 0.35,
+   "pan": -0.4,
+   "note": "chunks drop one by one",
+   "group": "run5506"
+  },
+  {
+   "frame": 5524,
+   "role": "tile_seat",
+   "strength": 0.35,
+   "pan": 0.0,
+   "note": "chunks drop one by one",
+   "group": "run5506"
+  },
+  {
+   "frame": 5546,
+   "role": "tile_seat",
+   "strength": 0.35,
+   "pan": 0.4,
+   "note": "chunks drop one by one",
+   "group": "run5506"
+  },
+  {
+   "frame": 5638,
+   "role": "tile_seat",
+   "strength": 0.4,
+   "pan": 0.3,
+   "note": "'Because' drops onto the belt"
+  },
+  {
+   "frame": 6122,
+   "role": "data_chatter",
+   "strength": 0.4,
+   "pan": -0.5,
+   "note": "a wall of 1,000 tiles sweeps in",
+   "anchor": "start"
+  },
+  {
+   "frame": 6170,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.3,
+   "note": "four runs, one tile each (right die)",
+   "group": "run6170"
+  },
+  {
+   "frame": 6192,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.4,
+   "note": "four runs, one tile each (right die)",
+   "group": "run6170"
+  },
+  {
+   "frame": 6214,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.5,
+   "note": "four runs, one tile each (right die)",
+   "group": "run6170"
+  },
+  {
+   "frame": 6233,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.6,
+   "note": "four runs, one tile each (right die)",
+   "group": "run6170"
+  },
+  {
+   "frame": 6618,
+   "role": "cam_swish",
+   "strength": 0.4,
+   "pan": 0.0,
+   "note": "push into the loose weight"
+  },
+  {
+   "frame": 6668,
+   "role": "whoosh_slow",
+   "strength": 0.45,
+   "pan": 0.0,
+   "note": "hard pull-back into the field of trays",
+   "anchor": "start"
+  },
+  {
+   "frame": 6705,
+   "role": "glass_shimmer",
+   "strength": 0.4,
+   "pan": -0.4,
+   "note": "a light wave runs through the field",
+   "pan_to": 0.4
+  },
+  {
+   "frame": 7166,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": -0.5,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7169,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": -0.32,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7172,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": -0.13,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7174,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.05,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7176,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.23,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7179,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.42,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7182,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.6,
+   "note": "bit tiles arc into the slots",
+   "group": "run7166"
+  },
+  {
+   "frame": 7465,
+   "role": "crate_land",
+   "strength": 0.45,
+   "pan": 0.0,
+   "note": "the GPU module drops and lands"
+  },
+  {
+   "frame": 7486,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": -0.5,
+   "note": "weight pellets fall into the HBM stacks",
+   "group": "run7486"
+  },
+  {
+   "frame": 7494,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": -0.17,
+   "note": "weight pellets fall into the HBM stacks",
+   "group": "run7486"
+  },
+  {
+   "frame": 7502,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.17,
+   "note": "weight pellets fall into the HBM stacks",
+   "group": "run7486"
+  },
+  {
+   "frame": 7510,
+   "role": "tile_click",
+   "strength": 0.25,
+   "pan": 0.5,
+   "note": "weight pellets fall into the HBM stacks",
+   "group": "run7486"
+  },
+  {
+   "frame": 7978,
+   "role": "crate_pass",
+   "strength": 0.45,
+   "pan": -0.7,
+   "note": "first crates start across the bridge",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 8018,
+   "role": "crate_land",
+   "strength": 0.4,
+   "pan": 0.5,
+   "note": "crates reach the math: waves on the die"
+  },
+  {
+   "frame": 8057,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8063,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.43,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8069,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.26,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8075,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.09,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8081,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.09,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8087,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.26,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8093,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.43,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8099,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.6,
+   "note": "32 layer plates snap in",
+   "group": "run8057"
+  },
+  {
+   "frame": 8360,
+   "role": "crate_pass",
+   "strength": 0.4,
+   "pan": -0.7,
+   "note": "one hero crate per token (1)",
+   "group": "token_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8382,
+   "role": "crate_land",
+   "strength": 0.45,
+   "pan": 0.5,
+   "note": "arrival: a token flies to the answer",
+   "group": "token_crates"
+  },
+  {
+   "frame": 8420,
+   "role": "crate_pass",
+   "strength": 0.4,
+   "pan": -0.7,
+   "note": "one hero crate per token (2)",
+   "group": "token_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8575,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "fast crates on the H100 deck (speed streaks)",
+   "group": "h100_deck",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8603,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "fast crates on the H100 deck (speed streaks)",
+   "group": "h100_deck",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8631,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "fast crates on the H100 deck (speed streaks)",
+   "group": "h100_deck",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8667,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "fast crates on the H100 deck (speed streaks)",
+   "group": "h100_deck",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 8697,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "fast crates on the H100 deck (speed streaks)",
+   "group": "h100_deck",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 9032,
+   "role": "servo",
+   "strength": 0.35,
+   "pan": -0.2,
+   "note": "delivery hands sweep"
+  },
+  {
+   "frame": 9120,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "a few crates on the narrow bridge",
+   "group": "narrow_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 9300,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "a few crates on the narrow bridge",
+   "group": "narrow_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 9575,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates flow on the bridge (prediction)",
+   "group": "prediction_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 9620,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates flow on the bridge (prediction)",
+   "group": "prediction_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 9665,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates flow on the bridge (prediction)",
+   "group": "prediction_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 9840,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.4,
+   "note": "request cards stream into the drawers",
+   "group": "run9840"
+  },
+  {
+   "frame": 9852,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": -0.13,
+   "note": "request cards stream into the drawers",
+   "group": "run9840"
+  },
+  {
+   "frame": 9864,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.13,
+   "note": "request cards stream into the drawers",
+   "group": "run9840"
+  },
+  {
+   "frame": 9876,
+   "role": "tile_click",
+   "strength": 0.22,
+   "pan": 0.4,
+   "note": "request cards stream into the drawers",
+   "group": "run9840"
+  },
+  {
+   "frame": 9955,
+   "role": "impact_small",
+   "strength": 0.45,
+   "pan": -0.3,
+   "note": "'Half power' slams"
+  },
+  {
+   "frame": 10072,
+   "role": "servo",
+   "strength": 0.45,
+   "pan": -0.5,
+   "note": "reading gauge needle drops (left lane)"
+  },
+  {
+   "frame": 10232,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10256,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10280,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10304,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10352,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10376,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10400,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10424,
+   "role": "crate_land",
+   "strength": 0.22,
+   "pan": 0.25,
+   "note": "crates arrive every 24 frames (reading)",
+   "group": "crate_rhythm_read"
+  },
+  {
+   "frame": 10472,
+   "role": "crate_land",
+   "strength": 0.2,
+   "pan": 0.25,
+   "note": "crates keep arriving (writing): one token per row",
+   "group": "crate_rhythm_write"
+  },
+  {
+   "frame": 10520,
+   "role": "crate_land",
+   "strength": 0.2,
+   "pan": 0.25,
+   "note": "crates keep arriving (writing): one token per row",
+   "group": "crate_rhythm_write"
+  },
+  {
+   "frame": 10568,
+   "role": "crate_land",
+   "strength": 0.2,
+   "pan": 0.25,
+   "note": "crates keep arriving (writing): one token per row",
+   "group": "crate_rhythm_write"
+  },
+  {
+   "frame": 10616,
+   "role": "crate_land",
+   "strength": 0.2,
+   "pan": 0.25,
+   "note": "crates keep arriving (writing): one token per row",
+   "group": "crate_rhythm_write"
+  },
+  {
+   "frame": 10633,
+   "role": "impact_small",
+   "strength": 0.35,
+   "pan": 0.5,
+   "note": "a 9th conversation bounces off the full rack"
+  },
+  {
+   "frame": 10664,
+   "role": "crate_land",
+   "strength": 0.2,
+   "pan": 0.25,
+   "note": "crates keep arriving (writing): one token per row",
+   "group": "crate_rhythm_write"
+  },
+  {
+   "frame": 11170,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.5,
+   "note": "H100 lane crates",
+   "group": "lanes_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 11200,
+   "role": "crate_pass",
+   "strength": 0.2,
+   "pan": -0.5,
+   "note": "RTX lane: half the crates",
+   "group": "lanes_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 11230,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.5,
+   "note": "H100 lane crates",
+   "group": "lanes_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 11290,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.5,
+   "note": "H100 lane crates",
+   "group": "lanes_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 11752,
+   "role": "cam_swish",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "door 1 swings ajar (left)",
+   "group": "doors"
+  },
+  {
+   "frame": 11804,
+   "role": "cam_swish",
+   "strength": 0.3,
+   "pan": 0.0,
+   "note": "door 2 swings ajar",
+   "group": "doors"
+  },
+  {
+   "frame": 11858,
+   "role": "cam_swish",
+   "strength": 0.3,
+   "pan": 0.6,
+   "note": "door 3 swings ajar (right)",
+   "group": "doors"
+  },
+  {
+   "frame": 12100,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.2,
+   "note": "the queue steps forward one slot",
+   "group": "run12100"
+  },
+  {
+   "frame": 12118,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.3,
+   "note": "the queue steps forward one slot",
+   "group": "run12100"
+  },
+  {
+   "frame": 12350,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates stamped 'Ours' cross",
+   "group": "ours_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 12400,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates stamped 'Ours' cross",
+   "group": "ours_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 12640,
+   "role": "data_chatter",
+   "strength": 0.35,
+   "pan": -0.6,
+   "note": "40 chips light in a wave",
+   "pan_to": 0.6,
+   "anchor": "start"
+  },
+  {
+   "frame": 13023,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": -0.4,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13029,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": -0.24,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13035,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": -0.08,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13041,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": 0.08,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13047,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": 0.24,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13053,
+   "role": "tile_seat",
+   "strength": 0.22,
+   "pan": 0.4,
+   "note": "earlier tokens drop note cards into the tray",
+   "group": "run13023"
+  },
+  {
+   "frame": 13170,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates carry note cards across",
+   "group": "note_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 13230,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates carry note cards across",
+   "group": "note_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 13290,
+   "role": "crate_pass",
+   "strength": 0.3,
+   "pan": -0.6,
+   "note": "crates carry note cards across",
+   "group": "note_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 13770,
+   "role": "crate_pass",
+   "strength": 0.28,
+   "pan": -0.6,
+   "note": "taller piles of notes",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 13940,
+   "role": "data_chatter",
+   "strength": 0.35,
+   "pan": 0.0,
+   "note": "28 chat windows streaming",
+   "anchor": "start"
+  },
+  {
+   "frame": 14060,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "three tiles drop into three bins at once (L)",
+   "group": "bins"
+  },
+  {
+   "frame": 14061,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.5,
+   "note": "three tiles drop into three bins at once (R)",
+   "group": "bins"
+  },
+  {
+   "frame": 14098,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "three tiles drop into three bins at once (L)",
+   "group": "bins"
+  },
+  {
+   "frame": 14099,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.5,
+   "note": "three tiles drop into three bins at once (R)",
+   "group": "bins"
+  },
+  {
+   "frame": 14136,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "three tiles drop into three bins at once (L)",
+   "group": "bins"
+  },
+  {
+   "frame": 14137,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.5,
+   "note": "three tiles drop into three bins at once (R)",
+   "group": "bins"
+  },
+  {
+   "frame": 15130,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.6,
+   "note": "crates cross; a piece flies to the answer strip",
+   "group": "lever_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 15180,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.6,
+   "note": "crates cross; a piece flies to the answer strip",
+   "group": "lever_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 15230,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.6,
+   "note": "crates cross; a piece flies to the answer strip",
+   "group": "lever_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 15290,
+   "role": "crate_pass",
+   "strength": 0.25,
+   "pan": -0.6,
+   "note": "crates cross; a piece flies to the answer strip",
+   "group": "lever_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 15466,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.6,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15469,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.48,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15472,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.36,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15475,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.24,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15478,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": -0.12,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15481,
+   "role": "tile_click",
+   "strength": 0.2,
+   "pan": 0.0,
+   "note": "16-cell tray lights cell by cell",
+   "group": "trays"
+  },
+  {
+   "frame": 15514,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.0,
+   "note": "8-bit tray",
+   "group": "trays"
+  },
+  {
+   "frame": 15539,
+   "role": "tile_seat",
+   "strength": 0.3,
+   "pan": 0.4,
+   "note": "4-bit tray",
+   "group": "trays"
+  },
+  {
+   "frame": 15623,
+   "role": "whoosh_fast",
+   "strength": 0.3,
+   "pan": -0.5,
+   "note": "smaller crates cross",
+   "group": "small_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 15653,
+   "role": "whoosh_fast",
+   "strength": 0.28,
+   "pan": -0.5,
+   "note": "smaller crates cross",
+   "group": "small_crates",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 16300,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.5,
+   "note": "4 guess tiles race into the holders",
+   "group": "run16300"
+  },
+  {
+   "frame": 16307,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": -0.2,
+   "note": "4 guess tiles race into the holders",
+   "group": "run16300"
+  },
+  {
+   "frame": 16314,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.1,
+   "note": "4 guess tiles race into the holders",
+   "group": "run16300"
+  },
+  {
+   "frame": 16321,
+   "role": "tile_click",
+   "strength": 0.35,
+   "pan": 0.4,
+   "note": "4 guess tiles race into the holders",
+   "group": "run16300"
+  },
+  {
+   "frame": 16547,
+   "role": "whoosh_fast",
+   "strength": 0.35,
+   "pan": 0.0,
+   "note": "the 3 good tiles fly up as a bundle"
+  },
+  {
+   "frame": 17419,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": -0.55,
+   "note": "question tiles snap in again, row 1 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17422,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": -0.28,
+   "note": "question tiles snap in again, row 1 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17428,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.0,
+   "note": "question tiles snap in again, row 1 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17428,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.12,
+   "note": "question tiles snap in again, row 2 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17437,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.28,
+   "note": "question tiles snap in again, row 1 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17451,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.55,
+   "note": "question tiles snap in again, row 1 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17463,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": -0.55,
+   "note": "question tiles snap in again, row 2 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17472,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": -0.33,
+   "note": "question tiles snap in again, row 2 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17481,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": -0.1,
+   "note": "question tiles snap in again, row 2 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17488,
+   "role": "tile_click",
+   "strength": 0.45,
+   "pan": 0.35,
+   "note": "question tiles snap in again, row 2 (word-synced)",
+   "group": "close_tiles"
+  },
+  {
+   "frame": 17494,
+   "role": "tile_seat",
+   "strength": 0.5,
+   "pan": 0.55,
+   "note": "the '?' seats"
+  },
+  {
+   "frame": 17830,
+   "role": "crate_pass",
+   "strength": 0.55,
+   "pan": -0.7,
+   "note": "the huge crate thunders across to the die",
+   "pan_to": 0.5
+  },
+  {
+   "frame": 17918,
+   "role": "tile_seat",
+   "strength": 0.55,
+   "pan": -0.2,
+   "note": "11 tiles slam into the prompt at once"
+  },
+  {
+   "frame": 18060,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18086,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18112,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18138,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18164,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18190,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18216,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18242,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  },
+  {
+   "frame": 18268,
+   "role": "crate_pass",
+   "strength": 0.18,
+   "pan": -0.6,
+   "note": "crates cross again and again (finale)",
+   "group": "finale_crates",
+   "pan_to": 0.6
+  }
+ ],
+ "transitions": {
+  "source": "work/v4_framestats.json (scene score, 6-frame window peaks > 0.30)",
+  "items": [
+   {
+    "peak": 506,
+    "score": 0.36,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 597,
+    "score": 0.36,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 1125,
+    "score": 0.4,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 1943,
+    "score": 0.84,
+    "flash": true,
+    "dir": "L"
+   },
+   {
+    "peak": 2420,
+    "score": 0.5,
+    "flash": true,
+    "dir": "L"
+   },
+   {
+    "peak": 4548,
+    "score": 0.33,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 5082,
+    "score": 0.32,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 6252,
+    "score": 0.5,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 6525,
+    "score": 0.39,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 7822,
+    "score": 0.96,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 8281,
+    "score": 0.4,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 8479,
+    "score": 0.68,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 8814,
+    "score": 0.34,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 9215,
+    "score": 0.33,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 10206,
+    "score": 0.5,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 10684,
+    "score": 2.02,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 12555,
+    "score": 1.08,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 12919,
+    "score": 0.52,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 13537,
+    "score": 0.3,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 13757,
+    "score": 1.26,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 13933,
+    "score": 0.54,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 14024,
+    "score": 0.54,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 14344,
+    "score": 0.33,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 14393,
+    "score": 1.29,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 14553,
+    "score": 0.48,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 14737,
+    "score": 1.32,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 14874,
+    "score": 0.34,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 15607,
+    "score": 0.45,
+    "flash": false,
+    "dir": "L"
+   },
+   {
+    "peak": 15745,
+    "score": 0.5,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 16044,
+    "score": 0.62,
+    "flash": false,
+    "dir": "R"
+   },
+   {
+    "peak": 16165,
+    "score": 0.38,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 16250,
+    "score": 0.54,
+    "flash": false,
+    "dir": null
+   },
+   {
+    "peak": 16804,
+    "score": 0.51,
+    "flash": true,
+    "dir": "L"
+   },
+   {
+    "peak": 17083,
+    "score": 0.49,
+    "flash": true,
+    "dir": null
+   },
+   {
+    "peak": 17717,
+    "score": 0.32,
+    "flash": false,
+    "dir": null
+   }
+  ]
+ },
+ "ambience": {
+  "regions": [
+   {
+    "from": 0,
+    "to": 146,
+    "bed": "stage"
+   },
+   {
+    "from": 146,
+    "to": 509,
+    "bed": "desk"
+   },
+   {
+    "from": 509,
+    "to": 591,
+    "bed": "stage"
+   },
+   {
+    "from": 591,
+    "to": 735,
+    "bed": "desk"
+   },
+   {
+    "from": 735,
+    "to": 862,
+    "bed": "stage"
+   },
+   {
+    "from": 862,
+    "to": 1018,
+    "bed": "chip"
+   },
+   {
+    "from": 1018,
+    "to": 1844,
+    "bed": "stage"
+   },
+   {
+    "from": 1844,
+    "to": 1943,
+    "bed": "desk"
+   },
+   {
+    "from": 1943,
+    "to": 2412,
+    "bed": "desk"
+   },
+   {
+    "from": 2412,
+    "to": 3436,
+    "bed": "stage"
+   },
+   {
+    "from": 3436,
+    "to": 4234,
+    "bed": "chip"
+   },
+   {
+    "from": 4234,
+    "to": 4369,
+    "bed": "desk"
+   },
+   {
+    "from": 4369,
+    "to": 4548,
+    "bed": "desk"
+   },
+   {
+    "from": 4548,
+    "to": 4970,
+    "bed": "desk"
+   },
+   {
+    "from": 4970,
+    "to": 5082,
+    "bed": "chip"
+   },
+   {
+    "from": 5082,
+    "to": 5214,
+    "bed": "stage"
+   },
+   {
+    "from": 5214,
+    "to": 5945,
+    "bed": "chip"
+   },
+   {
+    "from": 5945,
+    "to": 6736,
+    "bed": "stage"
+   },
+   {
+    "from": 6736,
+    "to": 7109,
+    "bed": "datacenter"
+   },
+   {
+    "from": 7109,
+    "to": 7612,
+    "bed": "stage"
+   },
+   {
+    "from": 7612,
+    "to": 8054,
+    "bed": "chip"
+   },
+   {
+    "from": 8054,
+    "to": 8274,
+    "bed": "stage"
+   },
+   {
+    "from": 8274,
+    "to": 8479,
+    "bed": "chip"
+   },
+   {
+    "from": 8479,
+    "to": 8549,
+    "bed": "stage"
+   },
+   {
+    "from": 8549,
+    "to": 8814,
+    "bed": "chip"
+   },
+   {
+    "from": 8814,
+    "to": 9072,
+    "bed": "stage"
+   },
+   {
+    "from": 9072,
+    "to": 9511,
+    "bed": "chip"
+   },
+   {
+    "from": 9511,
+    "to": 9552,
+    "bed": "stage"
+   },
+   {
+    "from": 9552,
+    "to": 9692,
+    "bed": "chip"
+   },
+   {
+    "from": 9692,
+    "to": 10050,
+    "bed": "datacenter"
+   },
+   {
+    "from": 10050,
+    "to": 10200,
+    "bed": "stage"
+   },
+   {
+    "from": 10200,
+    "to": 11023,
+    "bed": "chip"
+   },
+   {
+    "from": 11023,
+    "to": 11346,
+    "bed": "stage"
+   },
+   {
+    "from": 11346,
+    "to": 11689,
+    "bed": "desk"
+   },
+   {
+    "from": 11689,
+    "to": 11877,
+    "bed": "stage"
+   },
+   {
+    "from": 11877,
+    "to": 12029,
+    "bed": "desk"
+   },
+   {
+    "from": 12029,
+    "to": 12160,
+    "bed": "datacenter"
+   },
+   {
+    "from": 12160,
+    "to": 12330,
+    "bed": "desk"
+   },
+   {
+    "from": 12330,
+    "to": 12823,
+    "bed": "chip"
+   },
+   {
+    "from": 12823,
+    "to": 13141,
+    "bed": "stage"
+   },
+   {
+    "from": 13141,
+    "to": 13347,
+    "bed": "chip"
+   },
+   {
+    "from": 13347,
+    "to": 13537,
+    "bed": "desk"
+   },
+   {
+    "from": 13537,
+    "to": 13754,
+    "bed": "stage"
+   },
+   {
+    "from": 13754,
+    "to": 13853,
+    "bed": "chip"
+   },
+   {
+    "from": 13853,
+    "to": 13932,
+    "bed": "stage"
+   },
+   {
+    "from": 13932,
+    "to": 14344,
+    "bed": "chip"
+   },
+   {
+    "from": 14344,
+    "to": 14866,
+    "bed": "stage"
+   },
+   {
+    "from": 14866,
+    "to": 15091,
+    "bed": "desk"
+   },
+   {
+    "from": 15091,
+    "to": 15465,
+    "bed": "chip"
+   },
+   {
+    "from": 15465,
+    "to": 15600,
+    "bed": "stage"
+   },
+   {
+    "from": 15600,
+    "to": 15750,
+    "bed": "chip"
+   },
+   {
+    "from": 15750,
+    "to": 16036,
+    "bed": "stage"
+   },
+   {
+    "from": 16036,
+    "to": 16804,
+    "bed": "chip"
+   },
+   {
+    "from": 16804,
+    "to": 17080,
+    "bed": "desk"
+   },
+   {
+    "from": 17080,
+    "to": 17862,
+    "bed": "chip"
+   },
+   {
+    "from": 17862,
+    "to": 18027,
+    "bed": "desk"
+   },
+   {
+    "from": 18027,
+    "to": 18170,
+    "bed": "chip"
+   },
+   {
+    "from": 18170,
+    "to": 18367,
+    "bed": "desk"
+   }
+  ],
+  "glass_hum": [
+   {
+    "from": 7874,
+    "to": 8054
+   },
+   {
+    "from": 8274,
+    "to": 8479
+   },
+   {
+    "from": 8549,
+    "to": 8814
+   },
+   {
+    "from": 9072,
+    "to": 9511
+   },
+   {
+    "from": 9552,
+    "to": 9692
+   },
+   {
+    "from": 10200,
+    "to": 11023
+   },
+   {
+    "from": 12330,
+    "to": 12554
+   },
+   {
+    "from": 13141,
+    "to": 13347
+   },
+   {
+    "from": 13754,
+    "to": 13853
+   },
+   {
+    "from": 15061,
+    "to": 15465
+   },
+   {
+    "from": 15600,
+    "to": 15750
+   },
+   {
+    "from": 16036,
+    "to": 16804
+   },
+   {
+    "from": 17682,
+    "to": 17862
+   },
+   {
+    "from": 18045,
+    "to": 18200
+   }
+  ],
+  "beds": {
+   "desk": "ambience/amb_desk_night.wav",
+   "datacenter": "ambience/amb_datacenter.wav",
+   "chip": "ambience/amb_chip.wav",
+   "stage": "ambience/amb_stage.wav",
+   "glass_hum": "palette_lib/glass_hum_1.wav"
+  }
+ },
+ "silences": [
+  {
+   "from": 7862,
+   "to": 7874,
+   "note": "suck-out before the Bridge reveal (the voice pauses here too)"
+  }
+ ],
+ "whip_directions": {
+  "146": "L",
+  "1943": "L",
+  "2404": "L",
+  "2420": "L",
+  "4369": "L",
+  "6252": "L",
+  "6736": "L",
+  "7440": "L",
+  "8281": "L",
+  "8479": "L",
+  "8814": "L",
+  "9489": "L",
+  "9686": "L",
+  "10438": "L",
+  "11016": "R",
+  "12024": "R",
+  "12160": "L",
+  "13347": "R",
+  "13865": "L",
+  "14344": "L",
+  "14874": "L",
+  "15607": "L",
+  "16044": "R",
+  "16804": "L",
+  "17880": "L"
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "id": "S5 (6524-9506) Weights and the Bridge",
+ "score_100": 77,
+ "best": "The section carries the most explanation and gets it right. The bf16 bits are the true encoding of 0.0212 (00111100 10101110). '8 billion weights → ≈16 GB' resolves with a crate and a strong callback flash to the opening crate (7393-7440). The 32-layer flythrough with its '32 / 32' counter (8091-8280) is clear and premium. The ≈300× clocks (Math 1 s against Delivery 5 min at 9054-9067) and the 150 tokens/s gauge with '≈¾ of the limit' match the voice. The Bridge build lands on 'bridge' (deck flare 7876 against the word at 7873, within ±3); Memory (7908) and Math units (7940) are on their words.",
+ "issues": [
+  {
+   "frames": "7813-8060 (and every Bridge shot through S6)",
+   "severity": "high",
+   "what": "The governing metaphor is built from primitives: a grey box tower, a slab deck on stick legs, and a 'die' that reads as a TV or monitor in a box. The reveal is mostly a lateral drift with one flare; no crane or orbit hero move, god rays or haze are visible. Right after the photoreal GPU, HBM and die assets (7499-7799), the reveal is a step down in quality. The film's most important image looks like a diagram, not a cinematic set.",
+   "fix": "Rebuild the Bridge set with the real assets: an HBM stack (BIM139/140 style) as the tower and the compute-cache die (BIM141) as the far bank, with a glass and steel deck carrying emissive lane lines. Add volumetric haze, rim light and contact shadows. Do the reveal as a low-angle crane-up from under the deck (7826-7900) ending on the 3/4 hero, with the flare on 7873."
+  },
+  {
+   "frames": "7525-7960, 8486-8760, 9344-9490",
+   "severity": "high",
+   "what": "The explanatory labels are far below the 40 px must-read minimum: 'The card's own memory', 'Tiny on-chip storage', 'The math happens here', 'Memory', 'Math units', 'The weights', 'NVIDIA H100', 'Narrow bridge', 'Your reading speed', 'Bridge limit' and '◀◀ From the start' are roughly 18-32 px. At 390 px most cannot be read. This is the 'small-type labels' failure of the 59/100 cut coming back.",
+   "fix": "Raise every must-read label to 44-56 px Sora semibold with leader lines, and cut to at most 2 labels per shot. Keep the footnotes ('On paper: peak spec rates') at 28 px or more, or drop them."
+  },
+  {
+   "frames": "6744-6770",
+   "severity": "med",
+   "what": "After the whip, about 25 frames of the server-room plate with no subject (mean luma about 10.7, the darkest stretch in the range). The ChatGPT card only fades in at about 6772. This breaks the rule of no near-empty frame longer than 6 frames.",
+   "fix": "Have the first glass card already rising as the whip lands (6744), or start the whip later (about 6765) so the plate is never seen empty."
+  },
+  {
+   "frames": "7120-7180",
+   "severity": "med",
+   "what": "The single weight sits small in the left third with '0.0212' printed small and skewed on its face (illegible). The right two-thirds are empty until the BF16 rails slide in.",
+   "fix": "Frame the weight at 40% of frame height, front-facing, with '0.0212' at 64 px or more as a floating label. Bring the rails in from the right on 'stored' (7147)."
+  },
+  {
+   "frames": "7290-7360",
+   "severity": "low",
+   "what": "The equation shows '8 billion weights' and '2 bytes' with no '×' or '=' between them, so the arithmetic is not visible as arithmetic.",
+   "fix": "Slam a '×' on 'bytes each' (7295) and '=' before '≈16 GB' on 'about' (7304)."
+  },
+  {
+   "frames": "9180-9200",
+   "severity": "low",
+   "what": "The coral 'Waiting' caption sits on the die frame's top border and collides with the asset edge. It is also small, about 28 px.",
+   "fix": "Lift it 40 px or more clear of the die, at 56 px or more, or put it on a pill above the die."
+  },
+  {
+   "frames": "9249-9489",
+   "severity": "low",
+   "what": "Eight seconds on one gauge composition with low motion (9290-9489 below 0.6 mean diff): calm compared with the rest of S5.",
+   "fix": "Rack focus between the gauge and the narrow bridge behind it, and send a crate across on 'limit' (9482). Push in on '≈¾' (9423)."
+  },
+  {
+   "frames": "8640-8700",
+   "severity": "low",
+   "what": "The 'over 3' sub-caption under '3 TB/s' is small and floats over the tower glow, so it reads like a fragment.",
+   "fix": "Set 'over' as a small cap-height prefix: 'over 3 TB/s'. Or drop the word-synced subtitle and keep the hero number."
+  }
+ ]
+}

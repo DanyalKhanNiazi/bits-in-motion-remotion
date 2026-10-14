@@ -1,0 +1,47 @@
+{
+ "id": "S3 (2811-4896) Scoring, loop, streaming",
+ "score_100": 81,
+ "v1_issues_fixed": "FIXED: the 200,000 field (high; it is now an instanced field of real tiles receding to a horizon, with the counter climbing 1,452, 22,182, ≈200,000 and 'options' landing at about f3155); 'Same question twice' (two chat windows, 'Because' ≠ 'It' at about 50 px with the ≠ in magenta, readable on a phone); the end token (a dashed 'end' tile at about 40 px at f3740); the 'Notstreaming' spacing; environment monotony (navy, then reader chat, then a package-macro backdrop for the loop, then reader monitors); the S3-to-S4 rewording (same answer wording across the cut). PARTLY FIXED: loop labels ('Model runs', 'Pick one', 'Tack onto end' are about 34-36 px, close to but under 40); the 'bends the rule' tease (now a 40 px 'A trick that bends the rule' with a bending magenta rail, but 'LATER' is still about 24 px); the streaming idea (larger 40 px answer text plus 'You read this' and 'Not written yet' chips, though the chips are only about 34 px).",
+ "remaining": [
+  {
+   "frames": "2940-3020",
+   "severity": "med",
+   "what": "The footnote 'Words and odds: illustrative' is still about 18 px, and the context question strip at the top is about 22 px tiles. Both are unreadable on a phone."
+  },
+  {
+   "frames": "2880-2920",
+   "severity": "low",
+   "what": "A near-empty frame: one thin strip of small tiles on a line for about 1-1.5 s."
+  },
+  {
+   "frames": "3740-3800",
+   "severity": "low",
+   "what": "The camera push crops the loop ring and the Bit badge at the top edge. It reads as a half-deliberate close-up."
+  },
+  {
+   "frames": "4060-4140",
+   "severity": "low",
+   "what": "The 'Mostly experimental' panel's tiles are about 20 px gibberish. The labels are about 36 px."
+  },
+  {
+   "frames": "4330-4350",
+   "severity": "low",
+   "what": "The 'The loop' callout and its circle sit on the answer text ('Each new' is occluded)."
+  },
+  {
+   "frames": "4420-4560",
+   "severity": "low",
+   "what": "The split monitors' UI text is about 18 px. The idea rides on the 'Streaming / Not streaming' headers and the '10 s ✓' timers, which works but is small on a phone."
+  },
+  {
+   "frames": "4580-4896",
+   "severity": "med",
+   "what": "The same chat window is held for about 10 s, with only chips changing and a slow drift, so it still feels like a screenshot slide. The section's payoff line 'Doesn't exist yet' is a two-line chip of about 30 px. At f4860-4895 the panel drifts to about 20-40 px from the left edge, breaking the 64 px safe area."
+  },
+  {
+   "frames": "4896-4898",
+   "severity": "low",
+   "what": "The cut to S4 now keeps the wording but jumps framing and line wrap. The stream is already rewound ('for every') at f4898, before the word 'rewind' (f4917), so it reads as a jump cut rather than a motivated rewind."
+  }
+ ]
+}

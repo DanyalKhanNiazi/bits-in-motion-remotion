@@ -1,0 +1,55 @@
+{
+ "id": "S6 (9507-11906) Experiment, bandwidth, re-hook",
+ "score_100": 72,
+ "best": "The setup is well staged: the 8-GPU rack on the server-room plate, with 'Big open models / 8 GPUs / Packed with requests' on their words. 'Half power' is a big amber slam with the dial at 50%. The reading-vs-writing why (10224-10674) is the best explanatory image in the section: one crate fans rays to all prompt tiles at once, against one ray per conversation row with the math idle. The H100 vs RTX 5090 split with 2:1 token tallies is a clear idea. The three doors open on their phrases (11738/11804/11858).",
+ "issues": [
+  {
+   "frames": "10050-10200",
+   "severity": "high",
+   "what": "The mid-film hero payoff is two flat UI panels with small gauges and thin dotted lanes. The two Bits look nearly the same, and the captions are tiny ('Slowed down a lot' about 28 px, 'Barely changed ✓' about 22 px, '½ power' pill about 20 px, footnote about 14 px). The payoff of the film's experiment does not land as an image, and the 'barely changed' side gives no visual proof.",
+   "fix": "Rebuild as a full-frame physical split. Top: the math die with amber draining and the prompt-tile wall visibly stuttering, with a big coral 'Slowed a lot' at 64 px or more. Bottom: the bridge with crates crossing at an unchanged rhythm and a token counter ticking at the same pace, with 'Barely changed' at 64 px or more. Lock a shared metronome to make the contrast obvious. Add an impact on 10077 and a hold-push on 10177."
+  },
+  {
+   "frames": "10101-10190",
+   "severity": "med",
+   "what": "Sync misses: 'Slowed down a lot' lands about 10110 ('substantially' is at 10101, +9). 'Writing answers' replaces '?' at about 10150 ('Writing' is at 10142, +8). 'Barely changed ✓' lands at about 10180-10190 ('barely' is at 10163, +17 or more).",
+   "fix": "Key each caption to at() starts: substantially 10101, Writing 10142, barely 10163, within ±3."
+  },
+  {
+   "frames": "9520-9545",
+   "severity": "med",
+   "what": "The 'The experiment' title is laid directly across the power-dial asset (over its 50% display and knob), so text and prop collide.",
+   "fix": "Move the title to the right or the upper third, clear of the dial, or slide the dial left 300 px before the title lands."
+  },
+  {
+   "frames": "11565-11689",
+   "severity": "med",
+   "what": "The re-hook question card is near-static for 73 frames (11609-11681, mean diff below 0.3), over a blurred, ghosted chat with a faint '?'. It reads as a slide and breaks the 45-frame motion rule.",
+   "fix": "Add a continuous push (zoom 1.0 to 1.08), drifting dust, and a pulsing coral caret, and have 'waiting?' type in on 11665. Or shorten the card and start the doors drawing in at 11660."
+  },
+  {
+   "frames": "11380-11560",
+   "severity": "med",
+   "what": "The reader-desk shot shows a full paragraph of answer text (more than 30 words, unreadable at 390 px). The tiny labels 'You, reading' and 'One GPU, writing' (about 22 px) sit inside the text block. That is clutter over the 12-word limit, and the 'outruns' race is hard to see. A stray diagonal leader line crosses the chat at 11457.",
+   "fix": "Blur and dim the body text to texture, and show two big markers racing: a cyan Bit 'Writing' ahead of a white 'Reading' bar, with labels at 48 px or more outside the text. Remove or anchor the diagonal line."
+  },
+  {
+   "frames": "11885-11910 (S6→S7 boundary)",
+   "severity": "med",
+   "what": "The planned exit push through door 1 (zoom to about ×6, light tunnel) does not happen: the doors only drift slightly, then hard-cut at 11907 (diff 34) to the S7 reader-desk chat with radial streaks. The coral '1' badge carries continuity, but the transition is unmotivated.",
+   "fix": "Push through door 1 from 11885 into a white or coral bloom, and have S7 open out of that same bloom (match cut) with the '1' badge already in place."
+  },
+  {
+   "frames": "10845-10990, 11146-11340, 11700-11906",
+   "severity": "med",
+   "what": "The labels are again under 40 px: 'Gigabytes per second' (about 22 px, on the deck), '= the bridge's width', 'A little over half', the footnote 'In theory: a bandwidth limit' (about 14 px), and the three door labels (about 26 px).",
+   "fix": "Use 44 px minimum for the door labels and bandwidth labels, and 28 px or more for the footnotes. Put 'A little over half' on a bracket beside the narrowed deck, not on its edge."
+  },
+  {
+   "frames": "9582-9690, 10789-11020",
+   "severity": "low",
+   "what": "The Bridge side view is flat (orthographic-looking slab, small crates). The bandwidth 'width arrows' are thin hairlines, so bandwidth as 'the bridge's width' is underplayed visually.",
+   "fix": "Animate the deck physically widening and narrowing (lanes added or removed with light) on 'bandwidth' (10845), with crates side by side scaling with width. Shoot it from a low 3/4 angle with depth of field."
+  }
+ ]
+}

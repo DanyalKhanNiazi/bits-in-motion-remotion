@@ -1,0 +1,37 @@
+{
+ "id": "S9 (17080-18366) Close and sign-off",
+ "score_100": 77,
+ "best": "The callback structure is right and well executed. In the loop, 'One after another' lands on 17321. The question tiles re-assemble word-synced, the answer tiles chain under them, and 'Made in order' lands on 17650. The bridge hero puts the die on pause while a crate crosses. The 11 tiles fly in 'all at once' (17904-17918) with Read full and Write crawling. The finale has a strong idea: a bridge inside the reader's monitor as the chat types 'gigabytes of numbers cross a bridge, again and again, piece after piece', with 'piece.' landing at 18346 on the spoken word (18343). The 'B / Bits in Motion' sign-off types on from 18296. The S8→S9 boundary (17064-17082) is a clean dim-and-cut with no wrong-content flash.",
+ "issues": [
+  {
+   "frames": "17836-17868",
+   "severity": "high",
+   "what": "The film's thesis line 'It's the trip.' is fully on screen for only about 10 frames: 'trip.' arrives at 17856, the text blurs out at 17864 and the whip starts at 17868. The rules say labels stay at least 15 frames past the sentence, and this is the most important caption in the film.",
+   "fix": "Hold 'It's the trip.' fully legible until at least 17885, scale it to 120 px, and move the whip-left start to about 17880 (the RACE shot can start 15 frames later; 'our question' is 17878). Land the hero crate impact on 'trip' (17850) with the shake."
+  },
+  {
+   "frames": "18296-18366",
+   "severity": "med",
+   "what": "The ending has no confident hold. The last word lands at 18346, and at 18351 the chat text jumps up a line (a reflow snap) 15 frames before the film ends. The sign-off 'Bits in Motion' is about 30 px, small for a brand frame, and shares the screen with a paragraph of roughly 25 words of chat.",
+   "fix": "Scroll the chat smoothly (ease over 8+ frames), or size the chat box so no reflow happens after 18300. From 18300, dim the chat to 40%, scale the B monogram and wordmark to about 72 px, and let the crates keep crossing behind it as the motion hold."
+  },
+  {
+   "frames": "17082-17300",
+   "severity": "med",
+   "what": "The loop shot opens sparse: chip, ring and a small answer strip on a large empty floor. The corner labels 'How long each run takes' / 'How many pieces per run' are about 24 px with tiny trick icons. The composition stays the same for about 7 s, so it is calm going into the finale.",
+   "fix": "Start tighter (zoom 1.15). Show the tricks plugging into the ring as large props with 48 px labels on their spoken words (17134, 17207), and make the 3-tiles-per-lap change bigger and brighter."
+  },
+  {
+   "frames": "17393-17419",
+   "severity": "low",
+   "what": "After the whip, the frame is almost empty (only dashed ghost slots) for about 25 frames.",
+   "fix": "Bring the first tile ('Why') in on 17419 while the ghost slots build with a light sweep, or snap the ghosts in during the whip so the frame never sits near-empty."
+  },
+  {
+   "frames": "17724-17832, 17940-18012",
+   "severity": "low",
+   "what": "The footnote 'A single conversation, on a GPU', the 'The math' label and the 'Read' / 'Write' lane labels are about 20-26 px.",
+   "fix": "Footnote can stay small. Raise 'The math', 'Read' and 'Write' to at least 44 px."
+  }
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "id": "S1 (0-1581) HOOK",
+ "score_100": 75,
+ "best": "10-36 s is strong. The wall of text lands on the monitor, a literal eyelid-blink wipe at f292 hits 'blink' (f290), and 'under 0.03 s' appears big at f324. The answer then trickles out and a red WRITE bar sits against a READ sliver with 'over x200' at f550 ('two hundred times' f532-571). Tiles chain with arcs on 'depends on the ones before it'. A lens-iris dive (f865) leads into a neon bridge where a '≈16 GB' crate rolls to the die ('Where the math happens' lands on f974-991). A hero crate push lands on 'Almost 16 gigabytes!' (f1045). The power-dial tease 100%->50% has '?' on both lanes and 'Clearly slowed'/'Barely noticed' landing on their words (f1490/f1537). Every spoken number matches the screen (750 words, 0.03 s, ≈6.5 s, x200, ≈16 GB, 50%).",
+ "issues": [
+  {
+   "frames": "0-150",
+   "severity": "high",
+   "what": "The first 3 s (and the first 5 s) is a generic product beauty shot: a GPU module turning on a holo ring with a 'Nvidia's own test' tag, plus a ~20 px 'A small AI model' callout at f70-100. It has no contrast, question or tension, so it does not stop a scroll. DIRECTION wants the reader's screen with the wall of text landing in the first 3 s. The hook's real payload (0.03 s vs 6.5 s, x200) only arrives at f324-f550 (11-18 s).",
+   "fix": "Cold-open on the payoff. f0-20: the ~750-word wall slams onto the monitor with a flash, and a huge stopwatch freezes at 0.03 s. f20-90: the answer starts trickling and the stopwatch crawls (1.0 s, 2.0 s...), with 'x200' ghosted. Then cut to the GPU module at f90-150 under 'Nvidia's own test' (f16-41) as the source tag. If the module must open, at least slam a split frame at f0: '0.03 s' (left) vs a crawling '6.5 s' (right), over the module."
+  },
+  {
+   "frames": "200-292",
+   "severity": "med",
+   "what": "Near-static hold of about 3 s: the wall of text on the monitor with 'Read 0.00 s' fixed, small, top-left. Nothing reads as happening while the voice says 'read a prompt about 750 words long'.",
+   "fix": "Show the read as instant parallel lighting. Run a top-to-bottom scan sweep of the whole wall at f157-175 ('read'), pop '≈750 words' at f195 with a spring, and keep a slow push (0.5 px/f) plus a shimmering text glow. Make the stopwatch 120 px or larger and centred, not a 25 px corner readout."
+  },
+  {
+   "frames": "640-720",
+   "severity": "low",
+   "what": "The giant answer text drifts with its left edge cut ('lowed and suppliers...', 'erall, the outlook...'). It reads as accidental cropping, not a framed close-up.",
+   "fix": "Either frame the line inside the 64 px safe area with a soft left fade mask, or move the camera so line starts are visible. Lead the eye with the Bit cursor at the newest word."
+  },
+  {
+   "frames": "1080-1125",
+   "severity": "med",
+   "what": "'For one piece!' is the film's contrast image, but the payoff is weak. The caption is ~30 px; at f1090 'one' is a tiny word next to a large 'For'; and the popped token 'good' is about 25 px, so it is unreadable at 390 px. The second, escalating punch is not sold.",
+   "fix": "Slam 'For ONE piece!' at 96-120 px on f1080/f1086/f1097 (word-locked pops). Pull focus to the single token tile and give it a spotlight and a scale bump to at least 140 px wide, so it is tiny next to the crate yet readable. Add a beat of camera shake or a dolly-zoom on 'piece!' (f1097)."
+  },
+  {
+   "frames": "1130-1195",
+   "severity": "med",
+   "what": "Near-empty frame for about 65 frames: dim ghost slot outlines and a thin vertical beam on navy, while the voice says 'Let's follow one question through it all'. This breaks the 6-frame empty-frame rule in spirit.",
+   "fix": "Carry the token tile from the crate shot as a match cut. The 'good' tile flies out and becomes the Bit, which draws the slot rail. Or start the first question tiles dropping at f1142 ('one question') instead of f1195."
+  },
+  {
+   "frames": "1240-1320",
+   "severity": "low",
+   "what": "No title moment. The 11 tiles assemble and then whip away; the 'Atlas opener' title treatment the plan calls for is missing.",
+   "fix": "Hold the assembled question for 20-30 frames with a channel-mark and title lock-up: light sweep across the tiles, the Bit landing on '?', and a subtle logo sting. Whip out on 'And along the way' (f1292)."
+  },
+  {
+   "frames": "1555-1562",
+   "severity": "low",
+   "what": "Word-reveal spacing bug: 'Barelynoticed' shows with no space while 'noticed' scales in.",
+   "fix": "Lay out each word with its trailing space reserved (measure the final width) before animating its scale or opacity, so the second word never starts at the first word's right edge."
+  }
+ ]
+}

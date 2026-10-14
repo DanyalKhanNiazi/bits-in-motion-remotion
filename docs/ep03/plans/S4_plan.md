@@ -1,0 +1,29 @@
+# S4 plan: reading vs writing (P08–P09, frames 4897–6524)
+
+Anchors are `at(p, phrase).start` (absolute). Hero beats: the REWIND (signature transition), the prompt read side by side in
+ONE run (P08), and math ×1000 vs wait ×4 (P09). Re-hook: "Why is each writing run so slow?" (P09; the card echoes the
+voice, which says "writing"). Exit: the verdict, then a push into the coral wait stack (toward S5's weights and bridge).
+
+| # | Frames | Env / assets | Camera and action | On-screen strings | Out |
+|---|---|---|---|---|---|
+| A REWIND | 4867–4970 | (a) reader-desk plate, kit ChatScreen | Answer streams under a slow push (scene clock = frames since Enter). Tape-stop decel into `rewind` 4917: kit Rewind (from 6 s to 0): tokens un-write and flash cyan as they vanish, the caret Bit backs up, the bubble shrinks back into the input, Ken Burns pulls back, big ◀◀ ghost at peak. Lands on `hit` 4952 with a clunk (punch, flash) and a "■ 00:00" stamp. A white Enter keycap rises; pressed on `enter` 4958 (squash, ring); the question launches as the bubble. | tape counter 00:06 → 00:00; keycap "Enter" | ZoomThrough into the bubble 4968 |
+| B SKIP | 4968–5092 | (c) chip world | The bubble's words become the 11 question tiles in one block (all land at once). The LOOP ring (S3 motif) laps with the Bit. `skips` 5013: the whole block hops over the ring in one bound (arc trail, blur, squash on a lit landing pad). | "Skips the loop" | ZoomThrough into the ring 5076 |
+| C CHAIN | 5076–5226 | (b) void stage, kit TokenTiles on a steel rail | Dolly along the answer rail: "Because a model" solid, slot 4 spinning (a reel of candidate words, callback to the weighted pick), slot 5 a ghost with a coral padlock, chained to 4. `5` 5148: coral badge 5. `picked` 5182: reel lands "writes" (click, Bit hops on), `4` 5200: badge 4; chain turns cyan, lock pops open and falls, slot 5 starts spinning. | "Piece 5 waits for piece 4"; badges 4, 5 | Whip down 5214 |
+| D THERE | 5214–5350 | (c) chip world (the reading world) | The prompt as a two-line block of 11 big tiles, slow track. `no such wait` 5250: no locks, ready ticks under every tile. `already` 5320: all 11 flare at the same instant, light sweep. | "No such wait" → "Already there" | in-scene pull back |
+| E ONE RUN | 5350–5490 | same + BIM142 die (rim, sweep), idle LOOP ring | Crane down to a low hero angle (the set tilts back 24°): die below the row; `read` 5390: 11 lanes draw tile → die. `side by side` 5425: all 11 tiles glow, 11 pulses fall in lockstep (parallel lanes); hit 5458: all 30 math tiles flash at once, shockwave, shake; ring stays idle. | "Side by side" + "One run" (slam 5465) | in-scene |
+| F CHUNKS | 5490–5580 | same, wide | A high top-down crane, swinging round: the row is the foot of a very long prompt (wall of blank tiles, 3 bracketed chunks). `chunk` 5506 / 5524 / `prompt` 5546: each chunk lights and drops through the lanes, one die flash each. | "Chunk by chunk"; Label "Very long prompt" (5557) | in-scene tilt down |
+| G FIRST | 5580–5680 | same | The whole chip, port and belt in frame. `same run` 5592: the reading flash re-glows; `picks` 5613: the port opens and "Because" drops onto the belt on `first piece`. | "Same run" / "→ first piece" (left) | in-scene |
+| H ONE PER RUN | 5680–5800 | same, prompt side gone | A low, rolled angle along the belt (set tilts 34° on the belt line): the die looms behind, the LOOP ring laps once per token, one tile lands per run, in order. | "One token per run, in order" | in-scene |
+| I MANY RUNS | 5800–5945 | same, chip gone | The LOOP alone on the left; laps accelerate, ticks pile up, and each lap fires a beam that drops the next word into an answer grid on the right, in reading order. | "So many runs" (5918) | in-scene |
+| J RE-HOOK | 5945–6056 | same | `But` 5949: laps brake to a crawl (long streak), math tiles idle, slow push on the ring. QuestionCard on `why` 5954. | "Why is each writing run so slow?" | Whip up 6044 |
+| K SAME WAIT | 6042–6256 | (b) night stage: two BIM129 GPU modules on floor timer rings | `reading` 6071: both lanes titled; a wall of ≈1,000 tiles sweeps in above the left GPU; `thousand` 6122 counter. `took` 6155: race: the wall funnels into the left die in ONE run (die blazes, sparks: lots of math) while the right die pulses four runs, one tile each onto a rail; both coral rings close on `answer` 6236 and "=" slams. | "Same test", "Reading", "≈1,000 tokens", "Writing", "4 tokens" (56–80 px) | Whip left 6245 |
+| L ×1000 / ×4 | 6245–6470 | dimmed gpu-macro plate; owner's R5 renders (cube, block, hourglass) | A two-row table, Math \| Wait. `reading` 6257: row "Reading the prompt". `thousand` 6298: the monumental cube drops and lands with weight on 6300 (shockwave, dust, shake), counter ×1 → ×1000. `writing one token` 6345: row "Writing 1 token": one block (×1), one hourglass flips in (×1). `four times` 6385–6409: four hourglasses flip in, one per count, ×4. | "Math", "Wait", row titles, ×1, ×1000, ×4 (56–104 px) | in-scene |
+| M VERDICT | 6450–6524 | same | Table labels clear; `math` 6470: the verdict slams (flash, shake); the cube goes dark, the hourglasses glow. Last 20 f: push in; the last hourglass lifts off and becomes the ghost "?" tile S5 opens on (match cut at 947, 392). | "The math isn't the slow part." | match cut |
+
+Change cadence ≤ 3.5 s everywhere; every hold carries drift + secondary motion (lapping Bit, flowing lanes, dust).
+Honesty: numbers shown are spoken (5, 4, ≈1,000, 4, ×1000, ×4); the tape counter is the rewind's chrome.
+
+## Sound cues (S4.cues.json)
+rewind 4917 · pop 4959 (Enter) · whoosh 4963 (dive) · pop 5190 (piece 4 lands) · whoosh 5213 (whip) · riser 5425 ·
+impact 5463 (one run) · sting 5954 (re-hook) · whoosh 6042 · pop 6236 (tie) · impact 6300 (cube lands) · pop 6347 (block) ·
+tick 6370 · ticks 6385/6393/6401/6409 (hourglasses) · impact 6470 (verdict slam) · whoosh 6504 (exit). 19 cues.

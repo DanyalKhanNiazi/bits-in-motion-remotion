@@ -1,0 +1,42 @@
+{
+ "id": "S2 (1582-2810) Tokens",
+ "score_100": 76,
+ "v1_issues_fixed": "FIXED: the ruler running off frame (it now fades at the right, f2670); the plain-text question spacing (f1680 now renders 'Why do AI answers arrive one piece at a time?' with correct spacing at about 42 px); slide feel and environment (a perspective tilt on 'Same 11 pieces' at f2265, and warm reader bokeh behind the drawer and bench shots at f1860-2265). NOT FIXED: tile collisions on the fly-in to one line (f1630-1650 still stacks 'WhydoAIanswersarrive onepiece' with ghost tiles over 'at a time'); the role and source labels ('Tokenizer' about 24 px, 'OpenAI's open-source tokenizer', 'Meta's Llama' and 'English | OpenAI's rule of thumb' about 28-32 px).",
+ "remaining": [
+  {
+   "frames": "1625-1660",
+   "severity": "med",
+   "what": "The tile fly-in collides again: tiles overlap into an unreadable bar, and a ghost tile sits over 'at a time?' at f1650. This is the same v1 bug."
+  },
+  {
+   "frames": "2175-2240",
+   "severity": "med",
+   "what": "The Llama row transition stacks the word tiles on top of the ID bench. 'Why' and 'do' overlap the numbers, and 'at' covers the 'Tokenizer' label (f2210), for about 2 s."
+  },
+  {
+   "frames": "1725-1815",
+   "severity": "low",
+   "what": "Tiles flying into the bench cross the 'Tokenizer' label ('To|kenizer' is occluded at f1815) and the headline text at f1725."
+  },
+  {
+   "frames": "1688-2760",
+   "severity": "med",
+   "what": "Must-read labels are still under 40 px: 'Tokenizer' about 24 px, source chips about 28-32 px, and the '≈4 characters' block and 'a ___' (f2760) are small. On a 390 px phone they are about 8-10 px tall."
+  },
+  {
+   "frames": "2600-2640",
+   "severity": "low",
+   "what": "The 'English' chip enters on top of the fading 'Photos' tile (a collision during the transition)."
+  },
+  {
+   "frames": "2310-2400",
+   "severity": "low",
+   "what": "The bench sits in the same framing for about 3 s with only a header text change."
+  },
+  {
+   "frames": "1860",
+   "severity": "low",
+   "what": "The vocabulary card shows '13896 gaat', an odd, foreign-looking token that may confuse viewers; a common English word reads better."
+  }
+ ]
+}

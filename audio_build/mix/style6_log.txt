@@ -1,0 +1,2 @@
+style 6: I -14.3 LUFS, TP -1.2 dBTP, LRA 1.9 LU, music gap min 19.5 LU (integrated 20.1), loudest cue -10.7 dBFS vs voice typical -1.7, 17 cues -> PASS
+style 6 exit 0

@@ -1,0 +1,37 @@
+{
+ "id": "S6 (9507-11906) Experiment, bandwidth, re-hook",
+ "score_100": 77,
+ "v1_issues_fixed": "3 of 8 fixed, 4 partly fixed, 1 not fixed. FIXED: caption sync. 'Slowed a lot' enters at 10101 (word 10101), 'Writing answers' replaces '?' at about 10142-10150, and 'Barely changed ✓' enters at 10163 (word 10163). 'The experiment' title now sits above the dial and clear of it (9530-9548). The exit now pushes through the doors into a bloom (11888-11906) that S7 opens out of (11915). PARTLY FIXED: the payoff now has visual proof, a shared playhead racing two segmented progress bars with reading falling behind in coral, and 'Slowed a lot' and 'Barely changed' at about 40-44 px. It is still a flat three-band UI. The re-hook now types in ('So why do chatbots keep you wai…'), but over a near-black frame. The reader-desk race now has 'Writing' and 'Reading' markers and 'Writing outruns reading', but the paragraph text stays visible and the 'Writing' tag overlaps a text line at 11487. Bandwidth is now shown as deck width (the H100 lane against a narrower RTX 5090 lane, 11187-11307). NOT FIXED: label sizes. 'Gigabytes per second' is about 24 px, 'A little over half' about 26 px, the footnotes 'In theory: a bandwidth limit' and 'Illustrative; big models on 8 GPUs' about 14 px, the 'THE SETUP' panel text about 20 px, the '½ power' pill about 24 px, and the door labels about 28 px.",
+ "remaining": [
+  {
+   "frames": "9567-11010",
+   "severity": "high",
+   "what": "Motif break: S6's Bridge is a schematic set (a box-drawn tower, a flat die illustration with a yellow bar, a rail deck) at 9567-9687, in the payoff's bottom band (10060-10200), on the verdict card (10767) and on the bandwidth set (10827-11007). That is not the photoreal HBM-and-die Bridge revealed in S5. The direction says the Bridge must stay identical everywhere."
+  },
+  {
+   "frames": "10055-10205",
+   "severity": "med",
+   "what": "The mid-film payoff improved (the playhead race is good proof and is on sync), but it is still a flat three-band dashboard. The top die and tile wall are small, and 'Reading prompts', 'Writing answers' (about 28 px), '½ power' and the footnote are small. It does not land as a cinematic image."
+  },
+  {
+   "frames": "9747-9870, 10845-11310, 11727-11906",
+   "severity": "med",
+   "what": "Labels under 40 px. The 'THE SETUP' panel text ('Big open models / 8 GPUs / Packed with requests') is about 20 px. 'Gigabytes per second', 'Top gaming card', 'A little over half', '≈½ the speed' and the footnotes are about 14-26 px. The door labels are about 28 px, on flat outline doors."
+  },
+  {
+   "frames": "11564-11665",
+   "severity": "med",
+   "what": "The re-hook question plays on a near-black frame (mean luma about 10-12 for about 100 frames) with only a faint ghost '?', so it reads close to an empty frame apart from the typing text."
+  },
+  {
+   "frames": "11007",
+   "severity": "low",
+   "what": "'At least as much as math' runs over the bottom edge of the die box (collision)."
+  },
+  {
+   "frames": "11460-11560",
+   "severity": "low",
+   "what": "The reader-desk race still shows the paragraph as readable body text. The 'Writing' tag overlaps a line of answer text (11487)."
+  }
+ ]
+}

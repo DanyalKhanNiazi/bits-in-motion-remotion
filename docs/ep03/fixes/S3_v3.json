@@ -1,0 +1,47 @@
+{
+ "id": "S3 (2811-4896) Scoring, loop, streaming",
+ "score_100": 84,
+ "v2_issues_fixed": "FIXED: 'The loop' callout no longer covers the answer text (f4340 sits under the line); the 10 s chat hold at f4580-4896 now has pushes and pull-backs with large text (about 45 px at f4760), 'Small bunches' and 'First words' chips, and the payoff 'Doesn't exist yet' at about 70 px (f4880); 'LATER' is now about 40 px beside 'A trick that bends the rule'; the loop labels ('Model runs', 'Pick one', 'Tack onto end') are about 40 px and readable on a phone. PARTLY FIXED: the 'Odds: illustrative' footnote (about 30-35 px, up from 18). NOT FIXED: the context strip at the top (about 20 px tiles at f2931-2991); the ring cropped at the top during the push (f3771); the gibberish 'Mostly experimental' tiles; the split monitors' UI text (about 15 px); the S3-to-S4 cut.",
+ "remaining": [
+  {
+   "frames": "2931-3051",
+   "severity": "low",
+   "what": "The context question strip at the top is about 20 px tiles, and the 'OpenAI's tokenizer' header (f3111-3171) is about 28 px. The cyan 'options' word is about 40 px with low contrast against the bright field horizon."
+  },
+  {
+   "frames": "3220-3260",
+   "severity": "low",
+   "what": "The weighted spin wheel's segment labels (Because, AI, Each, They) are about 20 px and unreadable on a phone."
+  },
+  {
+   "frames": "4040-4130",
+   "severity": "low",
+   "what": "The 'Mostly experimental' panel still shows random-letter tiles ('pwz', 'xzmn', 'amxx') at about 20 px. They read as noise or a bug, not as a different kind of model."
+  },
+  {
+   "frames": "3760-3800",
+   "severity": "low",
+   "what": "The push crops the loop ring at the top edge, which still looks half-intended."
+  },
+  {
+   "frames": "3831-3990",
+   "severity": "low",
+   "what": "The 'tokens' caption under '100' (f3831) is about 15 px, though '100 tokens = 100 runs' reads at f3980."
+  },
+  {
+   "frames": "4400-4560",
+   "severity": "low",
+   "what": "The split monitors' chat text is about 15 px. The idea rides on the headers and the '10 s' timers, which do read on a phone."
+  },
+  {
+   "frames": "2811-2900",
+   "severity": "low",
+   "what": "The opening of the section is the 11 small tiles (about 30 px) centred on empty navy for about 3 s."
+  },
+  {
+   "frames": "4892-4916",
+   "severity": "low",
+   "what": "The cut to S4 still jumps from the close-up 'Doesn't exist yet' to a wide chat that is already replaying from 'for every' before the word 'rewind' (f4917). It reads as a jump cut, not a motivated rewind."
+  }
+ ]
+}

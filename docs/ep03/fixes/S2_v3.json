@@ -1,0 +1,32 @@
+{
+ "id": "S2 (1582-2810) Tokens",
+ "score_100": 82,
+ "v2_issues_fixed": "FIXED: the Llama row transition stacking word tiles on the ID bench (f2182-2242 is now clean, with tiles seated and check pips); the 'Tokenizer' label size and occlusion (about 40-45 px and clear at f1702-1784); the source chips ('OpenAI's open-source tokenizer', 'Meta's Llama', 'English | OpenAI's rule of thumb' are about 40 px); the '13896 gaat' card (now '13903 Why'); the 'English' chip colliding with the 'Photos' tile (f2602-2662 is clean, with an added magenta 's' chip that explains the missing letter); the 2310-2400 static bench (a header change to 'Same 11 pieces ✓' and then 'Every word = one piece', each about 45 px). The '10 words + ? → 11 numbers' line with a large '11' (f2122) is clear. NOT FIXED: the tile fly-in collisions.",
+ "remaining": [
+  {
+   "frames": "1748-1766",
+   "severity": "med",
+   "what": "The fly-in into the bench still collides: 'at' and 'a' land on 'answers', and 'time' sits over 'arrive' (f1760), for about 20 frames."
+  },
+  {
+   "frames": "1822-2122",
+   "severity": "low",
+   "what": "The ID numbers on the tiles (13903, 621, 20837 ...) are about 25 px, so the 'swaps each piece for an ID number' payoff is tiny on a phone."
+  },
+  {
+   "frames": "1642-1702",
+   "severity": "low",
+   "what": "The question as a single line of about 40 px plain text over an empty dark bench, for about 2 s. It is sparse and slide-like."
+  },
+  {
+   "frames": "2062-2090",
+   "severity": "low",
+   "what": "'10 words + ?' animates in with a tiny subscript '?' before resizing."
+  },
+  {
+   "frames": "2760-2810",
+   "severity": "low",
+   "what": "The 'a word' label under the ¾ bar is about 28 px, and the closing ruler card is small and in the lower half."
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+I judged from decoded frames only (4 overview sheets, 3 dense sheets, one 390 px phone montage), with no playback and no audio. Scratch output is in F:\YouTube Channels\Bits in Motion\Reviews\Episode 03 Claude v1 (2026-10-14)\work\S7-S9\.
+
+S7→S8 boundary (15076-15130): the chat blurs into the Bridge, and 'The tricks' opener lands on 15106 ('tricks'). This is clean and motivated, but the title text collides with the set.
+
+S8→S9 boundary (17064-17124): the panels dim at 17070-17076 and the film cuts to the loop at 17082. There is no wrong-content flash and no repeated beat, though the cut is plain rather than motivated.
+
+All spoken numbers in S7-S9 match the screen: ≈1 GB per 8,000 tokens, 200 requests, ×60, almost ×3, 8 bits / 16, more than 40%, not ×2, ×2–3. 'weights' is never shown as 'waits'.
+
+Systemic problems across the range:
+- The word-pop kerning bug that produces visible typos.
+- Must-read labels at about 22-28 px instead of 40 px or more.
+- Several collisions between hero text and 3D assets.
+
+Fixing these three would lift craft into the low 80s. This is a large step up from the 59/100 cut (the Bridge metaphor is built and recurs, the rooms vary, and holds carry motion), but the range is not yet viral-grade.
+
+Method: 11 images in total (6 range sheets, 4 dense sheets and one 390 px phone composite), every 45-64 frames plus dense ranges at 0-95, 260-370, 1100-1240, 1565-1655, 3100-3180, 3280-3440, 3690-3790, 4376-4400 and 4850-4945. Nothing was watched in real time or listened to. Sync was judged against TRANSCRIPT.md word frames. Scratch output is in F:\YouTube Channels\Bits in Motion\Reviews\Episode 03 Claude v1 (2026-10-14)\work\S1-S3\. Boundaries: S1->S2 (f1577->1583) is a hard cut from a dial push-in to the re-assembled question tiles. It is acceptable but repeats the f1240-1270 beat without a title payoff. S2->S3 (f2840) uses a clean 'The model's job' chapter card. S3->S4 (f4892->4898) is a jump cut on the same chat UI with reworded answer text (flagged medium). Every spoken number in range matches the screen: 750 words, 0.03 s, ≈6.5 s, x200, ≈16 GB, 50%, 11, 200,000, 100 runs, 10 s, ≈4 characters, ¾ word. The word 'weights' does not occur in S1-S3. I saw no placeholder text, plate edges, z-order errors or wrong-content flashes. Recurring defects: label type of about 20-26 px across all three sections (violates the 40 px rule), two word-spacing reveal bugs, and edge crops during camera pushes. The biggest single fix is the cold open: the first 3 s are a product beauty shot rather than the 0.03 s vs 6.5 s contrast.
+
+Method: decoded frames only (11 images: 5 overview sheets at a 75-frame step, 4 dense sheets, 1 dense S6/S7 boundary sheet, and one tile of 390 px phone frames), plus a full-range motion and luma scan at 160x90 (4860-11950). Nobody watched real-time playback and there was no audio. Work files are in F:\YouTube Channels\Bits in Motion\Reviews\Episode 03 Claude v1 (2026-10-14)\work\S4-S6\.
+
+Section boundaries:
+- S3→S4 (4897): the chat text and framing change between 4894 and 4902, so the answer content jumps.
+- S4→S5 (6524): a hard cut (diff 37) from a push into the cube to the weight tray; acceptable but not a match.
+- S5→S6 (9507): a whip-left (9489-9505) into the power dial; clean. The dial already reads 50% at 9508, which works as a callback to the S1 tease.
+- S6→S7 (11907): the planned push through door 1 is missing; it hard-cuts to the reader-desk chat (diff 34). The coral '1' badge carries over, so it is not a wrong-content flash.
+
+Global checks:
+- No frozen holds of 30 frames or more anywhere (diff below 0.12). The only run under 0.3 is the question card at 11609-11681.
+- No black or empty frames, except the dark empty server plate at 6746-6767.
+- On-screen numbers all match the voice: 5/4, ≈1,000, 4, ×1000, ×4, 8 billion, 16 bits, 2 bytes, ≈16 GB, 32, 3 TB/s, ≈300×, 1 s, 5 min, 150, ¾, half power/50%, ½, RTX 5090, H100.
+- The bf16 bit pattern is correct. 'weights' and 'waits' does not arise in this range (P18-P19 lie outside it).
+- Not verified: the 'VRAM' slam at 7588 (not sampled), and the dial animating 100→50 on 'half' at 9955 (only 50% was seen).
+
+Biggest gaps to 'viral-grade':
+- The Bridge set is primitive.
+- The experiment payoff is shown as small UI panels.
+- Labels throughout sit under 40 px.

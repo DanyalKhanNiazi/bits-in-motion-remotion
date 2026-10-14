@@ -1,0 +1,32 @@
+{
+ "id": "S6 (9507-11906) Experiment, bandwidth, re-hook",
+ "score_100": 83,
+ "v2_issues_fixed": "4 of 6 fixed, 1 partly fixed, 1 not fixed. FIXED: (1) The motif break is gone. The prediction set (9597-9687), the payoff's bottom band (10092-10182), the reading and writing sets (10227-10677), the verdict card (10767) and the bandwidth set (10839-10991) all use the same premium HBM-tower, die and luminous-deck Bridge. (2) The re-hook question now types over the ghosted chat window with a large '?' (11599-11675); no frames in S6 after 9699 have mean luma below 15. (3) In the reader-desk race the paragraph is now ghosted and blurred, and the 'Writing' and 'Reading' markers sit clear of the text (11485-11561). (4) The 'THE SETUP' panel text now reads at 390 px (9850). PARTLY FIXED: (5) The doors are now lit red and open in sequence (11789-11865), and the bloom exit holds. Door labels are about 36-40 px. NOT FIXED: (6) The mid-film payoff (10092-10205) is the same three-band dashboard. It is on sync ('Slowed a lot' at 10137, 'Barely changed ✓' by 10182) but not cinematic.",
+ "remaining": [
+  {
+   "frames": "10050-10205",
+   "severity": "med",
+   "what": "The mid-film payoff is still a three-band dashboard. The top die and gauge are cropped at the top frame edge with no 64 px margin. The two '½ power' gauges show different needle states (red at 10 o'clock, cyan at 3 o'clock) with no explanation. The '½ power' pill text and the footnote 'Illustrative; big models on 8 GPUs' are about 16-20 px and cannot be read at 390 px (10170)."
+  },
+  {
+   "frames": "10991-11010",
+   "severity": "low",
+   "what": "Collision: 'At least as much as math' (and the 'M' of 'Memory bandwidth') overlaps the HBM tower roof. The v2 overlap with the die box has moved to the tower."
+  },
+  {
+   "frames": "11143-11335",
+   "severity": "low",
+   "what": "In the H100 versus RTX 5090 lanes, the 'little over half as wide' bridge barely reads: both lane boxes are the same height. The footnote 'In theory: a bandwidth limit' is about 14-16 px. 'A little over half' and '≈½ the speed' are about 30 px (11200, 11300)."
+  },
+  {
+   "frames": "9597-9687, 10227-10700",
+   "severity": "low",
+   "what": "The thin grey monospace kickers ('PREDICTION', 'READING A PROMPT', 'WRITING AN ANSWER') render complete at full resolution. At 390 px they mostly vanish: 10600 reads only 'ANSWER'."
+  },
+  {
+   "frames": "9912-10002",
+   "severity": "low",
+   "what": "The footnote '| Big open models, 8 GPUs, packed' is about 14 px and cannot be read at 390 px."
+  }
+ ]
+}
