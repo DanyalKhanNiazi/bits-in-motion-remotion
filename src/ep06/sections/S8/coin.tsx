@@ -10,7 +10,12 @@ import React from 'react';
 import {
   Archive,
   EASE,
+  GEOM,
   IndexCard,
+  LAYER_VIEW,
+  PIVOT,
+  applyM,
+  layerMatrix,
   KineticText,
   MOVERS,
   PAL,
@@ -72,7 +77,7 @@ export const orbitAt = (f: number): number =>
         [FLIP_MID + 14, 131, EASE.out],
         [FLIP_MID + 26, 124],
         [EDGE0, 121],
-        [EDGE1, 93, EASE.out],
+        [EDGE1 - 6, 94, EASE.out],
       ]);
 const F1POSE = {x: 1284, y: 590, zoom: 1.0};
 const CAM_B: CamKey[] = [
@@ -81,7 +86,8 @@ const CAM_B: CamKey[] = [
   {f: FLIP - 2, ...F1POSE, zoom: 1.03},
   {f: FLIP_MID + 22, ...LAY, zoom: LAY.zoom * 1.02, ease: 'inOut'},
   {f: EDGE0, x: LAY.x - 10, y: LAY.y + 6, zoom: LAY.zoom * 1.06},
-  {f: EDGE1 + 2, x: 905, y: 850, zoom: 1.75, ease: 'inOut'},
+  {f: EDGE1 - 10, x: 1120, y: 640, zoom: 0.9, ease: 'inOut'},
+  {f: EDGE1 + 2, x: 850, y: 925, zoom: 2.1, ease: 'inCubic'},
 ];
 const HIDE = {drawer: 0, map: 0, card: 0, threads: 0};
 const F1_EVENTS: ArchiveEvent[] = [{at: T.destroy1 + 3, op: 'sweep', target: 'photo', dur: 36}];
@@ -106,6 +112,21 @@ export const ShotB: React.FC<{f: number}> = ({f}) => {
   const pose = poseAt(f, CAM_B);
   const chip = toScreen(pose, 806, 952);
   const flare = prog(f, EDGE0 + 4, EDGE1 - EDGE0 - 4, EASE.inCubic);
+  // the edge lights amber and runs down into the chip: what both faces have in common
+  let edge: React.ReactNode = null;
+  const trace = prog(f, EDGE0 + 10, EDGE1 - EDGE0 - 16, EASE.inOut);
+  if (!face1 && trace > 0) {
+    const m = layerMatrix({theta: o - 180, phi: LAYER_VIEW.phi, s: 1, gap: LAYER_VIEW.gap}, LAYER_VIEW.gap / 2);
+    const a = applyM(m, PIVOT.x, GEOM.wall.y - 10);
+    const b = applyM(m, PIVOT.x, GEOM.wall.y + GEOM.wall.h + 10);
+    const d = `M${a.x.toFixed(1)} ${a.y.toFixed(1)}L${b.x.toFixed(1)} ${b.y.toFixed(1)}Q${(b.x - 20).toFixed(1)} 952 ${(GEOM.actor.x + 70).toFixed(1)} 952`;
+    edge = (
+      <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
+        <path d={d} fill="none" stroke={PAL.drive} strokeOpacity={0.28} strokeWidth={26} strokeLinecap="round" pathLength={1} strokeDasharray={`${trace} 1`} />
+        <path d={d} fill="none" stroke={PAL.driveHot} strokeWidth={5} strokeLinecap="round" pathLength={1} strokeDasharray={`${trace} 1`} />
+      </svg>
+    );
+  }
   return (
     <Stage
       frame={f}
@@ -137,6 +158,7 @@ export const ShotB: React.FC<{f: number}> = ({f}) => {
       ) : (
         <Archive frame={f} state="SSD_DELETED" layers="split" events={F2_EVENTS} show={HIDE} orbit={o} />
       )}
+      {edge}
     </Stage>
   );
 };

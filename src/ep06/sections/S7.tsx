@@ -101,7 +101,7 @@ const W3 = {at: T.p17 - 2, dur: 12}; // whip left → the SSD
 const K = (f: number, p: Partial<Pose>, o: Partial<CamKey> = {}): CamKey => ({f, ...p, ...o});
 const SPLIT_CAM = archiveCam('split');
 const camL_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(ROLL.at + 24, {...SPLIT_CAM, zoom: 1.06, y: 262})];
-const camR_A: CamKey[] = [K(T.start - 30, SPLIT_CAM), K(ROLL.at + 24, {x: 1290, y: 300, zoom: 1.1})];
+const camR_A: CamKey[] = [K(T.start - 30, {...SPLIT_CAM, x: SPLIT_CAM.x + 60}), K(T.better - 8, {x: 1440, y: 330, zoom: 1.2}, {dur: 50}), K(ROLL.at + 24, {x: 1470, y: 345, zoom: 1.28})];
 const EV_SHRED: ArchiveEvent[] = [{at: T.better - 6, op: 'sweep', target: 'photo', dur: 40}];
 const shredTargets: Pt[] = (() => {
   const an = archiveAnchors({frame: T.start, state: 'SSD_ERASED', lift: 1}, T.start);
@@ -117,7 +117,7 @@ const shotA = (f: number) => (
       render: (fr) => (
         <>
           <Archive frame={fr} state="SSD_ERASED" lift={1} events={EV_SHRED} />
-          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1650} bladeY={300} w={340} targets={shredTargets} />
+          <GhostShred frame={fr} appear={T.ssd - 4} feed={T.better - 4} feedDur={16} fly={T.shredder + 6} cx={1650} bladeY={400} w={400} targets={shredTargets} />
         </>
       ),
     }}
@@ -128,7 +128,7 @@ const shotA = (f: number) => (
 /* ================================================================ P15 B: try to erase on purpose; the SSD gets in your way */
 const B0 = ROLL.at + Math.round(ROLL.dur / 2);
 const camL_B: CamKey[] = [K(B0 - 12, {...SPLIT_CAM, zoom: 1.04}), K(T.p16 + 20, {...SPLIT_CAM, zoom: 1.12, y: 290})];
-const camR_B: CamKey[] = [K(B0 - 12, {x: 1250, y: 300, zoom: 1.04}), K(T.erase + 40, {x: 1430, y: 360, zoom: 1.32}), K(T.p16 + 20, {x: 1470, y: 380, zoom: 1.38})];
+const camR_B: CamKey[] = [K(B0 - 12, {x: 1330, y: 330, zoom: 1.1}), K(T.erase + 30, {x: 1600, y: 420, zoom: 1.55}), K(T.p16 + 20, {x: 1625, y: 432, zoom: 1.62})];
 const BOX59: Pt = {x: 1464, y: 484};
 const BOX63: Pt = {x: 1752, y: 484};
 const HIT = T.ssd2 - 2; // the stream reaches 059's label
@@ -266,7 +266,7 @@ const shotWall = (f: number) => {
       <LabLens
         frame={f}
         L={L}
-        k={0.6}
+        k={0.55}
         op={lensOp}
         mag={1.9}
         scan={lensScan(f)}
@@ -296,7 +296,7 @@ const ssdCam: CamKey[] = [
   K(W3.at, {x: 960, y: 540, zoom: 1.0}),
   K(T.onAnSsd - 8, {x: 1010, y: 545, zoom: 1.07}),
   K(T.windows - 8, {x: 890, y: 485, zoom: 1.24}, {dur: 48}),
-  K(T.labels + 4, {x: 1460, y: 478, zoom: 2.3}, {dur: 34}),
+  K(T.labels + 6, {x: 1210, y: 470, zoom: 1.55}, {dur: 52}),
   K(SPLIT_AT + 58, LAYERS, {dur: 56}),
   K(T.keeps - 8, {x: 1270, y: 540, zoom: 1.02}),
   K(T.also, {x: 1290, y: 560, zoom: 1.0}),
@@ -387,9 +387,9 @@ const shotSsd = (f: number) => {
       cam={ssdCam}
       hud={
         <>
-          <QuestionCard frame={f} at={T.what + 2} exitAt={T.onAnSsd - 14} text="Try the hard-drive method on an SSD?" y={190} scrim={0.4} size={84} />
-          <Label frame={f} at={T.keeps} exitAt={T.also + 6} text="Keeps moving data around" x={120} y={118} side="right" size={52} />
-          <Label frame={f} at={T.noPart} exitAt={T.also + 6} text="so no part wears out first" x={120} y={200} side="right" size={44} />
+          <QuestionCard frame={f} at={T.what + 2} exitAt={T.onAnSsd - 14} text="Try the hard-drive method on an SSD?" y={190} scrim={0.4} size={76} />
+          <Label frame={f} at={T.keeps} exitAt={T.also + 6} text="Keeps moving data around" x={120} y={102} side="right" size={52} />
+          <Label frame={f} at={T.noPart} exitAt={T.also + 6} text="so no part wears out first" x={120} y={174} side="right" size={44} />
           <Label frame={f} at={T.cantSee + 13} exitAt={T.all + 30} text="Spare space Windows can't see" x={Math.min(1040, spareS.x - 60)} y={150} to={spareS} side="left" size={52} />
           <Label frame={f} at={T.land} exitAt={T.oldCopies + 66} text="Can land somewhere fresh" x={Math.min(1290, fresh.x + 160)} y={150} to={fresh} side="right" size={52} />
           <Footnote frame={f} at={SPLIT_AT + 44} exitAt={T.end - 26} text="Schematic, not to scale" y={1010} />

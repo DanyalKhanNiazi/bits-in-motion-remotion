@@ -79,7 +79,7 @@ export const Tip1: React.FC<{f: number}> = ({f}) => {
       hud={
         <>
           <TipLine frame={f} at={T.recycle - 3} text="First: Recycle Bin and backups" x={LX} y={L1 - 30} exitAt={CUT.wh2 + 2} />
-          <RewindArc frame={f} at={T.bin - 2} x={ws.x} y={ws.y - 10} r={250 * pose.zoom} dur={24} />
+          <RewindArc frame={f} at={T.bin - 2} x={ws.x} y={ws.y + 10} r={190 * pose.zoom} dur={24} />
         </>
       }
     >
@@ -92,16 +92,16 @@ export const Tip1: React.FC<{f: number}> = ({f}) => {
 };
 
 /* ================================================================ tip 2: stop using that drive · recover onto a different drive */
-const SCAN = {x: 1690, y: 860, w: 560};
+const SCAN = {x: 1690, y: 800, w: 560};
 const TIP2_EVENTS: ArchiveEvent[] = [{at: T.recover + 16, op: 'copyOut', target: 'photo', dur: 40, to: scannerAnchors(SCAN).trayCard}];
 const WRITES = [HITS.temporary, HITS.download, HITS.update];
 export const Tip2: React.FC<{f: number}> = ({f}) => {
   const cam: CamKey[] = [
-    {f: CUT.wh2, x: 1160, y: 470, zoom: 1.62},
-    {f: T.stop + 30, x: 1150, y: 480, zoom: 1.7},
-    {f: T.recover + 24, x: 1290, y: 600, zoom: 1.05, dur: 30},
-    {f: T.land + 6, x: 1180, y: 520, zoom: 1.3, dur: 50},
-    {f: CUT.wh3 + 12, x: 1170, y: 510, zoom: 1.36},
+    {f: CUT.wh2, x: 1180, y: 455, zoom: 1.45},
+    {f: T.stop + 30, x: 1170, y: 460, zoom: 1.52},
+    {f: T.recover + 24, x: 1290, y: 470, zoom: 1.02, dur: 30},
+    {f: T.land + 6, x: 1180, y: 440, zoom: 1.25, dur: 50},
+    {f: CUT.wh3 + 12, x: 1170, y: 436, zoom: 1.3},
   ];
   const A = {frame: f, state: 'HDD_DELETED' as const, events: TIP2_EVENTS};
   const tray = scannerAnchors(SCAN).trayCard;
@@ -113,12 +113,13 @@ export const Tip2: React.FC<{f: number}> = ({f}) => {
       frame={f}
       env={{kind: 'archive', light: 'cool'}}
       cam={cam}
+      motionBlur={0.45}
       shake={[{at: freeze, strength: 0.45}]}
       hud={
         <>
           <TipLine frame={f} at={T.stop} text="Stop using that drive" x={LX} y={L1 - 30} collapseAt={T.recover - 4} exitAt={CUT.wh3 + 2} />
           <TipLine frame={f} at={T.recover + 2} text="Recover onto a different drive" x={LX} y={L2 - 46} exitAt={CUT.wh3 + 2} />
-          <PalmGlyph frame={f} at={T.stop - 1} x={1560} y={620} size={150} exitAt={T.recover - 6} />
+          <PalmGlyph frame={f} at={T.stop - 1} x={1660} y={770} size={200} exitAt={T.recover - 6} />
         </>
       }
     >
@@ -167,10 +168,11 @@ export const Tip3: React.FC<{f: number}> = ({f}) => {
       frame={f}
       env={{kind: 'archive', light: 'ssd'}}
       cam={cam}
+      motionBlur={0.45}
       hud={
         <>
           <VerdictChip frame={f} at={T.onSsd + 10} text="SSD with TRIM" tone="neutral" x={LX} y={HEAD_Y} align="left" exitAt={CUT.wh4 + 2} size={46} />
-          <TipLine frame={f} at={T.prepared} text="Be prepared for it to be gone" x={LX} y={L1} exitAt={CUT.wh4 + 2} />
+          <TipLine frame={f} at={T.prepared} text="Be prepared for it to be gone" x={LX} y={L1} size={62} exitAt={CUT.wh4 + 2} />
           <ClockGlyph frame={f} x={1760} y={170} size={110} at={T.onSsd + 6} exitAt={CUT.wh4} />
           <Footnote frame={f} at={T.onSsd + 12} exitAt={CUT.wh4} text="Illustrative timing" />
         </>
@@ -199,6 +201,7 @@ export const Tip4: React.FC<{f: number}> = ({f}) => {
       frame={f}
       env={{kind: 'archive', light: 'cool'}}
       cam={cam}
+      motionBlur={0.45}
       shake={[{at: T.slash, strength: 0.4}]}
       hud={
         <>
@@ -274,6 +277,7 @@ export const Tip5Wall: React.FC<{f: number}> = ({f}) => {
       frame={f}
       env={{kind: 'archive', light: 'cool'}}
       cam={cam}
+      motionBlur={0.45}
       hud={
         <>
           <div style={{position: 'absolute', left: WIN5.x, top: WIN5.y, width: WIN5.w, height: WIN5.h, transform: `scale(${0.96 + 0.04 * clamp01(springAt(f, CUT.zt5 + 6, SPRING.snap))})`, transformOrigin: '0 0'}}>

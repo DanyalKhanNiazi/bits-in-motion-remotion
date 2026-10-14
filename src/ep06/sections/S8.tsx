@@ -4,16 +4,17 @@
  *   C  verdict on stage: "The drive, not Windows, decides"  D  P19 in the Archive: ask the drive itself → sanitize
  *   E  the key on stage: Encryption, BitLocker             F  the save moment: glyphs from the first frame
  *   G  pulled out → noise; the key destroyed                H  lost · stolen · decommissioned
- *   I  the desk: device encryption in Settings; the limit; pull back (handoff to S9)
+ *   I  the desk: device encryption in Settings  ·  J  the limit: the key slots in (stage)  ·  I  Windows reads
+ *      normally, a recovery tool copies the photo; pull back (handoff to S9)
  */
 import React from 'react';
 import {FlashCut, Whip, ZoomThrough} from '../kit';
 import {CUT, T} from './S8/times';
 import {ShotA, ShotB, ShotC, chipScreen} from './S8/coin';
 import {ShotD} from './S8/sanitize';
-import {ShotE, ShotF, ShotG} from './S8/encrypt';
+import {ShotE, ShotF, ShotG, ShotJ} from './S8/encrypt';
 import {ShotH} from './S8/objects';
-import {ShotI} from './S8/desk';
+import {J_IN, J_OUT, ShotI} from './S8/desk';
 
 const A = (fr: number) => <ShotA f={fr} />;
 const B = (fr: number) => <ShotB f={fr} />;
@@ -24,6 +25,7 @@ const F = (fr: number) => <ShotF f={fr} />;
 const G = (fr: number) => <ShotG f={fr} />;
 const H = (fr: number) => <ShotH f={fr} />;
 const I = (fr: number) => <ShotI f={fr} />;
+const J = (fr: number) => <ShotJ f={fr} />;
 const DIVE_PT = chipScreen(CUT.dive);
 
 export const S8: React.FC<{frame: number}> = ({frame}) => {
@@ -44,5 +46,9 @@ export const S8: React.FC<{frame: number}> = ({frame}) => {
   if (f < CUT.objects + 12) return <Whip frame={f} at={CUT.objects} dir="left" a={G} b={H} />;
   if (f < CUT.desk) return H(f);
   if (f < CUT.desk + 12) return <Whip frame={f} at={CUT.desk} dir="left" a={H} b={I} />;
+  if (f < J_IN) return I(f);
+  if (f < J_IN + 12) return <Whip frame={f} at={J_IN} dir="down" a={I} b={J} />;
+  if (f < J_OUT - 2) return J(f);
+  if (f < J_OUT + 12) return <FlashCut frame={f} at={J_OUT} a={J} b={I} />;
   return I(f);
 };

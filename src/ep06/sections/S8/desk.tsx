@@ -29,36 +29,35 @@ import {
 } from '../../kit';
 import {at} from '../../timing';
 import {CUT, T} from './times';
+import {SLOT_J} from './encrypt';
 
 const EXIT0 = T.to - 40;
 const EXIT1 = T.to - 4;
 
+/** the limit beat cuts away to the key (shot J) between these frames */
+export const J_IN = T.oneLimit + 17;
+export const J_OUT = T.windowsReads - 6;
 const KB_KEYS: Record<'s' | 'x' | 'y', Key[]> = {
   s: [
     [CUT.desk, 1.14],
     [T.deviceEnc - 14, 1.5, EASE.inOut],
     [T.oneLimit - 2, 1.57],
-    [T.oncePc + 18, 1.1, EASE.inOut],
-    [T.started + 8, 1.08],
-    [T.normally - 10, 1.34, EASE.inOut],
+    [J_IN + 12, 1.44, EASE.inOut],
+    [J_OUT, 1.3],
+    [T.normally - 4, 1.34, EASE.out],
     [EXIT0, 1.38],
   ],
   x: [
     [CUT.desk, 0],
-    [T.deviceEnc - 14, 0, EASE.inOut],
-    [T.oneLimit - 2, 0],
-    [T.oncePc + 18, -150, EASE.inOut],
-    [T.started + 8, -160],
-    [T.normally - 10, -20, EASE.inOut],
     [EXIT0, -24],
   ],
   y: [
     [CUT.desk, 50],
     [T.deviceEnc - 14, 166, EASE.inOut],
     [T.oneLimit - 2, 180],
-    [T.oncePc + 18, -60, EASE.inOut],
-    [T.started + 8, -66],
-    [T.normally - 10, 118, EASE.inOut],
+    [J_IN + 12, 160, EASE.inOut],
+    [J_OUT, 108],
+    [T.normally - 4, 118, EASE.out],
     [EXIT0, 126],
   ],
 };
@@ -83,7 +82,6 @@ export const deskKb = (f: number): KenBurns => {
 
 const SET_OPEN = T.manyNewer + 40;
 const SET_CLOSE = T.oneLimit + 2;
-const SLOT_AT = T.oncePc + 6;
 const EX_IN = T.windowsReads - 10;
 const SCAN_IN = T.wontStop - 14;
 
@@ -127,8 +125,8 @@ export const ShotI: React.FC<{f: number}> = ({f}) => {
                     y={268}
                     w={440}
                     enter={{kind: 'rise', at: SCAN_IN, dur: 16}}
-                    beam={{at: SCAN_IN + 12}}
-                    scan={{at: SCAN_IN + 16, every: 34}}
+                    beam={{at: SCAN_IN + 12, until: T.to - 12}}
+                    scan={{at: SCAN_IN + 16, every: 34, until: T.to - 16}}
                     tray="photo"
                     trayAt={T.recoveryTool}
                     fillDur={40}
@@ -137,7 +135,7 @@ export const ShotI: React.FC<{f: number}> = ({f}) => {
                 ) : null}
               </WinDesktop>
             </ScreenSlot>
-            <KeyFixture frame={f} x={1500} y={842} w={300} slotAt={SLOT_AT} glow={0.5} shadow={0.6} float={1} />
+            <KeyFixture frame={f} x={1500} y={842} w={300} slotAt={SLOT_J} glow={0.5} shadow={0.6} float={1} />
           </>
         ),
       }}

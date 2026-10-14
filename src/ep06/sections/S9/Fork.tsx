@@ -137,8 +137,8 @@ const Road: React.FC<{pts: P[]; lit: number; dim: number; draw: number}> = ({pts
       <path d={d} fill="none" stroke={rgba(PAL.annotation, 0.5 * dim)} strokeWidth={2.5} strokeLinecap="round" strokeDasharray="10 12" opacity={draw >= 1 ? 1 : 0} />
       {lit > 0 ? (
         <>
-          <path d={d} fill="none" stroke={rgba('#DCE8FF', 0.16)} strokeWidth={30} strokeLinecap="round" strokeDasharray={`${L * lit} ${L}`} />
-          <path d={d} fill="none" stroke={PAL.ink} strokeWidth={7} strokeLinecap="round" strokeDasharray={`${L * lit} ${L}`} />
+          <path d={d} fill="none" stroke={rgba('#DCE8FF', 0.2)} strokeWidth={38} strokeLinecap="round" strokeDasharray={`${L * lit} ${L}`} />
+          <path d={d} fill="none" stroke={PAL.ink} strokeWidth={9} strokeLinecap="round" strokeDasharray={`${L * lit} ${L}`} />
         </>
       ) : null}
     </>
@@ -150,10 +150,10 @@ const Station: React.FC<{p: P; f: number; lit: number; done: number; active: num
   return (
     <g transform={`translate(${p.x} ${p.y})`}>
       {active > 0 ? <circle r={20 + 26 * pulse} fill="none" stroke={PAL.ink} strokeWidth={3} opacity={0.6 * (1 - pulse) * active} /> : null}
-      <circle r={17} fill="#070B15" stroke={lit > 0 ? PAL.ink : rgba(PAL.structure, 0.8)} strokeWidth={lit > 0 ? 4 : 3} />
+      <circle r={20} fill="#070B15" stroke={lit > 0 ? PAL.ink : rgba(PAL.structure, 0.8)} strokeWidth={lit > 0 ? 4 : 3} />
       {done > 0 ? (
         <>
-          <circle r={17 * done} fill={PAL.ink} />
+          <circle r={20 * done} fill={PAL.ink} />
           <path d="M-8 0.5 L-2.5 6 L8.5 -6" fill="none" stroke="#070B15" strokeWidth={3.6} strokeLinecap="round" strokeLinejoin="round" opacity={done} />
           <rect x={26} y={-4} width={56 * done} height={8} rx={4} fill={rgba(PAL.annotation, 0.55)} />
         </>
@@ -236,8 +236,8 @@ export const ForkShot: React.FC<{f: number; visit: 1 | 2}> = ({f, visit}) => {
         kind: 'photo',
         plate: 'reader-desk',
         kb,
-        blur: 7 * forkOn,
-        dim: lerp(0.12, 0.5, forkOn),
+        blur: 9 * forkOn,
+        dim: lerp(0.12, 0.64, forkOn),
         children: (
           <>
             {/* S8's last frame continues: the photo open on the monitor, the scanner's copy done; the key slotted on the desk */}
@@ -271,7 +271,7 @@ export const ForkShot: React.FC<{f: number; visit: 1 | 2}> = ({f, visit}) => {
         rot={lerp(-12, -3, u)}
         tiltX={lerp(44, 10, u)}
         float={2 * u}
-        shadow={{opacity: lerp(0.6, 0.3, u), dy: lerp(-10, 40, u)}}
+        shadow={{opacity: lerp(0.6, 0.1, u), dy: lerp(-10, 24, u)}}
         rim={u > 0 ? {color: PAL.ink, strength: 0.5 * u} : undefined}
         sweep={{at: [T.passport - 4, T.ifDeleted + 6], dur: 18}}
         nudge={{dy: -70 * u}}

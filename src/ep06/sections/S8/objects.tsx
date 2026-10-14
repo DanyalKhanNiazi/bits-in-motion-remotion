@@ -9,7 +9,7 @@ import {CUT, T} from './times';
 
 const SEAT = {x0: 230, x1: 1110, top: 560, back: 300};
 const CRATE = {x0: 1380, x1: 1860, y0: 600, y1: 900};
-const LAP_W = 380;
+const LAP_W = 420;
 const LIFT = T.stolen + 2; // the hand closes on the laptop
 const DROP = T.decommissioned - 2; // the laptop appears above the crate and falls in
 const DROP_DUR = 12;
@@ -24,8 +24,9 @@ const CAM_H: CamKey[] = [
 ];
 
 /** a closed laptop, slightly from above: lid top, hinge edge, front edge (centre x, y = the top face's centre) */
-const Laptop: React.FC<{x: number; y: number; rot?: number; s?: number; op?: number}> = ({x, y, rot = 0, s = 1, op = 1}) => {
+const Laptop: React.FC<{x: number; y: number; rot?: number; s?: number; op?: number; f: number}> = ({x, y, rot = 0, s = 1, op = 1, f}) => {
   const w = LAP_W;
+  const sheen = ((f % 150) / 150) * 1.6 - 0.3;
   const d = 64; // apparent depth of the top face
   const t = 16; // thickness
   return (
@@ -35,6 +36,12 @@ const Laptop: React.FC<{x: number; y: number; rot?: number; s?: number; op?: num
       <path d={`M${-w / 2} ${d / 2}H${w / 2}V${d / 2 + t - 4}Q${w / 2} ${d / 2 + t} ${w / 2 - 4} ${d / 2 + t}H${-w / 2 + 4}Q${-w / 2} ${d / 2 + t} ${-w / 2} ${d / 2 + t - 4}Z`} fill="#3A414D" />
       <path d={`M${-w / 2} ${d / 2 + 0.5}H${w / 2}`} stroke="#C9D1DC" strokeOpacity={0.75} strokeWidth={1.6} />
       <path d={`M${-w / 2 + 18} ${-d / 2 + 0.5}H${w / 2 - 18}`} stroke="#E6ECF4" strokeOpacity={0.5} strokeWidth={1.4} />
+      <clipPath id="s8-lidclip">
+        <path d={`M${-w / 2 + 18} ${-d / 2}H${w / 2 - 18}L${w / 2} ${d / 2}H${-w / 2}Z`} />
+      </clipPath>
+      <g clipPath="url(#s8-lidclip)">
+        <path d={`M${lerp(-w, w, sheen) - 40} ${-d}l60 0l-90 ${2 * d}l-60 0Z`} fill="#FFFFFF" opacity={0.16} />
+      </g>
       <path d={`M${-w * 0.12} ${d / 2 + 4}H${w * 0.12}`} stroke="#22272F" strokeWidth={3} strokeLinecap="round" />
     </g>
   );
@@ -77,6 +84,7 @@ const Seat: React.FC<{f: number}> = () => {
       {[0.33, 0.66].map((k) => (
         <path key={k} d={`M${lerp(x0, x1, k)} ${back + 30}V${top - 10}`} stroke="#0A0F18" strokeOpacity={0.5} strokeWidth={3} />
       ))}
+      <ellipse cx={640} cy={top - 110} rx={360} ry={170} fill="url(#s8-pool)" />
       {/* cushion: top face + front */}
       <path d={`M${x0 + 30} ${top}H${x1 - 30}L${x1} ${top + 70}H${x0}Z`} fill="url(#s8-cushion)" />
       <rect x={x0} y={top + 66} width={x1 - x0} height={60} rx={16} fill="#121A29" />
@@ -122,12 +130,12 @@ export const ShotH: React.FC<{f: number}> = ({f}) => {
   const lift = prog(f, LIFT + 3, 14, EASE.inCubic);
   if (f < DROP) {
     const y = seatPos.y - lift * 900;
-    lap = <Laptop x={seatPos.x} y={y} rot={-2 * lift} />;
+    lap = <Laptop f={f} x={seatPos.x} y={y} rot={-2 * lift} />;
   } else {
     const u = clamp01((f - DROP) / DROP_DUR);
     const bounce = f >= DROP + DROP_DUR ? Math.exp(-(f - DROP - DROP_DUR) / 4) * Math.sin((f - DROP - DROP_DUR) * 1.3) * 14 : 0;
     const y = lerp(CRATE.y0 - 760, CRATE.y0 - 40, u * u) - bounce;
-    lap = <Laptop x={(CRATE.x0 + CRATE.x1) / 2 + 10} y={y} rot={lerp(-14, 9, u)} s={0.92} />;
+    lap = <Laptop f={f} x={(CRATE.x0 + CRATE.x1) / 2 + 10} y={y} rot={lerp(-14, 9, u)} s={0.86} />;
   }
   const handY = lerp(-300, seatPos.y - 34, handIn) - lift * 900;
   const showHand = f >= LIFT - 12 && f < DROP;
@@ -155,6 +163,10 @@ export const ShotH: React.FC<{f: number}> = ({f}) => {
             <stop offset="0" stopColor="#2F3D58" />
             <stop offset="1" stopColor="#1A2335" />
           </linearGradient>
+          <radialGradient id="s8-pool" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stopColor="#9DB4DA" stopOpacity={0.22} />
+            <stop offset="1" stopColor="#9DB4DA" stopOpacity={0} />
+          </radialGradient>
           <linearGradient id="s8-crate" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#334055" />
             <stop offset="1" stopColor="#1A2230" />

@@ -94,8 +94,9 @@ const GhostWrite: React.FC<{f: number}> = ({f}) => {
   const bob = 6 * Math.sin(f / 14);
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}} opacity={op}>
-      <rect x={c.x - 32} y={c.y - 130 + bob} width={64} height={40} rx={6} fill={rgba(PAL.ink, 0.06)} stroke={PAL.ink} strokeWidth={3} strokeDasharray="9 7" />
-      <line x1={c.x} y1={c.y - 86 + bob} x2={c.x} y2={c.y - 44} stroke={rgba(PAL.ink, 0.5)} strokeWidth={2.5} strokeDasharray="4 6" />
+      <rect x={c.x - 60} y={c.y - 230 + bob} width={120} height={76} rx={10} fill={rgba(PAL.ink, 0.1)} stroke={PAL.ink} strokeWidth={6} strokeDasharray="16 12" />
+      <line x1={c.x} y1={c.y - 144 + bob} x2={c.x} y2={c.y - 62} stroke={rgba(PAL.ink, 0.6)} strokeWidth={5} strokeDasharray="8 10" />
+      <path d={`M${c.x - 16} ${c.y - 74} L${c.x} ${c.y - 52} L${c.x + 16} ${c.y - 74}`} fill="none" stroke={rgba(PAL.ink, 0.6)} strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 };

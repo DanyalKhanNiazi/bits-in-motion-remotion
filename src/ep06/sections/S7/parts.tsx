@@ -381,8 +381,21 @@ export const SlotSwap: React.FC<{frame: number; x: number; y: number; w: number;
       ) : null}
       <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         {dust}
-        {flash > 0.01 ? <ellipse cx={mc.x} cy={mc.y} rx={420 * k * (1 + 0.4 * (1 - flash))} ry={180 * k * (1 + 0.4 * (1 - flash))} fill="#FFFFFF" opacity={0.55 * flash} /> : null}
       </svg>
+      {flash > 0.01 ? (
+        <div
+          style={{
+            position: 'absolute',
+            left: mc.x - 520 * k,
+            top: mc.y - 300 * k,
+            width: 1040 * k,
+            height: 600 * k,
+            borderRadius: '50%',
+            background: `radial-gradient(ellipse at 50% 50%, ${rgba('#FFFFFF', 0.7 * flash)}, ${rgba('#DCE8FF', 0.25 * flash)} 35%, rgba(255,255,255,0) 70%)`,
+            mixBlendMode: 'screen',
+          }}
+        />
+      ) : null}
     </div>
   );
 };
@@ -395,7 +408,7 @@ export const slotMouth = (p: {x: number; y: number; w: number}): Pt => {
 /* ---------------------------------------------------------------- LabLens: arm + lens of recovery-scanner_c, magnifying */
 const LENS: AssetName = 'recovery-scanner_c';
 const GLASS = {cx: 543, cy: 367, rx: 160, ry: 58};
-const CROP = {x0: 120, y0: 40, x1: 880, y1: 540};
+const CROP = {x0: 120, y0: 40, x1: 880, y1: 505};
 const KNOB_RING: [number, number, number, number] = [772, 276, 815, 392];
 /** world placement of the lens prop so its glass centre sits at L, at native→world scale k */
 export const lensProp = (L: Pt, k: number) => {

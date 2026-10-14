@@ -38,13 +38,13 @@ import {LAY} from './coin';
 import {CUT, T} from './times';
 
 /* ---------------------------------------------------------------- E: the key */
-const FIX = {x: 1200, y: 650, w: 760};
+const FIX = {x: 1190, y: 625, w: 690};
 const CAM_E: CamKey[] = [
   {f: CUT.key, x: 1040, y: 600, zoom: 0.94},
   {f: T.encryption - 2, x: 1020, y: 590, zoom: 1.0, ease: 'inOut'},
   {f: T.encryption + 8, x: 1010, y: 586, zoom: 1.06, ease: 'outExpo'},
   {f: T.encrypts, x: 1060, y: 610, zoom: 1.1},
-  {f: CUT.save + 6, x: 1110, y: 640, zoom: 1.2, ease: 'inOut'},
+  {f: CUT.save + 6, x: 1110, y: 630, zoom: 1.14, ease: 'inOut'},
 ];
 const SLOT_AT = T.key1 - 18;
 export const ShotE: React.FC<{f: number}> = ({f}) => {
@@ -83,12 +83,12 @@ export const ShotE: React.FC<{f: number}> = ({f}) => {
 
 /* ---------------------------------------------------------------- F: the save moment */
 const KEY_W = 650;
-const KEY_C = {x: 1170, y: 50}; // the key's centre in the write path (world)
+const KEY_C = {x: 1215, y: -40}; // the key's centre in the write path (world)
 const ka0 = keyFixtureAnchors({x: 0, y: 0, w: KEY_W});
 const KEYC0 = {x: (ka0.keyBow.x + ka0.keyTip.x) / 2, y: (ka0.keyBow.y + ka0.keyTip.y) / 2};
 const KEY_P = {x: KEY_C.x - KEYC0.x, y: KEY_C.y - KEYC0.y};
 const ka = keyFixtureAnchors({...KEY_P, w: KEY_W});
-const PASS = {x: 1500, y: -236, w: 172, h: 222};
+const PASS = {x: 1560, y: -270, w: 176, h: 226};
 const DISSOLVE = T.ifOn + 17;
 const SINK = DISSOLVE + 18;
 const SINK_DUR = 22;
@@ -107,8 +107,8 @@ const F_EVENTS: ArchiveEvent[] = [
   {at: T.oldCopies + 10, op: 'remap', target: 'photo', dur: 30},
 ];
 const CAM_F: CamKey[] = [
-  {f: CUT.save, x: 1196, y: 272, zoom: 0.97},
-  {f: landAt(60), x: 1176, y: 300, zoom: 0.93},
+  {f: CUT.save, x: 1160, y: 206, zoom: 0.88},
+  {f: landAt(60), x: 1140, y: 236, zoom: 0.84},
   {f: SPLIT_AT + 44, ...LAY, dur: 50, ease: 'inOut'},
   {f: T.scrambled - 6, ...LAY, zoom: LAY.zoom * 1.05},
   {f: CUT.pulled + 12, x: 1640, y: 610, zoom: LAY.zoom * 1.34, dur: 44, ease: 'inOut'},
@@ -185,7 +185,7 @@ export const ShotF: React.FC<{f: number}> = ({f}) => {
 
 /* ---------------------------------------------------------------- G: pulled out, read without the key; the key destroyed */
 const BOARD = {x: 820, y: 700, w: 980};
-const FIELD = {x: 380, y: 96, w: 900, h: 250};
+const FIELD = {x: 300, y: 80, w: 1080, h: 300};
 const KEY2_W = 900;
 const kb0 = keyFixtureAnchors({x: 0, y: 0, w: KEY2_W});
 const KEY2_C = {x: 1490, y: 470};
@@ -231,7 +231,7 @@ export const ShotG: React.FC<{f: number}> = ({f}) => {
           <rect x={FIELD.x - 16} y={FIELD.y - 14} width={FIELD.w + 32} height={FIELD.h + 28} rx={14} fill="#070B13" fillOpacity={0.82 * clamp01(cone * 1.4)} stroke={rgba(PAL.annotation, 0.45 * cone)} strokeWidth={2} />
         </svg>
       ) : null}
-      <ScrambleField frame={f} rect={FIELD} at={T.readsIt + 8} seed="s8-noise" size={30} every={f >= T.noise ? 2 : 3} fill={fill} />
+      <ScrambleField frame={f} rect={FIELD} at={T.readsIt + 8} seed="s8-noise" size={32} every={f >= T.noise ? 2 : 3} fill={fill} />
       <Prop
         frame={f}
         src="ssd-board_a"
@@ -271,3 +271,26 @@ export const ShotG: React.FC<{f: number}> = ({f}) => {
     </Stage>
   );
 };
+
+/* ---------------------------------------------------------------- J: the limit: once the PC has started, the key is in */
+export const SLOT_J = T.oncePc + 6;
+const CAM_J: CamKey[] = [
+  {f: T.oncePc - 20, x: 980, y: 600, zoom: 1.0},
+  {f: T.windowsReads, x: 1010, y: 640, zoom: 1.12, ease: 'inOut'},
+];
+export const ShotJ: React.FC<{f: number}> = ({f}) => (
+  <Stage frame={f} env={{kind: 'stage', spot: 1000, floor: 820, warm: 0.55}} cam={CAM_J} shake={[{at: SLOT_J + 18, strength: 0.35}]}>
+    <KeyFixture
+      frame={f}
+      x={1000}
+      y={600}
+      w={700}
+      rim={{color: PAL.structure, strength: 0.5}}
+      sweep={{at: [SLOT_J + 16], dur: 22}}
+      float={3}
+      shadow={0.6}
+      glow={0.8}
+      slotAt={SLOT_J}
+    />
+  </Stage>
+);
