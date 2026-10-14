@@ -27,10 +27,12 @@ def main():
     w, h = 480, 270
     cmd = ['ffmpeg', '-v', 'error', '-i', video, '-vf', f'scale={w}:{h},boxblur=2:1,format=gray', '-f', 'rawvideo', '-']
     raw = subprocess.run(cmd, capture_output=True, check=True).stdout
-    frames = np.frombuffer(raw, np.uint8).reshape(-1, h, w).astype(np.float32)
+    # Keep the frames as uint8 (a full 17k-frame film is ~2.2 GB) and convert one pair at a time.
+    frames = np.frombuffer(raw, np.uint8).reshape(-1, h, w)
     n = len(frames)
-    motion = np.array([np.abs(frames[i + gap] - frames[i]).mean() for i in range(n - gap)] or [0.0])
-    std = frames.reshape(n, -1).std(axis=1)
+    f32 = lambda i: frames[i].astype(np.float32)
+    motion = np.array([np.abs(f32(i + gap) - f32(i)).mean() for i in range(n - gap)] or [0.0])
+    std = np.array([f32(i).std() for i in range(n)])
     frozen, run = [], 0
     for i, m in enumerate(motion):
         if m < thr:
