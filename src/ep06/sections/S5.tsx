@@ -10,6 +10,8 @@ import React from 'react';
 import {
   Archive,
   AtlasOpener,
+  EASE,
+  GEOM,
   ClockGlyph,
   DriveDive,
   FlashCut,
@@ -23,6 +25,9 @@ import {
   Whip,
   archiveAnchors,
   archiveCam,
+  cardPlugs,
+  prog,
+  rgba,
   poseAt,
   toScreen,
   trimNotePos,
@@ -72,6 +77,7 @@ const W = {
   shortNote: at(12, 'short note').start,
   trim: at(12, 'trim').start,
   listing: at(12, 'listing').start,
+  clusters: at(12, 'clusters').start,
   delete: at(12, 'delete').start,
   byDefault: at(12, 'by default').start,
   forDrives: at(12, 'for drives').start,
@@ -180,23 +186,34 @@ const shotC = (f: number) => (
 );
 
 /* ================================================================ D: the catch, the boundary, TRIM */
+/**
+ * HANDOFF to S6: the Archive's own TRIM note, event {at: TRIM_AT, op: 'trim', dur: TRIM_DUR} (default `to`): it leaves
+ * the card's middle plug after the hero note shrinks into it, squeezes through the slot over the last ~30 f and is just
+ * through at the cut (t ≈ 0.62 at 8404); it lands beside 021 on P13's "note" (8470). S6 repeats the same event.
+ */
+const TRIM_LAND = at(13, 'note').start;
+const TRIM_DUR = 174;
+const TRIM_AT = TRIM_LAND - TRIM_DUR;
 const D_EVENTS: ArchiveEvent[] = [
   {at: W.doesnt + 2, op: 'boundary'},
   {at: W.farAs + 50, op: 'sweep', target: [24, 57, 97], dur: 50},
+  {at: W.clusters - 2, op: 'readPulse', dur: 34},
+  {at: TRIM_AT, op: 'trim', dur: TRIM_DUR},
 ];
-const NOTE_PATH: TrimPath = {
+/** the hero note (trim-notice_b) rises above the card, then flies into the card's middle plug and shrinks to the small note */
+const PLUG = cardPlugs(GEOM.card.x, GEOM.card.y, GEOM.card.w)[1];
+const HERO_W = 190;
+const HERO_SMALL = 76 / HERO_W;
+const HERO_PATH: TrimPath = {
   pts: [
-    {x: 500, y: 300},
-    {x: 610, y: 392},
-    {x: 680, y: 400},
-    {x: 760, y: 398},
-    {x: 952, y: 338},
+    {x: 420, y: 150},
+    {x: 470, y: 250},
+    {x: PLUG.x - 20, y: PLUG.y},
   ],
-  at: W.listing + 2,
-  dur: 62,
+  at: TRIM_AT - 26,
+  dur: 26,
 };
-const NOTE = {x: NOTE_PATH.pts[0].x, y: NOTE_PATH.pts[0].y, path: NOTE_PATH};
-const NOTE_W = 110;
+const HERO = {x: HERO_PATH.pts[0].x, y: HERO_PATH.pts[0].y, path: HERO_PATH};
 const CAM_D: CamKey[] = [
   {f: WHIP_D, x: 1000, y: 520, zoom: 1.12},
   {f: W.doesnt - 32, x: 982, y: 512, zoom: 1.15},
@@ -204,10 +221,10 @@ const CAM_D: CamKey[] = [
   {f: W.farAs - 2, x: BOUNDARY.x + 10, y: BOUNDARY.y - 2, zoom: BOUNDARY.zoom * 1.015},
   {f: W.farAs + 40, x: 1240, y: 610, zoom: 1.3, dur: 42},
   {f: W.sends - 22, x: 1262, y: 600, zoom: 1.36},
-  {f: W.sends + 12, x: 540, y: 360, zoom: 2.4, dur: 32},
-  {f: W.listing - 4, x: 526, y: 356, zoom: 2.5},
-  {f: W.listing + 72, x: 740, y: 430, zoom: 1.42, dur: 76},
-  {f: TO - 20, x: 728, y: 442, zoom: 1.46},
+  {f: W.sends + 12, x: 440, y: 270, zoom: 2.1, dur: 34},
+  {f: W.listing - 4, x: 432, y: 266, zoom: 2.2},
+  {f: W.listing + 62, x: 690, y: 420, zoom: 1.45, dur: 66},
+  {f: TO - 20, x: 700, y: 432, zoom: 1.48},
   {f: TO + 2, ...BOUNDARY, dur: 22, ease: 'out'},
 ];
 const shotD = (f: number) => {
@@ -215,8 +232,10 @@ const shotD = (f: number) => {
   const pose = poseAt(f, CAM_D);
   const an = archiveAnchors(A, f, pose);
   const full = toScreen(pose, an.box(59).x, an.box(59).y - 30);
-  const np = trimNotePos(NOTE, f);
-  const nt = toScreen(pose, np.x, np.y - 46);
+  const hp = trimNotePos(HERO, f);
+  const hs = 1 - (1 - HERO_SMALL) * prog(f, HERO_PATH.at, HERO_PATH.dur, EASE.inOut);
+  const nt = toScreen(pose, hp.x + (HERO_W / 2) * hs, hp.y - 10);
+  const swap = f >= HERO_PATH.at + HERO_PATH.dur ? Math.exp(-(f - HERO_PATH.at - HERO_PATH.dur) / 2.5) : 0;
   return (
     <Stage
       frame={f}
@@ -225,25 +244,31 @@ const shotD = (f: number) => {
       hud={
         <>
           <Label frame={f} at={W.stillFull + 2} exitAt={W.wants + 22} text="Still full" size={56} x={full.x - 40} y={full.y - 170} to={full} side="left" />
-          <Label frame={f} at={W.trim + 1} exitAt={W.delete + 26} text="TRIM" size={56} x={nt.x - 60} y={nt.y - 130} to={nt} side="left" accent={PAL.emphasis} />
+          <Label frame={f} at={W.trim + 1} exitAt={W.delete + 26} text="TRIM" size={56} x={nt.x + 48} y={nt.y - 40} to={nt} side="right" accent={PAL.emphasis} />
           <VerdictChip frame={f} at={W.byDefault + 2} text="On NTFS, by default" x={470} y={128} exitAt={TO - 12} />
           <VerdictChip frame={f} at={W.forDrives + 1} text="For drives that support it" x={1430} y={128} exitAt={TO - 10} />
         </>
       }
     >
       <Archive {...A} />
-      <TrimNote
-        frame={f}
-        variant="render"
-        {...NOTE}
-        w={NOTE_W}
-        numberSize={5}
-        enter={{kind: 'rise', at: W.shortNote - 6, dur: 16}}
-        rim={{color: PAL.structure, strength: 0.55}}
-        sweep={{at: [W.trim - 4], dur: 18}}
-        float={2}
-        slot={{x: 680, y: 400, h: 96}}
-      />
+      {f < TRIM_AT ? (
+        <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: `${hp.x}px ${hp.y}px`, transform: `scale(${hs})`}}>
+          <TrimNote
+            frame={f}
+            variant="render"
+            {...HERO}
+            w={HERO_W}
+            numberSize={8}
+            enter={{kind: 'rise', at: W.shortNote - 6, dur: 16}}
+            rim={{color: PAL.structure, strength: 0.6}}
+            sweep={{at: [W.trim - 4], dur: 18}}
+            float={3}
+          />
+        </div>
+      ) : null}
+      {swap > 0.02 ? (
+        <div style={{position: 'absolute', left: PLUG.x - 20 - 90, top: PLUG.y - 90, width: 180, height: 180, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba('#FFFFFF', 0.85 * swap)}, ${rgba(PAL.emphasis, 0.3 * swap)} 45%, rgba(0,0,0,0))`}} />
+      ) : null}
     </Stage>
   );
 };

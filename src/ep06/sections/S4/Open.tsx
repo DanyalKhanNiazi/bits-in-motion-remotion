@@ -2,15 +2,20 @@
 // It stretches up into a white light shaft: the recovery scanner's beam entering from ABOVE (the same side), whose
 // footprint glides over the photo's boxes. AtlasOpener "Recovery" lands on "recovery".
 import React from 'react';
-import {Archive, AtlasOpener, EASE, Stage, archiveCam, boxC, boxXY, clamp01, lerp, poseAt, prog, smooth, type CamKey} from '../../kit';
+import {Archive, AtlasOpener, EASE, Stage, archiveCam, boxC, lerp, poseAt, prog, type CamKey} from '../../kit';
 import {CUT, T} from './t';
+import {at} from '../../timing';
 import {GhostWrite, LightShaft, Wash} from './fx';
 
 const PB = archiveCam('photoBoxes');
+// S3 lands on photoBoxes with a push (inCubic) and expects it to carry on linearly (+8 % over 30 f); keep that, then ease.
 export const OPEN_CAM: CamKey[] = [
   {f: T.from, ...PB},
-  {f: CUT.whip1 + 12, x: PB.x + 26, y: PB.y + 8, zoom: PB.zoom * 1.07, ease: 'inOut'},
+  {f: T.from + 30, ...PB, zoom: PB.zoom * 1.08, ease: (t: number) => t},
+  {f: CUT.whip1 + 12, x: PB.x + 24, y: PB.y + 6, zoom: PB.zoom * 1.13, ease: 'out'},
 ];
+/** S3's ghost write appears on "that space" − 4 (its bob phase) */
+const GHOST_BORN = at(7, 'that space').start - 4;
 
 /** footprint path over the photo's boxes: 059 → 022 → 099 */
 const footAt = (f: number) => {
@@ -23,14 +28,14 @@ const footAt = (f: number) => {
 };
 
 export const OpenShot: React.FC<{f: number}> = ({f}) => {
-  const g = boxXY(59);
+  const c = boxC(59);
   const born = T.from + 2;
-  const morph = prog(f, born, 14, EASE.inCubic);
-  const ghostOp = 1 - smooth(clamp01((f - born - 6) / 10));
-  const shaftOp = prog(f, born + 6, 10, EASE.out);
+  const morph = prog(f, born, 16, EASE.inCubic);
+  const shaftOp = prog(f, born + 4, 12, EASE.out);
   const ft = footAt(f);
-  const src = {x: lerp(boxC(59).x + 40, ft.x + 90, prog(f, born, 70, EASE.inOut)), y: 40};
-  const rx = lerp(40, 92, prog(f, born + 6, 18, EASE.out));
+  // the source sits above-right, off frame, and drifts with the footprint like a moving scan head
+  const src = {x: lerp(c.x + 300, ft.x + 240, prog(f, born, 70, EASE.inOut)), y: -120};
+  const rx = lerp(36, 96, prog(f, born + 4, 20, EASE.out));
   return (
     <Stage
       frame={f}
@@ -39,7 +44,7 @@ export const OpenShot: React.FC<{f: number}> = ({f}) => {
       hud={<AtlasOpener frame={f} at={T.recovery - 20} word="Recovery" y={540} />}
     >
       <Archive frame={f} state="HDD_DELETED" light="cool" />
-      <GhostWrite f={f} x={g.x} y={g.y - 96} op={f < born ? 1 : ghostOp} stretch={morph} />
+      <GhostWrite f={f} cx={c.x} cy={c.y} bornAt={GHOST_BORN} u={f < born ? 0 : morph} />
       <Wash x={ft.x} y={ft.y} rx={rx * 1.6} ry={rx * 0.9} op={shaftOp} />
       <LightShaft f={f} sx={src.x} sy={src.y} tx={ft.x} ty={ft.y} rx={rx} op={shaftOp} />
     </Stage>

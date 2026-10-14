@@ -5,18 +5,31 @@ import {AbsoluteFill} from 'remotion';
 import {EASE, IndexCard, PAL, Stage, clamp01, poseAt, prog, rgba, springAt, toScreen, type CamKey} from '../../kit';
 import {T} from './t';
 
-const VP = {x: 960, y: 120};
-const Y0 = 930; // card centre of the front row
-const W0 = 430;
-const ROWS = 9;
-const COLS = [-2, -1, 0, 1, 2];
-const K = 0.79;
+const VP = {x: 960, y: 110};
+const Y0 = 860; // card centre of the front row
+const W0 = 350;
+const ROWS = 11;
+const COLS = [-3, -2, -1, 0, 1, 2, 3];
+const SPACE = 392;
+const K = 0.8;
 const PHOTO_CELL = {d: 1, c: 0};
 const rowK = (d: number) => Math.pow(K, d);
 const cellPos = (d: number, c: number) => {
   const k = rowK(d);
-  return {x: VP.x + c * 470 * k, y: VP.y + (Y0 - VP.y) * k, w: W0 * k, k};
+  return {x: VP.x + c * SPACE * k, y: VP.y + (Y0 - VP.y) * k, w: W0 * k, k};
 };
+
+const RAILS = [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5]
+  .map((c) => {
+    const k0 = 1.25;
+    const k1 = 0.08;
+    const xa = VP.x + c * SPACE * k0;
+    const ya = VP.y + (Y0 + 150 - VP.y) * k0;
+    const xb = VP.x + c * SPACE * k1;
+    const yb = VP.y + (Y0 + 150 - VP.y) * k1;
+    return `M${xa - 9} ${ya}L${xa + 9} ${ya}L${xb + 1} ${yb}L${xb - 1} ${yb}Z`;
+  })
+  .join('');
 
 /** where the photo's card is (world = screen at zoom 1 of this shot) and how far it has risen */
 export const canyonPhoto = (f: number) => {
@@ -29,7 +42,7 @@ export const CANYON_CAM: CamKey[] = [
   {f: T.withAt - 14, x: 960, y: 760, zoom: 1.7},
   {f: T.driveEnd, x: 960, y: 500, zoom: 0.94, ease: 'inOut'},
   {f: T.yourEntry + 6, x: 960, y: 490, zoom: 0.97},
-  {f: T.yourEntry + 34, x: 960, y: 560, zoom: 2.3, ease: 'inCubic'},
+  {f: T.yourEntry + 34, x: 960, y: 532, zoom: 2.3, ease: 'inCubic'},
 ];
 
 export const CanyonShot: React.FC<{f: number}> = ({f}) => {
@@ -42,9 +55,10 @@ export const CanyonShot: React.FC<{f: number}> = ({f}) => {
     for (const c of COLS) {
       if (d === PHOTO_CELL.d && c === PHOTO_CELL.c) continue;
       const p = cellPos(d, c);
-      const haze = 0.18 + 0.82 * Math.pow(p.k, 1.15);
-      // edge columns sit a little lower: the canyon walls
-      const wall = Math.abs(c) === 2 ? 26 * p.k : 0;
+      if (Math.abs(p.x - VP.x) - p.w / 2 > 1080) continue;
+      const haze = 0.06 + 0.94 * Math.pow(p.k, 1.7);
+      // outer columns sit a little lower: the canyon walls
+      const wall = Math.abs(c) * Math.abs(c) * 7 * p.k;
       cards.push(
         <IndexCard key={`${d}:${c}`} frame={f + d * 13 + c * 7} x={p.x} y={p.y + wall + (1 - appear) * 40 * p.k} w={p.w} variant="blank" opacity={haze * appear} shadow={p.k} />,
       );
@@ -55,7 +69,11 @@ export const CanyonShot: React.FC<{f: number}> = ({f}) => {
     <Stage frame={f} env={{kind: 'archive', light: 'warm'}} cam={CANYON_CAM}>
       <AbsoluteFill>
         {/* haze toward the vanishing point */}
-        <div style={{position: 'absolute', left: VP.x - 900, top: VP.y - 420, width: 1800, height: 900, background: `radial-gradient(ellipse 50% 50% at 50% 50%, ${rgba('#B9C6DA', 0.16)}, rgba(0,0,0,0))`}} />
+        <div style={{position: 'absolute', left: VP.x - 1100, top: VP.y - 380, width: 2200, height: 900, background: `radial-gradient(ellipse 50% 50% at 50% 50%, ${rgba('#AFC0DA', 0.13)}, rgba(0,0,0,0))`}} />
+        {/* the drawer's floor: dark slots between the columns, converging on the haze */}
+        <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+          <path d={RAILS} fill="#03060C" fillOpacity={0.55} />
+        </svg>
         {cards}
         {/* the photo's card: rises out of its row with a soft white glow behind it */}
         <div
@@ -71,9 +89,9 @@ export const CanyonShot: React.FC<{f: number}> = ({f}) => {
         />
         <IndexCard frame={f} x={ph.x} y={ph.y} w={ph.w} variant="photo" shadow={1 + glow} opacity={clamp01(0.9 + 0.1 * glow)} />
         {/* front rows in front of the rising card's lower edge */}
-        {COLS.map((c) => {
+        {COLS.filter((c) => Math.abs(c) < 3).map((c) => {
           const p = cellPos(0, c);
-          const wall = Math.abs(c) === 2 ? 26 : 0;
+          const wall = Math.abs(c) * Math.abs(c) * 7;
           return <IndexCard key={`f${c}`} frame={f + c * 7} x={p.x} y={p.y + wall} w={p.w} variant="blank" shadow={1} />;
         })}
       </AbsoluteFill>

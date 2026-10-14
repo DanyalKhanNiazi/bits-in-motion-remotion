@@ -47,7 +47,7 @@ const A_CAM: CamKey[] = [
   {f: FROM - 30, ...WIDE},
   {f: FROM - 17, ...WIDE},
   {f: T.real, ...DRAWER, dur: T.real - (FROM - 17), ease: 'inOut'},
-  {f: T.withAt + 6, x: DRAWER.x + 6, y: DRAWER.y - 12, zoom: DRAWER.zoom * 1.12, ease: 'inOut'},
+  {f: T.withAt + 6, x: DRAWER.x + 6, y: DRAWER.y - 34, zoom: DRAWER.zoom * 1.1, ease: 'inOut'},
 ];
 const shotA = (f: number) => (
   <Stage frame={f} env={{kind: 'archive', light: 'warm'}} cam={A_CAM}>
@@ -56,7 +56,7 @@ const shotA = (f: number) => (
 );
 const W_AB = T.withAt - 9;
 /** the card block in the drawer, where the "Master File Table" leader points */
-const MFT_PT = {x: 520, y: 352};
+const MFT_PT = {x: 604, y: 400};
 
 /* ================================================================ C: the photo's card; fields; threads; read pulse */
 const C_EVENTS: ArchiveEvent[] = [
@@ -158,7 +158,7 @@ const G_EVENTS: ArchiveEvent[] = [
   {at: T.flagged + 10, op: 'flag'},
 ];
 const MAPP = {x: 400, y: 700, zoom: 2.1};
-const SIG_END = {x: 1240, y: 545, zoom: 0.82};
+const SIG_END = {x: 1255, y: 592, zoom: 0.85};
 const G_CAM: CamKey[] = [
   {f: Z_FG, ...DRAWER, zoom: DRAWER.zoom * 0.94},
   {f: T.marks, x: 372, y: 326, zoom: 2.75},
@@ -167,10 +167,10 @@ const G_CAM: CamKey[] = [
   {f: T.available + 6, ...MAPP, zoom: 2.3},
   // the escalated signature: close on the struck card, then the long held-breath pull-back
   {f: T.thats + 8, x: 376, y: 324, zoom: 3.3, dur: 30, ease: 'inOut'},
-  {f: T.nothing + 2, x: 376, y: 322, zoom: 3.4},
-  {f: T.boxesEnd + 32, ...SIG_END, dur: 72, ease: 'inOut'},
-  {f: T.wereEnd, x: SIG_END.x - 6, y: SIG_END.y + 4, zoom: SIG_END.zoom * 1.05},
-  {f: T.drawer, x: 380, y: 330, zoom: 2.25, dur: 46},
+  {f: T.nothing, x: 376, y: 322, zoom: 3.36},
+  {f: T.wereEnd - 10, ...SIG_END, dur: 116, ease: 'inOut'},
+  {f: T.theCard + 8, x: SIG_END.x - 6, y: SIG_END.y + 2, zoom: SIG_END.zoom * 1.03},
+  {f: T.drawer, x: 380, y: 330, zoom: 2.25, dur: 36},
   {f: T.unusedEnd, x: 376, y: 324, zoom: 2.4},
   {f: T.couple, x: 372, y: 520, zoom: 1.35, dur: 28},
   {f: T.quickEnd, x: 372, y: 515, zoom: 1.4},
@@ -202,7 +202,7 @@ const shotG = (f: number) => {
         <>
           <Stamp frame={f} at={T.free} exitAt={T.reuseEnd + 15} text="Free" x={stamp.x} y={stamp.y} />
           <Label frame={f} at={T.map} exitAt={T.availableEnd + 16} text="Map of which boxes are taken" x={Math.max(120, mapTop.x - 520)} y={180} to={mapTop} side="right" size={52} />
-          <KineticText frame={f} at={T.nothing} exitAt={T.wereEnd - 14} text="Nothing opens the boxes." x={1100} y={866} size={100} mode="slam" />
+          <KineticText frame={f} at={T.nothing} exitAt={T.wereEnd + 6} text="Nothing opens the boxes." x={960} y={872} size={112} mode="slam" />
           <Label frame={f} at={T.unused} exitAt={T.couple - 8} text="Unused" x={flag.x + 200} y={flag.y + 6} to={flag} side="right" size={56} accent={PAL.loss} />
           <TickBadge frame={f} at={T.couple} exitAt={T.quickEnd + 16} x={cardTick.x} y={cardTick.y} />
           <TickBadge frame={f} at={T.records} exitAt={T.quickEnd + 16} x={mapTick.x} y={mapTick.y} />
@@ -247,7 +247,7 @@ export const S3: React.FC<{frame: number}> = ({frame}) => {
   return (
     <AbsoluteFill style={{background: PAL.void}}>
       {scene}
-      <Label frame={f} at={T.master} exitAt={T.yourEntry + 12} text="Master File Table" x={1180} y={150} to={mftTo} side="right" size={56} />
+      <Label frame={f} at={T.master} exitAt={T.yourEntry + 12} text="Master File Table" x={1180} y={112} to={mftTo} side="right" size={56} />
     </AbsoluteFill>
   );
 };

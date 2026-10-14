@@ -162,14 +162,21 @@ export const GhostWrite: React.FC<{frame: number; at: number; dipAt: number; box
   const op = clamp01(inU * 1.6);
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+      <defs>
+        <radialGradient id="s3-ghost-glow">
+          <stop offset="0" stopColor="#FFFFFF" stopOpacity={0.22} />
+          <stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
+        </radialGradient>
+      </defs>
       {/* aim: a dashed drop line and a hollow target ring on the box */}
       <line x1={x} y1={y + 40} x2={c.x} y2={c.y - 40} stroke={PAL.ink} strokeOpacity={0.4} strokeWidth={2.5} strokeDasharray="6 7" strokeDashoffset={-f * 0.8} />
       <rect x={c.x - 38} y={c.y - 38} width={76} height={76} rx={9} fill="none" stroke={PAL.ink} strokeOpacity={0.35 + 0.15 * Math.sin(f / 9)} strokeWidth={2.5} strokeDasharray="9 6" />
       {/* soft shadow it would cast */}
       <ellipse cx={c.x} cy={c.y - 34} rx={30 + 10 * dip} ry={6} fill="#000" opacity={0.25 + 0.2 * dip} />
       {/* the block: grey, translucent, dashed: not there yet */}
-      <rect x={x - 34} y={y - 34} width={68} height={68} rx={9} fill={PAL.oldBit} fillOpacity={0.28} stroke={PAL.otherBit} strokeOpacity={0.85} strokeWidth={3} strokeDasharray="10 6" strokeDashoffset={f * 0.9} />
-      <rect x={x - 22} y={y - 22} width={44} height={44} rx={6} fill={PAL.otherBit} fillOpacity={0.12} />
+      <circle cx={x} cy={y} r={70} fill="url(#s3-ghost-glow)" />
+      <rect x={x - 36} y={y - 36} width={72} height={72} rx={10} fill={PAL.oldBit} fillOpacity={0.42} stroke={PAL.otherBit} strokeWidth={3.5} strokeDasharray="11 6" strokeDashoffset={f * 0.9} />
+      <rect x={x - 24} y={y - 24} width={48} height={48} rx={7} fill={PAL.otherBit} fillOpacity={0.2} />
     </svg>
   );
 };

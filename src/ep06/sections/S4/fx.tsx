@@ -1,19 +1,33 @@
 // S4 section-local effects (world px): the ghost future write (S3 handoff), the scanner's light shaft entering from
 // above, a white wash under the beam, and the coral "lost" ring on a box the scanner reaches too late.
 import React from 'react';
-import {BOX, EASE, PAL, clamp01, lerp, prog, rgba} from '../../kit';
+import {BOX, EASE, PAL, clamp01, lerp, mixHex, prog, rgba} from '../../kit';
+const lerpHex = (a: string, b: string, t: number) => mixHex(a, b, clamp01(t));
 
-/** The ghost future write: a dashed, translucent block hovering above a box, bobbing. */
-export const GhostWrite: React.FC<{f: number; x: number; y: number; op: number; stretch?: number}> = ({f, x, y, op, stretch = 0}) => {
-  if (op <= 0.01) return null;
-  const bob = 4 * Math.sin(f / 14);
-  const h = BOX * (1 + stretch * 5);
-  const top = y + bob - (h - BOX);
+/**
+ * The ghost future write, drawn exactly as S3 leaves it (S3/marks GhostWrite at rest: dashed grey block ≈ 113 px above
+ * the box centre, a dashed drop line, a target ring on the box, a soft shadow), then dissolving (`u` 0 → 1) upward into
+ * the scanner's light: the block whitens, stretches up and fades; the aim marks fade.
+ */
+export const GhostWrite: React.FC<{f: number; cx: number; cy: number; bornAt: number; u: number}> = ({f, cx, cy, bornAt, u}) => {
+  if (u >= 1) return null;
+  const dip = 0.45;
+  const bob = 5 * Math.sin((f - bornAt) / 13);
+  const x = cx;
+  const y = cy - 128 + 34 * dip + bob;
+  const k = 1 - u;
+  const stretch = 1 + 3.5 * u;
+  const white = u;
   return (
-    <svg width={BOX + 40} height={h + 40} viewBox={`-20 -20 ${BOX + 40} ${h + 40}`} style={{position: 'absolute', left: x - 20, top: top - 20, overflow: 'visible', opacity: op}}>
-      <rect x={-10} y={-10} width={BOX + 20} height={h + 20} rx={14} fill={rgba('#DDE6F5', 0.06)} />
-      <rect x={0} y={0} width={BOX} height={h} rx={9} fill={rgba('#AEB6C4', 0.16)} stroke={rgba('#E6EDF8', 0.75)} strokeWidth={2.5} strokeDasharray="7 6" strokeDashoffset={-f * 0.6} />
-      <rect x={14} y={h - 22} width={36} height={6} rx={3} fill={rgba('#E6EDF8', 0.35)} />
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}}>
+      <line x1={x} y1={y + 40} x2={cx} y2={cy - 40} stroke={PAL.ink} strokeOpacity={0.4 * k} strokeWidth={2.5} strokeDasharray="6 7" strokeDashoffset={-f * 0.8} />
+      <rect x={cx - 38} y={cy - 38} width={76} height={76} rx={9} fill="none" stroke={PAL.ink} strokeOpacity={(0.35 + 0.15 * Math.sin(f / 9)) * k} strokeWidth={2.5} strokeDasharray="9 6" />
+      <ellipse cx={cx} cy={cy - 34} rx={30 + 10 * dip} ry={6} fill="#000" opacity={(0.25 + 0.2 * dip) * k} />
+      <g transform={`translate(${x} ${y + 36}) scale(${1 - 0.25 * u} ${stretch}) translate(${-x} ${-(y + 36)})`} opacity={k}>
+        <circle cx={x} cy={y} r={70} fill={rgba('#FFFFFF', 0.12 + 0.2 * white)} />
+        <rect x={x - 36} y={y - 36} width={72} height={72} rx={10} fill={lerpHex(PAL.oldBit, '#FFFFFF', white)} fillOpacity={0.42} stroke={lerpHex(PAL.otherBit, '#FFFFFF', white)} strokeWidth={3.5} strokeDasharray="11 6" strokeDashoffset={f * 0.9} />
+        <rect x={x - 24} y={y - 24} width={48} height={48} rx={7} fill={PAL.otherBit} fillOpacity={0.2 * k} />
+      </g>
     </svg>
   );
 };

@@ -93,7 +93,7 @@ const rowTiles = (f: number): TileSpec[] => {
     if (f < MULT && i > 0) continue;
     const bigS = lerp(2.0, 2.6, grow);
     const x = lerp(960, cx(i), sp);
-    const y = lerp(ROW1.single, yRise, f < RISE ? 0 : 1) + (f >= RISE ? 0 : 0);
+    const y = yRise;
     const s = lerp(bigS, 1, Math.min(1, sp));
     // ripple on "16"
     const rp = Math.max(0, Math.sin(Math.PI * clamp01((f - (T.sixteen + i * 1.4)) / 10)));

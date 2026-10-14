@@ -144,9 +144,20 @@ const PULL = T.windowsPc - 4;
 export const KB_E1: KenBurns = {from: DESK.kbScreen, to: {s: 1.2, x: 0, y: 46}, start: PULL, end: PULL + 28};
 const KB_E2: KenBurns = {from: {s: 1.2, x: 0, y: 46}, to: {s: 1.32, x: 30, y: 74}, start: PULL + 28, end: T.work + 6};
 export const EXIT_AT = T.aFile + 7;
-const KB_I1: KenBurns = {from: {s: 1.3, x: 20, y: 70}, to: DESK.kbScreen, start: EXIT_AT, end: T.to};
-const KB_I2: KenBurns = {from: DESK.kbScreen, to: {s: 1.9, x: 0, y: 232}, start: T.to, end: T.to + 40};
-export const kbPc = (f: number): KenBurns => (f < PULL + 28 ? KB_E1 : f < EXIT_AT ? KB_E2 : f < T.to ? KB_I1 : KB_I2);
+/** the exit push (I): a static Ken Burns per frame so the curve can ease into S2's slow push (kbScreen 1.72 @ the cut,
+ *  then +0.04 per second); the screen's top edge rides the frame's top edge on the way in (ky = 113.7 × s) */
+const KB_RATE = 0.04 / 30;
+const kbAt = (s: number): KenBurns => ({from: {s, x: 0, y: 113.7 * s}, to: {s, x: 0, y: 113.7 * s}, start: 0, end: 1});
+const exitKb = (f: number): KenBurns => {
+  const s0 = 1.3;
+  const s1 = DESK.kbScreen.s;
+  if (f >= T.to) return kbAt(s1 + KB_RATE * (f - T.to));
+  const u = clamp01((f - EXIT_AT) / (T.to - EXIT_AT));
+  const tail = (KB_RATE * (T.to - EXIT_AT)) / (s1 - s0); // end slope that matches S2's rate
+  const g = (1 - tail) * (u * u * (3 - 2 * u)) + tail * u;
+  return kbAt(lerp(s0, s1, g));
+};
+export const kbPc = (f: number): KenBurns => (f < PULL + 28 ? KB_E1 : f < EXIT_AT ? KB_E2 : exitKb(f));
 
 const SELECT = T.along + 33;
 const CURSOR = [
@@ -187,7 +198,7 @@ export const PullBack: React.FC<{f: number; split: (fr: number) => React.ReactNo
   const kb = kbPc(f);
   const r = deskScreenRect(f, kb);
   const s = r.h / 1080;
-  const fade = prog(f, PULL + 22, 8, EASE.inOut);
+  const fade = prog(f, PULL + 23, 5, EASE.inOut);
   const flash = Math.exp(-(((f - (PULL + 25)) / 3) ** 2));
   const overlay =
     fade < 1 ? (

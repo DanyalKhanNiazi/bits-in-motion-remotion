@@ -187,7 +187,7 @@ const RouteBit: React.FC<{f: number}> = ({f}) => {
   if (f < T.follow - 2) return null;
   const a = boxOnScreen('left', T.follow, 59);
   const b = boxOnScreen('right', T.thenSsd, 59);
-  const from = {x: a.x - 30, y: a.y - 30, w: 60, h: 60};
+  const from = {x: a.x - 42, y: a.y - 42, w: 84, h: 84};
   const halo = clamp01(prog(f, T.follow + 6, 14)) * (1 - prog(f, T.windowsPc + 10, 10));
   const hop = prog(f, T.thenSsd, 26, EASE.inOut);
   const hx = hop > 0 ? b.x : a.x;
@@ -197,8 +197,8 @@ const RouteBit: React.FC<{f: number}> = ({f}) => {
     <>
       {halo > 0.01 && (hop <= 0 || hop >= 1) ? (
         <svg width={1920} height={1080} style={{position: 'absolute', left: 0, top: 0, opacity: halo}}>
-          <circle cx={hx} cy={hy} r={30 + 26 * pulse} fill="none" stroke={PAL.ink} strokeWidth={3} opacity={0.7 * (1 - pulse)} />
-          <circle cx={hx} cy={hy} r={30} fill="none" stroke={rgba(PAL.ink, 0.5)} strokeWidth={2} />
+          <circle cx={hx} cy={hy} r={42 + 34 * pulse} fill="none" stroke={PAL.ink} strokeWidth={4} opacity={0.75 * (1 - pulse)} />
+          <circle cx={hx} cy={hy} r={42} fill="none" stroke={rgba(PAL.ink, 0.55)} strokeWidth={3} />
         </svg>
       ) : null}
       {hop <= 0 ? <PhotoBits frame={f} at={T.follow} dur={18} mode="dissolve" from={from} grid={[1, 1]} /> : null}

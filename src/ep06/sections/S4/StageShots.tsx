@@ -87,7 +87,6 @@ export const SLOT_CAM: CamKey[] = [
   {f: CUT.whip3 + 12, x: 990, y: 548, zoom: 1.1, ease: 'inOut'},
 ];
 const STAGE_WRITES = [T.create + 4, T.overwrite + 2];
-export const TALLY_HITS = [T.download + 1, T.update + 1, T.temp + 1, ...STAGE_WRITES];
 
 export const SlotShot: React.FC<{f: number}> = ({f}) => {
   const sw = STAGE_WRITES[1];

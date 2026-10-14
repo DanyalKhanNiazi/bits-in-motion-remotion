@@ -156,7 +156,7 @@ export const Safe: React.FC<{frame: number; x: number; y: number; w: number; clo
   if (ein <= 0.001) return null;
   const close = prog(f, closeAt, 9, EASE.inCubic);
   const thunk = f >= closeAt + 9 ? Math.exp(-(f - closeAt - 9) / 4) : 0;
-  const door = lerp(-104, 0, close);
+  const door = lerp(80, 0, close);
   const spin = f >= closeAt + 9 ? prog(f, closeAt + 10, 14, EASE.out) * 90 : 0;
   const dw = w * 0.78;
   const dh = h * 0.78;
@@ -171,18 +171,18 @@ export const Safe: React.FC<{frame: number; x: number; y: number; w: number; clo
       <div style={{position: 'absolute', left: (w - dw) / 2, top: (h - dh) / 2, width: dw, height: dh, borderRadius: w * 0.03, background: 'linear-gradient(180deg, #05070C, #0C1220)', boxShadow: 'inset 0 10px 30px rgba(0,0,0,0.9)'}}>
         <div style={{position: 'absolute', left: '10%', right: '10%', bottom: '18%', height: 4, borderRadius: 2, background: rgba(PAL.structure, 0.4)}} />
       </div>
-      {/* the door, hinged on the left */}
-      <div style={{position: 'absolute', left: (w - dw) / 2, top: (h - dh) / 2, width: dw, height: dh, perspective: 1400, perspectiveOrigin: '0% 50%'}}>
+      {/* the door, hinged on the right (it opens toward the viewer, away from the incoming key) */}
+      <div style={{position: 'absolute', left: (w - dw) / 2, top: (h - dh) / 2, width: dw, height: dh, perspective: 1400, perspectiveOrigin: '100% 50%'}}>
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            transformOrigin: '0% 50%',
+            transformOrigin: '100% 50%',
             transform: `rotateY(${door}deg)`,
             borderRadius: w * 0.03,
             background: 'linear-gradient(150deg, #5A6B85 0%, #34425A 45%, #1D2638 100%)',
             boxShadow: `inset 0 2px 0 rgba(230,238,250,0.5), inset 0 0 0 2px rgba(0,0,0,0.35), 0 0 ${30 * thunk}px ${rgba(PAL.ink, 0.5 * thunk)}`,
-            backfaceVisibility: 'hidden',
+            
           }}
         >
           {/* the handle wheel: a ring with spokes, no numbers */}
@@ -196,10 +196,10 @@ export const Safe: React.FC<{frame: number; x: number; y: number; w: number; clo
           </svg>
           {/* hinges */}
           {[0.18, 0.82].map((v) => (
-            <div key={v} style={{position: 'absolute', left: -6, top: `${v * 100}%`, width: 14, height: dh * 0.12, transform: 'translateY(-50%)', borderRadius: 4, background: 'linear-gradient(90deg, #8E97A6, #3B4658)'}} />
+            <div key={v} style={{position: 'absolute', right: -6, top: `${v * 100}%`, width: 14, height: dh * 0.12, transform: 'translateY(-50%)', borderRadius: 4, background: 'linear-gradient(90deg, #8E97A6, #3B4658)'}} />
           ))}
           {/* the lock lamp: amber once shut (the key's colour) */}
-          <div style={{position: 'absolute', right: dw * 0.08, top: dh * 0.08, width: dw * 0.06, height: dw * 0.06, borderRadius: '50%', background: glow > 0.01 ? PAL.drive : '#2A3446', boxShadow: glow > 0.01 ? `0 0 ${18 * glow}px ${rgba(PAL.drive, 0.8 * glow)}` : undefined}} />
+          <div style={{position: 'absolute', left: dw * 0.08, top: dh * 0.08, width: dw * 0.06, height: dw * 0.06, borderRadius: '50%', background: glow > 0.01 ? PAL.drive : '#2A3446', boxShadow: glow > 0.01 ? `0 0 ${18 * glow}px ${rgba(PAL.drive, 0.8 * glow)}` : undefined}} />
         </div>
       </div>
     </div>
