@@ -69,7 +69,7 @@ export const CUT = {
   /** stage plate card → archive (zoom-through, 16 f) */
   zt: T.but - 8,
   /** archive hits → overwrite slot stage (whip, 12 f) */
-  whip2: T.boxesEnd + 12,
+  whip2: T.boxesEnd + 14,
   /** stage → archive race (whip, 12 f) */
   whip3: T.so - 6,
 };
