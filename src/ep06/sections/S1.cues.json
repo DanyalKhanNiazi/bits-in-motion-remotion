@@ -1,1 +1,14 @@
-[]
+[
+  {"frame": 6, "kind": "type", "strength": 0.6},
+  {"frame": 74, "kind": "whoosh", "strength": 0.35},
+  {"frame": 187, "kind": "impact", "strength": 0.7},
+  {"frame": 209, "kind": "whoosh", "strength": 0.8},
+  {"frame": 352, "kind": "riser", "strength": 0.5},
+  {"frame": 397, "kind": "impact", "strength": 1.0},
+  {"frame": 472, "kind": "whoosh", "strength": 0.45},
+  {"frame": 668, "kind": "swell", "strength": 0.4},
+  {"frame": 769, "kind": "sting", "strength": 0.6},
+  {"frame": 902, "kind": "crate", "strength": 0.5},
+  {"frame": 1279, "kind": "crate", "strength": 0.8},
+  {"frame": 1327, "kind": "swell", "strength": 0.5}
+]

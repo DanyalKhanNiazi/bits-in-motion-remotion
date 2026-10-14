@@ -1,0 +1,53 @@
+// S1 clock: every beat derives from the transcript (at / P), never from hard-coded seconds.
+import {at, P} from '../../timing';
+
+const w = (n: number, phrase: string, nth = 1) => at(n, phrase, nth).start;
+
+export const T = {
+  from: P(1).start,
+  to: P(3).start,
+  // P01
+  delete: w(1, 'delete'),
+  empty: w(1, 'empty'),
+  bin: w(1, 'recycle bin'),
+  asFar: w(1, 'as far as windows'),
+  concerned: at(1, 'concerned').end,
+  gone: w(1, "it's gone"),
+  goneWord: w(1, 'gone'),
+  hardDrive: w(1, 'but on a hard drive'),
+  every: w(1, 'every byte'),
+  exactly: w(1, 'exactly'),
+  was: w(1, 'it was'),
+  windowsOnly: w(1, 'windows only'),
+  crossed: w(1, 'crossed'),
+  note: w(1, 'note'),
+  findIt: at(1, 'find it').end,
+  onSsd: w(1, 'on an ssd'),
+  may: w(1, 'may'),
+  after: at(1, 'after').end,
+  notBecause: w(1, 'not because'),
+  erasedIt: at(1, 'erased it').end,
+  theDrive: w(1, 'the drive cleans'),
+  cleans: w(1, 'cleans'),
+  schedule: w(1, 'schedule'),
+  // P02
+  so: w(2, 'so'),
+  goneQ: w(2, 'gone'),
+  onHdd: w(2, 'on a hard drive'),
+  notYet: w(2, 'not yet'),
+  onSsdQ: w(2, 'on an ssd'),
+  probably: w(2, 'probably'),
+  certainly: at(2, 'certainly').end,
+  lets: w(2, "let's"),
+  follow: w(2, 'follow'),
+  firstHdd: w(2, 'first on a hard drive'),
+  thenSsd: w(2, 'then on an ssd'),
+  windowsPc: w(2, 'on a windows pc'),
+  pc: at(2, 'pc').end,
+  along: w(2, 'along the way'),
+  work: w(2, 'work'),
+  fail: w(2, 'fail'),
+  erases: w(2, 'erases'),
+  aFile: at(2, 'a file').end,
+  good: at(2, 'good').end,
+} as const;
