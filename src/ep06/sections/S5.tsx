@@ -265,8 +265,8 @@ const CAM_D: CamKey[] = [
   {f: TO, ...BOUNDARY},
 ];
 /** the two chips sit level on each side of the boundary, below the drawer's handle (dark ground; world anchors) */
-const NTFS_AT = {x: 372, y: 576};
-const DRIVES_AT = {x: 1010, y: 576};
+const NTFS_AT = {x: 372, y: 583};
+const DRIVES_AT = {x: 1010, y: 583};
 const shotD = (f: number) => {
   const A = {frame: f, state: 'SSD_DELETED' as const, events: D_EVENTS};
   const pose = poseAt(f, CAM_D);
