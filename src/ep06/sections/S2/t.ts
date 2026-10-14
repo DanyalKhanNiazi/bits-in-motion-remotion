@@ -36,7 +36,7 @@ export const T = {
   drawer: s(4, 'drawer'),
   boxesHold: s(4, 'boxes hold'),
   cardsSay: s(4, 'cards say'),
-  boxes2: s(4, 'boxes', 2),
+  whichBoxes: s(4, 'which boxes'),
   belong: s(4, 'belong'),
   // P05
   p5: P(5).start,

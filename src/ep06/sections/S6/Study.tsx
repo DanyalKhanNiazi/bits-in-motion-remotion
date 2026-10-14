@@ -65,6 +65,7 @@ const PRINT = T.soTreat;
 const STAMP = T.snapshot;
 const PAN = T.andTrim;
 const CAGE_IN = T.someSetups;
+const CAGE_RISE = T.andTrim + 34;
 const WHIP = T.to - 6;
 
 export const STUDY_CAM: CamKey[] = [
@@ -83,18 +84,20 @@ export const STUDY_CAM: CamKey[] = [
 /* ---------------------------------------------------------------- the 16-drive row */
 const rowTiles = (f: number): TileSpec[] => {
   const tiles: TileSpec[] = [];
-  const yRise = lerp(ROW1.single, ROW1.top, EASE.inOut(prog(f, RISE, 20)));
   // multiply: before MULT one big drive at centre; then each flies to its slot (centre ones first)
   const order = Array.from({length: N}, (_, i) => i).sort((a, b) => Math.abs(a - 7.5) - Math.abs(b - 7.5));
   const rank = (i: number) => order.indexOf(i);
   const grow = springAt(f, T.depends + 8, SPRING.pop);
+  const r = EASE.inOut(prog(f, RISE, 20));
   for (let i = 0; i < N; i++) {
     const sp = f < MULT ? 0 : springAt(f, MULT + rank(i) * 1.2, SPRING.snap);
     if (f < MULT && i > 0) continue;
     const bigS = lerp(2.0, 2.6, grow);
-    const x = lerp(960, cx(i), sp);
-    const y = yRise;
-    const s = lerp(bigS, 1, Math.min(1, sp));
+    const slotX = lerp(960 + (i - 7.5) * 104, cx(i), r);
+    const slotS = lerp(1.22, 1, r);
+    const x = lerp(960, slotX, sp);
+    const y = lerp(ROW1.single, ROW1.top, r);
+    const s = lerp(bigS, slotS, Math.min(1, sp));
     // ripple on "16"
     const rp = Math.max(0, Math.sin(Math.PI * clamp01((f - (T.sixteen + i * 1.4)) / 10)));
     // TRIM off recovery scan: fill bottom-up as the scan line passes
@@ -152,7 +155,7 @@ const OTHER_N = [12, 9, 14, 10];
 const arrayTiles = (f: number): TileSpec[] => {
   const breathe = 0.82 + 0.18 * Math.sin((2 * Math.PI * f) / 90);
   return ARRAY_X.map((x, i) => {
-    const d = springAt(f, CAGE_IN + 6 + i * 3, SPRING.snap);
+    const d = springAt(f, CAGE_IN + i * 3, SPRING.snap);
     return {
       cx: x,
       cy: 575 - (1 - d) * 120,
@@ -374,7 +377,7 @@ const Title: React.FC<{f: number; pose: {x: number; y: number; zoom: number; rot
   // the tag rides with the world (the print), so place it through the camera
   const tagW = toScreen(pose, F.x0 + 26, F.y0);
   const cxp = lerp(960, tagW.x + (W * TAG_SIZE) / TITLE_SIZE / 2 + 14, sh);
-  const cyp = lerp(280, tagW.y, sh);
+  const cyp = lerp(300, tagW.y, sh);
   if (sh <= 0) checkText('keyword', TITLE_SIZE, true, {zoom: 1, rot: 0, space: 'screen'}, full);
   if (sh >= 1) checkText('decor', TAG_SIZE, true, {zoom: 1, rot: 0, space: 'screen'}, full);
   const exit = prog(f, PAN + 4, 10);
@@ -450,7 +453,7 @@ const StudyHud: React.FC<{f: number; pose: {x: number; y: number; zoom: number; 
 
 /* ---------------------------------------------------------------- the array scene (world, right of the study) */
 const ArrayScene: React.FC<{f: number}> = ({f}) => {
-  const up = springAt(f, CAGE_IN, SPRING.heavy);
+  const up = springAt(f, CAGE_RISE, SPRING.heavy);
   const cageOp = clamp01(up * 1.6);
   const dy = (1 - up) * 160;
   // the note glides in from the left, hovers, then (kit path) slams into the gate and recoils

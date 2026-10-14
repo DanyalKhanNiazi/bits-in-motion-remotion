@@ -68,10 +68,10 @@ const BZ = archiveCam('boundary');
 const PB = archiveCam('photoBoxes');
 const B0 = {x: 1190, y: 300, zoom: 1.12};
 const B1 = {x: 1417, y: 250, zoom: 1.1};
-const B2 = {x: 1800, y: 64, zoom: 2.25};
+const B2 = {x: 1850, y: 72, zoom: 2.3};
 export const CAM_A: CamKey[] = [
-  {f: T.from - 30, x: BZ.x - 20, y: BZ.y, zoom: BZ.zoom * 0.97},
-  {f: T.disposable - 14, x: BZ.x + 10, y: BZ.y, zoom: BZ.zoom * 1.03, ease: 'linear'},
+  {f: T.from, ...BZ},
+  {f: T.disposable - 14, x: BZ.x + 12, y: BZ.y, zoom: BZ.zoom * 1.05, ease: 'linear'},
   {f: T.disposable + 16, x: PB.x, y: PB.y, zoom: PB.zoom, dur: 30},
   {f: T.prefers + 13, x: PB.x + 8, y: PB.y, zoom: PB.zoom * 1.02, ease: 'linear'},
   {f: T.when, ...B0, dur: T.when - T.prefers - 13},
@@ -79,12 +79,13 @@ export const CAM_A: CamKey[] = [
 const RACE_CAM: CamKey[] = [
   {f: T.when, ...B0},
   {f: T.once - 8, ...B0, zoom: B0.zoom * 1.035, ease: 'linear'},
-  {f: T.once + 24, ...B1, dur: 32},
-  {f: T.once + 50, ...B1, zoom: B1.zoom * 1.02, ease: 'linear'},
-  {f: T.once + 88, ...B2, dur: 38},
+  {f: T.once + 22, ...B1, dur: 30},
+  {f: T.once + 54, ...B1, zoom: B1.zoom * 1.03, ease: 'linear'},
+  {f: T.once + 90, ...B2, dur: 36},
   {f: T.depends + 4, ...B2, zoom: B2.zoom * 1.07, x: B2.x - 10, ease: 'linear'},
 ];
-const DRIFT = 0.5;
+// Stage default drift (S5 ends on it); panels use the same so the compress lands exactly
+const DRIFT = 1;
 
 /* ---------------------------------------------------------------- shot A: the drive reads the note */
 const archA = (f: number) => ({frame: f, state: 'SSD_DELETED' as const, events: SSD_EVENTS, lift: LIFT});

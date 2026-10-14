@@ -129,7 +129,7 @@ const ScreenContents: React.FC<{f: number; scale: number}> = ({f, scale}) => {
       <ExplorerWindow {...ex} />
       <svg width={1032} height={547} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
         {trail.map((p, i) =>
-          p && now ? <BitHead key={i} gid={`s2tr${i}`} x={p.x + 6} y={p.y + 30} size={9 - i * 1.3} color={PAL.photo} glow={0.5} opacity={0.95 - i * 0.18} /> : null,
+          p && now ? <BitHead key={i} gid={`s2tr${i}`} x={p.x} y={p.y + 8} size={9 - i * 1.3} color={PAL.photo} glow={0.5} opacity={0.95 - i * 0.18} /> : null,
         )}
       </svg>
       <Cursor
@@ -198,6 +198,7 @@ export const binShot = (f: number): React.ReactElement => {
         {...BIN_STAGE}
         holdsPhoto={0}
         restoreAt={K.rw1 + 1}
+        screen
         float={0}
         rim={{color: PAL.structure, strength: 0.5}}
         sweep={{at: [T.holding], dur: 26, strength: 0.6}}

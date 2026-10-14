@@ -42,11 +42,11 @@ const C_EVENTS: ArchiveEvent[] = [
   {at: T.drawer - 8, op: 'build', target: 'drawer', dur: 30},
   {at: T.drawer + 16, op: 'build', target: 'map', dur: 30},
   {at: T.boxesHold, op: 'pour', dur: 36},
-  {at: T.boxes2, op: 'threads', dur: 18},
+  {at: T.whichBoxes + 6, op: 'threads', dur: 18},
 ];
 const C_CAM: CamKey[] = [
-  {f: K.zt2, x: hb.x, y: hb.y, zoom: 2.9},
-  {f: T.huge - 2, x: hb.x, y: hb.y, zoom: 3.08},
+  {f: K.zt2, x: hb.x, y: hb.y, zoom: 3.02},
+  {f: T.huge - 2, x: hb.x, y: hb.y, zoom: 3.16},
   {f: T.huge + 24, x: WALL_C.x, y: WALL_C.y, zoom: 1.75, dur: 26, ease: 'outExpo'},
   {f: T.next - 4, x: 1236, y: 566, zoom: 1.6},
   {f: T.drawer + 6, ...archiveCam('wide'), dur: 42},

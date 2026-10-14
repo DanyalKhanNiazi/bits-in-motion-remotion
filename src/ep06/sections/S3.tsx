@@ -158,7 +158,7 @@ const G_EVENTS: ArchiveEvent[] = [
   {at: T.flagged + 10, op: 'flag'},
 ];
 const MAPP = {x: 400, y: 700, zoom: 2.1};
-const SIG_END = {x: 1255, y: 592, zoom: 0.85};
+const SIG_END = {x: 1225, y: 588, zoom: 0.9};
 const G_CAM: CamKey[] = [
   {f: Z_FG, ...DRAWER, zoom: DRAWER.zoom * 0.94},
   {f: T.marks, x: 372, y: 326, zoom: 2.75},

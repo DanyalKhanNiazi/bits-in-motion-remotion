@@ -221,7 +221,7 @@ export const Spotlight: React.FC<{x: number; y: number; r: number; amount: numbe
       style={{
         position: 'absolute',
         inset: 0,
-        background: `radial-gradient(circle ${r * 2.6}px at ${x}px ${y}px, rgba(2,4,10,0) 0%, rgba(2,4,10,0) 32%, ${rgba('#02040A', 0.55 * amount)} 62%, ${rgba('#02040A', 0.9 * amount)} 100%)`,
+        background: `radial-gradient(circle ${r * 2.2}px at ${x}px ${y}px, rgba(2,4,10,0) 0%, rgba(2,4,10,0) 22%, ${rgba('#02040A', 0.62 * amount)} 46%, ${rgba('#02040A', 0.93 * amount)} 100%)`,
         pointerEvents: 'none',
       }}
     />
