@@ -159,4 +159,9 @@ overlays. Do the same in section code (one `<path>` for many marks; HTML divs fo
 4. 2.5D: optional `tilt {x, y, perspective}` (CSS perspective on the wall layers; anchors and threads follow) and a
    soft contact shadow from the lifted card onto the wall. Default stays flat.
 Re-measured after these: KitDemo f420–719 (signature, SplitCompare, SSD DriveDive, flash + tilt) 0.42 s/frame/tab.
+5. Robustness: every image the kit draws is awaited. PhotoBits' wiping photo is a Remotion `<Img>` clipped with a CSS
+   `path()` (plus a decode guard); the Archive's registered renders (cluster-wall_b, mft-record_b) are `<Img>` layers in
+   the same frames. No SVG `<image>` remains in the core kit. Checked: dissolve start f20–26 and KitReg render whole.
+6. SwapVariant's flash re-keyed to white/structure. Kit-wide grep: cyan now appears only in the photo's Bits (Bit,
+   BitHead, PhotoBits, Archive photo boxes, stale spots, copies), its threads and plug lights, and the AtlasOpener's Bit.
 
