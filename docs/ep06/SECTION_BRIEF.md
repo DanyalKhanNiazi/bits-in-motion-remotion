@@ -31,8 +31,9 @@ The project root is `/home/user/bits-in-motion-remotion` (a cloud VM: Ubuntu, 4 
    - Derive every timing from `at()` and `P()` in `../timing`, never from hard-coded seconds or frames.
    - Render valid, non-empty frames for [from−30, to+30]. Open with motion; the last 20 frames move into an exit (a push, a whip or a zoom) so the cut to the next section feels driven.
    - Deterministic only: no `Math.random`, no `Date`.
-3. **Review** (at most 3 rounds). Every render command **must** be prefixed with the shared lock, and `REMOTION_GL=swangle` must be set:
-   - `export REMOTION_GL=swangle`
+3. **Review** (at most 3 rounds). Every render command **must** be prefixed with the shared lock, and `REMOTION_GL=angle` must be set (on this VM it falls back to software rendering, is about 2× faster than `swangle`, and matches the owner's final-render backend):
+   - `export REMOTION_GL=angle`
+   - The lock can be held by another builder for several minutes. Run every clip render (and any stills batch over ~40 frames) with the Bash tool's `run_in_background: true` and wait for its completion notification; never poll with sleep. Short stills batches can run in the foreground with a 600000 ms timeout.
    - Sheet roughly every 2 s across your range (stills render at full 1080p): `flock /tmp/ep06-render.lock node tools/stills.mjs src/entries/ep06s#.tsx S# out/ep06/S#/r1 <from>-<to>:60 --luma --concurrency 2`. Add `--phone` on about 6 text-heavy frames to check legibility at 390 px.
    - A half-scale clip of your whole range: `flock /tmp/ep06-render.lock node tools/render.mjs src/entries/ep06s#.tsx S# out/ep06/S#/clip.mp4 --frames <from>-<to> --scale 0.5 --concurrency 3`.
    - `python3 -I tools/static_check.py out/ep06/S#/clip.mp4 --offset <from>`. Fix every FROZEN stretch and every EMPTY frame it reports.
