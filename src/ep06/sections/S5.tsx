@@ -138,7 +138,7 @@ const shotB = (f: number) => {
 /* ================================================================ C: inside the flash */
 /** old grey Bits (data the drive already knows is old); never in the photo's groups */
 const OLD: Record<number, Content> = {};
-for (const id of [2, 3, 9, 10, 36, 41, 42, 43, 45, 47, 54, 55, 56, 61, 63, 73, 74, 81, 82, 83, 86, 87, 101, 102, 104, 118, 119, 125, 127, 137, 138]) OLD[id] = 'old';
+for (const id of [2, 3, 9, 10, 18, 19, 27, 31, 36, 41, 42, 43, 45, 47, 51, 54, 55, 56, 61, 63, 73, 74, 81, 82, 83, 86, 87, 101, 102, 104, 105, 110, 118, 119, 125, 127, 137, 138]) OLD[id] = 'old';
 const X = 42; // the refused write, then its group erased
 const Y = 55; // the save that has to wait for an erase
 const C_EVENTS: ArchiveEvent[] = [
@@ -149,11 +149,14 @@ const C_EVENTS: ArchiveEvent[] = [
   {at: W.saved + 21, op: 'sweep', target: Y, dur: 14},
   {at: W.writes - 11, op: 'refuse', target: 74, dur: 20},
   {at: W.slow - 11, op: 'refuse', target: 36, dur: 20},
-  // housekeeping, in the background: three passes; the photo's groups (024 / 057 / 097 are their empty members) are skipped
-  {at: HK, op: 'sweep', target: [2, 9, 24, 36, 45], dur: 70},
-  {at: HK + 8, op: 'sweep', target: [57, 63, 74, 81, 86], dur: 70},
-  {at: HK + 16, op: 'sweep', target: [97, 101, 118, 125, 137], dur: 70},
-  {at: W.needed - 6, op: 'sweep', target: [24, 57, 97], dur: 42},
+  // housekeeping, in the background: each row holding a photo run gets a left → right pass that clears the old-grey groups
+  // (still-wanted white Bits hop first) and visibly skips the photo's group (024 / 057 / 097 are its empty members)
+  {at: HK, op: 'sweep', target: [18, 24, 27, 31], dur: 64},
+  {at: HK + 10, op: 'sweep', target: [51, 57, 63], dur: 50},
+  {at: HK + 20, op: 'sweep', target: [97, 101, 105, 110], dur: 64},
+  // and the rest of the wall, at the same time
+  {at: HK + 4, op: 'sweep', target: [2, 9, 36, 45], dur: 64},
+  {at: HK + 14, op: 'sweep', target: [74, 81, 86, 118, 125, 137], dur: 76},
 ];
 const CAM_C: CamKey[] = [
   {f: DIVE + 30, x: 1190, y: 430, zoom: 1.9},
@@ -163,8 +166,8 @@ const CAM_C: CamKey[] = [
   {f: W.erased + 20, x: 1404, y: 430, zoom: 2.8, dur: 22},
   {f: W.saved - 2, x: 1160, y: 476, zoom: 2.3, dur: 60},
   {f: W.slow + 16, x: 1170, y: 486, zoom: 2.2},
-  {f: W.soDrive + 40, x: 1240, y: 600, zoom: 1.3, dur: 40},
-  {f: WHIP_D - 34, x: 1252, y: 594, zoom: 1.34},
+  {f: W.soDrive + 40, x: 1284, y: 474, zoom: 1.6, dur: 40},
+  {f: WHIP_D - 34, x: 1292, y: 468, zoom: 1.65},
   {f: WHIP_D + 12, x: 1430, y: 488, zoom: 1.9, dur: 46, ease: 'inExpo'},
 ];
 const shotC = (f: number) => (
@@ -176,8 +179,8 @@ const shotC = (f: number) => (
       <>
         <Footnote frame={f} at={W.erased + 4} exitAt={W.soDrive - 6} text="Simplified: flash erases in large groups" />
         <Hourglass frame={f} x={250} y={560} h={380} at={W.saved + 8} flips={[W.saved + 22, W.slow - 2]} exitAt={W.soDrive + 4} />
-        <ClockGlyph frame={f} x={170} y={180} size={124} at={HK - 4} exitAt={WHIP_D - 4} />
-        <Footnote frame={f} at={HK} exitAt={WHIP_D - 4} text="Illustrative timing" />
+        <ClockGlyph frame={f} x={140} y={100} size={100} at={HK - 4} exitAt={WHIP_D - 4} />
+        <Footnote frame={f} at={HK} exitAt={WHIP_D - 4} text="Illustrative timing" x={1440} />
       </>
     }
   >

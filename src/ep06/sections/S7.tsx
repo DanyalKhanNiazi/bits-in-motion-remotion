@@ -70,6 +70,7 @@ const T = {
   p17: P(17).start,
   what: at(17, 'what').start,
   write17: at(17, 'write').start,
+  yourself: at(17, 'yourself').end,
   onAnSsd: at(17, 'On an SSD', 2).start,
   windows: at(17, 'Windows').start,
   really: at(17, 'really').start,
@@ -387,13 +388,13 @@ const shotSsd = (f: number) => {
       cam={ssdCam}
       hud={
         <>
-          <QuestionCard frame={f} at={T.what + 2} exitAt={T.onAnSsd - 14} text="Try the hard-drive method on an SSD?" y={190} scrim={0.4} size={76} />
-          <Label frame={f} at={T.keeps} exitAt={T.also + 6} text="Keeps moving data around" x={120} y={102} side="right" size={52} />
-          <Label frame={f} at={T.noPart} exitAt={T.also + 6} text="so no part wears out first" x={120} y={174} side="right" size={44} />
+          <QuestionCard frame={f} at={T.what + 2} exitAt={T.yourself + 15} text="Try the hard-drive method on an SSD?" y={190} scrim={0.4} size={76} />
+          <Label frame={f} at={T.keeps} exitAt={T.first + 18} text="Keeps moving data around" x={120} y={102} side="right" size={52} />
+          <Label frame={f} at={T.noPart} exitAt={T.first + 18} text="so no part wears out first" x={120} y={174} side="right" size={44} />
           <Label frame={f} at={T.cantSee + 13} exitAt={T.all + 30} text="Spare space Windows can't see" x={Math.min(1040, spareS.x - 60)} y={150} to={spareS} side="left" size={52} />
-          <Label frame={f} at={T.land} exitAt={T.oldCopies + 66} text="Can land somewhere fresh" x={Math.min(1290, fresh.x + 160)} y={150} to={fresh} side="right" size={52} />
+          <Label frame={f} at={T.land} exitAt={T.reach1 + 15} text="Can land somewhere fresh" x={Math.min(1290, fresh.x + 160)} y={150} to={fresh} side="right" size={52} />
           <Footnote frame={f} at={SPLIT_AT + 44} exitAt={T.end - 26} text="Schematic, not to scale" y={1010} />
-          <QuoteStrip frame={f} at={T.nist17 + 8} exitAt={T.end - 30} source="NIST · flash with spare cells" reported="writing over it can't reach every place old data was stored" />
+          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" reported="writing over it can't reach every place old data was stored" />
         </>
       }
     >
