@@ -4,6 +4,7 @@
 #   EP=ep05 tools/queue.sh <outdir> S1:0-1581 S2:1582-2810 ...
 #
 # EP           entry prefix: renders src/entries/${EP}s<N>.tsx, composition S<N> (default ep03)
+# SCALE        optional output scale, e.g. 0.5 for half-scale previews (default: full size)
 # CONCURRENCY  Chrome tabs per render (default min(6, CPU cores); 12 pushes the 13700K to 100 °C)
 # RENDER_TMP   durable temp folder (this PC wipes %TEMP% mid-render); defaults to ../Claude Work/tmp when that exists
 # A skipped file can be stale: delete a section's MP4 whenever its code or the kit changed after it was rendered.
@@ -17,7 +18,7 @@ for job in "$@"; do
   for try in 1 2 3; do
     have=$(ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 "$OUT/$s.mp4" 2>/dev/null)
     [ "$have" = "$want" ] && { echo "$s ok ($have frames)"; break; }
-    node tools/render.mjs "src/entries/${EP}s$n.tsx" "$s" "$OUT/$s.mp4" --frames "$r" --concurrency "$CONC" > "$OUT/$s.log" 2>&1
+    node tools/render.mjs "src/entries/${EP}s$n.tsx" "$s" "$OUT/$s.mp4" --frames "$r" --concurrency "$CONC" ${SCALE:+--scale "$SCALE"} > "$OUT/$s.log" 2>&1
     echo "$s try $try exit $?"
   done
 done
