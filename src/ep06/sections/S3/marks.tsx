@@ -1,5 +1,6 @@
 // S3 section-local marks (no wall, card, Bit or Windows UI of their own: those come from the kit).
 import React from 'react';
+import {Img, staticFile} from 'remotion';
 import {CARD, CheckGlyph, EASE, GEOM, PAL, PHOTO, SANS, SPRING, boxXY, cardK, clamp01, lerp, prog, rgba, springAt, useTextCheck} from '../../kit';
 
 /** A rubber-stamp word (screen px, hud) that slams onto the card: coral border, slight tilt, squash and settle. */
@@ -144,7 +145,7 @@ export const RewriteStream: React.FC<{frame: number; at: number; period: number;
     if (tf < t0) break;
     const u = (tf - t0) / FL;
     if (u >= 1) landed.push(slots[k]);
-    else flying = {...slots[k], u: EASE.inCubic(u), id: slots[k].id};
+    else flying = {...slots[k], u: EASE.inOut(u), id: slots[k].id};
   }
   const done = landed.length + (flying ? flying.u : 0);
   const fill = done / slots.length;
@@ -156,11 +157,6 @@ export const RewriteStream: React.FC<{frame: number; at: number; period: number;
   const lastLand = landed.length ? at + (landed.length - 1) * period + FL : -1e9;
   const ring = f - lastLand < 7 && landed.length ? (f - lastLand) / 7 : -1;
   const rl = landed[landed.length - 1];
-  // the whole job: faint outlines on all 9 boxes (one path)
-  const job = PHOTO.map((id) => {
-    const b = boxXY(id);
-    return `M${b.x - 5} ${b.y - 5}h74v74h-74z`;
-  }).join('');
   const bx0 = bar.x;
   const bw = bar.w;
   return (
@@ -171,18 +167,17 @@ export const RewriteStream: React.FC<{frame: number; at: number; period: number;
           <stop offset="1" stopColor={PAL.otherBit} stopOpacity={0.75} />
         </linearGradient>
       </defs>
-      <path d={job} fill="none" stroke={PAL.ink} strokeOpacity={0.24} strokeWidth={2} strokeDasharray="8 7" />
       {/* the stream into the box being rewritten, and the head's dashed ring */}
       <rect x={hb.x + 26} y={hb.y - 150} width={12} height={150} rx={6} fill="url(#s3-rw-stream)" opacity={1 - grey} />
       <rect x={hb.x - 6} y={hb.y - 6} width={76} height={76} rx={10} fill="none" stroke={PAL.ink} strokeWidth={3.5} strokeDasharray="12 7" strokeDashoffset={-tf * 1.2} opacity={flick} />
       {/* rewritten Bits (grey) cover the photo's cyan ones, one at a time */}
-      {landed.length ? <path d={landed.map((s) => rr(s.x, s.y)).join('')} fill={PAL.oldBit} /> : null}
-      {flying ? <path d={rr(flying.x, flying.y - 130 * (1 - flying.u))} fill={PAL.otherBit} opacity={flick} /> : null}
+      {landed.length ? <path d={landed.map((s) => rr(s.x, s.y)).join('')} fill="#C3C9D2" stroke={PAL.tileInk} strokeWidth={1.5} /> : null}
+      {flying ? <path d={rr(flying.x, flying.y - 100 * (1 - flying.u))} fill={PAL.otherBit} stroke={PAL.tileInk} strokeWidth={1.5} opacity={flick} /> : null}
       {ring >= 0 && rl ? <rect x={rl.x - 3 - 8 * ring} y={rl.y - 3 - 8 * ring} width={25 + 16 * ring} height={25 + 16 * ring} rx={6} fill="none" stroke={PAL.loss} strokeWidth={3} opacity={1 - ring} /> : null}
       {/* numberless progress bar: the whole rewrite, barely begun */}
       <rect x={bx0 - 18} y={bar.y - 22} width={bw + 36} height={44} rx={22} fill="#070B15" fillOpacity={0.88} stroke={PAL.annotation} strokeOpacity={0.35} strokeWidth={2} />
-      <rect x={bx0} y={bar.y - 7} width={bw} height={14} rx={7} fill={PAL.structure} fillOpacity={0.35} />
-      <rect x={bx0} y={bar.y - 7} width={Math.max(14, bw * fill)} height={14} rx={7} fill={grey > 0 ? PAL.oldBit : PAL.ink} fillOpacity={1 - 0.35 * grey} />
+      <rect x={bx0} y={bar.y - 9} width={bw} height={18} rx={9} fill={PAL.structure} fillOpacity={0.35} />
+      <rect x={bx0} y={bar.y - 9} width={Math.max(18, bw * fill)} height={18} rx={9} fill={grey > 0 ? PAL.oldBit : PAL.ink} fillOpacity={1 - 0.35 * grey} />
       <circle cx={bx0 + Math.max(7, bw * fill)} cy={bar.y} r={13} fill={PAL.ink} opacity={0.35 * (1 - grey)} />
     </svg>
   );
@@ -282,5 +277,27 @@ export const GhostWrite: React.FC<{frame: number; at: number; dipAt: number; box
       <rect x={x - 36} y={y - 36} width={72} height={72} rx={10} fill={PAL.oldBit} fillOpacity={0.42} stroke={PAL.otherBit} strokeWidth={3.5} strokeDasharray="11 6" strokeDashoffset={f * 0.9} />
       <rect x={x - 24} y={y - 24} width={48} height={48} rx={7} fill={PAL.otherBit} fillOpacity={0.2} />
     </svg>
+  );
+};
+
+/** extra-hourglass.png (1254 px square; visible content 344,66–912,1192 per ASSET_MAP), allowed in P07 with no digits. */
+const HG = {src: 'ep06/assets/extra-hourglass.png', size: 1254, x0: 344, y0: 66, x1: 912, y1: 1192};
+/**
+ * The slow job's hourglass (world px): pops in beside the rewrite bar, flips over once on `flipAt` ("far longer": the
+ * wait starts again), fades with the rewrite. `x, y` = centre of its visible content, `h` = content height.
+ */
+export const Hourglass: React.FC<{frame: number; at: number; flipAt: number; exitAt: number; x: number; y: number; h: number}> = ({frame: f, at, flipAt, exitAt, x, y, h}) => {
+  if (f < at - 1) return null;
+  const ex = prog(f, exitAt, 20, EASE.inOut);
+  if (ex >= 1) return null;
+  const sp = springAt(f, at, SPRING.pop);
+  const k = h / (HG.y1 - HG.y0);
+  const cx = (HG.x0 + HG.x1) / 2;
+  const cy = (HG.y0 + HG.y1) / 2;
+  const rot = 180 * prog(f, flipAt, 12, EASE.inOut);
+  return (
+    <div style={{position: 'absolute', left: x, top: y, width: 0, height: 0, opacity: clamp01(sp * 2) * (1 - ex), transform: `rotate(${rot}deg) scale(${Math.max(0, sp)})`}}>
+      <Img src={staticFile(HG.src)} style={{position: 'absolute', left: -cx * k, top: -cy * k, width: HG.size * k, height: HG.size * k, filter: 'drop-shadow(0 10px 18px rgba(0,0,0,0.55))'}} />
+    </div>
   );
 };

@@ -34,7 +34,7 @@ import {
 } from '../kit';
 import {CanyonShot, canyonPhotoScreen} from './S3/Canyon';
 import {DeskShot} from './S3/Desk';
-import {FieldPop, GhostWrite, RewriteStream, Stamp, TickBadge, cardToWorld, fieldLabelPt} from './S3/marks';
+import {FieldPop, GhostWrite, Hourglass, RewriteStream, Stamp, TickBadge, cardToWorld, fieldLabelPt} from './S3/marks';
 import {FROM, T, TO} from './S3/t';
 
 const WIDE = archiveCam('wide');
@@ -192,7 +192,7 @@ const G_EVENTS: ArchiveEvent[] = [
   {at: T.flagged + 10, op: 'flag'},
 ];
 const MAPP = {x: 400, y: 700, zoom: 2.1};
-const QS = {x: 858, y: 535, zoom: 1.18};
+const QS = {x: 845, y: 536, zoom: 1.18};
 const SIG_END = {x: 1225, y: 588, zoom: 0.9};
 const G_CAM: CamKey[] = [
   {f: Z_FG, ...DRAWER, zoom: DRAWER.zoom * 0.94},
@@ -209,7 +209,7 @@ const G_CAM: CamKey[] = [
   {f: T.unusedEnd, x: 376, y: 324, zoom: 2.4},
   // one wide frame for quick vs slow: card + map (the two records) and the photo's 9 boxes + the rewrite bar
   {f: T.couple, ...QS, dur: 30, ease: 'inOut'},
-  {f: T.longerEnd + 8, x: QS.x + 8, y: QS.y - 3, zoom: QS.zoom * 1.03},
+  {f: T.longerEnd + 8, x: QS.x, y: QS.y - 2, zoom: QS.zoom * 1.015},
   {f: T.onHard + 14, ...PB, x: PB.x + 20, zoom: PB.zoom * 0.9, dur: 26},
   {f: TO - 20, ...PB, x: PB.x + 10, zoom: PB.zoom * 0.93},
   {f: TO, ...PB, ease: 'inCubic'},
@@ -245,7 +245,9 @@ const shotG = (f: number) => {
       }
     >
       <Archive {...A} />
-      <RewriteStream frame={f} at={T.rewriting} period={20} stallAt={T.longer} fadeAt={T.longerEnd + 6} bar={{x: 776, y: 806, w: 800}} />
+      <RewriteStream frame={f} at={T.rewriting} period={20} stallAt={T.longer} fadeAt={T.longerEnd + 6} bar={{x: 776, y: 806, w: 720}} />
+      {/* the slow job's hourglass, in the gap between the map and the wall at the bar's start; it flips over on "longer" */}
+      <Hourglass frame={f} at={T.rewriting - 2} flipAt={T.longer} exitAt={T.longerEnd + 6} x={664} y={800} h={130} />
       <GhostWrite frame={f} at={T.space - 4} dipAt={T.written} box={GHOST_BOX} />
     </Stage>
   );
