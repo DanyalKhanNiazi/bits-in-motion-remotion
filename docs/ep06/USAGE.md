@@ -23,5 +23,8 @@ Main-session figures are read from the session's own token counter at each check
 | 0–3 | Main session through Phase 3 (orchestration, reviews of sheets, tool fixes) | 132,000 | 5.99M |
 | 5 | Review v1: 3 range reviewers (workflow) | 614,973 | 6.61M |
 | 4–5 | Main session: Phase 4 renders, join, checks, triage | 30,000 | 6.64M |
+| 5 | Fix round 1: builders S1–S9 (new contexts counted in full, resumed ones as increments) | 1,592,172 | 8.23M |
+| 5 | Fix round 1: kit A + kit B | 101,247 | 8.33M |
+| 5 | Main session: fix-round orchestration, v2 renders and checks | 70,000 | 8.40M |
 
 Builder figures are the peak token counts their notifications reported; agents whose context was compacted reported smaller numbers afterwards, so the true cumulative use is somewhat higher.
