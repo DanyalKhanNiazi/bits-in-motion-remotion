@@ -1,1 +1,17 @@
-[]
+[
+  {"frame": 1536, "kind": "type", "strength": 0.5},
+  {"frame": 1612, "kind": "whoosh", "strength": 0.5},
+  {"frame": 1780, "kind": "rewind", "strength": 0.7},
+  {"frame": 1827, "kind": "type", "strength": 0.35},
+  {"frame": 1903, "kind": "rewind", "strength": 0.5},
+  {"frame": 1951, "kind": "type", "strength": 0.5},
+  {"frame": 2030, "kind": "impact", "strength": 0.6},
+  {"frame": 2108, "kind": "riser", "strength": 0.5},
+  {"frame": 2136, "kind": "whoosh", "strength": 0.8},
+  {"frame": 2282, "kind": "dial", "strength": 0.5},
+  {"frame": 2428, "kind": "tick", "strength": 0.35},
+  {"frame": 2755, "kind": "impact", "strength": 0.8},
+  {"frame": 2881, "kind": "impact", "strength": 0.6},
+  {"frame": 2907, "kind": "crate", "strength": 0.6},
+  {"frame": 3114, "kind": "whoosh", "strength": 0.4}
+]
