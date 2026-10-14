@@ -1,7 +1,7 @@
 // S4 section-local effects (world px): the ghost future write (S3 handoff), the scanner's light shaft entering from
 // above, a white wash under the beam, and the coral "lost" ring on a box the scanner reaches too late.
 import React from 'react';
-import {BOX, EASE, PAL, clamp01, lerp, mixHex, prog, rgba, scannerAnchors} from '../../kit';
+import {BOX, EASE, PAL, boxXY, clamp01, lerp, mixHex, prog, rgba, scannerAnchors} from '../../kit';
 const lerpHex = (a: string, b: string, t: number) => mixHex(a, b, clamp01(t));
 
 /**
@@ -157,6 +157,36 @@ export const HeaderRing: React.FC<{f: number; at: number; x: number; y: number}>
   return (
     <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
       <ellipse cx={x} cy={y} rx={30 + 40 * EASE.out(u)} ry={8 + 14 * EASE.out(u)} fill="none" stroke="#FFFFFF" strokeWidth={lerp(4, 0.8, u)} opacity={1 - EASE.inCubic(u)} />
+    </svg>
+  );
+};
+
+/**
+ * A live ghost write landing on a free box (world px): the S3-style dashed grey block drops 140 px into box `box`,
+ * a 6 f coral ring flashes on impact, then it sits there as a dashed ghost until `exitAt` (it is an illustration, so it
+ * never changes the Archive's state).
+ */
+export const GhostLand: React.FC<{f: number; at: number; box: number; exitAt: number}> = ({f, at, box, exitAt}) => {
+  const t = f - at;
+  if (t < -10) return null;
+  const p = boxXY(box);
+  const cx = p.x + BOX / 2;
+  const cy = p.y + BOX / 2;
+  const fall = t < 0 ? EASE.inCubic((t + 10) / 10) : 1;
+  const y = cy - 140 * (1 - fall);
+  const op = clamp01((t + 10) / 4) * (1 - prog(f, exitAt, 14));
+  const sq = t >= 0 && t < 8 ? 1 - 0.12 * Math.exp(-t / 2) : 1;
+  const ring = t >= 0 && t < 12 ? t / 12 : -1;
+  return (
+    <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none'}} opacity={op}>
+      {t < 0 ? <line x1={cx} y1={y - 60} x2={cx} y2={y - 8} stroke={rgba('#E6EDF8', 0.5)} strokeWidth={6} strokeLinecap="round" /> : null}
+      <g transform={`translate(${cx} ${y + 30}) scale(${1 / sq} ${sq}) translate(${-cx} ${-(y + 30)})`}>
+        <rect x={cx - 30} y={y - 30} width={60} height={60} rx={9} fill={PAL.oldBit} fillOpacity={0.5} stroke={PAL.otherBit} strokeWidth={3} strokeDasharray="10 6" strokeDashoffset={f * 0.9} />
+      </g>
+      {ring >= 0 ? (
+        <rect x={p.x - 6 - 16 * ring} y={p.y - 6 - 16 * ring} width={BOX + 12 + 32 * ring} height={BOX + 12 + 32 * ring} rx={9 + 6 * ring} fill="none" stroke={PAL.loss} strokeWidth={7 * (1 - ring) + 1} opacity={1 - ring} />
+      ) : null}
+      {t >= 0 && t < 6 ? <rect x={p.x} y={p.y} width={BOX} height={BOX} rx={8} fill={rgba('#FFFFFF', 0.5 * (1 - t / 6))} /> : null}
     </svg>
   );
 };

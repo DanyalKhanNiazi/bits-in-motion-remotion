@@ -14,7 +14,7 @@ import {Prop, propScale, type Enter, type Exit, type Sweep} from '../Prop';
 import {type AssetName} from '../assets';
 import {CameraContext, screenScale} from '../camera';
 import {useTextCheck} from '../text';
-import {clamp01, prog, rgba, springAt, type Num} from '../util';
+import {clamp01, prog, rgba, safeId, springAt, type Num} from '../util';
 import {UI_REGIONS} from './regions';
 import {REGRADE, Regrade} from './shared';
 
@@ -45,6 +45,8 @@ export type TrimNoteProps = {
   /** decor size in on-screen px (≤ 24) */
   numberSize?: number;
   screen?: boolean | number;
+  /** envelope: w is in on-screen px (counter-scaled like `screen` text), so the note reads at its size in a zoomed-out world */
+  wOnScreen?: boolean;
 };
 
 const SRC: AssetName = 'trim-notice_b';
@@ -93,65 +95,65 @@ export const trimNotePos = (p: {x: number; y: number; path?: TrimPath}, f: numbe
 
 const DEFAULT_NUMBERS = '021–023 · 058–060 · 098–100';
 
-/** The code-drawn sleeve (local px, centred on 0,0). */
-const Envelope: React.FC<{w: number; numbers: string; numPx: number; glow: number}> = ({w, numbers, numPx: want, glow}) => {
+/** The code-drawn paper note: an envelope (paper tone), a magenta index tab, a magenta seal and decor box numbers. Vector, so any w stays sharp. */
+const Envelope: React.FC<{w: number; numbers: string; numPx: number; glow: number; uid: string}> = ({w, numbers, numPx: want, glow, uid}) => {
   const W = w;
-  const numPx = Math.min(want, (W * 0.86) / Math.max(1, numbers.length * 0.6));
   const H = w * 0.62;
-  const notch = `polygon(0% 22%, 30% 22%, 37% 40%, 63% 40%, 70% 22%, 100% 22%, 100% 100%, 0% 100%)`;
+  const numPx = Math.min(want, (W * 0.84) / Math.max(1, numbers.length * 0.6));
+  const r = W * 0.03;
+  const tabW = W * 0.2;
+  const tabH = H * 0.2;
   return (
     <div style={{position: 'absolute', left: -W / 2, top: -H / 2, width: W, height: H}}>
-      <div style={{position: 'absolute', left: W * 0.06, right: W * 0.06, top: H * 0.94, height: H * 0.16, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0))'}} />
-      {[0, 1, 2].map((i) => (
-        <div
-          key={i}
-          style={{
-            position: 'absolute',
-            left: W * (0.1 + 0.016 * i),
-            width: W * 0.8,
-            top: H * (0.0 + 0.075 * i),
-            height: H * 0.7,
-            borderRadius: `${W * 0.03}px ${W * 0.03}px 0 0`,
-            background: `linear-gradient(180deg, ${PAL.paper}, ${PAL.paperMid})`,
-            boxShadow: `0 ${-W * 0.006}px ${W * 0.02}px rgba(0,0,0,0.35), inset 0 2px 0 rgba(255,255,255,0.8)`,
-          }}
-        />
-      ))}
+      <div style={{position: 'absolute', left: W * 0.04, right: W * 0.04, top: H * 0.9, height: H * 0.22, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(0,0,0,0.55), rgba(0,0,0,0))'}} />
+      {/* the index tab, behind the envelope's top edge */}
       <div
         style={{
           position: 'absolute',
-          left: W * 0.14,
-          top: H * 0.15 - H * 0.075,
-          width: W * 0.13,
-          height: H * 0.1,
-          borderRadius: `${W * 0.012}px ${W * 0.012}px 0 0`,
-          background: `linear-gradient(180deg, #F59AFF, ${PAL.emphasis})`,
-          boxShadow: `0 0 ${W * 0.05 * (0.6 + glow)}px ${rgba(PAL.emphasis, 0.6 + 0.3 * glow)}`,
+          left: W * 0.1,
+          top: -tabH * 0.62,
+          width: tabW,
+          height: tabH,
+          borderRadius: `${r * 0.8}px ${r * 0.8}px 0 0`,
+          background: `linear-gradient(180deg, #F7A6FF, ${PAL.emphasis} 60%, #B93FCB)`,
+          boxShadow: `0 0 ${W * 0.06 * (0.6 + glow)}px ${rgba(PAL.emphasis, 0.55 + 0.3 * glow)}`,
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          clipPath: notch,
-          background: `repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 3px), linear-gradient(180deg, #EEF0F3 0%, #C3C9D2 38%, #9DA5B2 70%, #7D8592 100%)`,
-          boxShadow: 'inset 0 0 0 2px rgba(255,255,255,0.3)',
-        }}
-      />
-      <div style={{position: 'absolute', left: 0, top: H * 0.22, width: W, height: 3, clipPath: notch, background: 'rgba(255,255,255,0.8)'}} />
-      <div style={{position: 'absolute', left: -W * 0.012, top: H * 0.38, width: W * 0.03, height: H * 0.42, borderRadius: W * 0.01, background: PAL.emphasis, boxShadow: `0 0 ${W * 0.04}px ${rgba(PAL.emphasis, 0.7)}`}} />
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+        <defs>
+          <linearGradient id={`${uid}-pp`} x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0" stopColor="#FBF9F5" />
+            <stop offset="0.6" stopColor={PAL.paper} />
+            <stop offset="1" stopColor={PAL.paperMid} />
+          </linearGradient>
+          <linearGradient id={`${uid}-fl`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#FFFFFF" />
+            <stop offset="1" stopColor={PAL.paperMid} />
+          </linearGradient>
+        </defs>
+        <rect x={0} y={0} width={W} height={H} rx={r} fill={`url(#${uid}-pp)`} stroke={PAL.paperShade} strokeWidth={Math.max(1, W * 0.004)} />
+        {/* bottom folds */}
+        <path d={`M ${r} ${H - r * 0.4} L ${W * 0.5} ${H * 0.5} L ${W - r} ${H - r * 0.4}`} fill="none" stroke={rgba('#9C958B', 0.45)} strokeWidth={Math.max(1, W * 0.005)} />
+        {/* the top flap */}
+        <path d={`M ${r * 0.6} ${r * 0.4} L ${W * 0.5} ${H * 0.56} L ${W - r * 0.6} ${r * 0.4} Z`} fill={`url(#${uid}-fl)`} stroke={rgba('#9C958B', 0.55)} strokeWidth={Math.max(1, W * 0.005)} strokeLinejoin="round" />
+        <path d={`M ${r * 0.6} ${r * 0.4} L ${W * 0.5} ${H * 0.56} L ${W - r * 0.6} ${r * 0.4}`} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth={Math.max(2, W * 0.012)} transform={`translate(0 ${W * 0.008})`} />
+        {/* magenta seal where the flap closes */}
+        <circle cx={W * 0.5} cy={H * 0.53} r={W * 0.06} fill={PAL.emphasis} />
+        <circle cx={W * 0.5} cy={H * 0.53} r={W * 0.06} fill="none" stroke="#F7A6FF" strokeWidth={Math.max(1, W * 0.008)} opacity={0.8} />
+        <circle cx={W * 0.485} cy={H * 0.515} r={W * 0.018} fill="#FFFFFF" opacity={0.55} />
+      </svg>
       <div
         style={{
           position: 'absolute',
           left: 0,
           right: 0,
-          top: H * 0.68,
+          top: H * 0.74,
           textAlign: 'center',
           fontFamily: MONO,
           fontWeight: 500,
           fontSize: numPx,
           color: PAL.plateInk,
-          opacity: 0.85,
+          opacity: 0.8,
           whiteSpace: 'nowrap',
           letterSpacing: '0.02em',
         }}
@@ -183,7 +185,9 @@ export const TrimNote: React.FC<TrimNoteProps> = ({
   numbers = DEFAULT_NUMBERS,
   numberSize = 20,
   screen,
+  wOnScreen,
 }) => {
+  const uid = safeId(React.useId());
   const cam = useContext(CameraContext);
   const inv = screenScale(screen, cam);
   useTextCheck('decor', numberSize, true, `TrimNote numbers "${numbers}"`);
@@ -265,7 +269,7 @@ export const TrimNote: React.FC<TrimNoteProps> = ({
       </Prop>
     );
   } else {
-    const W = w ?? 300;
+    const W = (w ?? 300) * (wOnScreen ? (screen !== undefined ? inv : 1 / Math.max(1e-3, cam.zoom)) : 1);
     const pin = at === undefined ? 1 : springAt(f, at, SPRING.pop);
     const pout = exitAt === undefined ? 0 : prog(f, exitAt, 9, EASE.inCubic);
     if (pin <= 0.001 || pout >= 1) return <>{slotEl(false)}{slotEl(true)}</>;
@@ -275,7 +279,7 @@ export const TrimNote: React.FC<TrimNoteProps> = ({
     const glow = 0.5 + 0.5 * Math.sin(f / 9);
     const mk = (dx: number, dy: number, op: number, key: string) => (
       <div key={key} style={{position: 'absolute', left: pos.x + sx + dx, top: pos.y + fl + dy, width: 0, height: 0, opacity: op * clamp01(pin * 3) * (1 - pout), transform: `rotate(${tilt}deg) scale(${Math.max(0, pin) * (1 - 0.15 * pout)})`}}>
-        <Envelope w={W} numbers={numbers} numPx={numberSize * inv} glow={glow} />
+        <Envelope w={W} numbers={numbers} numPx={numberSize * inv} glow={glow} uid={uid} />
       </div>
     );
     body = (

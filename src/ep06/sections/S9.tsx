@@ -4,10 +4,11 @@
  * pull-out to the Wall + Drawer under the "Bits in Motion" lockup. Plan: docs/ep06/plans/S9_plan.md.
  */
 import React from 'react';
+import {AbsoluteFill} from 'remotion';
 import {FlashCut, Whip, ZoomThrough, clamp, plateToStage} from '../kit';
 import {CUT, T} from './S9/t';
 import {ForkShot, forkStation} from './S9/Fork';
-import {Tip1, Tip2, Tip3, Tip4, Tip5Desk, Tip5Wall, Tip6, Tip7} from './S9/Tips';
+import {MicrosoftStrip, Tip1, Tip2, Tip3, Tip4, Tip5Desk, Tip5Wall, Tip6, Tip7} from './S9/Tips';
 import {DeleteShot, FinalShot, SplitShot} from './S9/Close';
 
 const ZT = 16;
@@ -31,6 +32,15 @@ const toggleOnDesk = (f: number) => plateToStage(f, {from: {s: 1.55, x: 0, y: 17
 
 export const S9: React.FC<{frame: number}> = ({frame}) => {
   const f = clamp(frame, T.from - 30, T.to + 30);
+  return (
+    <AbsoluteFill>
+      {shotAt(f)}
+      <MicrosoftStrip f={f} />
+    </AbsoluteFill>
+  );
+};
+
+const shotAt = (f: number): React.ReactNode => {
   if (f < CUT.zt1) return fork1(f);
   if (f < CUT.zt1 + ZT) {
     const p = forkStation(CUT.zt1, 1, 'left', 0);

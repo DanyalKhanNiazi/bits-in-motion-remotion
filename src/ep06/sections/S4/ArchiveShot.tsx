@@ -30,19 +30,22 @@ import {
   type Pose,
 } from '../../kit';
 import {CUT, T} from './t';
-import {BeamCore, Ground, HeaderRing, LostRing} from './fx';
+import {BeamCore, GhostLand, Ground, HeaderRing, LostRing} from './fx';
+import {LIVE} from './live';
 import {Tally, TALLY_EXIT} from './Tally';
 
 /* ---------------------------------------------------------------- camera */
 const CARDZ = {x: 380, y: 330, zoom: 2.3};
-const PW = {x: 1010, y: 520, zoom: 0.9};
-const PW2 = {x: 992, y: 514, zoom: 0.95};
+// P08: the wall sits high so the foreground scanner's tray (lower right) is fully in frame under run 2
+const PW = {x: 1010, y: 616, zoom: 0.9};
+const PW2 = {x: 992, y: 620, zoom: 0.95};
 const DR = archiveCam('drawer');
 const PS = {x: 1240, y: 560, zoom: 1.15};
 const HD = archiveCam('header');
-const PR = {x: 1370, y: 520, zoom: 1.4};
-const PR2 = {x: 1360, y: 516, zoom: 1.5};
-const PR3 = {x: 1352, y: 524, zoom: 1.42};
+// P09: the photo's boxes in the left 55 %, the scanner (and its tray) in the right 45 %
+const PR = {x: 1495, y: 520, zoom: 1.21};
+const PR2 = {x: 1480, y: 516, zoom: 1.25};
+const PR3 = {x: 1490, y: 524, zoom: 1.22};
 const WL = archiveCam('wall');
 export const ARCH_CAM: CamKey[] = [
   {f: CUT.zt, ...CARDZ},
@@ -71,10 +74,10 @@ const fromScreen = (p: Pose, sx: number, sy: number) => {
 };
 
 /* ---------------------------------------------------------------- the scanner in the foreground (screen px) */
-const SC_A = {x: 1600, y: 842, w: 640};
-const SC_B = {x: 1612, y: 838, w: 640};
-/** the race: closer, so the tray's missing bands read */
-const SC_R = {x: 1585, y: 872, w: 720};
+// placements keep the whole tray inside x ≤ 1856, y ≤ 940 (tray rim native 695–1230 × 645–1050)
+const SC_A = {x: 1543, y: 730, w: 631};
+const SC_B = {x: 1483, y: 690, w: 753};
+const SC_R = SC_B;
 const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const zp = clamp01((Math.log(pose.zoom) - Math.log(1.15)) / (Math.log(HD.zoom) - Math.log(1.15)));
   const px = clamp01(1 - zp) * -(pose.x - ref.x) * pose.zoom * 0.1;
@@ -85,20 +88,14 @@ const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number
 /* ---------------------------------------------------------------- the race schedule (copies in order, tray partial) */
 const LOST = [1, 4, 7];
 export const RACE = (() => {
-  const trayAt = T.so + 12;
-  const fillDur = 116;
-  const F: number[] = [];
-  for (let i = 0; i < 9; i++) {
-    const target = (i + 0.55) / 9;
-    let fr = trayAt;
-    while (fr < trayAt + fillDur && EASE.inOut((fr - trayAt) / fillDur) < target) fr++;
-    F.push(fr);
-  }
-  const copy = F.map((x) => x - 17);
-  const missing = LOST.map((i) => ({at: F[i] - 2, y0: i / 9 + 0.012, y1: (i + 1) / 9 - 0.012}));
-  return {trayAt, fillDur, F, copy, missing};
+  const t0 = T.so + 14;
+  const step = 14;
+  const copy = Array.from({length: 9}, (_, i) => t0 + i * step);
+  const trayAt = t0;
+  const fillDur = 8 * step + 15;
+  const missing = LOST.map((i) => ({at: copy[i] + 18, y0: i / 9 + 0.012, y1: (i + 1) / 9 - 0.012}));
+  return {trayAt, fillDur, copy, missing};
 })();
-
 /* ---------------------------------------------------------------- tray targets (world) for copyOut */
 const trayWorld = (f: number, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const pose = archPose(f);
@@ -247,6 +244,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
         <div style={{position: 'absolute', left: an.flag.x - 90, top: an.flag.y - 60, width: 180, height: 120, borderRadius: '50%', background: `radial-gradient(closest-side, ${rgba(PAL.loss, 0.55 * flagGlow)}, rgba(0,0,0,0))`}} />
       ) : null}
       <HeaderRing f={f} at={T.header} x={an.header.x} y={an.header.y - 9} />
+      {race ? LIVE.map((w, i) => <GhostLand key={`gw${i}`} f={f} at={w.at} box={w.id} exitAt={T.to - 20} />) : null}
       {race
         ? LOST.map((i) => {
             const p = boxXY(PHOTO[i]);
@@ -270,23 +268,26 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
     hud.push(<KineticText key="some" frame={f} at={T.someTools} text="Some tools scan the boxes" x={960} y={104} size={80} mode="rise" stagger={4} exitAt={T.p9 + 8} />);
     const hn = S({x: an.header.x, y: an.header.y - 9});
     hud.push(<Label key="hdr" frame={f} at={T.header} text="Distinctive header" x={hn.x - 150} y={hn.y - 120} to={{x: hn.x, y: hn.y}} side="left" size={52} exitAt={T.p9 + 8} />);
-    hud.push(<KineticText key="free" frame={f} at={T.free1} text="Free means free" x={960} y={118} size={110} mode="pop" stagger={Math.round((T.free2 - T.free1) / 2)} exitAt={T.freeEnd + 18} />);
+    hud.push(<KineticText key="free" frame={f} at={T.free1} text="Free means free" x={960} y={118} size={110} mode="pop" stagger={T.means - T.free1} exitAt={T.freeEnd + 18} />);
     // the three writes
     const tag = (key: string, at: number, id: number, text: string, dx: number, dy: number) => {
       const c0 = boxC(id);
       const top = S({x: c0.x, y: c0.y + (dy < 0 ? -34 : 34)});
-      hud.push(<Label key={key} frame={f} at={at} text={text} x={top.x + dx} y={top.y + dy} to={top} side="right" size={50} accent={PAL.loss} />);
+      hud.push(<Label key={key} frame={f} at={at} text={text} x={top.x + dx} y={top.y + dy} to={top} side={dx < 0 ? 'left' : 'right'} size={50} accent={PAL.loss} />);
     };
-    tag('dl', T.download, 59, 'download', 46, -92);
+    tag('dl', T.download, 59, 'download', -46, -92);
     tag('up', T.update, 99, 'update', 56, -96);
     tag('tmp', T.temp, 22, 'temporary file', 40, -84);
   } else {
     hud.push(<KineticText key="race" frame={f} at={T.race} text="Recovery is a race" x={960} y={112} size={100} mode="pop" stagger={10} exitAt={T.to - 24} />);
+    const fnOp = prog(f, T.race + 12, 8) * (1 - prog(f, TALLY_EXIT, 8));
+    if (fnOp > 0) hud.push(<div key="fnp" style={{position: 'absolute', left: 72, top: 846, width: 260, height: 82, borderRadius: 14, background: rgba('#05080F', 0.8 * fnOp)}} />);
     hud.push(<Footnote key="fn" frame={f} at={T.race + 12} text="Illustrative" exitAt={TALLY_EXIT} />);
   }
   if (f >= T.download - 12) hud.push(<Tally key="tally" f={f} />);
 
   const shakes = [
+    ...LIVE.map((w) => ({at: w.at, strength: 0.3})),
     {at: T.download + 1, strength: 0.5},
     {at: T.update + 1, strength: 0.5},
     {at: T.temp + 1, strength: 0.6},

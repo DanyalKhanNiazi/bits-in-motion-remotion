@@ -114,18 +114,20 @@ export const WallShot: React.FC<{f: number}> = ({f}) => (
 /* ---------------------------------------------------------------- D: the split */
 const SPLIT_AT = T.onSsd;
 const PUSH_R = T.notBecause;
-const BACK_R = T.theDrive - 6;
+// the drive's sweep: the camera reaches the runs (splitBoxes) as the band starts; it crosses them on "cleans up later"
+// and is done before "on its own schedule"
+const SWEEP = T.theDrive + 9;
+const SWEEP_DUR = 48;
+const SWEEP_END = SWEEP + SWEEP_DUR;
+const BOXES = archiveCam('splitBoxes');
 const CAM_R: CamKey[] = [
   K(SPLIT_AT, 'split'),
-  K(PUSH_R, 'split', {x: 1170}),
-  K(T.erasedIt + 4, 'split', {x: 1080, y: 90, zoom: 1.3, dur: T.erasedIt + 4 - PUSH_R}),
-  K(BACK_R, 'split', {x: 1090, y: 96, zoom: 1.32}),
-  K(T.cleans + 4, 'split', {x: 1190, y: 260, zoom: 1.0}),
-  K(T.to, 'split', {x: 1210, y: 262, zoom: 1.04}),
+  K(PUSH_R, 'split'),
+  // "not because you erased it": lean in on the struck note (GEOM.panelCard), card kept whole
+  K(T.erasedIt, 'split', {x: 760, y: 440, zoom: 1.45}),
+  K(SWEEP, 'splitBoxes', {dur: SWEEP - T.erasedIt}),
+  K(T.to, 'splitBoxes', {zoom: BOXES.zoom * 1.04}),
 ];
-const SWEEP = T.cleans;
-const SWEEP_DUR = 40;
-const SWEEP_END = SWEEP + SWEEP_DUR;
 const ssdProps = (fr: number) => ({frame: fr, state: 'SSD_DELETED' as const, lift: 1, events: [{at: SWEEP, op: 'sweep', target: 'photo', dur: SWEEP_DUR}] as ArchiveEvent[]});
 
 const panelOpts = (side: SplitSide) => ({cam: side === 'left' ? CAM_L : CAM_R, drift: DRIFT, at: SPLIT_AT, enter: 'compress' as const});

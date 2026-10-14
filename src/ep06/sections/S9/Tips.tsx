@@ -117,8 +117,9 @@ export const Tip2: React.FC<{f: number}> = ({f}) => {
       shake={[{at: freeze, strength: 0.45}]}
       hud={
         <>
-          <TipLine frame={f} at={T.stop} text="Stop using that drive" x={LX} y={L1 - 30} collapseAt={T.recover - 4} exitAt={CUT.wh3 + 2} />
-          <TipLine frame={f} at={T.recover + 2} text="Recover onto a different drive" x={LX} y={L2 - 46} exitAt={CUT.wh3 + 2} />
+          {/* the swap lands on "recover" (the pop shows a word ~3 f after `at`) */}
+          <TipLine frame={f} at={T.stop} text="Stop using that drive" x={LX} y={L1 - 30} collapseAt={T.recover - 8} exitAt={CUT.wh3 + 2} />
+          <TipLine frame={f} at={T.recover - 4} text="Recover onto a different drive" x={LX} y={L2 - 46} exitAt={CUT.wh3 + 2} />
           <PalmGlyph frame={f} at={T.stop - 1} x={1660} y={770} size={200} exitAt={T.recover - 6} />
         </>
       }
@@ -285,7 +286,6 @@ export const Tip5Wall: React.FC<{f: number}> = ({f}) => {
               <SettingsToggle frame={f} x={WIN5.w / 2} y={78} w={WIN5.w - 50} size={44} title="Clean data" icon="reset" state="off" flipAt={toggleAt} flipTo="on" scale={1} />
             </WinFrame>
           </div>
-          <QuoteStrip frame={f} at={T.reset} exitAt={T.isnt - 4} source="Microsoft recommends" reported="Reset this PC · Clean data on" />
           <TickStub frame={f} at={T.isnt + 2} x={96} y={890} len={200} exitAt={CUT.wh6 + 2} />
           <VerdictChip frame={f} at={T.isnt + 2} text="Not built to government erasure standards" tone="neutral" x={WIN5.x} y={WIN5.y + WIN5.h + 64} align="left" exitAt={CUT.wh6 + 2} size={46} />
         </>
@@ -296,6 +296,13 @@ export const Tip5Wall: React.FC<{f: number}> = ({f}) => {
     </Stage>
   );
 };
+
+/**
+ * "Microsoft recommends …": one strip from the word "Microsoft" (on the desk shot) through the zoom-through into the
+ * wall, so S9.tsx draws it over both shots (screen space) instead of inside either Stage.
+ */
+export const MicrosoftStrip: React.FC<{f: number}> = ({f}) =>
+  f >= T.microsoft - 1 && f < T.isnt + 8 ? <QuoteStrip frame={f} at={T.microsoft} exitAt={T.isnt - 4} source="Microsoft recommends" reported="Reset this PC · Clean data on" /> : null;
 
 /* ================================================================ tip 6: a whole SSD, before it leaves your hands */
 const SSD = {x: 960, y: 640, w: 1060};

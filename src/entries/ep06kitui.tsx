@@ -136,8 +136,8 @@ const ScreenShot: React.FC<{f: number; shift: boolean}> = ({f, shift}) => {
 
 /* ---------------------------------------------------------------- shot 4: the bin on the hardware stage */
 const BinShot: React.FC<{f: number}> = ({f}) => (
-  <Stage frame={f} env="stage" cam={[{f: 300, zoom: 1}, {f: 390, zoom: 1.07, x: 930}]}>
-    <RecycleBin frame={f} x={820} y={560} w={660} holdsPhoto={0} emptyHoverAt={314} flushAt={346} float={4} tiltY={-4} rim={{color: PAL.structure, strength: 0.4}} sweep={{every: 70, offset: 10}} screen />
+  <Stage frame={f} env="stage" cam={[{f: 300, zoom: 1}, {f: 390, zoom: 1.07, x: 980}]}>
+    <RecycleBin frame={f} x={1020} y={560} w={660} holdsPhoto={0} emptyHoverAt={314} flushAt={346} menuSide="left" float={4} tiltY={-4} rim={{color: PAL.structure, strength: 0.4}} sweep={{every: 70, offset: 10}} screen />
   </Stage>
 );
 
@@ -191,7 +191,7 @@ const RaceShot: React.FC<{f: number}> = ({f}) => {
           <div style={{position: 'absolute', left: 958, top: 60, width: 4, height: 880, background: `linear-gradient(180deg, ${rgba(PAL.structure, 0)}, ${rgba(PAL.structure, 0.5)}, ${rgba(PAL.structure, 0)})`}} />
           <VerdictChip frame={f} at={546} text="Unlisted" tone="kept" x={480} y={110} />
           <VerdictChip frame={f} at={554} text="Gone" tone="lost" x={1440} y={110} />
-          <VerdictCard frame={f} at={566} text="Nothing left for a recovery tool" accentWord="Nothing" y={870} />
+          <VerdictCard frame={f} at={566} text="Nothing left for a recovery tool" accentWord="Nothing" accentTone="loss" y={870} />
         </>
       }
     >
@@ -223,7 +223,7 @@ const TrimShot: React.FC<{f: number}> = ({f}) => {
         ))}
       </div>
       <TrimNote frame={f} variant="render" x={520} y={520} w={620} enter={{kind: 'rise', at: 600}} float={4} sweep={{every: 80, offset: 8}} />
-      <TrimNote frame={f} variant="envelope" x={980} y={640} w={270} at={606} path={path} slot={{x: 1330, y: 640, h: 230}} />
+      <TrimNote frame={f} variant="envelope" x={980} y={640} w={330} at={606} path={path} slot={{x: 1330, y: 640, h: 230}} />
     </Stage>
   );
 };

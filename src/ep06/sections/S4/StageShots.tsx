@@ -7,6 +7,8 @@ import {
   PAL,
   Prop,
   QuoteStrip,
+  REGRADE,
+  Regrade,
   ScannerProp,
   Stage,
   UI_REGIONS,
@@ -28,11 +30,9 @@ import {Tally} from './Tally';
 
 /* ---------------------------------------------------------------- the scanner hero */
 const SC = {x: 960, y: 540, w: 930} as const;
-export const HERO_CAM: CamKey[] = [
-  {f: CUT.whip1, x: 900, y: 520, zoom: 0.96},
-  {f: T.theSpace, x: 940, y: 540, zoom: 1.04, ease: 'inOut'},
-  {f: CUT.zt + 8, x: 905, y: 590, zoom: 1.22, ease: 'inOut'},
-];
+/** a/d swaps under flashes: the scanner opens up (exploded) on "plainly", reassembles as the card falls */
+const SW1 = T.plainly - 2;
+const SW2 = T.deleted - 16;
 const CW = 360;
 const CH = cardH(CW);
 /** the photo's card lying on the scanner's plate (world quad), lifted by `lift` world px */
@@ -50,7 +50,24 @@ export const plateCardCentre = (): {x: number; y: number} => {
   const q = plateQuad(0);
   return {x: (q[0][0] + q[1][0] + q[2][0] + q[3][0]) / 4, y: (q[0][1] + q[1][1] + q[2][1] + q[3][1]) / 4};
 };
+const PLATE = plateCardCentre();
+export const HERO_CAM: CamKey[] = [
+  {f: CUT.whip1, x: 900, y: 520, zoom: 0.96},
+  {f: SW1, x: 932, y: 532, zoom: 1.05, ease: 'inOut'},
+  {f: SW1 + 1, x: 960, y: 470, zoom: 1.24, rot: 0, dur: 1},
+  {f: SW2, x: 992, y: 452, zoom: 1.36, rot: -1.2, ease: (t: number) => t},
+  {f: SW2 + 1, x: 930, y: 556, zoom: 1.1, rot: 0, dur: 1},
+  {f: CUT.zt + 8, x: PLATE.x, y: PLATE.y - 10, zoom: 1.75, ease: 'inOut'},
+];
 export const heroPose = (f: number) => poseAt(f, HERO_CAM);
+/** knob rings baked cyan in recovery-scanner_d (native px) → regraded white */
+const D_CYAN: ReadonlyArray<readonly [number, number, number, number]> = [
+  [787, 265, 831, 354],
+  [123, 295, 182, 420],
+  [213, 621, 277, 670],
+  [588, 757, 651, 807],
+];
+const flashAt = (f: number, at: number) => (f >= at - 2 && f < at + 14 ? (f < at ? (0.45 * (f - at + 3)) / 3 : Math.exp(-(f - at) / 3.2)) : 0);
 
 export const HeroShot: React.FC<{f: number}> = ({f}) => {
   const land = T.deleted;
@@ -58,19 +75,43 @@ export const HeroShot: React.FC<{f: number}> = ({f}) => {
   const bounce = f >= land ? 26 * Math.exp(-(f - land) / 3.2) * Math.abs(Math.sin((f - land) * 0.55)) : 0;
   const lift = (1 - fall) * 360 + bounce;
   const cardOp = prog(f, land - 13, 5);
+  const exploded = f >= SW1 && f < SW2;
+  const flash = Math.max(flashAt(f, SW1), flashAt(f, SW2));
   return (
-    <Stage frame={f} env={{kind: 'stage', floor: 800, warm: 0.15, spot: 940}} cam={HERO_CAM} shake={[{at: T.microsoft, strength: 0.55}, {at: land, strength: 0.2}]}>
-      <ScannerProp
-        frame={f}
-        {...SC}
-        enter={{kind: 'drop', at: T.microsoft - 14, dist: 620}}
-        shadow={{opacity: 0.7, dy: 6}}
-        rim={{color: '#DCE6F7', strength: 0.7}}
-        sweep={{at: [T.plainly - 6, T.marked + 20], dur: 34, strength: 0.9}}
-        beam={{at: T.recPage}}
-        scan={{at: T.recPage + 6, dur: 30, every: 56}}
-      />
-      {cardOp > 0 ? (
+    <Stage
+      frame={f}
+      env={{kind: 'stage', floor: 800, warm: 0.15, spot: 940}}
+      cam={HERO_CAM}
+      shake={[{at: T.microsoft, strength: 0.55}, {at: SW1, strength: 0.25}, {at: land, strength: 0.2}]}
+      hud={flash > 0.01 ? <div style={{position: 'absolute', inset: 0, background: `radial-gradient(ellipse 60% 60% at 50% 50%, ${rgba('#FFFFFF', 0.85 * flash)}, ${rgba('#FFFFFF', 0.2 * flash)} 60%, rgba(255,255,255,0))`, mixBlendMode: 'screen'}} /> : null}
+    >
+      {exploded ? (
+        <Prop
+          frame={f}
+          src="recovery-scanner_d"
+          {...SC}
+          enter={{kind: 'zoom', at: SW1, dur: 16}}
+          shadow={{opacity: 0.6, dy: 6}}
+          rim={{color: '#DCE6F7', strength: 0.75}}
+          sweep={{at: [SW1 + 8], dur: 30, strength: 0.9}}
+          float={3}
+        >
+          <Regrade src="recovery-scanner_d" boxes={D_CYAN} filter={REGRADE.white} />
+        </Prop>
+      ) : (
+        <ScannerProp
+          frame={f}
+          {...SC}
+          enter={{kind: 'drop', at: T.microsoft - 14, dist: 620}}
+          shadow={{opacity: 0.7, dy: 6}}
+          rim={{color: '#DCE6F7', strength: 0.7}}
+          sweep={{at: [T.recPage + 4, SW2 + 6], dur: 34, strength: 0.9}}
+          beam={{at: T.recPage}}
+          scan={{at: T.recPage + 1, dur: 26, every: 33}}
+          nudge={{bright: 1 + flash * 0.8}}
+        />
+      )}
+      {cardOp > 0 && !exploded ? (
         <div style={{position: 'absolute', left: 0, top: 0, width: CW, height: CH, transformOrigin: '0 0', transform: quadMatrix(CW, CH, plateQuad(lift)), opacity: cardOp}}>
           <IndexCard frame={f} x={CW / 2} y={CH / 2} w={CW} state="struck" flagAt={T.marked + 6} float={false} shadow={0.7} />
         </div>
@@ -80,11 +121,11 @@ export const HeroShot: React.FC<{f: number}> = ({f}) => {
 };
 
 /* ---------------------------------------------------------------- the overwrite slot (P09 warning) */
-const OS = {x: 960, y: 610, w: 940} as const;
+const OS = {x: 960, y: 460, w: 780} as const;
 export const SLOT_CAM: CamKey[] = [
-  {f: CUT.whip2, x: 930, y: 560, zoom: 0.95},
-  {f: T.create, x: 950, y: 560, zoom: 1.02, ease: 'inOut'},
-  {f: CUT.whip3 + 12, x: 990, y: 548, zoom: 1.1, ease: 'inOut'},
+  {f: CUT.whip2, x: 930, y: 540, zoom: 0.95},
+  {f: T.create, x: 950, y: 545, zoom: 0.99, ease: 'inOut'},
+  {f: CUT.whip3 + 12, x: 975, y: 545, zoom: 1.04, ease: 'inOut'},
 ];
 const STAGE_WRITES = [T.create + 4, T.overwrite + 2];
 
@@ -107,8 +148,8 @@ export const SlotShot: React.FC<{f: number}> = ({f}) => {
         <>
           <ImpactRing f={f} at={STAGE_WRITES[0]} x={m.x} y={m.y} r={150} />
           <ImpactRing f={f} at={STAGE_WRITES[1]} x={m.x} y={m.y} r={230} />
-          <QuoteStrip frame={f} at={T.warns} exitAt={T.anyTime - 6} source="Microsoft warns" reported="any use of your computer can create files that overwrite that space" />
-          <KineticText frame={f} at={T.anyTime} text="any time" x={960} y={196} size={120} mode="slam" accent={PAL.loss} role="keyword" />
+          <QuoteStrip frame={f} at={T.warns} exitAt={T.anyTime - 10} source="Microsoft warns" reported="any use of your computer can overwrite that space" maxWidth={1760} size={44} />
+          <KineticText frame={f} at={T.anyTime} text="any time" x={960} y={120} size={116} mode="slam" accent={PAL.loss} role="keyword" />
           <Tally f={f} />
         </>
       }

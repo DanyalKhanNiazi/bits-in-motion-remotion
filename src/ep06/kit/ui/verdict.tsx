@@ -24,8 +24,10 @@ export type VerdictCardProps = {
   frame: number;
   at: number;
   text: string;
-  /** the one word to remember (magenta) */
+  /** the one word to remember */
   accentWord?: string;
+  /** its tone: 'emphasis' = magenta (default), 'loss' = coral */
+  accentTone?: 'emphasis' | 'loss';
   exitAt?: number;
   /** centre y (default 855: SplitCompare's verdict band 790–920) */
   y?: number;
@@ -36,7 +38,8 @@ export type VerdictCardProps = {
   screen?: boolean | number;
 };
 
-export const VerdictCard: React.FC<VerdictCardProps> = ({frame: f, at, text, accentWord, exitAt, y = 855, x = 960, size = 72, chip, screen}) => {
+export const VerdictCard: React.FC<VerdictCardProps> = ({frame: f, at, text, accentWord, accentTone = 'emphasis', exitAt, y = 855, x = 960, size = 72, chip, screen}) => {
+  const AC = accentTone === 'loss' ? PAL.loss : PAL.emphasis;
   const inv = screenScale(screen, useContext(CameraContext));
   useTextCheck('keyword', size, screen, `VerdictCard "${text}"`);
   if (wordCount(text) > 12) kitWarn(`VerdictCard "${text}" has ${wordCount(text)} words (max 12 must-read)`);
@@ -89,8 +92,8 @@ export const VerdictCard: React.FC<VerdictCardProps> = ({frame: f, at, text, acc
                   <span
                     key={i}
                     style={{
-                      color: isAcc ? PAL.emphasis : undefined,
-                      textShadow: isAcc ? `0 0 ${size * (0.25 + 0.5 * glow)}px ${rgba(PAL.emphasis, 0.55 + 0.4 * glow)}` : undefined,
+                      color: isAcc ? AC : undefined,
+                      textShadow: isAcc ? `0 0 ${size * (0.25 + 0.5 * glow)}px ${rgba(AC, 0.55 + 0.4 * glow)}` : undefined,
                       marginRight: i < ws.length - 1 ? '0.26em' : 0,
                       display: 'inline-block',
                     }}
@@ -109,7 +112,7 @@ export const VerdictCard: React.FC<VerdictCardProps> = ({frame: f, at, text, acc
                 height: Math.max(3, size * 0.05),
                 borderRadius: 3,
                 transform: `scaleX(${rule})`,
-                background: `linear-gradient(90deg, ${rgba(PAL.ink, 0)}, ${rgba(acc ? PAL.emphasis : PAL.ink, 0.8)}, ${rgba(PAL.ink, 0)})`,
+                background: `linear-gradient(90deg, ${rgba(PAL.ink, 0)}, ${rgba(acc ? AC : PAL.ink, 0.8)}, ${rgba(PAL.ink, 0)})`,
               }}
             />
           </div>
@@ -200,6 +203,10 @@ export type QuoteStripProps = {
   quote?: string;
   /** the voice's paraphrase (no quotation marks) */
   reported?: string;
+  /** reported speech only: 'lead' = "Source: text" (default), 'line' = the text alone + the source on a footnote line */
+  sourceMode?: 'lead' | 'line';
+  /** the attribution line's size in on-screen px (footnote role, 32–36; default 34) */
+  sourceSize?: number;
   /** left edge (align left) or centre (align center), parent px */
   x?: number;
   /** bottom edge of the strip (default 928, above the 140 px keep-out) */
@@ -210,10 +217,13 @@ export type QuoteStripProps = {
   screen?: boolean | number;
 };
 
-export const QuoteStrip: React.FC<QuoteStripProps> = ({frame: f, at, exitAt, source, quote, reported, x, y = 928, align = 'left', maxWidth = 1560, size = 46, screen}) => {
+export const QuoteStrip: React.FC<QuoteStripProps> = ({frame: f, at, exitAt, source, quote, reported, sourceMode = 'lead', sourceSize = 34, x, y = 928, align = 'left', maxWidth = 1560, size = 46, screen}) => {
   const inv = screenScale(screen, useContext(CameraContext));
   const body = quote ?? reported ?? '';
   useTextCheck('label', size, screen, `QuoteStrip "${body}"`);
+  const foot = Math.min(36, Math.max(32, sourceSize));
+  const lineMode = quote !== undefined || sourceMode === 'line';
+  useTextCheck(lineMode ? 'footnote' : 'label', lineMode ? foot : size, screen, `QuoteStrip source "${source}"`);
   if (wordCount(body) > 12) kitWarn(`QuoteStrip "${body.slice(0, 40)}…" has ${wordCount(body)} words (max 12)`);
   if (quote !== undefined && reported !== undefined) kitWarn('QuoteStrip: give quote OR reported, not both');
   if (reported !== undefined && /["“”]/.test(reported)) kitWarn('QuoteStrip: reported speech must not carry quotation marks');
@@ -225,7 +235,6 @@ export const QuoteStrip: React.FC<QuoteStripProps> = ({frame: f, at, exitAt, sou
   const wipe = prog(f, at + 2, 18, EASE.out);
   const bar = prog(f, at, 8, EASE.out);
   const px = x ?? (align === 'center' ? 960 : 96);
-  const foot = Math.max(32, Math.round(size * 0.7));
   return (
     <div style={{position: 'absolute', left: px, top: y, width: 0, height: 0, transform: `scale(${inv})`, transformOrigin: '0 0'}}>
       <div
@@ -251,15 +260,15 @@ export const QuoteStrip: React.FC<QuoteStripProps> = ({frame: f, at, exitAt, sou
         >
           <div style={{position: 'absolute', left: size * 0.26, top: size * 0.32, bottom: size * 0.32, width: 6, borderRadius: 3, background: PAL.ink, transform: `scaleY(${bar})`, transformOrigin: '50% 0%'}} />
           <div style={{clipPath: `inset(-10% ${(1 - wipe) * 100}% -10% 0)`}}>
-            {quote !== undefined ? (
+            {lineMode ? (
               <>
-                <div style={{fontFamily: SANS, fontWeight: 600, fontSize: size, lineHeight: 1.22, color: PAL.ink, textIndent: '-0.42em', paddingLeft: '0.42em'}}>
-                  <span style={{color: PAL.annotation}}>{'“'}</span>
-                  <Rich text={quote} weight={600} />
-                  <span style={{color: PAL.annotation}}>{'”'}</span>
+                <div style={{fontFamily: SANS, fontWeight: 600, fontSize: size, lineHeight: 1.22, color: PAL.ink, textIndent: quote !== undefined ? '-0.42em' : 0, paddingLeft: quote !== undefined ? '0.42em' : 0}}>
+                  {quote !== undefined ? <span style={{color: PAL.annotation}}>{'\u201C'}</span> : null}
+                  <Rich text={body} weight={600} />
+                  {quote !== undefined ? <span style={{color: PAL.annotation}}>{'\u201D'}</span> : null}
                 </div>
-                <div style={{marginTop: size * 0.18, fontFamily: SANS, fontWeight: 600, fontSize: foot, lineHeight: 1.2, color: PAL.muted, whiteSpace: 'nowrap'}}>
-                  {'—'} {source}
+                <div style={{marginTop: size * 0.2, fontFamily: SANS, fontWeight: 600, fontSize: foot, lineHeight: 1.2, color: PAL.muted, whiteSpace: 'nowrap'}}>
+                  {'\u2014'} {source}
                 </div>
               </>
             ) : (

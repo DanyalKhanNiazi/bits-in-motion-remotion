@@ -255,9 +255,10 @@ export const ForkShot: React.FC<{f: number; visit: 1 | 2}> = ({f, visit}) => {
       }}
       hud={
         <>
-          {visit === 1 ? <KineticText frame={f} at={T.back} exitAt={T.ifDeleted - 10} text="Back to the passport photo" x={960} y={190} size={92} mode="rise" /> : null}
-          <KineticText frame={f} at={visit === 1 ? T.ifDeleted + 2 : T.ifWant - 30} text="Want it back" x={leftLbl.x + 40} y={leftLbl.y - 92} size={84} mode={visit === 1 ? 'pop' : 'pop'} />
-          {visit === 2 ? <KineticText frame={f} at={T.ifWant + 2} text="Want it gone" x={rightLbl.x - 60} y={rightLbl.y - 92} size={84} mode="pop" /> : null}
+          {/* the labels sit over the (light) passport photo on the monitor: each carries a dark plate */}
+          {visit === 1 ? <KineticText frame={f} at={T.back} exitAt={T.ifDeleted - 10} text="Back to the passport photo" x={960} y={190} size={92} mode="rise" backing="plate" /> : null}
+          <KineticText frame={f} at={visit === 1 ? T.ifDeleted + 2 : T.ifWant - 30} text="Want it back" x={leftLbl.x + 40} y={leftLbl.y - 92} size={84} mode="pop" backing="plate" />
+          {visit === 2 ? <KineticText frame={f} at={T.ifWant + 2} text="Want it gone" x={rightLbl.x - 60} y={rightLbl.y - 92} size={84} mode="pop" backing="plate" /> : null}
         </>
       }
     >
