@@ -22,6 +22,7 @@ import {
   Prop,
   Stage,
   VerdictCard,
+  VerdictChip,
   archiveCam,
   clamp01,
   lerp,
@@ -189,15 +190,11 @@ export const ShotC: React.FC<{f: number}> = ({f}) => {
       cam={CAM_C}
       shake={[{at: T.theDrive + 5, strength: 0.35}]}
       hud={
-        <VerdictCard
-          frame={f}
-          at={T.theDrive + 5}
-          exitAt={CUT.dive - 2}
-          text="The drive, not Windows, decides"
-          accentWord="drive"
-          y={860}
-          chip={{text: 'On an SSD', tone: 'neutral', at: T.onSsd + 3}}
-        />
+        <>
+          {/* the chip leads the verdict (VerdictCard's own chip only shows with the card) */}
+          <VerdictChip frame={f} at={T.onSsd + 3} exitAt={CUT.dive - 2} text="On an SSD" tone="neutral" x={960} y={770} size={48} />
+          <VerdictCard frame={f} at={T.theDrive + 5} exitAt={CUT.dive - 2} text="The drive, not Windows, decides" accentWord="drive" y={860} />
+        </>
       }
     >
       <div

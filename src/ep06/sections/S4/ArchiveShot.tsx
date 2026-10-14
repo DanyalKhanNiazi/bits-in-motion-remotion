@@ -73,6 +73,8 @@ const fromScreen = (p: Pose, sx: number, sy: number) => {
 /* ---------------------------------------------------------------- the scanner in the foreground (screen px) */
 const SC_A = {x: 1600, y: 842, w: 640};
 const SC_B = {x: 1612, y: 838, w: 640};
+/** the race: closer, so the tray's missing bands read */
+const SC_R = {x: 1585, y: 872, w: 720};
 const scannerAt = (f: number, pose: Pose, base: {x: number; y: number; w: number}, ref: {x: number; y: number}) => {
   const zp = clamp01((Math.log(pose.zoom) - Math.log(1.15)) / (Math.log(HD.zoom) - Math.log(1.15)));
   const px = clamp01(1 - zp) * -(pose.x - ref.x) * pose.zoom * 0.1;
@@ -117,7 +119,7 @@ export const EVENTS: ArchiveEvent[] = [
   {at: HIT.download, op: 'overwrite', target: 59},
   {at: HIT.update, op: 'overwrite', target: 99},
   {at: HIT.temp, op: 'overwrite', target: 22},
-  ...PHOTO.map((id, i): ArchiveEvent => ({at: RACE.copy[i], op: 'copyOut', target: id, dur: 18, to: trayWorld(RACE.copy[i] + 14, SC_B, REF_B)})),
+  ...PHOTO.map((id, i): ArchiveEvent => ({at: RACE.copy[i], op: 'copyOut', target: id, dur: 18, to: trayWorld(RACE.copy[i] + 14, SC_R, REF_B)})),
 ];
 
 /* ---------------------------------------------------------------- shot */
@@ -204,7 +206,7 @@ export const ArchiveShot: React.FC<{f: number}> = ({f}) => {
 
   /* ---- the race: scanner B copies the boxes in order */
   if (race) {
-    const s = scannerAt(f, pose, SC_B, REF_B);
+    const s = scannerAt(f, pose, SC_R, REF_B);
     let i = 0;
     for (let k = 0; k < 9; k++) if (f >= RACE.copy[k] - 4) i = k;
     const b = S(boxC(PHOTO[i]));
