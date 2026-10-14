@@ -19,4 +19,7 @@ export * from './AtlasOpener';
 export * from './LensDive';
 export * from './transitions';
 export * from './archive';
+export * from './SplitCompare';
+export * from './PhotoBits';
+export * from './DriveDive';
 export * from './ui';

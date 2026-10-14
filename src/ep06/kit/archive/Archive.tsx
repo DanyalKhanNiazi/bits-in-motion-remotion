@@ -53,7 +53,7 @@ export type ArchiveProps = ArchiveViewProps & {
   /** registered render overlays (opacity, number or track): cluster-wall_b on cols 4–9 × rows 1–5, mft-record_b on the card */
   renders?: {wall?: Num; card?: Num};
   /** visibility multipliers (number or track, default 1): drawer, map, card, threads, ghost wall, actor, platter */
-  show?: {drawer?: Num; map?: Num; card?: Num; threads?: Num; ghost?: Num; actor?: Num; platter?: Num};
+  show?: {drawer?: Num; map?: Num; card?: Num; threads?: Num; ghost?: Num; actor?: Num; platter?: Num; wall?: Num};
 };
 
 /* ---------------------------------------------------------------- shapes (box-local px, 64×64) */
@@ -67,6 +67,10 @@ const BIT_XY: Array<[number, number]> = [
 ];
 const BITS_D = BIT_XY.map(([x, y]) => rr(x, y, 10, 10, 2)).join('');
 const CORES_D = BIT_XY.map(([x, y]) => rr(x + 3, y + 3, 4, 4, 1)).join('');
+const r1 = (v: number) => Math.round(v * 10) / 10;
+/** the 4 Bits (and cores) of a box at (x, y), as absolute path data, so many boxes share ONE path */
+const bitsAt = (x: number, y: number) => BIT_XY.map(([bx, by]) => rr(r1(x + bx), r1(y + by), 10, 10, 2)).join('');
+const coresAt = (x: number, y: number) => BIT_XY.map(([bx, by]) => rr(r1(x + bx + 3), r1(y + by + 3), 4, 4, 1)).join('');
 const PLATE_D = 'M2 40H21Q22 40 22.6 41L25.4 45.6Q26 46.6 27 46.6H37Q38 46.6 38.6 45.6L41.4 41Q42 40 43 40H62V62.6H2Z';
 const PLATE_TOP = 'M2.6 40.7H21.2L24.6 46.3Q25.6 47.3 27 47.3H37Q38.4 47.3 39.4 46.3L42.8 40.7H61.4';
 const GLYPHS = '#%&@$?*+=<>/{}[]~^ABDEFGHKMNPRSTVXYZ0123456789';
@@ -157,17 +161,13 @@ const Defs: React.FC<{p: string; light: (typeof ARCHIVE_LIGHT)[keyof typeof ARCH
       <stop offset="0.5" stopColor={fog} stopOpacity={0.86} />
       <stop offset="1" stopColor={fog} stopOpacity={0.45} />
     </linearGradient>
-    <radialGradient id={`${p}-key`} gradientUnits="userSpaceOnUse" cx={GEOM.wall.x + 180} cy={GEOM.wall.y - 120} r={1150}>
-      <stop offset="0" stopColor={light.key} stopOpacity={0.16} />
-      <stop offset="0.5" stopColor={light.key} stopOpacity={0.05} />
-      <stop offset="1" stopColor={light.key} stopOpacity={0} />
-    </radialGradient>
+
     <linearGradient id={`${p}-cone`} x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stopColor="#EAF0FA" stopOpacity={0.2} />
       <stop offset="1" stopColor="#EAF0FA" stopOpacity={0.03} />
     </linearGradient>
-    <linearGradient id={`${p}-toplight`} x1="0" y1="0" x2="0.25" y2="1">
-      <stop offset="0" stopColor={light.key} stopOpacity={0.12} />
+    <linearGradient id={`${p}-toplight`} x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stopColor={light.key} stopOpacity={0.16} />
       <stop offset="0.35" stopColor={light.key} stopOpacity={0.02} />
       <stop offset="0.7" stopColor="#000" stopOpacity={0.1} />
       <stop offset="1" stopColor="#000" stopOpacity={0.38} />
@@ -234,24 +234,23 @@ const Defs: React.FC<{p: string; light: (typeof ARCHIVE_LIGHT)[keyof typeof ARCH
       <rect x={7} y={45} width={50} height={14} rx={2.5} fill={`url(#${p}-ltab)`} />
       <rect x={8} y={45.6} width={48} height={1.6} rx={0.8} fill="#FFFFFF" opacity={0.55} />
     </g>
-    <pattern id={`${p}-ghost-hdd`} width={PITCH} height={PITCH} patternUnits="userSpaceOnUse" x={GEOM.wall.x} y={GEOM.wall.y}>
-      <use href={`#${p}-box-hdd`} />
-    </pattern>
-    <pattern id={`${p}-ghost-ssd`} width={PITCH} height={PITCH} patternUnits="userSpaceOnUse" x={GEOM.wall.x} y={GEOM.wall.y}>
-      <use href={`#${p}-box-ssd`} />
-    </pattern>
-    {/* a few other files' Bits scattered through the far wall */}
-    <pattern id={`${p}-ghostBits`} width={PITCH * 5} height={PITCH * 3} patternUnits="userSpaceOnUse" x={GEOM.wall.x} y={GEOM.wall.y}>
-      {[
-        [0, 0],
-        [3, 0],
-        [1, 1],
-        [4, 2],
-        [2, 2],
-      ].map(([c, r], i) => (
-        <path key={i} d={BITS_D} transform={`translate(${c * PITCH} ${r * PITCH})`} fill={PAL.otherBit} opacity={0.75} />
-      ))}
-    </pattern>
+    {(['hdd', 'ssd'] as const).map((m) => (
+      <pattern key={m} id={`${p}-ghost-${m}`} width={PITCH * 5} height={PITCH * 3} patternUnits="userSpaceOnUse" x={GEOM.wall.x - 4} y={GEOM.wall.y - 4}>
+        <rect width={PITCH * 5} height={PITCH * 3} fill={m === 'hdd' ? PAL.steel : '#0D0E12'} />
+        {Array.from({length: 15}, (_, i) => (
+          <use key={i} href={`#${p}-box-${m}`} x={(i % 5) * PITCH + 4} y={Math.floor(i / 5) * PITCH + 4} />
+        ))}
+        {[
+          [0, 0],
+          [3, 0],
+          [1, 1],
+          [4, 2],
+          [2, 2],
+        ].map(([c, r], i) => (
+          <path key={`b${i}`} d={BITS_D} transform={`translate(${c * PITCH + 4} ${r * PITCH + 4})`} fill={PAL.otherBit} opacity={0.8} />
+        ))}
+      </pattern>
+    ))}
   </defs>
 );
 
@@ -281,7 +280,8 @@ const BoxContent: React.FC<{c: Content; x: number; y: number; ctx: Ctx; id: numb
     const b = breath(f, (id % 7) * 0.4);
     return (
       <g transform={`translate(${x} ${y})`} opacity={op}>
-        <rect x={3} y={3} width={58} height={40} rx={3} fill={`url(#${p}-wash)`} opacity={0.55 + 0.35 * b} />
+        <ellipse cx={32} cy={24} rx={58} ry={46} fill={`url(#${p}-cyanGlow)`} opacity={0.32 + 0.18 * b} />
+        <rect x={3} y={3} width={58} height={40} rx={3} fill={`url(#${p}-wash)`} opacity={0.6 + 0.35 * b} />
         <path d={BITS_D} fill={PAL.photo} opacity={0.86 + 0.14 * b} />
         <path d={CORES_D} fill="#E9FDFF" opacity={0.75 + 0.25 * b} />
       </g>
@@ -375,7 +375,8 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* ---------------- cells (the wall itself) */
   const cells: React.ReactNode[] = [];
   const nCellCols = splitOn ? SPOT_COLS : COLS;
-  for (let r = 0; r < ROWS; r++)
+  const wallOp = sh('wall');
+  for (let r = 0; r < (wallOp > 0 ? ROWS : 0); r++)
     for (let c = 0; c < nCellCols; c++) {
       const id = r * COLS + c + 1;
       const x = GEOM.wall.x + c * PITCH;
@@ -403,8 +404,8 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   if (ssd && (!props.flip || f >= flipAt + flipDur)) {
     let d = '';
     for (let r = 0; r < ROWS; r++) for (let g = 0; g < 4; g++) d += rr(GEOM.wall.x + g * 4 * PITCH - 5, GEOM.wall.y + r * PITCH - 5, 4 * PITCH - 8 + 10, BOX + 10, 7);
-    trays.push(<path key="tr" d={d} fill="none" stroke="#050608" strokeWidth={4} />);
-    trays.push(<path key="trh" d={d} fill="none" stroke="#6A6E77" strokeOpacity={0.55} strokeWidth={1.2} transform="translate(0 0.8)" />);
+    trays.push(<path key="tr" d={d} fill="none" stroke="#030405" strokeWidth={5} />);
+    trays.push(<path key="trh" d={d} fill="none" stroke="#8A8F99" strokeOpacity={0.7} strokeWidth={1.6} transform="translate(0 1.4)" />);
     if (splitOn) {
       const x0 = GEOM.spare.x - 9;
       trays.push(<path key="sp" d={rr(x0, GEOM.wall.y - 9, 2 * PITCH - 8 + 18, GEOM.wall.h + 18, 10)} fill="none" stroke="#8C7DA8" strokeOpacity={0.55 * s} strokeWidth={3} strokeDasharray="10 6" />);
@@ -413,6 +414,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
 
   /* ---------------- content */
   const contents: React.ReactNode[] = [];
+  const merged = {other: {b: '', c: ''}, old: {b: '', c: ''}};
   const glyphs: Array<{x: number; y: number}> = [];
   const overlays: React.ReactNode[] = [];
   const effects: React.ReactNode[] = [];
@@ -450,7 +452,11 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     if (splitOn && R.sanitize && c === 'erased' && l.how === 'sanitize') c = 'empty'; // drawn per cell
     if (c !== 'empty') {
       if (scr) glyphs.push(pos);
-      else contents.push(<BoxContent key={`b${id}`} c={c} x={pos.x} y={pos.y} ctx={ctx} id={id} op={bop} erasedAt={l.cAt} mode={tileOf(col)} />);
+      else if ((c === 'other' || c === 'old') && bop >= 0.999) {
+        // merged: every other/old box shares one path (cheap under the Stage bloom)
+        merged[c].b += bitsAt(pos.x, pos.y);
+        merged[c].c += coresAt(pos.x, pos.y);
+      } else contents.push(<BoxContent key={`b${id}`} c={c} x={pos.x} y={pos.y} ctx={ctx} id={id} op={bop} erasedAt={l.cAt} mode={tileOf(col)} />);
     }
     // the header glyph: a bright cyan notch across the top of 021
     if (id === HEADER && c === 'photo' && !scr) {
@@ -471,7 +477,10 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const stC: Content = san ? 'erased' : l.stale;
       const stScr = l.scr <= f && l.scrOff > f && stC !== 'erased';
       if (stScr) glyphs.push(sp);
-      else if (!(san && R.sanitize)) contents.push(<BoxContent key={`st${id}`} c={stC} x={sp.x} y={sp.y} ctx={ctx} id={id} erasedAt={l.staleOff} mode="ssd" />);
+      else if (stC === 'other' || stC === 'old') {
+        merged[stC].b += bitsAt(sp.x, sp.y);
+        merged[stC].c += coresAt(sp.x, sp.y);
+      } else if (!(san && R.sanitize)) contents.push(<BoxContent key={`st${id}`} c={stC} x={sp.x} y={sp.y} ctx={ctx} id={id} erasedAt={l.staleOff} mode="ssd" />);
     }
     // overwrite / remap: the new file's grey Bits slam in, a coral ring flashes
     if ((l.how === 'overwrite' || l.how === 'remap') && f >= l.cAt && f < l.cAt + 16) {
@@ -531,6 +540,15 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       }
     }
   }
+  // merged other/old Bits
+  const mergedNode = (
+    <g>
+      {merged.other.b ? <path d={merged.other.b} fill={PAL.otherBit} /> : null}
+      {merged.other.c ? <path d={merged.other.c} fill="#FFFFFF" fillOpacity={0.85} /> : null}
+      {merged.old.b ? <path d={merged.old.b} fill={PAL.oldBit} /> : null}
+      {merged.old.c ? <path d={merged.old.c} fill="#A7AFBB" fillOpacity={0.6} /> : null}
+    </g>
+  );
   // scrambled glyph rows (single + split), never cyan
   const glyphNode = <GlyphRows items={glyphs} f={f} />;
 
@@ -605,6 +623,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* ---------------- threads: card → the photo's boxes (cyan directions) */
   const cp = cardPose(props, f, {x: cam.x ?? 960, y: cam.y ?? 540});
   const plugs = cardPlugs(cp.x, cp.y, cp.w, cp.rot);
+  const lift = cp.u;
   const labelM = splitOn ? front : back;
   const labPt = (id: number) => {
     const q = boxXY(id);
@@ -696,7 +715,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* ---------------- split view: label→spot threads */
   const mapThreads: React.ReactNode[] = [];
   if (splitOn) {
-    const shownIds = [...PHOTO, ...[12, 45, 79, 118, 140].filter((id) => R.labs[id].c === 'other')];
+    const shownIds = [...PHOTO, ...[45, 118, 140].filter((id) => R.labs[id].c === 'other')];
     for (const id of shownIds) {
       const l = R.labs[id];
       const isP = PHOTO.includes(id);
@@ -767,22 +786,23 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   const coreX1 = GEOM.wall.x + COLS * PITCH;
   const coreY1 = GEOM.wall.y + ROWS * PITCH;
   const ghostFill = `url(#${p}-ghost-${ssd ? 'ssd' : 'hdd'})`;
-  const ghost =
-    ghostOp > 0.01 ? (
-      <g opacity={ghostOp}>
-        <rect x={gx0} y={gy0} width={gx1 - gx0} height={GEOM.wall.y - gy0} fill={ghostFill} />
-        <rect x={gx0} y={coreY1} width={gx1 - gx0} height={gy1 - coreY1} fill={ghostFill} />
-        <rect x={gx0} y={GEOM.wall.y} width={GEOM.wall.x - gx0} height={coreY1 - GEOM.wall.y} fill={ghostFill} />
-        <rect x={coreX1} y={GEOM.wall.y} width={gx1 - coreX1} height={coreY1 - GEOM.wall.y} fill={ghostFill} />
-        <rect x={gx0} y={gy0} width={gx1 - gx0} height={GEOM.wall.y - gy0} fill={`url(#${p}-ghostBits)`} opacity={0.5} />
-        <rect x={coreX1} y={GEOM.wall.y} width={gx1 - coreX1} height={coreY1 - GEOM.wall.y} fill={`url(#${p}-ghostBits)`} opacity={0.5} />
-        <rect x={gx0} y={coreY1} width={gx1 - gx0} height={gy1 - coreY1} fill={`url(#${p}-ghostBits)`} opacity={0.5} />
-        <rect x={gx0 - 2} y={gy0 - 2} width={gx1 - gx0 + 4} height={GEOM.wall.y - gy0 + 2} fill={`url(#${p}-hzT)`} />
-        <rect x={gx0 - 2} y={coreY1} width={gx1 - gx0 + 4} height={gy1 - coreY1 + 2} fill={`url(#${p}-hzB)`} />
-        <rect x={coreX1} y={GEOM.wall.y} width={gx1 - coreX1 + 2} height={coreY1 - GEOM.wall.y} fill={`url(#${p}-hzR)`} />
-        <rect x={gx0 - 2} y={GEOM.wall.y} width={GEOM.wall.x - gx0 + 2} height={coreY1 - GEOM.wall.y} fill={`url(#${p}-hzL)`} />
-      </g>
-    ) : null;
+  const RING = [1, 0.62, 0.38, 0.2, 0.09, 0.035];
+  const nL = Math.round((GEOM.wall.x - gx0) / PITCH);
+  const rowB: Array<{y: number; h: number; d: number}> = [{y: GEOM.wall.y, h: ROWS * PITCH, d: 0}];
+  for (let k = 1; k <= 5; k++) rowB.push({y: GEOM.wall.y - k * PITCH, h: PITCH, d: k});
+  for (let k = 1; k <= 5; k++) rowB.push({y: coreY1 + (k - 1) * PITCH, h: PITCH, d: k});
+  const colB: Array<{x: number; w: number; d: number}> = [{x: GEOM.wall.x, w: COLS * PITCH, d: 0}];
+  for (let k = 1; k <= nL; k++) colB.push({x: GEOM.wall.x - k * PITCH, w: PITCH, d: k * (nL > 1 ? 1 : 2)});
+  for (let k = 1; k <= 5; k++) colB.push({x: coreX1 + (k - 1) * PITCH, w: PITCH, d: k});
+  const ringD: string[] = RING.map(() => '');
+  if (ghostOp > 0.01)
+    for (const rb of rowB)
+      for (const cb of colB) {
+        const d = rb.d + cb.d;
+        if (d === 0 || d >= RING.length) continue;
+        ringD[d] += `M${cb.x - 4} ${rb.y - 4}h${cb.w}v${rb.h}h${-cb.w}Z`;
+      }
+  const ghost = ghostOp > 0.01 ? <g>{ringD.map((d, i) => (d ? <path key={i} d={d} fill={ghostFill} fillOpacity={RING[i] * ghostOp} /> : null))}</g> : null;
 
   /* ---------------- platter glow (hdd, background only) */
   const platOp = sh('platter') * (ssd ? (props.flip ? 1 - prog(f, flipAt, flipDur) : 0) : props.flip ? prog(f, flipAt, flipDur) : 1) * (1 - s);
@@ -791,11 +811,10 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     platOp > 0.01 ? (
       <g opacity={platOp * (R.wallBuild > -NEVER / 2 ? prog(f, R.wallBuild + 10, 30) : 1)}>
         {[1, 0.86, 0.72, 0.58, 0.44].map((k, i) => (
-          <circle key={i} cx={PL.x} cy={PL.y} r={PL.r * k} fill="none" stroke="#9FB6DA" strokeOpacity={0.05 + 0.02 * i} strokeWidth={i === 0 ? 6 : 2} />
+          <circle key={i} cx={PL.x} cy={PL.y} r={PL.r * k} fill="none" stroke="#9FB6DA" strokeOpacity={0.06 + 0.02 * i} strokeWidth={i === 0 ? 6 : 2} />
         ))}
         <g transform={`rotate(${(f * 0.22) % 360} ${PL.x} ${PL.y})`}>
-          <path d={`M${PL.x} ${PL.y}L${PL.x + PL.r} ${PL.y - 120}A${PL.r} ${PL.r} 0 0 1 ${PL.x + PL.r} ${PL.y + 120}Z`} fill="#BFD0EA" opacity={0.07} />
-          <path d={`M${PL.x} ${PL.y}L${PL.x - PL.r} ${PL.y + 80}A${PL.r} ${PL.r} 0 0 1 ${PL.x - PL.r} ${PL.y - 80}Z`} fill="#BFD0EA" opacity={0.04} />
+          <path d={`M${PL.x} ${PL.y}L${PL.x + PL.r} ${PL.y - 70}A${PL.r} ${PL.r} 0 0 1 ${PL.x + PL.r} ${PL.y + 70}Z`} fill="#BFD0EA" fillOpacity={0.07} />
         </g>
       </g>
     ) : null;
@@ -804,17 +823,15 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   const specPeriod = 270;
   const specU = ((f % specPeriod) + specPeriod) % specPeriod;
   const specX = lerp(GEOM.wall.x - 500, GEOM.wall.x + GEOM.wall.w + 300, specU / 70);
-  const lit = ghostOp > 0.01 ? {x0: gx0, y0: gy0, x1: gx1, y1: gy1} : {x0: GEOM.wall.x - 6, y0: GEOM.wall.y - 6, x1: GEOM.wall.x + (splitOn ? SPOT_COLS : COLS) * PITCH - 2, y1: coreY1 - 2};
+  const lit = {x0: GEOM.wall.x - (ghostOp > 0.01 ? PITCH : 6), y0: GEOM.wall.y - (ghostOp > 0.01 ? PITCH : 6), x1: GEOM.wall.x + (splitOn ? SPOT_COLS : COLS) * PITCH + (ghostOp > 0.01 ? PITCH : -2), y1: coreY1 + (ghostOp > 0.01 ? PITCH : -2)};
   const wallLight = (
     <g>
       <rect x={lit.x0} y={lit.y0} width={lit.x1 - lit.x0} height={lit.y1 - lit.y0} fill={`url(#${p}-toplight)`} />
-      <rect x={lit.x0} y={lit.y0} width={lit.x1 - lit.x0} height={lit.y1 - lit.y0} fill={`url(#${p}-key)`} />
       {specU < 70 ? <rect x={specX} y={GEOM.wall.y - 20} width={260} height={GEOM.wall.h + 40} fill={`url(#${p}-spec)`} transform={`skewX(-18)`} opacity={0.9} /> : null}
     </g>
   );
 
   /* ---------------- drawer, map, card */
-  const lift = cp.u;
   const drawerHide = smooth(clamp01((lift - 0.15) / 0.55));
   const drawerBuild = R.drawerBuild > -NEVER / 2 ? springAt(f, R.drawerBuild, {damping: 16, stiffness: 140, mass: 0.9}) : 1;
   const drawerOp = sh('drawer') * (1 - drawerHide) * clamp01(drawerBuild * 1.4);
@@ -882,6 +899,9 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
   /* map of taken boxes: a navy plate, 16×9 recessed cells, solid = taken, hollow white = available */
   const M = GEOM.map;
   const mapCells: React.ReactNode[] = [];
+  let mSolid = '';
+  let mHi = '';
+  let mHollow = '';
   if (mapOp > 0.01) {
     for (let id = 1; id <= N_BOXES; id++) {
       const l = R.labs[id];
@@ -892,21 +912,27 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
       const av = l.avail <= f && l.availOff > f;
       if (!taken && !av) continue;
       const flipU2 = av ? prog(f, l.avail, 8, EASE.inOut) : l.availOff <= f ? 1 - prog(f, l.availOff, 6) : 0;
+      const cx = x + M.cell / 2;
+      const cy = y + M.cell / 2;
+      if (flipU2 <= 0 || flipU2 >= 1) {
+        if (flipU2 >= 1) mHollow += rr(cx - 7.5, cy - 7.5, 15, 15, 2.5);
+        else {
+          mSolid += rr(cx - 8, cy - 8, 16, 16, 2.5);
+          mHi += rr(cx - 7, cy - 7.4, 14, 2.2, 1);
+        }
+        continue;
+      }
       const sx = Math.abs(Math.cos(Math.PI * flipU2));
       const hollow = flipU2 > 0.5;
       mapCells.push(
-        <g key={`m${id}`} transform={`translate(${x + M.cell / 2} ${y + M.cell / 2}) scale(${Math.max(0.05, sx)} 1)`}>
-          {hollow ? (
-            <rect x={-7.5} y={-7.5} width={15} height={15} rx={2.5} fill="none" stroke={PAL.ink} strokeWidth={2.4} />
-          ) : (
-            <>
-              <rect x={-8} y={-8} width={16} height={16} rx={2.5} fill={PAL.silver} />
-              <rect x={-7} y={-7.4} width={14} height={2.2} rx={1} fill="#FFFFFF" opacity={0.75} />
-            </>
-          )}
+        <g key={`m${id}`} transform={`translate(${cx} ${cy}) scale(${Math.max(0.05, sx)} 1)`}>
+          {hollow ? <rect x={-7.5} y={-7.5} width={15} height={15} rx={2.5} fill="none" stroke={PAL.ink} strokeWidth={2.4} /> : <rect x={-8} y={-8} width={16} height={16} rx={2.5} fill={PAL.silver} />}
         </g>,
       );
     }
+    if (mSolid) mapCells.push(<path key="ms" d={mSolid} fill={PAL.silver} />);
+    if (mHi) mapCells.push(<path key="mh" d={mHi} fill="#FFFFFF" fillOpacity={0.75} />);
+    if (mHollow) mapCells.push(<path key="mo" d={mHollow} fill="none" stroke={PAL.ink} strokeWidth={2.4} />);
   }
   const mapNode =
     mapOp > 0.01 ? (
@@ -1027,23 +1053,6 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
     );
   }
 
-  /* ---------------- haze in front of the wall (depth) */
-  const hazeFront = (
-    <g opacity={0.9}>
-      {[0, 1, 2].map((i) => (
-        <ellipse
-          key={i}
-          cx={GEOM.wall.x + ((f * (0.35 + 0.12 * i) + i * 520) % (GEOM.wall.w + 600)) - 300}
-          cy={GEOM.wall.y + 120 + i * 220}
-          rx={420}
-          ry={90}
-          fill={mixHex(L.haze, '#8FA6CC', 0.25)}
-          opacity={0.05}
-        />
-      ))}
-    </g>
-  );
-
   /* ---------------- the registered wall render (cluster-wall_b) for render→code swaps */
   const wallRenderOp = clamp01(num(props.renders?.wall, f, 0));
   const wr = wallRenderRect();
@@ -1058,6 +1067,7 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
           {platter}
           {cells}
           {trays}
+          {mergedNode}
           {contents}
           {glyphNode}
           {!splitOn ? numbers(labTL, ssd ? 55.5 : 58.6) : null}
@@ -1080,7 +1090,6 @@ export const Archive: React.FC<ArchiveProps> = (props) => {
         ) : null}
         {cone}
         {mapThreads}
-        {hazeFront}
         {boundary}
         {actor}
         {sanNode}

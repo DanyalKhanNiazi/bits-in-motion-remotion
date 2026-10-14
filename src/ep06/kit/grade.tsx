@@ -11,12 +11,7 @@ import {clamp, useImageReady} from './util';
 export const BloomFilter: React.FC<{id: string; strength?: number; radius?: number}> = ({id, strength = GRADE.bloom, radius = GRADE.bloomRadius}) => (
   <filter id={id} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
     <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -2.4 1.5 1.35 0 -0.82" result="key" />
-    <feGaussianBlur in="key" stdDeviation={radius} result="b1" />
-    <feGaussianBlur in="key" stdDeviation={radius * 3.2} result="b2" />
-    <feMerge result="glow">
-      <feMergeNode in="b1" />
-      <feMergeNode in="b2" />
-    </feMerge>
+    <feGaussianBlur in="key" stdDeviation={radius * 1.6} result="glow" />
     <feComponentTransfer in="glow" result="glowS">
       <feFuncA type="linear" slope={strength} />
     </feComponentTransfer>

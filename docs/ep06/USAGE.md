@@ -10,3 +10,4 @@ Main-session figures are read from the session's own token counter at each check
 | 1 | Direction critics workflow (3 agents) | 538,017 | 1.09M |
 | 0–1 | Main session (environment, hook, timeline, scaffolding, direction) | ~285,000 | 1.38M |
 | 2 | Kit agent B: UI and props kit (Windows UI, KeyCap, verdicts, quote strip, scanner, TRIM note, key, scramble, passport) | 388,507 | 1.77M |
+| 2 | Kit agent A: core kit (Archive, presets, framings, SplitCompare, PhotoBits, DriveDive, envs, text roles) | 559,432 | 2.33M |

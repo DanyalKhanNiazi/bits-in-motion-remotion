@@ -54,7 +54,7 @@ export type SplitPanel = {
 /** The panel's window (clip) and content transform at a frame: rect, content centre, content scale k. */
 export const splitPanel = (side: SplitSide, frame: number, at = -1e9, enter: SplitEnter = 'none') => {
   const P = SPLIT[side];
-  const tgt = {x0: P.x0, y0: SPLIT.content.y0, x1: P.x1, y1: SPLIT.content.y1};
+  const tgt: {x0: number; y0: number; x1: number; y1: number} = {x0: P.x0, y0: SPLIT.content.y0, x1: P.x1, y1: SPLIT.content.y1};
   const t = enter === 'none' ? 1 : EASE.inOut(prog(frame, at, SPLIT.slideIn));
   let r = tgt;
   let k: number = SPLIT.scale;

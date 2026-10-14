@@ -158,7 +158,7 @@ export const archiveCam = (framing: Framing, opts: {run?: number; lift?: number;
       return fr(Math.min(...xs) - 40, Math.min(...ys) - 60, Math.max(...xs) + 40, Math.max(...ys) + 60, 0.92);
     }
     case 'split':
-      return {x: 1250, y: 300, zoom: 0.9, rot: 0};
+      return {x: 1180, y: 250, zoom: 1.0, rot: 0};
     case 'signature':
       return {x: 1210, y: 236, zoom: 0.95, rot: 0};
     case 'pullout':

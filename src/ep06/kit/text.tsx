@@ -592,6 +592,7 @@ export const Counter: React.FC<CounterProps> = ({
   backing = 'scrim',
   font = 'sans',
 }) => {
+  checkText('hero', size, false, useContext(CameraContext), `Counter ${to}`);
   const t = frame - at;
   if (t < -2) return null;
   const ex = exitAt !== undefined ? prog(frame, exitAt, 9, EASE.inCubic) : 0;
