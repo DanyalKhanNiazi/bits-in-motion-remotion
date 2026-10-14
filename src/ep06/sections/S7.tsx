@@ -273,7 +273,7 @@ const shotWall = (f: number) => {
       hud={
         <>
           <Label frame={f} at={T.replaced} exitAt={LENS_IN + 30} text="Replaced in place" x={b59.x - 110} y={Math.max(150, b59.y - 250)} to={{x: b59.x, y: b59.y - 24}} side="left" size={56} />
-          <QuoteStrip frame={f} at={T.says} exitAt={T.p17 + 16} source="NIST, the US standards agency" reported="Overwriting typically hinders recovery" />
+          <QuoteStrip frame={f} at={T.says} exitAt={T.p17 + 16} source="NIST, the US standards agency" sourceMode="line" reported="Overwriting typically hinders recovery" />
         </>
       }
     >
@@ -408,7 +408,7 @@ const shotSsd = (f: number) => {
           <Label frame={f} at={T.cantSee + 13} exitAt={T.all + 30} text="Spare space Windows can't see" x={Math.min(1040, spareS.x - 60)} y={150} to={spareS} side="left" size={52} />
           <Label frame={f} at={T.land} exitAt={T.reach1 + 15} text="Can land somewhere fresh" x={1792} y={150} to={fresh} side="left" size={52} />
           <Footnote frame={f} at={SPLIT_AT + 44} exitAt={T.end - 26} text="Schematic, not to scale" y={1010} />
-          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" reported="Writing over it can't reach every place old data was stored" />
+          <QuoteStrip frame={f} at={Math.max(T.nist17 + 8, T.reach1 + 19)} exitAt={T.end - 30} source="NIST · flash with spare cells" sourceMode="line" reported="Writing over it can't reach every place old data was stored" />
         </>
       }
     >
