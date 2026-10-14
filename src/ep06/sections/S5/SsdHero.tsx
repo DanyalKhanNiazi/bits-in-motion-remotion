@@ -12,7 +12,7 @@ import {DIVE_POINTS, EASE, PAL, Prop, Stage, clamp01, lerp, poseAt, prog, propPo
 
 const A_SRC = 'ssd-board_a' as const;
 const D_SRC = 'ssd-board_d' as const;
-const BOARD = {x: 960, y: 440, w: 1000};
+const BOARD = {x: 975, y: 410, w: 1000};
 const IN = 12;
 const DIVE = 18;
 
@@ -77,7 +77,7 @@ export const SsdHero: React.FC<SsdHeroProps> = ({frame: f, at, swapAt, diveAt, f
       ) : null}
       {opD > 0.01 ? (
         <AbsoluteFill style={{opacity: opD, transformOrigin: `${tgt.x}px ${tgt.y}px`, transform: `scale(${sD})`, filter: uD > 0.15 ? `blur(${uD * 12}px)` : undefined}}>
-          <Stage frame={f} env={{kind: 'stage', spot: 960, floor: 820, warm: 0.5}} cam={cam} drift={0.6} hud={hud && uD < 0.05 ? hud(f) : null}>
+          <Stage frame={f} env={{kind: 'stage', spot: 960, floor: 772, warm: 0.5}} cam={cam} drift={0.6} hud={hud && uD < 0.05 ? hud(f) : null}>
             {xf < 1 ? prop(A_SRC, 1 - xf) : null}
             {xf > 0 ? prop(D_SRC, xf, {dy: -14 * lift, s: 1 + 0.03 * lift}) : null}
             {flash > 0.02 ? (

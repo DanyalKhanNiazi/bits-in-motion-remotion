@@ -9,7 +9,7 @@ import {BitHead, EASE, PAL, boxXY, clamp01, lerp, rgba, safeId} from '../../kit'
 const APPROACH = 18;
 const BOUNCE = 11;
 const FALL = 30;
-const SIZE = 22;
+const SIZE = 30;
 
 export const Refusal: React.FC<{frame: number; box: number; hit: number; from?: -1 | 1}> = ({frame: f, box, hit, from = -1}) => {
   const gid = safeId(React.useId());

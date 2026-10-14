@@ -7,7 +7,7 @@
 import React from 'react';
 import {EASE, GEOM, PAL, clamp01, prog, rgba} from '../../kit';
 
-const RING_DUR = 30;
+const RING_DUR = 40;
 const R_MAX = 980;
 
 export const DriveScan: React.FC<{frame: number; rings: readonly number[]; dim: readonly [number, number]; pane: readonly [number, number]}> = ({frame: f, rings, dim, pane}) => {

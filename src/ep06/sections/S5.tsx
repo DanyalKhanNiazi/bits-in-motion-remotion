@@ -166,7 +166,7 @@ const HK_TARGET = OLD_IDS.filter((id) => !ON_DEMAND.has(id));
 const REFUSE_X = [W.writeOver + 5, W.oldData]; // impact frames of the two big refused writes on 042
 const C_EVENTS: ArchiveEvent[] = [
   // the band reaches 041–044 on "erased"
-  {at: W.erased - 16, op: 'sweep', target: X, dur: 30},
+  {at: W.erased - 22, op: 'sweep', target: X, dur: 30},
   // the stalled save: refused on "saved", its group cleared on demand while more saves bounce
   {at: W.saved - 14, op: 'refuse', target: Y, dur: 26},
   {at: W.saved + 3, op: 'sweep', target: Y, dur: 30},
