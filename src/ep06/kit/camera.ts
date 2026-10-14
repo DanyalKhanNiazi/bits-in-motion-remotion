@@ -9,9 +9,13 @@ import {clamp01, lerp, osc, TAU, type EaseFn} from './util';
 
 export type Pose = {x: number; y: number; zoom: number; rot: number};
 
-/** The camera a node renders under (Stage provides it: the pose zoom for world content, 1 for its hud). */
-export type CameraInfo = {zoom: number; rot: number};
-export const CameraContext = React.createContext<CameraInfo>({zoom: 1, rot: 0});
+/**
+ * The camera a node renders under (Stage provides it: the pose zoom for world content, 1 for its hud). `zoom` is the
+ * TOTAL world→screen scale (camera zoom × any panel scale), `x`/`y` the world point at the frame centre, `space` says
+ * whether the node sits in a world (moves with a camera), a SplitCompare panel, or screen space (hud / no Stage).
+ */
+export type CameraInfo = {zoom: number; rot: number; x?: number; y?: number; space?: 'world' | 'panel' | 'screen'};
+export const CameraContext = React.createContext<CameraInfo>({zoom: 1, rot: 0, space: 'screen'});
 /**
  * The factor that turns a font size into on-screen px for a `screen` option: true = counter the Stage camera zoom,
  * a number = counter that parent scale too (e.g. a Prop's k or a LensDive inner scale), false/undefined = none.

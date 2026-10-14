@@ -2,7 +2,7 @@
  * Ep03 kit: <Prop>, a hero PNG asset with 2.5D life, and <SwapVariant> (a/b/c/d swaps hidden by a flash or a whip).
  *
  *   <Prop frame={frame} src="BIM129_T03_datacenter-gpu_a" x={960} y={560} w={1100} tiltX={10}
- *         enter={{kind: 'drop', at: 30}} rim={PAL.info} sweep={{every: 120}} float={6}
+ *         enter={{kind: 'drop', at: 30}} rim={PAL.structure} sweep={{every: 120}} float={6}
  *         highlight={[{region: REGIONS.gpuA_hbm, at: 90}]} />
  *
  * (x, y) is the centre of the asset's VISIBLE content (its alpha box) in the parent's px; w (or h) is the visible
@@ -336,7 +336,7 @@ export const Prop: React.FC<PropProps> = (props) => {
                 {highlight.map((h, i) => {
                   const wv = win(f, h.at, h.until, 6, 8);
                   if (wv <= 0) return null;
-                  const c = h.color ?? PAL.info;
+                  const c = h.color ?? PAL.structure;
                   const pulse = h.pulse === false ? 1 : 0.72 + 0.28 * Math.cos((TAU * (f - h.at)) / 46);
                   const draw = prog(f, h.at, 14, EASE.out);
                   return (
@@ -352,7 +352,7 @@ export const Prop: React.FC<PropProps> = (props) => {
                           <RegionShape
                             region={r}
                             fill="none"
-                            stroke={h.mode === 'outline' ? c : PAL.infoPale}
+                            stroke={h.mode === 'outline' ? c : PAL.ink}
                             strokeWidth={4}
                             vectorEffect="non-scaling-stroke"
                             strokeLinejoin="round"

@@ -1,5 +1,5 @@
 /**
- * Ep03 kit: vector glyphs for characters the latin font subsets do not carry (≈ → ✓ ✗ × ¾ ½ ¼), and <Rich>, which
+ * Ep06 kit: vector glyphs for characters the latin font subsets do not carry (≈ ≠ → ✓ ✗ × ¾ ½ ¼), and <Rich>, which
  * renders a string with them swapped in. Use <Rich> for every on-screen string that may contain these characters.
  */
 import React from 'react';
@@ -46,6 +46,16 @@ export const TimesGlyph: React.FC<GlyphProps> = ({color = 'currentColor', weight
     <path d="M14 34 L 48 70 M 48 34 L 14 70" fill="none" stroke={color} strokeWidth={sw(weight)} strokeLinecap="round" />
   </S>
 );
+/** "≠": two bars and a slash, drawn as vectors (the font subsets lack it). */
+export const NeqGlyph: React.FC<GlyphProps> = ({color = 'currentColor', weight}) => (
+  <S w={68}>
+    <g fill="none" stroke={color} strokeWidth={sw(weight)} strokeLinecap="round">
+      <path d="M10 44 H 58" />
+      <path d="M10 68 H 58" />
+      <path d="M44 22 L 24 90" />
+    </g>
+  </S>
+);
 const Frac: React.FC<{n: string; d: string}> = ({n, d}) => (
   <span style={{display: 'inline-block', position: 'relative', width: '0.9em', height: '1em', verticalAlign: '-0.12em'}}>
     <span style={{position: 'absolute', left: '0.02em', top: '0.02em', fontSize: '0.5em', lineHeight: 1}}>{n}</span>
@@ -58,6 +68,7 @@ const Frac: React.FC<{n: string; d: string}> = ({n, d}) => (
 
 const MAP: Record<string, (p: GlyphProps) => React.ReactNode> = {
   '≈': (p) => <ApproxGlyph {...p} />,
+  '≠': (p) => <NeqGlyph {...p} />,
   '→': (p) => <ArrowGlyph {...p} />,
   '✓': (p) => <CheckGlyph {...p} />,
   '✗': (p) => <CrossGlyph {...p} />,
@@ -66,9 +77,9 @@ const MAP: Record<string, (p: GlyphProps) => React.ReactNode> = {
   '½': () => <Frac n="1" d="2" />,
   '¼': () => <Frac n="1" d="4" />,
 };
-const RE = /([≈→✓✗×¾½¼])/;
+const RE = /([≈≠→✓✗×¾½¼])/;
 
-/** A string with vector glyphs swapped in for ≈ → ✓ ✗ × ¾ ½ ¼. */
+/** A string with vector glyphs swapped in for ≈ ≠ → ✓ ✗ × ¾ ½ ¼ (e.g. "Delete ≠ Erase"). */
 export const Rich: React.FC<{text: string; weight?: number; color?: string}> = ({text, weight, color}) => {
   if (!RE.test(text)) return <>{text}</>;
   const parts = text.split(RE);

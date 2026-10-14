@@ -275,7 +275,7 @@ export const TokenTile: React.FC<TileProps> = ({frame, text, id, x, y, size = 60
                     `0 ${size * 0.11}px 0 ${PAL.tileEdge}`,
                     `0 ${size * 0.13}px 0 #8E97A8`,
                     `0 ${size * 0.4}px ${size * 0.5}px rgba(0,0,0,0.5)`,
-                    glowN > 0 ? `0 0 0 ${3 + 2 * glowN}px ${rgba(PAL.info, 0.95 * glowN)}, 0 0 ${30 * glowN}px ${rgba(PAL.info, 0.65 * glowN)}` : '',
+                    glowN > 0 ? `0 0 0 ${3 + 2 * glowN}px ${rgba(PAL.structure, 0.95 * glowN)}, 0 0 ${30 * glowN}px ${rgba(PAL.structure, 0.65 * glowN)}` : '',
                   ]
                     .filter(Boolean)
                     .join(', '),
@@ -295,12 +295,12 @@ export const TokenTile: React.FC<TileProps> = ({frame, text, id, x, y, size = 60
                 `inset 0 2px 0 ${rgba('#6F8FCB', 0.5)}`,
                 `0 ${size * 0.11}px 0 #0B1222`,
                 `0 ${size * 0.4}px ${size * 0.5}px rgba(0,0,0,0.5)`,
-                `0 0 0 2px ${rgba(PAL.info, 0.55)}`,
-                `0 0 ${24}px ${rgba(PAL.info, 0.35)}`,
+                `0 0 0 2px ${rgba(PAL.structure, 0.55)}`,
+                `0 0 ${24}px ${rgba(PAL.structure, 0.35)}`,
               ].join(', '),
             }}
           >
-            <span style={{fontFamily: MONO, fontWeight: 500, fontSize: size * 0.8, color: PAL.info, lineHeight: 1}}>{id ?? ''}</span>
+            <span style={{fontFamily: MONO, fontWeight: 500, fontSize: size * 0.8, color: PAL.ink, lineHeight: 1}}>{id ?? ''}</span>
           </div>
         </div>
       </div>

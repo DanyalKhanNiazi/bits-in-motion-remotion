@@ -1,6 +1,8 @@
 /**
- * Ep03 kit: the look. Palette roles (from the engine COLOR), type scale, motion presets and the shared grade.
- * Every section uses these, so the film reads as one piece.
+ * Ep06 kit: the look. Palette roles (from the engine COLOR), Ep06 materials sampled from the owner's renders, the type
+ * scale and text roles, motion presets and the shared grade. Every section uses these, so the film reads as one piece.
+ * Colour roles (DIRECTION §2.5): cyan = the photo's data and its directions only; amber = the drive's own action;
+ * coral = loss and danger; magenta = emphasis, sparingly; everything else is navy structure and ink.
  */
 import {Easing} from 'remotion';
 import {COLOR} from '../../engine/tokens';
@@ -58,10 +60,58 @@ export const PAL = {
   computeBlueHi: '#5B82C9',
   hbmLayer: '#141B29',
   screen: '#0D1422',
+
+  /* ---- Ep06 roles (aliases: say what a colour MEANS) */
+  /** the photo's Bits and the card→box directions. NOTHING else is cyan. */
+  photo: COLOR.info,
+  photoPale: '#9FF4FF',
+  photoDeep: '#0A4E63',
+  /** the drive's own action: housekeeping sweep, disposable tags, the chip, sanitize pulse, clock, key */
+  drive: COLOR.energy,
+  driveHot: COLOR.energyShimmer,
+  driveDeep: COLOR.energyStandby,
+  /** loss and danger: strike-through, unused tab, writes on the photo's boxes, refusals, the write tally */
+  loss: COLOR.alert,
+  lossDeep: COLOR.alertHatch,
+  /** other files' Bits (white/grey) and old grey Bits */
+  otherBit: '#E3E7EE',
+  oldBit: '#7D8797',
+
+  /* ---- Ep06 materials, sampled from cluster-wall_b / index-drawer_b / mft-record_b / ssd-board_b / erase-block-tray_b */
+  /** navy steel of the wall's rails and posts (lit top, mid, shadow) */
+  steelHi: '#6A7C93',
+  steel: '#3F4E5F',
+  steelLo: '#253140',
+  /** inside a bin (top in shadow, back wall) */
+  binDeep: '#0E141D',
+  binBack: '#1C2633',
+  binSide: '#2A3646',
+  /** the brushed silver inserts (number plates) */
+  plateHi: '#E6E3DE',
+  plate: '#BFBAB5',
+  plateLo: '#8E8A86',
+  plateInk: '#2A3140',
+  /** SSD graphite cells and the erase-group tray */
+  graphiteHi: '#5A5D64',
+  graphite: '#3A3D44',
+  graphiteLo: '#1C1E23',
+  trayEdge: '#0A0C0F',
+  /** drawer body (graphite-navy) */
+  drawerHi: '#4B5A73',
+  drawer: '#2B3649',
+  drawerLo: '#161D2A',
+  /** index-card paper (lit, mid, shade) and its rules */
+  paper: '#F4F2EE',
+  paperMid: '#E4E0DA',
+  paperShade: '#C9C3BB',
+  paperRule: '#B9C4D6',
+  /** Windows UI (generic, dark) */
+  winBody: '#161D2B',
+  winBar: '#1E2738',
 } as const;
 
 /** Colour roles by meaning (DIRECTION.md). */
-export const ROLE = {data: PAL.info, energy: PAL.energy, wait: PAL.wait, emphasis: PAL.emphasis, text: PAL.ink} as const;
+export const ROLE = {data: PAL.photo, photo: PAL.photo, drive: PAL.drive, energy: PAL.energy, loss: PAL.loss, wait: PAL.wait, emphasis: PAL.emphasis, text: PAL.ink, structure: PAL.structure} as const;
 
 /** Type scale at 1080p (hard floors from DIRECTION.md). */
 export const TS = {
@@ -83,8 +133,24 @@ export const TS = {
   heroMax: 320,
   /** chat UI text (screen px) */
   chat: 40,
+  /** decor (box numbers, UI chrome): never above 24 px on screen */
+  decorMax: 24,
   lineHeight: 1.12,
 } as const;
+
+/**
+ * Text roles (DIRECTION §5): the on-screen size range at 1080p. The kit multiplies size × camera zoom × panel scale
+ * and logs `[kit] text below floor` (or above the ceiling) and `[kit] world text without screen`.
+ */
+export const TEXT_ROLES = {
+  hero: {min: 160, max: 320},
+  keyword: {min: 64, max: 120},
+  label: {min: 40, max: 96},
+  chip: {min: 40, max: 72},
+  footnote: {min: 30, max: 36},
+  decor: {min: 8, max: 24},
+} as const;
+export type TextRole = keyof typeof TEXT_ROLES;
 
 /** Safe areas: 64 px margins and the bottom 140 px kept clear of must-read text. */
 export const SAFE = {x0: 64, y0: 64, x1: 1856, y1: 940, bottomKeepOut: 140} as const;

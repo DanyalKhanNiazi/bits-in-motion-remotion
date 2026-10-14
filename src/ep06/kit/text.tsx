@@ -8,8 +8,8 @@
  *   <Counter>      an odometer number (mono digits that roll)
  */
 import React, {useContext} from 'react';
-import {EASE, MONO, PAL, SANS, SPRING, TS} from './look';
-import {CameraContext, screenScale} from './camera';
+import {EASE, MONO, PAL, SANS, SPRING, TEXT_ROLES, TS, type TextRole} from './look';
+import {CameraContext, screenScale, type CameraInfo} from './camera';
 import {Rich} from './glyphs';
 import {TAU, clamp, clamp01, lerp, prog, rgba, springAt} from './util';
 
@@ -17,12 +17,39 @@ export type Align = 'left' | 'center' | 'right';
 export type Backing = 'scrim' | 'plate' | 'none';
 
 const warned = new Set<string>();
-const warn = (msg: string) => {
-  if (warned.has(msg)) return;
-  warned.add(msg);
+/** Log a `[kit] …` warning once per key (any [kit] text warning in a render log is a defect). */
+export const kitWarn = (msg: string, key: string = msg) => {
+  if (warned.has(key)) return;
+  warned.add(key);
   // eslint-disable-next-line no-console
   console.warn(`[kit] ${msg}`);
 };
+const warn = (msg: string) => kitWarn(msg);
+
+/**
+ * On-screen size of a piece of text: size × total world→screen zoom (camera zoom × panel scale), or exactly `size`
+ * when `screen` is set (the component counter-scales). Checks the role's range and logs
+ *   `[kit] text below floor: …`        (on-screen size under the role's floor; decor: above 24 px)
+ *   `[kit] world text without screen: …` (must-read text inside a world or panel without `screen`)
+ * Returns the on-screen px size. Agent B's UI components call this too.
+ */
+export const checkText = (role: TextRole, size: number, screen: boolean | number | undefined, cam: CameraInfo, what: string): number => {
+  const onScreen = screen ? size : size * cam.zoom;
+  const r = TEXT_ROLES[role];
+  const name = what.length > 40 ? `${what.slice(0, 37)}…` : what;
+  if (role !== 'decor' && !screen && cam.space && cam.space !== 'screen' && Math.abs(cam.zoom - 1) > 0.02)
+    kitWarn(`world text without screen: ${role} "${name}" sits in a zoomed ${cam.space} (zoom ${cam.zoom.toFixed(2)}); pass screen or move it to the hud`, `ws|${role}|${name}`);
+  if (role === 'decor') {
+    if (onScreen > r.max + 0.5) kitWarn(`text below floor: decor "${name}" is ${onScreen.toFixed(1)} px on screen (decor ceiling ${r.max})`, `dc|${name}`);
+  } else if (onScreen < r.min - 0.5) {
+    kitWarn(`text below floor: ${role} "${name}" is ${onScreen.toFixed(1)} px on screen (floor ${r.min})`, `bf|${role}|${name}`);
+  }
+  return onScreen;
+};
+/** Hook form of checkText (reads the camera context). */
+export const useTextCheck = (role: TextRole, size: number, screen: boolean | number | undefined, what: string): number =>
+  checkText(role, size, screen, useContext(CameraContext), what);
+const roleOfSize = (size: number): TextRole => (size >= 160 ? 'hero' : size >= 64 ? 'keyword' : size >= 40 ? 'label' : 'footnote');
 const words = (s: string) => s.split(/\s+/).filter(Boolean);
 
 /** Soft dark scrim or a knockout plate behind text (sized by the text box itself). */
@@ -89,6 +116,8 @@ export type KineticProps = {
   rate?: number;
   /** on-screen size: true counter-scales by the Stage camera zoom (font size = screen px); a number also counters that parent scale */
   screen?: boolean | number;
+  /** text role (default from size: ≥160 hero, ≥64 keyword, ≥40 label, else footnote); checked on screen */
+  role?: TextRole;
 };
 
 export const KineticText: React.FC<KineticProps> = ({
@@ -107,18 +136,20 @@ export const KineticText: React.FC<KineticProps> = ({
   stagger = 3,
   exitAt,
   backing = 'scrim',
-  accent = PAL.info,
+  accent = PAL.structure,
   tracking = -0.01,
   maxWidth,
   rate = 1.1,
   screen,
+  role,
 }) => {
-  const inv = screenScale(screen, useContext(CameraContext));
+  const cam = useContext(CameraContext);
+  const inv = screenScale(screen, cam);
   const t = frame - at;
   if (t < -1) return null;
   const ex = exitAt !== undefined ? prog(frame, exitAt, 9, EASE.inCubic) : 0;
   if (ex >= 1) return null;
-  if (size < 30) warn(`KineticText "${text}" is ${size}px (floor 30)`);
+  checkText(role ?? roleOfSize(size), size, screen, cam, mode === 'count' ? 'count' : text);
   const ax = align === 'left' ? 0 : align === 'right' ? -100 : -50;
   const fam = font === 'mono' ? MONO : SANS;
   const wgt = font === 'mono' ? 500 : weight;
@@ -196,10 +227,10 @@ export const KineticText: React.FC<KineticProps> = ({
             height: '0.9em',
             marginLeft: '0.06em',
             verticalAlign: '-0.08em',
-            background: PAL.info,
+            background: PAL.ink,
             borderRadius: '0.06em',
             opacity: caretOn ? 1 : 0.15,
-            boxShadow: `0 0 0.3em ${rgba(PAL.info, 0.8)}`,
+            boxShadow: `0 0 0.3em ${rgba(PAL.ink, 0.45)}`,
           }}
         />
       </>
@@ -298,14 +329,17 @@ export type LabelProps = {
   sub?: string;
   /** on-screen size: true counter-scales the box, leader and anchor by the Stage camera zoom; a number also counters that parent scale */
   screen?: boolean | number;
+  /** text role: 'label' (default) or 'chip' */
+  role?: TextRole;
 };
 
-export const Label: React.FC<LabelProps> = ({frame, at, text, x, y, to, side = 'right', size = TS.label, color = PAL.ink, accent = PAL.info, exitAt, sub, screen}) => {
-  const inv = screenScale(screen, useContext(CameraContext));
+export const Label: React.FC<LabelProps> = ({frame, at, text, x, y, to, side = 'right', size = TS.label, color = PAL.ink, accent = PAL.structure, exitAt, sub, screen, role = 'label'}) => {
+  const cam = useContext(CameraContext);
+  const inv = screenScale(screen, cam);
   if (frame < at - 4) return null;
   const ex = exitAt !== undefined ? prog(frame, exitAt, 7, EASE.exit) : 0;
   if (ex >= 1) return null;
-  if (size < TS.labelMin) warn(`Label "${text}" is ${size}px (must-read floor ${TS.labelMin})`);
+  checkText(role, size, screen, cam, text);
   const ws = words(text);
   if (ws.length > 6) warn(`Label "${text}" has ${ws.length} words (max 6)`);
   const draw = prog(frame, at - 3, 7, EASE.out);
@@ -395,12 +429,13 @@ export const Footnote: React.FC<{frame: number; at: number; text: string; exitAt
   size = TS.footnote,
   screen,
 }) => {
-  const inv = screenScale(screen, useContext(CameraContext));
+  const cam = useContext(CameraContext);
+  const inv = screenScale(screen, cam);
   if (frame < at) return null;
   const ex = exitAt !== undefined ? prog(frame, exitAt, 8) : 0;
   if (ex >= 1) return null;
   if (words(text).length > 6) warn(`Footnote "${text}" has more than 6 words`);
-  if (size < 30) warn(`Footnote "${text}" is ${size}px (floor 30)`);
+  checkText('footnote', size, screen, cam, text);
   const e = prog(frame, at, 10, EASE.out);
   return (
     <div style={{position: 'absolute', left: x, top: y, width: 0, height: 0, transform: inv !== 1 ? `scale(${inv})` : undefined, transformOrigin: '0 0'}}>
@@ -440,12 +475,14 @@ export const QuestionCard: React.FC<{frame: number; at: number; text: string; ex
   accent = PAL.emphasis,
   scrim = 0.72,
 }) => {
+  const cam = useContext(CameraContext);
   const t = frame - at;
   if (t < -2) return null;
   const ex = exitAt !== undefined ? prog(frame, exitAt, 10, EASE.inCubic) : 0;
   if (ex >= 1) return null;
   const ws = words(text);
   if (ws.length > 12) warn(`QuestionCard has ${ws.length} words (max 12 must-read)`);
+  checkText('keyword', size, false, cam, text);
   const sIn = prog(frame, at - 2, 12, EASE.out);
   const push = 1 + 0.04 * clamp01(t / 150) + 0.08 * ex;
   const under = prog(frame, at + 6 + ws.length * 2, 14, EASE.outExpo);
@@ -507,7 +544,7 @@ export const QuestionCard: React.FC<{frame: number; at: number; text: string; ex
             </span>
           );
         })}
-        <div style={{margin: '0.18em auto 0', height: 8, width: `${42 * under}%`, borderRadius: 4, background: PAL.info, boxShadow: `0 0 24px ${rgba(PAL.info, 0.7)}`}} />
+        <div style={{margin: '0.18em auto 0', height: 8, width: `${42 * under}%`, borderRadius: 4, background: PAL.ink, boxShadow: `0 0 18px ${rgba(PAL.ink, 0.35)}`}} />
       </div>
     </div>
   );

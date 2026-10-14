@@ -1,12 +1,13 @@
 /**
- * Ep03 kit: <AtlasOpener>, a 1–2 s chapter opener built INTO the content (it never cuts to an empty card).
- * The picture dims, a Signal Atlas route draws in over a pool of grid dots, the Bit runs it lighting each station,
- * and the chapter word slams in where the route ends. Then it all clears.
+ * Ep06 kit: <AtlasOpener>, a 1–2 s chapter opener built INTO the content (it never cuts to an empty card).
+ * The picture dims, a Signal Atlas route draws in over a pool of grid dots, the photo's Bit (the only cyan) runs it
+ * lighting each station (structure-grey), and the chapter word slams in where the route ends. Then it all clears.
+ * The word auto-fits to ≤ 1,600 px; an optional sub-line (64 px) rises under it. No index number (DIRECTION §1.1).
  *
- *   <AtlasOpener frame={frame} at={P(5).start} word="Scoring" index="03" />
+ *   <AtlasOpener frame={frame} at={at(4, 'Imagine').start} word="The picture" sub="boxes and cards" />
  */
 import React, {useId} from 'react';
-import {EASE, MONO, PAL, SANS, SPRING, TS} from './look';
+import {EASE, PAL, SANS, SPRING, TS} from './look';
 import {Bit} from './signals';
 import {KineticText} from './text';
 import {clamp, clamp01, pathAt, prog, rgba, safeId, samplePath, springAt, textWidth, useFontsReady, win} from './util';
@@ -15,8 +16,8 @@ export type AtlasOpenerProps = {
   frame: number;
   at: number;
   word: string;
-  /** small chapter index above the word, e.g. "03" */
-  index?: string;
+  /** optional sub-line under the word (64 px, e.g. "boxes and cards") */
+  sub?: string;
   /** total length in frames (default 54) */
   dur?: number;
   /** word centre y (default 520) */
@@ -27,14 +28,18 @@ export type AtlasOpenerProps = {
   color?: string;
 };
 
-export const AtlasOpener: React.FC<AtlasOpenerProps> = ({frame: f, at, word, index, dur = 54, y = 520, size = 132, scrim = 0.55, color = PAL.ink}) => {
+const MAX_W = 1600;
+export const AtlasOpener: React.FC<AtlasOpenerProps> = ({frame: f, at, word, sub, dur = 54, y = 520, size: size0 = 132, scrim = 0.55, color = PAL.ink}) => {
   useFontsReady();
   const uid = safeId(useId());
   const t = f - at;
   if (t < 0 || t > dur) return null;
   const w = win(f, at, at + dur, 6, 10);
+  // auto-fit: the word (plus the route's lead-in) never exceeds 1,600 px
+  const ww0 = textWidth(word, size0, 700, SANS, 0.02);
+  const size = ww0 > MAX_W - 140 ? Math.max(TS.keywordMin, Math.floor((size0 * (MAX_W - 140)) / ww0)) : size0;
   const ww = textWidth(word, size, 700, SANS, 0.02);
-  const xw = 960 + 70;
+  const xw = clamp(960 + 70, 64 + 140 + ww / 2, 1856 - ww / 2);
   const xL = xw - ww / 2;
   const x1 = clamp(xL - 300, 260, 1400);
   const yb = y + 200;
@@ -74,8 +79,8 @@ export const AtlasOpener: React.FC<AtlasOpenerProps> = ({frame: f, at, word, ind
           const sz = 22 + 8 * Math.min(1.2, lit);
           return (
             <g key={i} opacity={draw * (1 - out)}>
-              {lit > 0 ? <circle cx={P.x} cy={P.y} r={34 * lit} fill={rgba(PAL.info, 0.18)} /> : null}
-              <rect x={P.x - sz / 2} y={P.y - sz / 2} width={sz} height={sz} rx={5} fill={lit > 0 ? PAL.info : PAL.deck} stroke={lit > 0 ? PAL.infoPale : PAL.structure} strokeWidth={3} />
+              {lit > 0 ? <circle cx={P.x} cy={P.y} r={34 * lit} fill={rgba(PAL.ink, 0.12)} /> : null}
+              <rect x={P.x - sz / 2} y={P.y - sz / 2} width={sz} height={sz} rx={5} fill={lit > 0 ? PAL.structure : PAL.deck} stroke={lit > 0 ? PAL.ink : PAL.structure} strokeWidth={3} />
             </g>
           );
         })}
@@ -83,24 +88,26 @@ export const AtlasOpener: React.FC<AtlasOpenerProps> = ({frame: f, at, word, ind
       <div style={{position: 'absolute', inset: 0, opacity: 1 - out}}>
         <Bit frame={f} path={d} from={bitFrom} to={bitTo} route="lit" routeWidth={5} size={26} />
       </div>
-      {index ? (
+      {sub ? (
         <div
           style={{
             position: 'absolute',
-            left: xL,
-            top: y - size * 0.62 - 64,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-            opacity: clamp01((t - 18) / 5) * (1 - out),
-            transform: `translateY(${(1 - clamp01((t - 18) / 6)) * 14 - out * 20}px)`,
+            left: xw,
+            top: y + size * 0.62 + 14,
+            transform: `translate(-50%, ${(1 - clamp01((t - 24) / 8)) * 18 - out * 16}px)`,
+            opacity: clamp01((t - 24) / 6) * (1 - out),
+            fontFamily: SANS,
+            fontWeight: 600,
+            fontSize: 64,
+            color: PAL.muted,
+            whiteSpace: 'nowrap',
+            letterSpacing: '0.01em',
           }}
         >
-          <span style={{fontFamily: MONO, fontWeight: 500, fontSize: TS.labelMin, color: PAL.info, letterSpacing: '0.08em'}}>{index}</span>
-          <span style={{width: 90 * prog(f, at + 19, 10, EASE.out), height: 3, background: rgba(PAL.annotation, 0.8)}} />
+          {sub}
         </div>
       ) : null}
-      <KineticText frame={f} at={bitTo - 1} text={word} x={xw} y={y} size={size} mode="slam" backing="none" color={color} exitAt={exitAt} tracking={0.02} />
+      <KineticText frame={f} at={bitTo - 1} text={word} x={xw} y={y} size={size} mode="slam" backing="none" color={color} exitAt={exitAt} tracking={0.02} role="keyword" />
     </div>
   );
 };

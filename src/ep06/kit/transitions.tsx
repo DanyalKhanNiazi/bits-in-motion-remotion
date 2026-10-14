@@ -53,7 +53,7 @@ export const Whip: React.FC<{frame: number; at: number; dur?: number; dir?: Dir;
                 top: vx !== 0 ? `${p * 100}%` : 0,
                 width: vx !== 0 ? '100%' : 3 + p * 4,
                 height: vx !== 0 ? 3 + p * 4 : '100%',
-                background: `linear-gradient(${vx !== 0 ? 90 : 180}deg, rgba(0,0,0,0), ${rgba(i % 3 ? '#FFFFFF' : PAL.info, 0.7)}, rgba(0,0,0,0))`,
+                background: `linear-gradient(${vx !== 0 ? 90 : 180}deg, rgba(0,0,0,0), ${rgba(i % 3 ? '#FFFFFF' : PAL.structure, 0.7)}, rgba(0,0,0,0))`,
               }}
             />
           );
@@ -102,7 +102,7 @@ export const ZoomThrough: React.FC<{frame: number; at: number; dur?: number; cx?
           </div>
         </AbsoluteFill>
       ) : null}
-      <AbsoluteFill style={{background: `radial-gradient(circle at ${lerp(cx, 960, 0.5)}px ${lerp(cy, 540, 0.5)}px, ${rgba('#FFFFFF', 0.85 * flash)}, ${rgba(PAL.info, 0.35 * flash)} 30%, rgba(0,0,0,0) 70%)`, mixBlendMode: 'screen'}} />
+      <AbsoluteFill style={{background: `radial-gradient(circle at ${lerp(cx, 960, 0.5)}px ${lerp(cy, 540, 0.5)}px, ${rgba('#FFFFFF', 0.85 * flash)}, ${rgba(PAL.structure, 0.35 * flash)} 30%, rgba(0,0,0,0) 70%)`, mixBlendMode: 'screen'}} />
     </AbsoluteFill>
   );
 };
@@ -173,7 +173,7 @@ export const Rewind: React.FC<{frame: number; at: number; dur?: number; from: nu
         </span>
       </div>
       <div style={{position: 'absolute', left: 120, right: 120, top: 900, height: 6, borderRadius: 3, background: rgba(PAL.structure, 0.35)}}>
-        <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${(1 - prog(f, at, dur, EASE.inOut)) * 100}%`, borderRadius: 3, background: PAL.info}} />
+        <div style={{position: 'absolute', left: 0, top: 0, bottom: 0, width: `${(1 - prog(f, at, dur, EASE.inOut)) * 100}%`, borderRadius: 3, background: PAL.ink}} />
       </div>
     </AbsoluteFill>
   );

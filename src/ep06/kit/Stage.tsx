@@ -1,5 +1,5 @@
 /**
- * Ep03 kit: <Stage>, the full-frame wrapper every shot sits in.
+ * Ep06 kit: <Stage>, the full-frame wrapper every shot sits in.
  *
  *   <Stage frame={frame} env="night" cam={[{f: 0, zoom: 1}, {f: 90, zoom: 1.25, x: 1100}]} hud={<KineticText …/>}>
  *     {world content in 1920×1080 world px; moves with the camera}
@@ -13,16 +13,21 @@ import {AbsoluteFill} from 'remotion';
 import {PAL} from './look';
 import {CameraContext, camCss, stagePose, type CamInput, type Hit, type Pose} from './camera';
 import {BloomFilter, DirBlurFilter, Grain, Vignette, dirBlurStd, gradeOpts, type GradeOpts} from './grade';
-import {ChipEnv, NightEnv, PhotoPlate, VoidEnv, parallaxCss, type PhotoOpts} from './envs';
+import {ArchiveEnv, FlashEnv, NightEnv, PhotoPlate, StageEnv, VoidEnv, parallaxCss, type ArchiveLight, type PhotoOpts} from './envs';
 import {safeId} from './util';
 
 export type EnvSpec =
   | 'night'
+  | 'flash'
   | 'chip'
+  | 'stage'
+  | 'archive'
   | 'void'
   | 'none'
   | {kind: 'night'; parallax?: number; grid?: boolean; dust?: number; warm?: number}
-  | {kind: 'chip'; parallax?: number; pulses?: number; dust?: number}
+  | {kind: 'flash' | 'chip'; parallax?: number; pulses?: number; dust?: number; amber?: number}
+  | {kind: 'stage'; parallax?: number; spot?: number; floor?: number; warm?: number; dust?: number}
+  | {kind: 'archive'; parallax?: number; light?: ArchiveLight; dust?: number}
   | {kind: 'void'; parallax?: number; dust?: number}
   | ({kind: 'photo'; parallax?: number} & PhotoOpts);
 
@@ -54,10 +59,21 @@ const EnvLayer: React.FC<{frame: number; env: EnvSpec; pose: Pose}> = ({frame, e
       const p = {...pose, x: 960 + (pose.x - 960) * (o.parallax ?? 1), y: 540 + (pose.y - 540) * (o.parallax ?? 1)};
       return <NightEnv frame={frame} pose={p} grid={o.grid} dust={o.dust} warm={o.warm} />;
     }
+    case 'flash':
     case 'chip': {
-      const o = e as {parallax?: number; pulses?: number; dust?: number};
+      const o = e as {parallax?: number; pulses?: number; dust?: number; amber?: number};
       const p = {...pose, x: 960 + (pose.x - 960) * (o.parallax ?? 1), y: 540 + (pose.y - 540) * (o.parallax ?? 1)};
-      return <ChipEnv frame={frame} pose={p} pulses={o.pulses} dust={o.dust} />;
+      return <FlashEnv frame={frame} pose={p} pulses={o.pulses} dust={o.dust} amber={o.amber} />;
+    }
+    case 'stage': {
+      const o = e as {parallax?: number; spot?: number; floor?: number; warm?: number; dust?: number};
+      const p = {...pose, x: 960 + (pose.x - 960) * (o.parallax ?? 1), y: 540 + (pose.y - 540) * (o.parallax ?? 1)};
+      return <StageEnv frame={frame} pose={p} spot={o.spot} floor={o.floor} warm={o.warm} dust={o.dust} />;
+    }
+    case 'archive': {
+      const o = e as {parallax?: number; light?: ArchiveLight; dust?: number};
+      const p = {...pose, x: 960 + (pose.x - 960) * (o.parallax ?? 1), y: 540 + (pose.y - 540) * (o.parallax ?? 1)};
+      return <ArchiveEnv frame={frame} pose={p} light={o.light} dust={o.dust} />;
     }
     case 'void': {
       const o = e as {dust?: number};
@@ -103,12 +119,12 @@ export const Stage: React.FC<StageProps> = ({frame, env = 'night', cam, drift = 
         <AbsoluteFill style={{filter: std ? `url(#${mbId})` : undefined}}>
           <EnvLayer frame={frame} env={env} pose={pose} />
           <AbsoluteFill style={{transform: camCss(pose), transformOrigin: '0 0'}}>
-            <CameraContext.Provider value={{zoom: pose.zoom, rot: pose.rot}}>{children}</CameraContext.Provider>
+            <CameraContext.Provider value={{zoom: pose.zoom, rot: pose.rot, x: pose.x, y: pose.y, space: 'world'}}>{children}</CameraContext.Provider>
           </AbsoluteFill>
         </AbsoluteFill>
         {hud ? (
           <AbsoluteFill>
-            <CameraContext.Provider value={{zoom: 1, rot: 0}}>{hud}</CameraContext.Provider>
+            <CameraContext.Provider value={{zoom: 1, rot: 0, space: 'screen'}}>{hud}</CameraContext.Provider>
           </AbsoluteFill>
         ) : null}
       </AbsoluteFill>

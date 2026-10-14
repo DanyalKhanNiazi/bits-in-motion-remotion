@@ -134,8 +134,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
               width: fs * 1.1,
               height: fs * 1.1,
               borderRadius: fs * 0.26,
-              background: `linear-gradient(135deg, ${PAL.info}, ${PAL.infoWake})`,
-              boxShadow: `0 0 ${fs * 0.6}px ${rgba(PAL.info, 0.45)}`,
+              background: `linear-gradient(135deg, ${PAL.structure}, ${PAL.structure})`,
+              boxShadow: `0 0 ${fs * 0.6}px ${rgba(PAL.structure, 0.45)}`,
               marginTop: fs * 0.06,
               opacity: frame >= tAt(0) - 8 ? 1 : 0.3,
             }}
@@ -152,7 +152,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                     <span
                       style={{
                         color: fresh > 0.05 ? `rgb(${Math.round(243 - 243 * fresh * 0.7 + 0)}, ${Math.round(242 - 13 * fresh)}, ${Math.round(238 + 17 * fresh)})` : PAL.ink,
-                        textShadow: fresh > 0.05 ? `0 0 ${18 * fresh}px ${rgba(PAL.info, 0.9 * fresh)}` : undefined,
+                        textShadow: fresh > 0.05 ? `0 0 ${18 * fresh}px ${rgba(PAL.structure, 0.9 * fresh)}` : undefined,
                         opacity: clamp01(age / 2 + 0.4),
                       }}
                     >
@@ -166,9 +166,9 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                           height: fs * 0.42,
                           marginLeft: fs * 0.14,
                           borderRadius: fs * 0.09,
-                          background: PAL.info,
+                          background: PAL.structure,
                           verticalAlign: '0.02em',
-                          boxShadow: `0 0 ${fs * 0.5}px ${rgba(PAL.info, 0.9)}, 0 0 ${fs * 1.2}px ${rgba(PAL.info, 0.45)}`,
+                          boxShadow: `0 0 ${fs * 0.5}px ${rgba(PAL.structure, 0.9)}, 0 0 ${fs * 1.2}px ${rgba(PAL.structure, 0.45)}`,
                           opacity: caretBlink ? 1 : 0.25,
                           transform: `scale(${1 + 0.35 * Math.exp(-age / 3)})`,
                         }}

@@ -1,7 +1,7 @@
 /**
- * Ep06 visual kit (barrel), copied from the Ep03 kit; see docs/ep06/KIT.md.
+ * Ep06 visual kit (barrel); see docs/ep06/KIT.md (core) and docs/ep06/KIT_UI.md (UI and props).
  *
- *   import {Stage, Prop, Bridge, KineticText, Label, ChatScreen, ScreenSlot, REGIONS, PAL, TS, EASE, SPRING} from '../kit';
+ *   import {Stage, Archive, archiveCam, archiveAnchors, SplitCompare, Prop, KineticText, Label, PAL, EASE} from '../kit';
  */
 export * from './look';
 export * from './util';
@@ -18,4 +18,5 @@ export * from './ChatScreen';
 export * from './AtlasOpener';
 export * from './LensDive';
 export * from './transitions';
+export * from './archive';
 export * from './ui';
