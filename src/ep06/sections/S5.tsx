@@ -185,10 +185,12 @@ const CAM_C: CamKey[] = [
   {f: W.saved - 22, x: 1424, y: 468, zoom: 2.5},
   {f: W.saved - 2, x: 1160, y: 490, zoom: 2.3, dur: 50},
   {f: W.slow + 16, x: 1170, y: 500, zoom: 2.2},
+  // all three runs as the band enters (098–100 skipped ≈ 7686), then closer on 021–023 and 058–060 as it parts around them
   {f: HK + 22, x: 1212, y: 528, zoom: 2.0, dur: 50},
-  {f: HK + 36, x: 1216, y: 526, zoom: 2.02},
-  {f: HK + 86, x: 1300, y: 502, zoom: 2.25, dur: 50},
-  {f: WHIP_D - 2, x: 1306, y: 500, zoom: 2.3},
+  {f: HK + 38, x: 1270, y: 490, zoom: 2.3, dur: 16},
+  {f: HK + 66, x: 1290, y: 494, zoom: 2.34},
+  {f: HK + 96, x: 1340, y: 500, zoom: 2.5, dur: 30},
+  {f: WHIP_D - 2, x: 1344, y: 500, zoom: 2.52},
   {f: WHIP_D + 12, x: 1340, y: 530, zoom: 1.95, dur: 14, ease: 'inExpo'},
 ];
 const shotC = (f: number) => (
